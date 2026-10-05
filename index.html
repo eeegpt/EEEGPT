@@ -1,0 +1,678 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>INNO's Converter</title>
+<link rel="manifest" href="manifest.json">
+
+<style>
+:root{
+  --bg:#0b1012;
+  --p:#151d20;
+  --l:#2b3738;
+  --t:#edf3f1;
+  --m:#8fa19c;
+  --g:#4fd18b;
+}
+
+*{box-sizing:border-box}
+
+body{
+  margin:0;
+  background:radial-gradient(circle at top,#1a282c,#0b1012 55%);
+  color:var(--t);
+  font:14px Arial,sans-serif;
+}
+
+.app{
+  max-width:620px;
+  margin:auto;
+  min-height:100vh;
+  padding:20px 15px;
+}
+
+/* ================= HOME ================= */
+
+.home{
+  text-align:center;
+  padding:0 0 35px;
+}
+
+.cover-wrap{
+  width:calc(100% + 30px);
+  aspect-ratio:1519 / 687;
+  height:auto;
+  margin-left:-15px;
+  border-radius:0 0 16px 16px;
+  overflow:hidden;
+  background:#172326;
+  border:1px solid var(--l);
+  position:relative;
+}
+
+.cover{
+  width:100%;
+  height:100%;
+  display:block;
+  object-fit:cover;
+}
+
+.profile-area{
+  position:relative;
+  margin-top:-65px;
+  z-index:2;
+  text-align:left;
+  padding-left:18px;
+}
+
+.avatar{
+  width:125px;
+  height:125px;
+  aspect-ratio:1/1;
+  display:block;
+  flex-shrink:0;
+  border-radius:50%;
+  object-fit:cover;
+  object-position:center;
+  border:4px solid var(--bg);
+  box-shadow:
+    0 0 0 3px var(--g),
+    0 0 18px #4fd18b55;
+  background:#172326;
+}
+
+.name{
+  font-size:23px;
+  font-weight:800;
+  margin:15px 0 0;
+}
+
+.role{
+  color:var(--m);
+  font-size:13px;
+  margin:7px 0 25px;
+}
+
+.open{
+  width:min(100%,370px);
+  padding:15px;
+  border:0;
+  border-radius:11px;
+  background:var(--g);
+  color:#07110c;
+  font-weight:800;
+  cursor:pointer;
+}
+
+/* ================= CONVERTER ================= */
+
+.page{
+  display:none;
+}
+
+.page.on{
+  display:block;
+}
+
+.top{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  border-bottom:1px solid var(--l);
+  padding-bottom:15px;
+  margin-bottom:16px;
+}
+
+.mini{
+  width: 60px;px;
+  height:60px;
+  aspect-ratio:1/1;
+  flex-shrink:0;
+  border-radius:50%;
+  object-fit:cover;
+  object-position:center;
+  border:2px solid var(--g);
+  background:#172326;
+}
+
+.title{
+  font-size:17px;
+  font-weight:800;
+}
+
+.sub{
+  font-size:11px;
+  color:var(--m);
+  margin-top:3px;
+}
+
+.back{
+  margin-left:auto;
+  background:transparent;
+  color:var(--t);
+  border:1px solid var(--l);
+  border-radius:8px;
+  padding:8px;
+  cursor:pointer;
+}
+
+.card{
+  background:var(--p);
+  border:1px solid var(--l);
+  border-radius:14px;
+  padding:16px;
+}
+
+.label{
+  font-size:10px;
+  color:var(--m);
+  margin-bottom:7px;
+}
+
+.row{
+  display:grid;
+  grid-template-columns:1fr 150px;
+  gap:9px;
+}
+
+input,
+select{
+  height:48px;
+  width:100%;
+  background:#0c1214;
+  color:var(--t);
+  border:1px solid var(--l);
+  border-radius:9px;
+  padding:0 12px;
+  font-size:16px;
+}
+
+select.unit{
+  color:var(--g);
+  font-weight:700;
+  border-color:#4fd18b66;
+}
+
+select.unit option{
+  background:#0c1214;
+  color:var(--g);
+  font-weight:700;
+}
+
+.section{
+  margin-top:15px;
+}
+
+.ph{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:9px;
+}
+
+.ph button{
+  height:45px;
+  background:#0c1214;
+  color:var(--m);
+  border:1px solid var(--l);
+  border-radius:9px;
+  font-weight:700;
+  cursor:pointer;
+}
+
+.ph button.active{
+  border-color:var(--g);
+  color:var(--g);
+  background:#10231b;
+  box-shadow:inset 0 0 0 1px #4fd18b33;
+}
+
+.auto{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:9px;
+  margin-top:9px;
+}
+
+.auto div{
+  background:#0c1214;
+  border:1px solid var(--l);
+  border-radius:9px;
+  padding:10px;
+}
+
+.auto span{
+  display:block;
+  color:var(--m);
+  font-size:9px;
+  margin-bottom:4px;
+}
+
+.result{
+  margin-top:15px;
+  padding:15px;
+  border:1px solid #4fd18b99;
+  border-radius:11px;
+}
+
+.big{
+  font-size:29px;
+  font-weight:800;
+  color:var(--g);
+  margin-top:4px;
+}
+
+.formula{
+  color:var(--m);
+  font-size:11px;
+  margin-top:8px;
+  line-height:1.5;
+}
+
+.note{
+  color:#70817d;
+  font-size:10px;
+  margin-top:12px;
+  line-height:1.5;
+}
+
+@media(max-width:430px){
+  .row{
+    grid-template-columns:1fr 125px;
+  }
+}
+</style>
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-app.js";
+  import {
+    getDatabase,
+    ref,
+    get
+  } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-database.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyB2eSpoIifYtShwMRvWzRMlX7SN2d5f8PY",
+    authDomain: "innos-eee-world.firebaseapp.com",
+    databaseURL: "https://innos-eee-world-default-rtdb.asia-southeast1.firebasedatabase.app",
+    projectId: "innos-eee-world",
+    storageBucket: "innos-eee-world.firebasestorage.app",
+    messagingSenderId: "386510428321",
+    appId: "1:386510428321:web:8a4ded4c1757b0981df8e0"
+  };
+
+  const firebaseApp = initializeApp(firebaseConfig);
+  const db = getDatabase(firebaseApp);
+
+  window.firebaseDB = db;
+  window.firebaseRef = ref;
+  window.firebaseGet = get;
+</script>
+
+</head>
+
+<body>
+
+<div class="app">
+
+<!-- ================= HOME ================= -->
+
+<section class="home" id="home">
+
+  <div class="cover-wrap">
+<img class="cover"  src="assets/cover.webp" alt="cover">
+
+  </div>
+
+  <div class="profile-area">
+<img class="avatar" src="assets/profile.webp" alt="profile">
+
+    <h1 class="name">Hrridoy Hassen Inno</h1>
+
+    <div class="role">
+      BSc in Electrical and Electronic Engineering.
+     <div class="role"> inno.eee@hotmail.com
+    </div> 
+  </div>
+
+  <button class="open" onclick="showConverter()">
+     Power To Power Converter
+  </button>
+
+</section>
+
+<!-- ================= CONVERTER ================= -->
+
+<section class="page" id="page">
+
+  <div class="top" onclick="home()"
+  style="cursor:pointer;">
+
+
+<img class="mini" src="assets/icon.webp" alt="INNO's Converter">
+    
+
+    <div>
+      <div class="title">INNO's Converter</div>
+      <div class="sub">The New Experience.</div>
+    </div>
+
+</div>
+
+  <div class="card">
+
+    <div class="label">VALUE + CONVERSION</div>
+
+    <div class="row">
+
+      <input
+        id="val"
+        type="number"
+        value="01"
+        step="any"
+        oninput="calc()"
+      >
+
+      <select
+        id="conv"
+        class="unit"
+        onchange="calc()">
+      </select>
+
+    </div>
+
+    <div class="section">
+
+      <div class="label">SYSTEM</div>
+
+      <div class="ph">
+
+        <button id="one" onclick="phase(1)">
+          Single Phase
+        </button>
+
+        <button id="three" onclick="phase(3)">
+          Three Phase
+        </button>
+
+      </div>
+
+      <div class="auto">
+
+        <div>
+          <span>AUTO VOLTAGE</span>
+          <b id="volt">415 V</b>
+        </div>
+
+        <div>
+          <span>POWER FACTOR</span>
+          <b>0.85</b>
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="result">
+
+      <div class="label">RESULT</div>
+
+      <div class="big" id="res">—</div>
+
+      <div class="formula" id="form">—</div>
+
+    </div>
+
+    <div class="note">
+      Single Phase = 220 V, Three Phase = 415 V.
+      PF = 0.85 and efficiency = 90% where required.
+    </div>
+
+  </div>
+
+</section>
+
+</div>
+
+<script>
+
+/* ================= CONVERSION DATA ================= */
+
+const C = [
+
+  [
+    'kwamp',
+    'kW → Amp',
+    'A',
+    x => x * 1000 / ((P==3 ? Math.sqrt(3) : 1) * V * .85 * .9),
+    'I = kW × 1000 / (phase × V × PF × η)'
+  ],
+
+  [
+    'kww',
+    'kW → Watt',
+    'W',
+    x => x * 1000,
+    'W = kW × 1000'
+  ],
+
+  [
+    'kwh',
+    'kW → HP',
+    'HP',
+    x => x / .7457,
+    'HP = kW / 0.7457'
+  ],
+
+  [
+    'aw',
+    'Amp → Watt',
+    'W',
+    x => x * (P==3 ? Math.sqrt(3) : 1) * V * .85,
+    'W = I × phase × V × PF'
+  ],
+
+  [
+    'ah',
+    'Amp → HP',
+    'HP',
+    x => x * (P==3 ? Math.sqrt(3) : 1) * V * .85 * .9 / 745.7,
+    'HP = I × phase × V × PF × η / 745.7'
+  ],
+
+  [
+    'ak',
+    'Amp → kW',
+    'kW',
+    x => x * (P==3 ? Math.sqrt(3) : 1) * V * .85 / 1000,
+    'kW = I × phase × V × PF / 1000'
+  ],
+
+  [
+    'wk',
+    'Watt → kW',
+    'kW',
+    x => x / 1000,
+    'kW = W / 1000'
+  ],
+
+  [
+    'wa',
+    'Watt → Amp',
+    'A',
+    x => x / ((P==3 ? Math.sqrt(3) : 1) * V * .85),
+    'I = W / (phase × V × PF)'
+  ],
+
+  [
+    'wh',
+    'Watt → HP',
+    'HP',
+    x => x / 745.7,
+    'HP = W / 745.7'
+  ],
+
+  [
+    'hk',
+    'HP → kW',
+    'kW',
+    x => x * .7457,
+    'kW = HP × .7457'
+  ],
+
+  [
+    'hw',
+    'HP → Watt',
+    'W',
+    x => x * 745.7,
+    'W = HP × 745.7'
+  ],
+
+  [
+    'ha',
+    'HP → Amp',
+    'A',
+    x => x * 745.7 / ((P==3 ? Math.sqrt(3) : 1) * V * .85 * .9),
+    'I = HP × 745.7 / (phase × V × PF × η)'
+  ]
+
+];
+
+/* ================= VARIABLES ================= */
+
+let P = 1;
+let V = 220;
+
+/* ================= DROPDOWN ================= */
+
+const s = document.getElementById('conv');
+
+C.forEach(c => {
+
+  let o = document.createElement('option');
+
+  o.value = c[0];
+  o.textContent = c[1];
+
+  s.appendChild(o);
+
+});
+
+/* ================= PHASE ================= */
+
+function phase(n){
+
+  P = n;
+
+  V = n == 3 ? 415 : 220;
+
+  document.getElementById('three')
+    .classList.toggle('active', n == 3);
+
+  document.getElementById('one')
+    .classList.toggle('active', n == 1);
+
+  document.getElementById('volt').textContent = V + ' V';
+
+  calc();
+}
+
+/* ================= SMART DECIMAL ================= */
+/*
+   আগের কোডের সমস্যা ছিল:
+   toFixed(2) → 1 W / 1000 = 0.001 kW
+   কিন্তু দেখাত 0.00 kW।
+
+   এখন ছোট value হলে প্রয়োজনীয় decimal পর্যন্ত দেখাবে।
+*/
+
+function formatNumber(n){
+
+  if(!isFinite(n)){
+    return '—';
+  }
+
+  /* একদম শূন্য হলে */
+  if(n === 0){
+    return '0';
+  }
+
+  /* 1 এর নিচে হলে বেশি decimal দেখাবে */
+  if(Math.abs(n) < 1){
+
+    return n.toFixed(6)
+      .replace(/\.?0+$/,'');
+
+  }
+
+  /* 1 থেকে 100 এর মধ্যে */
+  if(Math.abs(n) < 100){
+
+    return n.toFixed(2)
+      .replace(/\.?0+$/,'');
+
+  }
+
+  /* বড় সংখ্যার জন্য */
+  return n.toFixed(2)
+    .replace(/\.?0+$/,'');
+
+}
+
+/* ================= CALCULATION ================= */
+
+function calc(){
+
+  let c =
+    C.find(x => x[0] == s.value) || C[0];
+
+  let x =
+    +document.getElementById('val').value;
+
+  let n =
+    c[3](x);
+
+  document.getElementById('res').textContent =
+    formatNumber(n) + ' ' + c[2];
+
+  document.getElementById('form').textContent =
+    c[4];
+}
+
+
+
+/* ================= SHOW CONVERTER ================= */
+
+function showConverter(){
+
+  document.getElementById('home').style.display = 'none';
+
+  document.getElementById('page').classList.add('on');
+
+  calc();
+}
+
+
+/* ================= HOME ================= */
+
+function home(){
+
+  document.getElementById('page')
+    .classList.remove('on');
+
+  document.getElementById('home')
+    .style.display = 'block';
+}
+
+
+/* ================= DEFAULT ================= */
+
+phase(1);
+
+</script>
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('./service-worker.js');
+  }
+</script>
+</body>
+</html>

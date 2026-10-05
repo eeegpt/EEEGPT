@@ -1,0 +1,18 @@
+{
+  "id": "/index.html",
+    "name": "EEEGPT – Electrical Engineering Assistant",
+  "short_name": "EEEGPT",
+  "description": "Smart Electrical & Electronics Engineering Calculator and Assistant",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#0b1012",
+  "theme_color": "#0b1012",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "./assets/icon.webp",
+      "sizes": "512x512",
+      "type": "image/webp"
+    }
+  ]
+}
