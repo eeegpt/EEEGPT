@@ -1,12 +1,29 @@
 <!doctype html>
 <html>
+
 <head>
+
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<meta
+  name="viewport"
+  content="width=device-width,initial-scale=1"
+>
+
 <title>EEEGPT</title>
-<link rel="manifest" href="manifest.json">
+
+<link
+  rel="manifest"
+  href="manifest.json"
+>
+
+
+<!-- =========================================================
+     CSS: MAIN STYLE
+========================================================= -->
 
 <style>
+
 :root{
   --bg:#0b1012;
   --p:#151d20;
@@ -16,11 +33,18 @@
   --g:#4fd18b;
 }
 
-*{box-sizing:border-box}
+*{
+  box-sizing:border-box;
+}
 
 body{
   margin:0;
-  background:radial-gradient(circle at top,#1a282c,#0b1012 55%);
+  background:
+    radial-gradient(
+      circle at top,
+      #1a282c,
+      #0b1012 55%
+    );
   color:var(--t);
   font:14px Arial,sans-serif;
 }
@@ -32,7 +56,10 @@ body{
   padding:20px 15px;
 }
 
-/* ================= HOME ================= */
+
+/*-- =========================================================
+   CSS: HOME
+========================================================= */
 
 .home{
   text-align:center;
@@ -76,9 +103,11 @@ body{
   object-fit:cover;
   object-position:center;
   border:4px solid var(--bg);
+
   box-shadow:
     0 0 0 3px var(--g),
     0 0 18px #4fd18b55;
+
   background:#172326;
 }
 
@@ -94,7 +123,10 @@ body{
   margin:7px 0 25px;
 }
 
-/* ================= CATEGORY CARDS ================= */
+
+<!-- =========================================================
+   CSS: CATEGORY CARDS
+========================================================= -->
 
 .categories{
   display:grid;
@@ -106,10 +138,13 @@ body{
   width:100%;
   min-height:105px;
   padding:18px;
+
   border:1px solid var(--l);
   border-radius:15px;
+
   background:var(--p);
   color:var(--t);
+
   text-align:left;
   cursor:pointer;
 
@@ -151,36 +186,103 @@ body{
   margin-top:4px;
 }
 
-/* Electrical */
-
 .category.electrical{
   border-left:3px solid var(--g);
 }
-
-/* Electronics */
 
 .category.electronics{
   border-left:3px solid #55a8ff;
 }
 
-/* Automation */
-
 .category.automation{
   border-left:3px solid #b477ff;
 }
-/* ================= ELECTRICAL TOOLS ================= */
+
+
+/* =========================================================
+   CSS: COMMON PAGE
+========================================================= */
+
+.page{
+  display:none;
+}
+
+.page.on{
+  display:block;
+}
+
+.top{
+  display:flex;
+  align-items:center;
+  gap:10px;
+
+  border-bottom:1px solid var(--l);
+
+  padding-bottom:15px;
+  margin-bottom:16px;
+
+  cursor:pointer;
+}
+
+.mini{
+  width:60px;
+  height:60px;
+
+  aspect-ratio:1/1;
+  flex-shrink:0;
+
+  border-radius:50%;
+  object-fit:cover;
+  object-position:center;
+
+  border:2px solid var(--g);
+
+  background:#172326;
+}
+
+.title{
+  font-size:17px;
+  font-weight:800;
+}
+
+.sub{
+  font-size:11px;
+  color:var(--m);
+  margin-top:3px;
+}
+
+.card{
+  background:var(--p);
+  border:1px solid var(--l);
+  border-radius:14px;
+  padding:16px;
+}
+
+.label{
+  font-size:10px;
+  color:var(--m);
+  margin-bottom:7px;
+}
+
+
+/* =========================================================
+   CSS: TOOL BUTTON
+========================================================= */
 
 .tool{
   width:100%;
   min-height:68px;
+
   margin-top:10px;
   padding:12px;
+
   display:flex;
   align-items:center;
   gap:12px;
 
   background:#0c1214;
   color:var(--t);
+
   border:1px solid var(--l);
   border-radius:11px;
 
@@ -238,70 +340,9 @@ body{
 }
 
 
-/* ================= CONVERTER ================= */
-
-.page{
-  display:none;
-}
-
-.page.on{
-  display:block;
-}
-
-.top{
-  display:flex;
-  align-items:center;
-  gap:10px;
-  border-bottom:1px solid var(--l);
-  padding-bottom:15px;
-  margin-bottom:16px;
-}
-
-.mini{
-  width: 60px;
-  height:60px;
-  aspect-ratio:1/1;
-  flex-shrink:0;
-  border-radius:50%;
-  object-fit:cover;
-  object-position:center;
-  border:2px solid var(--g);
-  background:#172326;
-}
-
-.title{
-  font-size:17px;
-  font-weight:800;
-}
-
-.sub{
-  font-size:11px;
-  color:var(--m);
-  margin-top:3px;
-}
-
-.back{
-  margin-left:auto;
-  background:transparent;
-  color:var(--t);
-  border:1px solid var(--l);
-  border-radius:8px;
-  padding:8px;
-  cursor:pointer;
-}
-
-.card{
-  background:var(--p);
-  border:1px solid var(--l);
-  border-radius:14px;
-  padding:16px;
-}
-
-.label{
-  font-size:10px;
-  color:var(--m);
-  margin-bottom:7px;
-}
+/* =========================================================
+   CSS: CONVERTER
+========================================================= */
 
 .row{
   display:grid;
@@ -313,10 +354,13 @@ input,
 select{
   height:48px;
   width:100%;
+
   background:#0c1214;
   color:var(--t);
+
   border:1px solid var(--l);
   border-radius:9px;
+
   padding:0 12px;
   font-size:16px;
 }
@@ -345,10 +389,13 @@ select.unit option{
 
 .ph button{
   height:45px;
+
   background:#0c1214;
   color:var(--m);
+
   border:1px solid var(--l);
   border-radius:9px;
+
   font-weight:700;
   cursor:pointer;
 }
@@ -357,7 +404,9 @@ select.unit option{
   border-color:var(--g);
   color:var(--g);
   background:#10231b;
-  box-shadow:inset 0 0 0 1px #4fd18b33;
+
+  box-shadow:
+    inset 0 0 0 1px #4fd18b33;
 }
 
 .auto{
@@ -380,21 +429,27 @@ select.unit option{
   font-size:9px;
   margin-bottom:4px;
 }
+
 .auto input{
   width:100%;
   height:auto;
   padding:0;
+
   background:transparent;
   border:none;
+
   color:var(--t);
+
   font-size:14px;
   font-weight:700;
+
   outline:none;
 }
 
 .result{
   margin-top:15px;
   padding:15px;
+
   border:1px solid #4fd18b99;
   border-radius:11px;
 }
@@ -420,262 +475,2373 @@ select.unit option{
   line-height:1.5;
 }
 
+/* =========================================================
+   CSS: LOAD CALCULATOR
+========================================================= */
+
+.load-tabs{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:8px;
+  margin-top:12px;
+}
+
+
+.load-tab{
+  height:46px;
+
+  background:#0c1214;
+  color:var(--m);
+
+  border:1px solid var(--l);
+  border-radius:9px;
+
+  font-weight:700;
+  cursor:pointer;
+}
+
+
+.load-tab.active{
+  background:#10231b;
+  color:var(--g);
+  border-color:var(--g);
+
+  box-shadow:
+    inset 0 0 0 1px #4fd18b33;
+}
+
+
+.load-group{
+  margin-top:15px;
+  padding:12px;
+
+  background:#0c1214;
+
+  border:1px solid var(--l);
+  border-radius:12px;
+}
+
+
+.load-group-title{
+  color:var(--t);
+
+  font-size:13px;
+  font-weight:800;
+
+  margin-bottom:10px;
+}
+
+
+.load-row{
+  display:grid;
+
+  grid-template-columns:
+    1fr
+    1fr
+    .9fr
+    1fr
+    1fr
+    34px;
+
+  gap:6px;
+
+  align-items:center;
+}
+
+
+.load-row input,
+.load-row select{
+  width:100%;
+  height:42px;
+
+  padding:0 7px;
+
+  font-size:13px;
+}
+
+
+.load-phase{
+  color:var(--g);
+  font-weight:700;
+}
+
+
+.remove-load{
+  width:34px;
+  height:42px;
+
+  border:1px solid #713737;
+  border-radius:8px;
+
+  background:#241313;
+  color:#ff7777;
+
+  font-size:20px;
+
+  cursor:pointer;
+}
+
+
+.add-load{
+  width:100%;
+  height:40px;
+
+  margin-top:8px;
+
+  border:1px solid #4fd18b55;
+  border-radius:8px;
+
+  background:#10231b;
+  color:var(--g);
+
+  font-size:12px;
+  font-weight:700;
+
+  cursor:pointer;
+}
+
+
+.add-load:hover{
+  border-color:var(--g);
+}
+
+
+@media(max-width:600px){
+
+  .load-row{
+    grid-template-columns:
+      1fr
+      1fr
+      1fr;
+  }
+
+
+  .remove-load{
+    width:100%;
+  }
+
+}
+
+/* =========================================================
+   CSS: RESPONSIVE
+========================================================= */
+
 @media(max-width:430px){
+
   .row{
     grid-template-columns:1fr 125px;
   }
+
 }
+
 </style>
+
+
+<!-- =========================================================
+     JAVASCRIPT: FIREBASE
+========================================================= -->
+
 <script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-app.js";
-  import {
-    getDatabase,
-    ref,
-    get
-  } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-database.js";
 
-  const firebaseConfig = {
-    apiKey: "AIzaSyB2eSpoIifYtShwMRvWzRMlX7SN2d5f8PY",
-    authDomain: "innos-eee-world.firebaseapp.com",
-    databaseURL: "https://innos-eee-world-default-rtdb.asia-southeast1.firebasedatabase.app",
-    projectId: "innos-eee-world",
-    storageBucket: "innos-eee-world.firebasestorage.app",
-    messagingSenderId: "386510428321",
-    appId: "1:386510428321:web:8a4ded4c1757b0981df8e0"
-  };
+import {
+  initializeApp
+} from "https://www.gstatic.com/firebasejs/12.3.0/firebase-app.js";
 
-  const firebaseApp = initializeApp(firebaseConfig);
-  const db = getDatabase(firebaseApp);
+import {
+  getDatabase,
+  ref,
+  get
+} from "https://www.gstatic.com/firebasejs/12.3.0/firebase-database.js";
 
-  window.firebaseDB = db;
-  window.firebaseRef = ref;
-  window.firebaseGet = get;
+
+const firebaseConfig = {
+
+  apiKey:
+    "AIzaSyB2eSpoIifYtShwMRvWzRMlX7SN2d5f8PY",
+
+  authDomain:
+    "innos-eee-world.firebaseapp.com",
+
+  databaseURL:
+    "https://innos-eee-world-default-rtdb.asia-southeast1.firebasedatabase.app",
+
+  projectId:
+    "innos-eee-world",
+
+  storageBucket:
+    "innos-eee-world.firebasestorage.app",
+
+  messagingSenderId:
+    "386510428321",
+
+  appId:
+    "1:386510428321:web:8a4ded4c1757b0981df8e0"
+
+};
+
+
+const firebaseApp =
+  initializeApp(firebaseConfig);
+
+const db =
+  getDatabase(firebaseApp);
+
+
+window.firebaseDB = db;
+window.firebaseRef = ref;
+window.firebaseGet = get;
+
 </script>
 
 </head>
+
 
 <body>
 
 <div class="app">
 
-<!-- ================= HOME ================= -->
 
-<section class="home" id="home">
+<!-- =========================================================
+     HTML: HOME
+========================================================= -->
+
+<section
+  class="home"
+  id="home"
+>
 
   <div class="cover-wrap">
-    <img class="cover" src="assets/cover.webp" alt="cover">
+
+    <img
+      class="cover"
+      src="assets/cover.webp"
+      alt="cover"
+    >
+
   </div>
+
 
   <div class="profile-area">
-    <img class="avatar" src="assets/profile.webp" alt="profile">
 
-    <h1 class="name">Hrridoy Hassen Inno</h1>
+    <img
+      class="avatar"
+      src="assets/profile.webp"
+      alt="profile"
+    >
+
+
+    <h1 class="name">
+      Hrridoy Hassen Inno
+    </h1>
+
 
     <div class="role">
+
       BSc in Electrical and Electronic Engineering.
-      <div class="role">inno.eee@hotmail.com</div>
+
+      <div class="role">
+        inno.eee@hotmail.com
+      </div>
+
     </div>
+
   </div>
 
-  <!-- ================= CATEGORIES ================= -->
+
+  <!-- CATEGORY BUTTONS -->
 
   <div class="categories">
 
-    <button class="category electrical" onclick="showElectrical()">
-      <span class="category-icon">⚡</span>
-      <span class="category-title">ELECTRICAL</span>
-      <span class="category-sub">Calculators & Tools</span>
+
+    <button
+      class="category electrical"
+      onclick="showElectrical()"
+    >
+
+      <span class="category-icon">
+        ⚡
+      </span>
+
+      <span class="category-title">
+        ELECTRICAL
+      </span>
+
+      <span class="category-sub">
+        Calculators & Tools
+      </span>
+
     </button>
 
-    <button class="category electronics" onclick="showElectronics()">
-      <span class="category-icon">🔌</span>
-      <span class="category-title">ELECTRONICS</span>
-      <span class="category-sub">Calculators & Tools</span>
+
+    <button
+      class="category electronics"
+      onclick="showElectronics()"
+    >
+
+      <span class="category-icon">
+        🔌
+      </span>
+
+      <span class="category-title">
+        ELECTRONICS
+      </span>
+
+      <span class="category-sub">
+        Calculators & Tools
+      </span>
+
     </button>
 
-    <button class="category automation" onclick="showAutomation()">
-      <span class="category-icon">🤖</span>
-      <span class="category-title">AUTOMATION</span>
-      <span class="category-sub">PLC • Servo • HMI</span>
+
+    <button
+      class="category automation"
+      onclick="showAutomation()"
+    >
+
+      <span class="category-icon">
+        🤖
+      </span>
+
+      <span class="category-title">
+        AUTOMATION
+      </span>
+
+      <span class="category-sub">
+        PLC • Servo • HMI
+      </span>
+
     </button>
+
 
   </div>
 
 </section>
 
-<!-- ================= ELECTRICAL ================= -->
 
-<section class="page" id="electricalPage">
 
-  <div class="top" onclick="home()" style="cursor:pointer;">
+<!-- =========================================================
+     HTML: ELECTRICAL PAGE
+=========================================================-->
 
-    <img class="mini" src="assets/icon.webp" alt="EEEGPT">
+<section
+  class="page"
+  id="electricalPage"
+>
+
+
+  <div
+    class="top"
+    onclick="home()"
+  >
+
+    <img
+      class="mini"
+      src="assets/icon.webp"
+      alt="EEEGPT"
+    >
+
 
     <div>
-      <div class="title">Electrical</div>
-      <div class="sub">Electrical Calculators & Tools</div>
+
+      <div class="title">
+        Electrical
+      </div>
+
+      <div class="sub">
+        Electrical Calculators & Tools
+      </div>
+
     </div>
 
   </div>
 
+
   <div class="card">
 
-    <div class="label">ELECTRICAL TOOLS</div>
 
-    <button class="tool" onclick="showConverter()">
-      <span class="tool-icon">⚡</span>
+    <div class="label">
+      ELECTRICAL TOOLS
+    </div>
+
+
+    <!-- POWER CONVERTER -->
+
+    <button
+      class="tool"
+      onclick="showConverter()"
+    >
+
+      <span class="tool-icon">
+        ⚡
+      </span>
 
       <span>
-        <b>Power Converter</b>
-        <small>kW • Amp • Watt • HP</small>
+
+        <b>
+          Power Converter
+        </b>
+
+        <small>
+          kW • Amp • Watt • HP
+        </small>
+
       </span>
+
     </button>
 
-    <button class="tool" disabled>
-      <span class="tool-icon">🔌</span>
+
+    <!-- LOAD CALCULATOR -->
+
+    <button
+      class="tool"
+      onclick="showLoadCalculator()"
+    >
+
+      <span class="tool-icon">
+        🔌
+      </span>
 
       <span>
-        <b>Load Calculator</b>
-        <small>Coming Soon</small>
+
+        <b>
+          Load Calculator
+        </b>
+
+        <small>
+          Load & Energy Calculation
+        </small>
+
       </span>
+
     </button>
 
-    <button class="tool" disabled>
-      <span class="tool-icon">📐</span>
+
+    <!-- FUTURE TOOLS -->
+
+    <button
+      class="tool"
+      disabled
+    >
+
+      <span class="tool-icon">
+        📐
+      </span>
 
       <span>
-        <b>Cable Size Calculator</b>
-        <small>Coming Soon</small>
+
+        <b>
+          Cable Size Calculator
+        </b>
+
+        <small>
+          Coming Soon
+        </small>
+
       </span>
+
     </button>
 
-    <button class="tool" disabled>
-      <span class="tool-icon">🛡️</span>
+
+    <button
+      class="tool"
+      disabled
+    >
+
+      <span class="tool-icon">
+        🛡️
+      </span>
 
       <span>
-        <b>MCB / MCCB Selection</b>
-        <small>Coming Soon</small>
+
+        <b>
+          MCB / MCCB Selection
+        </b>
+
+        <small>
+          Coming Soon
+        </small>
+
       </span>
+
     </button>
+
 
   </div>
 
 </section>
 
-<!-- ================= CONVERTER ================= -->
-
-<section class="page" id="page">
-
-  <div class="top" onclick="backFromConverter()"
-style="cursor:pointer;">
 
 
-<img class="mini" src="assets/icon.webp" alt="INNO's Converter">
-    
+<!--=========================================================
+     HTML: LOAD CALCULATOR
+=========================================================-->
+
+<section
+  class="page"
+  id="loadPage"
+>
+
+
+  <!-- TOP BAR -->
+
+  <div
+    class="top"
+    onclick="backFromLoad()"
+  >
+
+    <img
+      class="mini"
+      src="assets/icon.webp"
+      alt="EEEGPT"
+    >
+
 
     <div>
-      <div class="title">EEEGPT</div>
-      <div class="sub">The New Experience.</div>
+
+      <div class="title">
+        Load Calculator
+      </div>
+
+      <div class="sub">
+        লোড হিসাব করুন সহজেই
+      </div>
+
     </div>
 
-</div>
+  </div>
+
+
+  <!-- LOAD CALCULATOR CARD -->
 
   <div class="card">
 
-    <div class="label">VALUE + CONVERSION</div>
 
-    <div class="row">
+    <div class="label">
+      LOAD CALCULATION
+    </div>
 
-      <input
-        id="val"
-        type="number"
-        value="01"
-        step="any"
-        oninput="calc()"
+
+    <!-- RESIDENTIAL / INDUSTRIAL TABS -->
+
+    <div class="load-tabs">
+
+      <button
+        id="residentialTab"
+        class="load-tab active"
+        type="button"
+        onclick="switchLoadType('residential')"
       >
 
-      <select
-        id="conv"
-        class="unit"
-        onchange="calc()">
-      </select>
+        🏠 Residential
+
+      </button>
+
+
+      <button
+        id="industrialTab"
+        class="load-tab"
+        type="button"
+        onclick="switchLoadType('industrial')"
+      >
+
+        🏭 Industrial
+
+      </button>
 
     </div>
 
-    <div class="section">
 
-      <div class="label">SYSTEM</div>
+    <!-- ================================================
+         RESIDENTIAL DATA
+    ================================================= -->
 
-      <div class="ph">
+    <div
+      id="residentialData"
+      class="load-data"
+    >
 
-        <button id="one" onclick="phase(1)">
-          Single Phase
-        </button>
+      <div class="label">
+        RESIDENTIAL LOAD / বাসাবাড়ির লোড
+      </div>
 
-        <button id="three" onclick="phase(3)">
-          Three Phase
+
+      <!-- LIGHT -->
+
+      <div class="load-group">
+
+        <div class="load-group-title">
+          💡 Light
+        </div>
+
+
+        <div id="lightRows">
+
+          <div class="load-row">
+
+            <input
+              type="number"
+              class="load-qty"
+            
+              min="0"
+              placeholder="Qty"
+            >
+
+            <input
+              type="number"
+              class="load-watt"
+              
+              min="0"
+              placeholder="Watt"
+            >
+
+            <select
+  class="load-phase"
+  onchange="updateLoadVoltage(this)"
+>
+
+              <option value="1">
+                1P
+              </option>
+
+              <option value="3">
+                3P
+              </option>
+
+            </select>
+
+            <input
+              type="number"
+              class="load-voltage"
+              value="220"
+              min="0"
+              placeholder="Voltage"
+            >
+
+            <input
+              type="number"
+              class="load-hours"
+              
+              min="0"
+              step="0.1"
+              placeholder="Hours"
+            >
+
+            <button
+              type="button"
+              class="remove-load"
+              onclick="removeLoadRow(this)"
+            >
+              ×
+            </button>
+
+          </div>
+
+        </div>
+
+
+        <button
+          type="button"
+          class="add-load"
+          onclick="addLoadRow('lightRows')"
+        >
+          ＋ Add Light
         </button>
 
       </div>
 
-     <div class="auto">
 
-  <div>
-    <span>VOLTAGE</span>
+      <!-- FAN -->
 
-    <input
-      id="volt"
-      type="number"
-      value="220"
-      step="any"
-      oninput="customVoltage()"
-    >
-  </div>
+      <div class="load-group">
 
- <div>
-  <span>POWER FACTOR</span>
+        <div class="load-group-title">
+          🌀 Fan
+        </div>
 
-  <input
-    id="pf"
-    type="number"
-    value="0.85"
-    min="0"
-    max="1"
-    step="0.01"
-    oninput="customPF()"
-  >
-</div>
 
-</div>
+        <div id="fanRows">
+
+          <div class="load-row">
+
+            <input
+              type="number"
+              class="load-qty"
+            
+              min="0"
+              placeholder="Qty"
+            >
+
+            <input
+              type="number"
+              class="load-watt"
+           
+              min="0"
+              placeholder="Watt"
+            >
+
+            <select
+  class="load-phase"
+  onchange="updateLoadVoltage(this)"
+>
+
+              <option value="1">
+                1P
+              </option>
+
+              <option value="3">
+                3P
+              </option>
+
+            </select>
+
+            <input
+              type="number"
+              class="load-voltage"
+              value="220"
+              min="0"
+              placeholder="Voltage"
+            >
+
+            <input
+              type="number"
+              class="load-hours"
+            
+              min="0"
+              step="0.1"
+              placeholder="Hours"
+            >
+
+            <button
+              type="button"
+              class="remove-load"
+              onclick="removeLoadRow(this)"
+            >
+              ×
+            </button>
+
+          </div>
+
+        </div>
+
+
+        <button
+          type="button"
+          class="add-load"
+          onclick="addLoadRow('fanRows')"
+        >
+          ＋ Add Fan
+        </button>
+
+      </div>
+
+
+      <!-- AC -->
+
+      <div class="load-group">
+
+        <div class="load-group-title">
+          ❄️ AC / Cooling
+        </div>
+
+
+        <div id="acRows">
+
+          <div class="load-row">
+
+            <input
+              type="number"
+              class="load-qty"
+           
+              min="0"
+              placeholder="Qty"
+            >
+
+            <input
+              type="number"
+              class="load-watt"
+         
+              min="0"
+              placeholder="Watt"
+            >
+
+           <select
+  class="load-phase"
+  onchange="updateLoadVoltage(this)"
+>
+
+              <option value="1">
+                1P
+              </option>
+
+              <option value="3">
+                3P
+              </option>
+
+            </select>
+
+            <input
+              type="number"
+              class="load-voltage"
+              value="220"
+              min="0"
+              placeholder="Voltage"
+            >
+
+            <input
+              type="number"
+              class="load-hours"
+          
+              min="0"
+              step="0.1"
+              placeholder="Hours"
+            >
+
+            <button
+              type="button"
+              class="remove-load"
+              onclick="removeLoadRow(this)"
+            >
+              ×
+            </button>
+
+          </div>
+
+        </div>
+
+
+        <button
+          type="button"
+          class="add-load"
+          onclick="addLoadRow('acRows')"
+        >
+          ＋ Add AC
+        </button>
+
+      </div>
+
+
+      <!-- SOCKET -->
+
+      <div class="load-group">
+
+        <div class="load-group-title">
+          🔌 Socket / General Load
+        </div>
+
+
+        <div id="socketRows">
+
+          <div class="load-row">
+
+            <input
+              type="number"
+              class="load-qty"
+           
+              min="0"
+              placeholder="Qty"
+            >
+
+            <input
+              type="number"
+              class="load-watt"
+            
+              min="0"
+              placeholder="Watt"
+            >
+
+            <select
+  class="load-phase"
+  onchange="updateLoadVoltage(this)"
+>
+
+              <option value="1">
+                1P
+              </option>
+
+              <option value="3">
+                3P
+              </option>
+
+            </select>
+
+            <input
+              type="number"
+              class="load-voltage"
+              value="220"
+              min="0"
+              placeholder="Voltage"
+            >
+
+            <input
+              type="number"
+              class="load-hours"
+              
+              min="0"
+              step="0.1"
+              placeholder="Hours"
+            >
+
+            <button
+              type="button"
+              class="remove-load"
+              onclick="removeLoadRow(this)"
+            >
+              ×
+            </button>
+
+          </div>
+
+        </div>
+
+
+        <button
+          type="button"
+          class="add-load"
+          onclick="addLoadRow('socketRows')"
+        >
+          ＋ Add Socket
+        </button>
+
+      </div>
+
+
+      <!-- WASHING MACHINE -->
+
+      <div class="load-group">
+
+        <div class="load-group-title">
+          🧺 Washing Machine
+        </div>
+
+
+        <div id="washingRows">
+
+          <div class="load-row">
+
+            <input
+              type="number"
+              class="load-qty"
+          
+              min="0"
+              placeholder="Qty"
+            >
+
+            <input
+              type="number"
+              class="load-watt"
+           
+              min="0"
+              placeholder="Watt"
+            >
+
+          <select
+  class="load-phase"
+  onchange="updateLoadVoltage(this)"
+>
+
+              <option value="1">
+                1P
+              </option>
+
+              <option value="3">
+                3P
+              </option>
+
+            </select>
+
+            <input
+              type="number"
+              class="load-voltage"
+              value="220"
+              min="0"
+              placeholder="Voltage"
+            >
+
+            <input
+              type="number"
+              class="load-hours"
+         
+              min="0"
+              step="0.1"
+              placeholder="Hours"
+            >
+
+            <button
+              type="button"
+              class="remove-load"
+              onclick="removeLoadRow(this)"
+            >
+              ×
+            </button>
+
+          </div>
+
+        </div>
+
+
+        <button
+          type="button"
+          class="add-load"
+          onclick="addLoadRow('washingRows')"
+        >
+          ＋ Add Washing Machine
+        </button>
+
+      </div>
+
+
+      <!-- MICROWAVE -->
+
+      <div class="load-group">
+
+        <div class="load-group-title">
+          🍲 Microwave
+        </div>
+
+
+        <div id="microwaveRows">
+
+          <div class="load-row">
+
+            <input
+              type="number"
+              class="load-qty"
+             
+              min="0"
+              placeholder="Qty"
+            >
+
+            <input
+              type="number"
+              class="load-watt"
+              
+              min="0"
+              placeholder="Watt"
+            >
+
+           <select
+  class="load-phase"
+  onchange="updateLoadVoltage(this)"
+>
+
+              <option value="1">
+                1P
+              </option>
+
+              <option value="3">
+                3P
+              </option>
+
+            </select>
+
+            <input
+              type="number"
+              class="load-voltage"
+              value="220"
+              min="0"
+              placeholder="Voltage"
+            >
+
+            <input
+              type="number"
+              class="load-hours"
+             
+              min="0"
+              step="0.1"
+              placeholder="Hours"
+            >
+
+            <button
+              type="button"
+              class="remove-load"
+              onclick="removeLoadRow(this)"
+            >
+              ×
+            </button>
+
+          </div>
+
+        </div>
+
+
+        <button
+          type="button"
+          class="add-load"
+          onclick="addLoadRow('microwaveRows')"
+        >
+          ＋ Add Microwave
+        </button>
+
+      </div>
+
+
+      <!-- VACUUM -->
+
+      <div class="load-group">
+
+        <div class="load-group-title">
+          🧹 Vacuum Cleaner
+        </div>
+
+
+        <div id="vacuumRows">
+
+          <div class="load-row">
+
+            <input
+              type="number"
+              class="load-qty"
+             
+              min="0"
+              placeholder="Qty"
+            >
+
+            <input
+              type="number"
+              class="load-watt"
+            
+              min="0"
+              placeholder="Watt"
+            >
+
+           <select
+  class="load-phase"
+  onchange="updateLoadVoltage(this)"
+>
+
+              <option value="1">
+                1P
+              </option>
+
+              <option value="3">
+                3P
+              </option>
+
+            </select>
+
+            <input
+              type="number"
+              class="load-voltage"
+              value="220"
+              min="0"
+              placeholder="Voltage"
+            >
+
+            <input
+              type="number"
+              class="load-hours"
+              
+              min="0"
+              step="0.1"
+              placeholder="Hours"
+            >
+
+            <button
+              type="button"
+              class="remove-load"
+              onclick="removeLoadRow(this)"
+            >
+              ×
+            </button>
+
+          </div>
+
+        </div>
+
+
+        <button
+          type="button"
+          class="add-load"
+          onclick="addLoadRow('vacuumRows')"
+        >
+          ＋ Add Vacuum Cleaner
+        </button>
+
+      </div>
+
+
+      <!-- GEYSER -->
+
+      <div class="load-group">
+
+        <div class="load-group-title">
+          🚿 Geyser
+        </div>
+
+
+        <div id="geyserRows">
+
+          <div class="load-row">
+
+            <input
+              type="number"
+              class="load-qty"
+              
+              min="0"
+              placeholder="Qty"
+            >
+
+            <input
+              type="number"
+              class="load-watt"
+            
+              min="0"
+              placeholder="Watt"
+            >
+
+           <select
+  class="load-phase"
+  onchange="updateLoadVoltage(this)"
+>
+
+              <option value="1">
+                1P
+              </option>
+
+              <option value="3">
+                3P
+              </option>
+
+            </select>
+
+            <input
+              type="number"
+              class="load-voltage"
+              value="220"
+              min="0"
+              placeholder="Voltage"
+            >
+
+            <input
+              type="number"
+              class="load-hours"
+              
+              min="0"
+              step="0.1"
+              placeholder="Hours"
+            >
+
+            <button
+              type="button"
+              class="remove-load"
+              onclick="removeLoadRow(this)"
+            >
+              ×
+            </button>
+
+          </div>
+
+        </div>
+
+
+        <button
+          type="button"
+          class="add-load"
+          onclick="addLoadRow('geyserRows')"
+        >
+          ＋ Add Geyser
+        </button>
+
+      </div>
+
+
+      <!-- INDUCTION -->
+
+      <div class="load-group">
+
+        <div class="load-group-title">
+          🍳 Induction Cooker
+        </div>
+
+
+        <div id="inductionRows">
+
+          <div class="load-row">
+
+            <input
+              type="number"
+              class="load-qty"
+             
+              min="0"
+              placeholder="Qty"
+            >
+
+            <input
+              type="number"
+              class="load-watt"
+             
+              min="0"
+              placeholder="Watt"
+            >
+
+           <select
+  class="load-phase"
+  onchange="updateLoadVoltage(this)"
+>
+
+              <option value="1">
+                1P
+              </option>
+
+              <option value="3">
+                3P
+              </option>
+
+            </select>
+
+            <input
+              type="number"
+              class="load-voltage"
+              value="220"
+              min="0"
+              placeholder="Voltage"
+            >
+
+            <input
+              type="number"
+              class="load-hours"
+              
+              min="0"
+              step="0.1"
+              placeholder="Hours"
+            >
+
+            <button
+              type="button"
+              class="remove-load"
+              onclick="removeLoadRow(this)"
+            >
+              ×
+            </button>
+
+          </div>
+
+        </div>
+
+
+        <button
+          type="button"
+          class="add-load"
+          onclick="addLoadRow('inductionRows')"
+        >
+          ＋ Add Induction
+        </button>
+
+      </div>
+
+
+      <!-- TV -->
+
+      <div class="load-group">
+
+        <div class="load-group-title">
+          📺 TV
+        </div>
+
+
+        <div id="tvRows">
+
+          <div class="load-row">
+
+            <input
+              type="number"
+              class="load-qty"
+              
+              min="0"
+              placeholder="Qty"
+            >
+
+            <input
+              type="number"
+              class="load-watt"
+              
+              min="0"
+              placeholder="Watt"
+            >
+
+           <select
+  class="load-phase"
+  onchange="updateLoadVoltage(this)"
+>
+
+              <option value="1">
+                1P
+              </option>
+
+              <option value="3">
+                3P
+              </option>
+
+            </select>
+
+            <input
+              type="number"
+              class="load-voltage"
+              value="220"
+              min="0"
+              placeholder="Voltage"
+            >
+
+            <input
+              type="number"
+              class="load-hours"
+             
+              min="0"
+              step="0.1"
+              placeholder="Hours"
+            >
+
+            <button
+              type="button"
+              class="remove-load"
+              onclick="removeLoadRow(this)"
+            >
+              ×
+            </button>
+
+          </div>
+
+        </div>
+
+
+        <button
+          type="button"
+          class="add-load"
+          onclick="addLoadRow('tvRows')"
+        >
+          ＋ Add TV
+        </button>
+
+      </div>
+
+
+      <!-- FREEZER -->
+
+      <div class="load-group">
+
+        <div class="load-group-title">
+          🧊 Freezer / Fridge
+        </div>
+
+
+        <div id="freezerRows">
+
+          <div class="load-row">
+
+            <input
+              type="number"
+              class="load-qty"
+            
+              min="0"
+              placeholder="Qty"
+            >
+
+            <input
+              type="number"
+              class="load-watt"
+             
+              min="0"
+              placeholder="Watt"
+            >
+
+           <select
+  class="load-phase"
+  onchange="updateLoadVoltage(this)"
+>
+
+              <option value="1">
+                1P
+              </option>
+
+              <option value="3">
+                3P
+              </option>
+
+            </select>
+
+            <input
+              type="number"
+              class="load-voltage"
+              value="220"
+              min="0"
+              placeholder="Voltage"
+            >
+
+            <input
+              type="number"
+              class="load-hours"
+              
+              min="0"
+              step="0.1"
+              placeholder="Hours"
+            >
+
+            <button
+              type="button"
+              class="remove-load"
+              onclick="removeLoadRow(this)"
+            >
+              ×
+            </button>
+
+          </div>
+
+        </div>
+
+
+        <button
+          type="button"
+          class="add-load"
+          onclick="addLoadRow('freezerRows')"
+        >
+          ＋ Add Freezer
+        </button>
+
+      </div>
+
+
+      <!-- OTHER LOAD -->
+
+      <div class="load-group">
+
+        <div class="load-group-title">
+          ➕ Other Load
+        </div>
+
+
+        <div id="otherRows">
+
+          <div class="load-row">
+
+            <input
+              type="number"
+              class="load-qty"
+              
+              min="0"
+              placeholder="Qty"
+            >
+
+            <input
+              type="number"
+              class="load-watt"
+             
+              min="0"
+              placeholder="Watt"
+            >
+
+           <select
+  class="load-phase"
+  onchange="updateLoadVoltage(this)"
+>
+
+              <option value="1">
+                1P
+              </option>
+
+              <option value="3">
+                3P
+              </option>
+
+            </select>
+
+            <input
+              type="number"
+              class="load-voltage"
+              value="220"
+              min="0"
+              placeholder="Voltage"
+            >
+
+            <input
+              type="number"
+              class="load-hours"
+              
+              min="0"
+              step="0.1"
+              placeholder="Hours"
+            >
+
+            <button
+              type="button"
+              class="remove-load"
+              onclick="removeLoadRow(this)"
+            >
+              ×
+            </button>
+
+          </div>
+
+        </div>
+
+
+        <button
+          type="button"
+          class="add-load"
+          onclick="addLoadRow('otherRows')"
+        >
+          ＋ Add Other Load
+        </button>
+
+      </div>
 
     </div>
+
+
+    <!-- ================================================
+         INDUSTRIAL DATA
+    ================================================= -->
+
+    <div
+      id="industrialData"
+      class="load-data"
+      style="display:none;"
+    >
+
+      <div class="label">
+        INDUSTRIAL LOAD / শিল্প লোড
+      </div>
+
+
+      <!-- INDUSTRIAL LIGHT -->
+
+      <div class="load-group">
+
+        <div class="load-group-title">
+          💡 Light
+        </div>
+
+
+        <div id="industrialLightRows">
+
+          <div class="load-row">
+
+            <input
+              type="number"
+              class="load-qty"
+              
+              min="0"
+              placeholder="Qty"
+            >
+
+            <input
+              type="number"
+              class="load-watt"
+             
+              min="0"
+              placeholder="Watt"
+            >
+
+           <select
+  class="load-phase"
+  onchange="updateLoadVoltage(this)"
+>
+
+              <option value="1" selected>
+                1P
+              </option>
+
+              <option value="3">
+                3P
+              </option>
+
+            </select>
+
+            <input
+              type="number"
+              class="load-voltage"
+              value="220"
+              min="0"
+              placeholder="Voltage"
+            >
+
+            <input
+              type="number"
+              class="load-hours"
+            
+              min="0"
+              step="0.1"
+              placeholder="Hours"
+            >
+
+            <button
+              type="button"
+              class="remove-load"
+              onclick="removeLoadRow(this)"
+            >
+              ×
+            </button>
+
+          </div>
+
+        </div>
+
+
+        <button
+          type="button"
+          class="add-load"
+          onclick="addLoadRow('industrialLightRows')"
+        >
+          ＋ Add Light
+        </button>
+
+      </div>
+
+
+      <!-- INDUSTRIAL FAN -->
+
+      <div class="load-group">
+
+        <div class="load-group-title">
+          🌀 Fan
+        </div>
+
+
+        <div id="industrialFanRows">
+
+          <div class="load-row">
+
+            <input
+              type="number"
+              class="load-qty"
+           
+              min="0"
+              placeholder="Qty"
+            >
+
+            <input
+              type="number"
+              class="load-watt"
+            
+              min="0"
+              placeholder="Watt"
+            >
+
+           <select
+  class="load-phase"
+  onchange="updateLoadVoltage(this)"
+>
+
+              <option value="1" selected>
+                1P
+              </option>
+
+              <option value="3">
+                3P
+              </option>
+
+            </select>
+
+            <input
+              type="number"
+              class="load-voltage"
+              value="220"
+              min="0"
+              placeholder="Voltage"
+            >
+
+            <input
+              type="number"
+              class="load-hours"
+             
+              min="0"
+              step="0.1"
+              placeholder="Hours"
+            >
+
+            <button
+              type="button"
+              class="remove-load"
+              onclick="removeLoadRow(this)"
+            >
+              ×
+            </button>
+
+          </div>
+
+        </div>
+
+
+        <button
+          type="button"
+          class="add-load"
+          onclick="addLoadRow('industrialFanRows')"
+        >
+          ＋ Add Fan
+        </button>
+
+      </div>
+
+
+      <!-- INDUSTRIAL AC -->
+
+      <div class="load-group">
+
+        <div class="load-group-title">
+          ❄️ AC / Cooling
+        </div>
+
+
+        <div id="industrialAcRows">
+
+          <div class="load-row">
+
+            <input
+              type="number"
+              class="load-qty"
+            
+              min="0"
+              placeholder="Qty"
+            >
+
+            <input
+              type="number"
+              class="load-watt"
+             
+              min="0"
+              placeholder="Watt"
+            >
+
+           <select
+  class="load-phase"
+  onchange="updateLoadVoltage(this)"
+>
+
+              <option value="1" selected>
+                1P
+              </option>
+
+              <option value="3">
+                3P
+              </option>
+
+            </select>
+
+            <input
+              type="number"
+              class="load-voltage"
+              value="220"
+              min="0"
+              placeholder="Voltage"
+            >
+
+            <input
+              type="number"
+              class="load-hours"
+             
+              min="0"
+              step="0.1"
+              placeholder="Hours"
+            >
+
+            <button
+              type="button"
+              class="remove-load"
+              onclick="removeLoadRow(this)"
+            >
+              ×
+            </button>
+
+          </div>
+
+        </div>
+
+
+        <button
+          type="button"
+          class="add-load"
+          onclick="addLoadRow('industrialAcRows')"
+        >
+          ＋ Add AC
+        </button>
+
+      </div>
+
+
+      <!-- INDUSTRIAL OTHER LOAD -->
+
+      <div class="load-group">
+
+        <div class="load-group-title">
+          ➕ Other Load
+        </div>
+
+
+        <div id="industrialOtherRows">
+
+          <div class="load-row">
+
+            <input
+              type="number"
+              class="load-qty"
+         
+              min="0"
+              placeholder="Qty"
+            >
+
+            <input
+              type="number"
+              class="load-watt"
+          
+              min="0"
+              placeholder="Watt"
+            >
+
+            <select
+  class="load-phase"
+  onchange="updateLoadVoltage(this)"
+>
+
+
+              <option value="1" selected>
+                1P
+              </option>
+
+              <option value="3">
+                3P
+              </option>
+
+            </select>
+
+            <input
+              type="number"
+              class="load-voltage"
+              value="220"
+              min="0"
+              placeholder="Voltage"
+            >
+
+            <input
+              type="number"
+              class="load-hours"
+            
+              min="0"
+              step="0.1"
+              placeholder="Hours"
+            >
+
+            <button
+              type="button"
+              class="remove-load"
+              onclick="removeLoadRow(this)"
+            >
+              ×
+            </button>
+
+          </div>
+
+        </div>
+
+
+        <button
+          type="button"
+          class="add-load"
+          onclick="addLoadRow('industrialOtherRows')"
+        >
+          ＋ Add Other Load
+        </button>
+
+      </div>
+
+    </div>
+
+
+    <!-- RESULT -->
 
     <div class="result">
 
-      <div class="label">RESULT</div>
+      <div class="label">
+        TOTAL LOAD / মোট লোড
+      </div>
 
-      <div class="big" id="res">—</div>
 
-      <div class="formula" id="form">—</div>
+      <div
+        class="big"
+        id="loadTotalWatt"
+      >
+        0 W
+      </div>
+
+
+      <div
+        class="formula"
+        id="loadTotalKW"
+      >
+        Total = 0 kW
+      </div>
+
+
+      <div
+        class="formula"
+        id="loadTotalKWH"
+      >
+        Energy = 0 kWh
+      </div>
 
     </div>
 
-    <div class="note">
-      Single Phase = 220 V, Three Phase = 415 V.
-      PF = 0.85 and efficiency = 90% where required.
-    </div>
 
   </div>
 
 </section>
 
+
+
+
+<!-- =========================================================
+     HTML: RESIDENTIAL LOAD
+========================================================= -->
+
+<section
+  class="page"
+  id="residentialLoadPage"
+>
+
+
+  <div
+    class="top"
+    onclick="backFromResidential()"
+  >
+
+    <img
+      class="mini"
+      src="assets/icon.webp"
+      alt="EEEGPT"
+    >
+
+
+    <div>
+
+      <div class="title">
+        Residential Load
+      </div>
+
+      <div class="sub">
+        বাসাবাড়ির লোড হিসাব
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <div class="card">
+
+
+    <div class="label">
+      RESIDENTIAL / বাসাবাড়ি
+    </div>
+
+
+    <!-- LIGHTING -->
+
+    <div class="tool">
+
+      <span class="tool-icon">
+        💡
+      </span>
+
+      <span>
+
+        <b>
+          Lighting Load
+        </b>
+
+        <small>
+          বাতির মোট লোড
+        </small>
+
+      </span>
+
+    </div>
+
+
+    <!-- FAN -->
+
+    <div class="tool">
+
+      <span class="tool-icon">
+        🌀
+      </span>
+
+      <span>
+
+        <b>
+          Fan Load
+        </b>
+
+        <small>
+          ফ্যানের মোট লোড
+        </small>
+
+      </span>
+
+    </div>
+
+
+    <!-- AC -->
+
+    <div class="tool">
+
+      <span class="tool-icon">
+        ❄️
+      </span>
+
+      <span>
+
+        <b>
+          AC / Cooling Load
+        </b>
+
+        <small>
+          এসি ও কুলিং লোড
+        </small>
+
+      </span>
+
+    </div>
+
+
+    <!-- SOCKET -->
+
+    <div class="tool">
+
+      <span class="tool-icon">
+        🔌
+      </span>
+
+      <span>
+
+        <b>
+          Socket / General Load
+        </b>
+
+        <small>
+          সাধারণ সকেট ও অন্যান্য লোড
+        </small>
+
+      </span>
+
+    </div>
+
+
+    <!-- RESULT -->
+
+    <div class="result">
+
+      <div class="label">
+        ESTIMATED RUNNING LOAD / আনুমানিক চলমান লোড
+      </div>
+
+      <div
+        class="big"
+        id="residentialRunningLoad"
+      >
+        0 W
+      </div>
+
+    </div>
+
+
+  </div>
+
+</section>
+
+
+
+<!-- =========================================================
+     HTML: POWER CONVERTER
+========================================================= -->
+
+<section
+  class="page"
+  id="converterPage"
+>
+
+
+  <div
+    class="top"
+    onclick="backFromConverter()"
+  >
+
+    <img
+      class="mini"
+      src="assets/icon.webp"
+      alt="EEEGPT Converter"
+    >
+
+
+    <div>
+
+      <div class="title">
+        EEEGPT
+      </div>
+
+      <div class="sub">
+        The New Experience.
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <div class="card">
+
+
+    <div class="label">
+      VALUE + CONVERSION
+    </div>
+
+
+    <div class="row">
+
+
+      <input
+        id="val"
+        type="number"
+        value="1"
+        step="any"
+        oninput="calc()"
+      >
+
+
+      <select
+        id="conv"
+        class="unit"
+        onchange="calc()"
+      >
+      </select>
+
+
+    </div>
+
+
+    <div class="section">
+
+
+      <div class="label">
+        SYSTEM
+      </div>
+
+
+      <div class="ph">
+
+
+        <button
+          id="one"
+          onclick="phase(1)"
+        >
+          Single Phase
+        </button>
+
+
+        <button
+          id="three"
+          onclick="phase(3)"
+        >
+          Three Phase
+        </button>
+
+
+      </div>
+
+
+      <div class="auto">
+
+
+        <div>
+
+          <span>
+            VOLTAGE
+          </span>
+
+          <input
+            id="volt"
+            type="number"
+            value="220"
+            step="any"
+            oninput="customVoltage()"
+          >
+
+        </div>
+
+
+        <div>
+
+          <span>
+            POWER FACTOR
+          </span>
+
+          <input
+            id="pf"
+            type="number"
+            value="0.85"
+            min="0"
+            max="1"
+            step="0.01"
+            oninput="customPF()"
+          >
+
+        </div>
+
+
+      </div>
+
+    </div>
+
+
+    <div class="result">
+
+
+      <div class="label">
+        RESULT
+      </div>
+
+
+      <div
+        class="big"
+        id="res"
+      >
+        —
+      </div>
+
+
+      <div
+        class="formula"
+        id="form"
+      >
+        —
+      </div>
+
+
+    </div>
+
+
+    <div class="note">
+
+      Single Phase = 220 V,
+      Three Phase = 415 V.
+
+      PF = 0.85 and efficiency = 90%
+      where required.
+
+    </div>
+
+
+  </div>
+
+</section>
+
+
 </div>
+
+
+<!-- =========================================================
+     JAVASCRIPT: POWER CONVERTER DATA
+========================================================= -->
 
 <script>
 
-/* ================= CONVERSION DATA ================= */
-
-/* ================= CONVERSION DATA ================= */
 
 const C = [
 
@@ -683,187 +2849,323 @@ const C = [
     'kwamp',
     'kW → Amp',
     'A',
-    x => x * 1000 / ((P==3 ? Math.sqrt(3) : 1) * V * PF * .9),
-    'I = kW × 1000 / (phase × V × PF × η)'
+
+    x =>
+      x * 1000 /
+      (
+        (P === 3 ? Math.sqrt(3) : 1)
+        * V
+        * PF
+        * 0.9
+      ),
+
+    'I = kW × 1000 / (√3 × V × PF × η)'
   ],
+
 
   [
     'kww',
     'kW → Watt',
     'W',
-    x => x * 1000,
+
+    x =>
+      x * 1000,
+
     'W = kW × 1000'
   ],
+
 
   [
     'kwh',
     'kW → HP',
     'HP',
-    x => x / .7457,
+
+    x =>
+      x / 0.7457,
+
     'HP = kW / 0.7457'
   ],
+
 
   [
     'aw',
     'Amp → Watt',
     'W',
-    x => x * (P==3 ? Math.sqrt(3) : 1) * V * PF,
-    'W = I × phase × V × PF'
+
+    x =>
+      x
+      * (P === 3 ? Math.sqrt(3) : 1)
+      * V
+      * PF,
+
+    'W = I × √3 × V × PF'
   ],
+
 
   [
     'ah',
     'Amp → HP',
     'HP',
-    x => x * (P==3 ? Math.sqrt(3) : 1) * V * PF * .9 / 745.7,
-    'HP = I × phase × V × PF × η / 745.7'
+
+    x =>
+      x
+      * (P === 3 ? Math.sqrt(3) : 1)
+      * V
+      * PF
+      * 0.9
+      / 745.7,
+
+    'HP = I × √3 × V × PF × η / 745.7'
   ],
+
 
   [
     'ak',
     'Amp → kW',
     'kW',
-    x => x * (P==3 ? Math.sqrt(3) : 1) * V * PF / 1000,
-    'kW = I × phase × V × PF / 1000'
+
+    x =>
+      x
+      * (P === 3 ? Math.sqrt(3) : 1)
+      * V
+      * PF
+      / 1000,
+
+    'kW = I × √3 × V × PF / 1000'
   ],
+
 
   [
     'wk',
     'Watt → kW',
     'kW',
-    x => x / 1000,
+
+    x =>
+      x / 1000,
+
     'kW = W / 1000'
   ],
+
 
   [
     'wa',
     'Watt → Amp',
     'A',
-    x => x / ((P==3 ? Math.sqrt(3) : 1) * V * PF),
-    'I = W / (phase × V × PF)'
+
+    x =>
+      x /
+      (
+        (P === 3 ? Math.sqrt(3) : 1)
+        * V
+        * PF
+      ),
+
+    'I = W / (√3 × V × PF)'
   ],
+
 
   [
     'wh',
     'Watt → HP',
     'HP',
-    x => x / 745.7,
+
+    x =>
+      x / 745.7,
+
     'HP = W / 745.7'
   ],
+
 
   [
     'hk',
     'HP → kW',
     'kW',
-    x => x * .7457,
-    'kW = HP × .7457'
+
+    x =>
+      x * 0.7457,
+
+    'kW = HP × 0.7457'
   ],
+
 
   [
     'hw',
     'HP → Watt',
     'W',
-    x => x * 745.7,
+
+    x =>
+      x * 745.7,
+
     'W = HP × 745.7'
   ],
+
 
   [
     'ha',
     'HP → Amp',
     'A',
-    x => x * 745.7 / ((P==3 ? Math.sqrt(3) : 1) * V * PF * .9),
-    'I = HP × 745.7 / (phase × V × PF × η)'
+
+    x =>
+      x
+      * 745.7
+      /
+      (
+        (P === 3 ? Math.sqrt(3) : 1)
+        * V
+        * PF
+        * 0.9
+      ),
+
+    'I = HP × 745.7 / (√3 × V × PF × η)'
   ]
 
 ];
 
 
-/* ================= VARIABLES ================= */
+/* =========================================================
+     JAVASCRIPT: CONVERTER VARIABLES
+========================================================= */
+
 
 let P = 1;
 let V = 220;
 let PF = 0.85;
 
 
-/* ================= DROPDOWN ================= */
+/* =========================================================
+     JAVASCRIPT: CONVERTER DROPDOWN
+========================================================= */
 
-const s = document.getElementById('conv');
+
+const s =
+  document.getElementById('conv');
+
 
 C.forEach(c => {
 
-  let o = document.createElement('option');
+  const option =
+    document.createElement('option');
 
-  o.value = c[0];
-  o.textContent = c[1];
+  option.value = c[0];
 
-  s.appendChild(o);
+  option.textContent = c[1];
+
+  s.appendChild(option);
 
 });
 
-/* ================= PHASE ================= */
+
+/* =========================================================
+     JAVASCRIPT FUNCTION: PHASE
+========================================================= */
+
 
 function phase(n){
 
   P = n;
 
-  V = n == 3 ? 415 : 220;
+  V =
+    n === 3
+      ? 415
+      : 220;
 
-  /* Default Power Factor */
   PF = 0.85;
 
-  document.getElementById('three')
-    .classList.toggle('active', n == 3);
 
-  document.getElementById('one')
-    .classList.toggle('active', n == 1);
+  document
+    .getElementById('three')
+    .classList
+    .toggle(
+      'active',
+      n === 3
+    );
 
-  /* Update Voltage input */
-  document.getElementById('volt').value = V;
 
-  /* Update Power Factor input */
-  document.getElementById('pf').value = PF;
+  document
+    .getElementById('one')
+    .classList
+    .toggle(
+      'active',
+      n === 1
+    );
+
+
+  document
+    .getElementById('volt')
+    .value = V;
+
+
+  document
+    .getElementById('pf')
+    .value = PF;
+
 
   calc();
+
 }
 
-/* ================= CUSTOM VOLTAGE ================= */
+
+/* =========================================================
+     JAVASCRIPT FUNCTION: CUSTOM VOLTAGE
+========================================================= */
+
 
 function customVoltage(){
 
-  let value =
-    parseFloat(document.getElementById('volt').value);
+  const value =
+    parseFloat(
+      document.getElementById('volt').value
+    );
 
-  if(!isFinite(value) || value <= 0){
+
+  if(
+    !isFinite(value) ||
+    value <= 0
+  ){
     return;
   }
+
 
   V = value;
 
   calc();
+
 }
-/* ================= CUSTOM POWER FACTOR ================= */
+
+
+/* =========================================================
+     JAVASCRIPT FUNCTION: CUSTOM POWER FACTOR
+========================================================= */
+
 
 function customPF(){
 
-  let value =
-    parseFloat(document.getElementById('pf').value);
+  const value =
+    parseFloat(
+      document.getElementById('pf').value
+    );
 
-  if(!isFinite(value) || value <= 0 || value > 1){
+
+  if(
+    !isFinite(value) ||
+    value <= 0 ||
+    value > 1
+  ){
     return;
   }
+
 
   PF = value;
 
   calc();
-}
-/* ================= SMART DECIMAL ================= */
-/*
-   আগের কোডের সমস্যা ছিল:
-   toFixed(2) → 1 W / 1000 = 0.001 kW
-   কিন্তু দেখাত 0.00 kW।
 
-   এখন ছোট value হলে প্রয়োজনীয় decimal পর্যন্ত দেখাবে।
-*/
+}
+
+
+/* =========================================================
+     JAVASCRIPT FUNCTION: NUMBER FORMAT
+========================================================= */
+
 
 function formatNumber(n){
 
@@ -871,249 +3173,824 @@ function formatNumber(n){
     return '—';
   }
 
-  /* একদম শূন্য হলে */
+
   if(n === 0){
     return '0';
   }
 
-  /* 1 এর নিচে হলে বেশি decimal দেখাবে */
+
   if(Math.abs(n) < 1){
 
-    return n.toFixed(6)
+    return n
+      .toFixed(6)
       .replace(/\.?0+$/,'');
 
   }
 
-  /* 1 থেকে 100 এর মধ্যে */
-  if(Math.abs(n) < 100){
 
-    return n.toFixed(2)
-      .replace(/\.?0+$/,'');
-
-  }
-
-  /* বড় সংখ্যার জন্য */
-  return n.toFixed(2)
+  return n
+    .toFixed(2)
     .replace(/\.?0+$/,'');
 
 }
 
-/* ================= CALCULATION ================= */
+
+/* =========================================================
+     JAVASCRIPT FUNCTION: CONVERTER CALCULATION
+========================================================= */
+
 
 function calc(){
 
-  let c =
-    C.find(x => x[0] == s.value) || C[0];
+  const c =
+    C.find(
+      x => x[0] === s.value
+    ) || C[0];
 
-  let x =
-    +document.getElementById('val').value;
 
-  let n =
+  const x =
+    Number(
+      document.getElementById('val').value
+    );
+
+
+  if(!isFinite(x)){
+
+    document.getElementById('res')
+      .textContent = '—';
+
+    return;
+
+  }
+
+
+  const result =
     c[3](x);
 
-  document.getElementById('res').textContent =
-    formatNumber(n) + ' ' + c[2];
 
-  document.getElementById('form').textContent =
-    c[4];
+  document.getElementById('res')
+    .textContent =
+      formatNumber(result)
+      + ' '
+      + c[2];
+
+
+  document.getElementById('form')
+    .textContent =
+      c[4];
+
 }
 
-/* ================= SHOW CONVERTER ================= */
+
+/* =========================================================
+     JAVASCRIPT FUNCTION: SHOW CONVERTER
+========================================================= */
+
 
 function showConverter(){
 
-  /* Open Converter */
-  document.getElementById('electricalPage')
-    .classList.remove('on');
+  hideAllPages();
 
-  document.getElementById('page')
-    .classList.add('on');
 
-  /* Reset to default */
+  document
+    .getElementById('converterPage')
+    .classList
+    .add('on');
+
+
   P = 1;
   V = 220;
   PF = 0.85;
 
-  /* Reset input fields */
-  document.getElementById('volt').value = V;
-  document.getElementById('pf').value = PF;
 
-  /* Reset phase buttons */
+  document.getElementById('volt')
+    .value = V;
+
+
+  document.getElementById('pf')
+    .value = PF;
+
+
   document.getElementById('one')
-    .classList.add('active');
+    .classList
+    .add('active');
+
 
   document.getElementById('three')
-    .classList.remove('active');
+    .classList
+    .remove('active');
 
-  /* Recalculate */
+
   calc();
 
+
   history.pushState(
-  { page: 'converter' },
-  '',
-  '#converter'
-);
-}
-
-
-/* ================= BACK FROM CONVERTER ================= */
-
-function backFromConverter(){
-
-  document.getElementById('page')
-    .classList.remove('on');
-
-  document.getElementById('electricalPage')
-    .classList.add('on');
+    {page:'converter'},
+    '',
+    '#converter'
+  );
 
 }
 
 
-/* ================= HOME ================= */
+/* =========================================================
+     JAVASCRIPT: PAGE CONTROL
+========================================================= */
+
+
+function hideAllPages(){
+
+  document
+    .getElementById('home')
+    .style
+    .display = 'none';
+
+
+  document
+    .getElementById('electricalPage')
+    .classList
+    .remove('on');
+
+
+  document
+    .getElementById('loadPage')
+    .classList
+    .remove('on');
+
+
+  document
+    .getElementById('residentialLoadPage')
+    .classList
+    .remove('on');
+
+
+  document
+    .getElementById('converterPage')
+    .classList
+    .remove('on');
+
+}
+
+
+/* =========================================================
+     JAVASCRIPT FUNCTION: HOME
+========================================================= */
+
 
 function home(){
 
-  document.getElementById('page')
-    .classList.remove('on');
+  hideAllPages();
 
-  document.getElementById('electricalPage')
-    .classList.remove('on');
 
-  document.getElementById('home')
-    .style.display = 'block';
+  document
+    .getElementById('home')
+    .style
+    .display = 'block';
+
 
   history.pushState(
-    { page: 'home' },
+    {page:'home'},
     '',
     '#home'
   );
+
 }
 
 
+/* =========================================================
+     JAVASCRIPT FUNCTION: SHOW ELECTRICAL
+========================================================= */
 
-/* ================= DEFAULT ================= */
-
-phase(1);
-/* ================= CATEGORY NAVIGATION ================= */
 
 function showElectrical(){
 
-  document.getElementById('home').style.display = 'none';
+  hideAllPages();
 
-  document.getElementById('electricalPage')
-    .classList.add('on');
+
+  document
+    .getElementById('electricalPage')
+    .classList
+    .add('on');
+
 
   history.pushState(
-    { page: 'electrical' },
+    {page:'electrical'},
     '',
     '#electrical'
   );
+
 }
+
+
+/* =========================================================
+     JAVASCRIPT FUNCTION: SHOW LOAD CALCULATOR
+========================================================= */
+
+
+function showLoadCalculator(){
+
+  hideAllPages();
+
+
+  document
+    .getElementById('loadPage')
+    .classList
+    .add('on');
+
+
+  history.pushState(
+    {page:'load'},
+    '',
+    '#load'
+  );
+
+}
+/*<!-- =========================================================
+     JAVASCRIPT FUNCTION: SWITCH LOAD TYPE
+========================================================= -->*/
+
+function switchLoadType(type){
+
+  const residentialData =
+    document.getElementById(
+      'residentialData'
+    );
+
+
+  const industrialData =
+    document.getElementById(
+      'industrialData'
+    );
+
+
+  const residentialTab =
+    document.getElementById(
+      'residentialTab'
+    );
+
+
+  const industrialTab =
+    document.getElementById(
+      'industrialTab'
+    );
+
+
+  if(type === 'industrial'){
+
+    residentialData.style.display =
+      'none';
+
+    industrialData.style.display =
+      'block';
+
+
+    residentialTab.classList.remove(
+      'active'
+    );
+
+    industrialTab.classList.add(
+      'active'
+    );
+
+  }
+
+  else{
+
+    industrialData.style.display =
+      'none';
+
+    residentialData.style.display =
+      'block';
+
+
+    industrialTab.classList.remove(
+      'active'
+    );
+
+    residentialTab.classList.add(
+      'active'
+    );
+
+  }
+
+}
+
+
+/*<!-- =========================================================
+     JAVASCRIPT FUNCTION: ADD LOAD ROW
+========================================================= -->*/
+
+function addLoadRow(containerId){
+
+  const container =
+    document.getElementById(containerId);
+
+
+  if(!container){
+    return;
+  }
+
+
+  const row =
+    document.createElement('div');
+
+  row.className =
+    'load-row';
+
+
+  row.innerHTML = `
+
+    <input
+      type="number"
+      class="load-qty"
+      min="0"
+      placeholder="Qty"
+    >
+
+
+    <input
+      type="number"
+      class="load-watt"
+      min="0"
+      placeholder="Watt"
+    >
+
+
+    <select
+      class="load-phase"
+      onchange="updateLoadVoltage(this)"
+    >
+
+      <option value="1" selected>
+        1P
+      </option>
+
+      <option value="3">
+        3P
+      </option>
+
+    </select>
+
+
+    <input
+      type="number"
+      class="load-voltage"
+      value="220"
+      min="0"
+      placeholder="Voltage"
+    >
+
+
+    <input
+      type="number"
+      class="load-hours"
+      min="0"
+      step="0.1"
+      placeholder="Hours"
+    >
+
+
+    <button
+      type="button"
+      class="remove-load"
+      onclick="removeLoadRow(this)"
+    >
+      ×
+    </button>
+
+  `;
+
+
+  container.appendChild(row);
+
+}
+/* ⬇️ NEW FUNCTION ⬇️ */
+
+function updateLoadVoltage(select){
+
+  const row =
+    select.closest('.load-row');
+
+
+  if(!row){
+    return;
+  }
+
+
+  const voltage =
+    row.querySelector('.load-voltage');
+
+
+  if(!voltage){
+    return;
+  }
+
+
+  if(select.value === '3'){
+
+    voltage.value = 415;
+
+  }
+
+  else{
+
+    voltage.value = 220;
+
+  }
+
+}
+
+
+/* ⬆️ NEW FUNCTION END ⬆️ */
+
+
+
+/*<!-- =========================================================
+     JAVASCRIPT FUNCTION: REMOVE LOAD ROW
+========================================================= -->*/
+
+function removeLoadRow(button){
+
+  const row =
+    button.closest(
+      '.load-row'
+    );
+
+
+  if(!row){
+    return;
+  }
+
+
+  const container =
+    row.parentElement;
+
+
+  if(
+    container.children.length <= 1
+  ){
+
+    return;
+
+  }
+
+
+  row.remove();
+
+}
+
+function showLoadCalculator(){
+
+  hideAllPages();
+
+
+  document
+    .getElementById('loadPage')
+    .classList
+    .add('on');
+
+
+  history.pushState(
+    {page:'load'},
+    '',
+    '#load'
+  );
+
+}
+
+
+/* ⬇️ PASTE NEW CODE HERE ⬇️ */
+
+
+function switchLoadType(type){
+
+  const residentialData =
+    document.getElementById('residentialData');
+
+  const industrialData =
+    document.getElementById('industrialData');
+
+  const residentialTab =
+    document.getElementById('residentialTab');
+
+  const industrialTab =
+    document.getElementById('industrialTab');
+
+
+  if(type === 'industrial'){
+
+    residentialData.style.display = 'none';
+
+    industrialData.style.display = 'block';
+
+
+    residentialTab.classList.remove('active');
+
+    industrialTab.classList.add('active');
+
+  }
+
+  else{
+
+    residentialData.style.display = 'block';
+
+    industrialData.style.display = 'none';
+
+
+    residentialTab.classList.add('active');
+
+    industrialTab.classList.remove('active');
+
+  }
+
+}
+
+
+/* =========================================================
+     JAVASCRIPT FUNCTION: SHOW RESIDENTIAL
+========================================================= */
+
+
+function showResidentialLoad(){
+
+  hideAllPages();
+
+
+  document
+    .getElementById('residentialLoadPage')
+    .classList
+    .add('on');
+
+
+  history.pushState(
+    {page:'residential'},
+    '',
+    '#residential'
+  );
+
+}
+
+
+/*  =========================================================
+     JAVASCRIPT FUNCTION: BACK FROM LOAD
+========================================================= */
+
+
+function backFromLoad(){
+
+  hideAllPages();
+
+
+  document
+    .getElementById('electricalPage')
+    .classList
+    .add('on');
+
+
+  history.pushState(
+    {page:'electrical'},
+    '',
+    '#electrical'
+  );
+
+}
+
+
+/*  =========================================================
+     JAVASCRIPT FUNCTION: BACK FROM RESIDENTIAL
+========================================================= */
+
+
+function backFromResidential(){
+
+  hideAllPages();
+
+
+  document
+    .getElementById('loadPage')
+    .classList
+    .add('on');
+
+
+  history.pushState(
+    {page:'load'},
+    '',
+    '#load'
+  );
+
+}
+
+
+/* =========================================================
+     JAVASCRIPT FUNCTION: BACK FROM CONVERTER
+========================================================= */
+
+
+function backFromConverter(){
+
+  hideAllPages();
+
+
+  document
+    .getElementById('electricalPage')
+    .classList
+    .add('on');
+
+
+  history.pushState(
+    {page:'electrical'},
+    '',
+    '#electrical'
+  );
+
+}
+
+
+/*  =========================================================
+     JAVASCRIPT FUNCTION: ELECTRONICS
+========================================================= */
 
 
 function showElectronics(){
 
-  document.getElementById('home').style.display = 'none';
+  alert(
+    'Electronics section is coming soon.'
+  );
 
-  alert('Electronics section is coming soon.');
 }
+
+
+/* =========================================================
+     JAVASCRIPT FUNCTION: AUTOMATION
+========================================================= */
+
 
 function showAutomation(){
 
-  document.getElementById('home').style.display = 'none';
+  alert(
+    'Automation section is coming soon.'
+  );
 
-  alert('Automation section is coming soon.');
 }
-/* ================= PHONE BACK BUTTON ================= */
-
-window.addEventListener('popstate', function(){
-
-  const state = history.state;
-
-  /* Back → Electrical */
-  if(state && state.page === 'electrical'){
-
-    document.getElementById('page')
-      .classList.remove('on');
-
-    document.getElementById('electricalPage')
-      .classList.add('on');
-
-    document.getElementById('home')
-      .style.display = 'none';
-
-    return;
-  }
-
-  /* Back → Home */
-  if(state && state.page === 'home'){
-
-    document.getElementById('page')
-      .classList.remove('on');
-
-    document.getElementById('electricalPage')
-      .classList.remove('on');
-
-    document.getElementById('home')
-      .style.display = 'block';
-
-    return;
-  }
-
-  /* Safety fallback */
-  document.getElementById('page')
-    .classList.remove('on');
-
-  document.getElementById('electricalPage')
-    .classList.remove('on');
-
-  document.getElementById('home')
-    .style.display = 'block';
-
-});
 
 
-/* ================= INITIAL HISTORY ================= */
+/*  =========================================================
+     JAVASCRIPT: INITIALIZE CONVERTER
+========================================================= */
 
-history.replaceState(
-  { page: 'home' },
-  '',
-  '#home'
-);
-</script>
 
-<script>
-if ('serviceWorker' in navigator) {
+phase(1);
 
-  window.addEventListener('load', async () => {
 
-    try {
+/* =========================================================
+     JAVASCRIPT: PHONE BACK BUTTON
+========================================================= */
 
-      const registration =
-        await navigator.serviceWorker.register(
-          './service-worker.js',
-          {
-            updateViaCache: 'none'
-          }
-        );
 
-      /* নতুন Service Worker check করবে */
-      registration.update();
+window.addEventListener(
+  'popstate',
+  function(){
 
-    } catch (error) {
+    const state =
+      history.state;
 
-      console.error(
-        'Service Worker registration failed:',
-        error
-      );
+
+    hideAllPages();
+
+
+    if(
+      state &&
+      state.page === 'converter'
+    ){
+
+      document
+        .getElementById('converterPage')
+        .classList
+        .add('on');
+
+      return;
 
     }
 
-  });
+
+    if(
+      state &&
+      state.page === 'residential'
+    ){
+
+      document
+        .getElementById('residentialLoadPage')
+        .classList
+        .add('on');
+
+      return;
+
+    }
+
+
+    if(
+      state &&
+      state.page === 'load'
+    ){
+
+      document
+        .getElementById('loadPage')
+        .classList
+        .add('on');
+
+      return;
+
+    }
+
+
+    if(
+      state &&
+      state.page === 'electrical'
+    ){
+
+      document
+        .getElementById('electricalPage')
+        .classList
+        .add('on');
+
+      return;
+
+    }
+
+
+    /* DEFAULT → HOME */
+
+    document
+      .getElementById('home')
+      .style
+      .display = 'block';
+
+  }
+);
+
+
+/* =========================================================
+     JAVASCRIPT: INITIAL HISTORY
+========================================================= */
+
+
+history.replaceState(
+  {page:'home'},
+  '',
+  '#home'
+);
+
+
+</script>
+
+
+<!-- =========================================================
+     JAVASCRIPT: SERVICE WORKER
+========================================================= --> 
+
+<script>
+
+if(
+  'serviceWorker'
+  in navigator
+){
+
+  window.addEventListener(
+    'load',
+    async () => {
+
+      try{
+
+        const registration =
+          await navigator
+            .serviceWorker
+            .register(
+              './service-worker.js',
+              {
+                updateViaCache:'none'
+              }
+            );
+
+
+        registration.update();
+
+      }
+      catch(error){
+
+        console.error(
+          'Service Worker registration failed:',
+          error
+        );
+
+      }
+
+    }
+  );
 
 }
+
 </script>
+
 
 </body>
 </html>
-
