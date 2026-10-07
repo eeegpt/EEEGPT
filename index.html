@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>INNO's Converter</title>
+<title>EEEGPT</title>
 <link rel="manifest" href="manifest.json">
 
 <style>
@@ -94,16 +94,149 @@ body{
   margin:7px 0 25px;
 }
 
-.open{
-  width:min(100%,370px);
-  padding:15px;
-  border:0;
-  border-radius:11px;
-  background:var(--g);
-  color:#07110c;
-  font-weight:800;
-  cursor:pointer;
+/* ================= CATEGORY CARDS ================= */
+
+.categories{
+  display:grid;
+  gap:12px;
+  margin-top:25px;
 }
+
+.category{
+  width:100%;
+  min-height:105px;
+  padding:18px;
+  border:1px solid var(--l);
+  border-radius:15px;
+  background:var(--p);
+  color:var(--t);
+  text-align:left;
+  cursor:pointer;
+
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+
+  transition:
+    transform .15s ease,
+    border-color .15s ease,
+    background .15s ease;
+}
+
+.category:hover{
+  transform:translateY(-2px);
+  border-color:#4fd18b88;
+  background:#192326;
+}
+
+.category:active{
+  transform:scale(.98);
+}
+
+.category-icon{
+  font-size:25px;
+  line-height:1;
+  margin-bottom:8px;
+}
+
+.category-title{
+  font-size:16px;
+  font-weight:800;
+  letter-spacing:.5px;
+}
+
+.category-sub{
+  color:var(--m);
+  font-size:11px;
+  margin-top:4px;
+}
+
+/* Electrical */
+
+.category.electrical{
+  border-left:3px solid var(--g);
+}
+
+/* Electronics */
+
+.category.electronics{
+  border-left:3px solid #55a8ff;
+}
+
+/* Automation */
+
+.category.automation{
+  border-left:3px solid #b477ff;
+}
+/* ================= ELECTRICAL TOOLS ================= */
+
+.tool{
+  width:100%;
+  min-height:68px;
+  margin-top:10px;
+  padding:12px;
+  display:flex;
+  align-items:center;
+  gap:12px;
+
+  background:#0c1214;
+  color:var(--t);
+  border:1px solid var(--l);
+  border-radius:11px;
+
+  text-align:left;
+  cursor:pointer;
+
+  transition:
+    transform .15s ease,
+    border-color .15s ease,
+    background .15s ease;
+}
+
+.tool:hover:not(:disabled){
+  transform:translateY(-1px);
+  border-color:#4fd18b88;
+  background:#10231b;
+}
+
+.tool:active:not(:disabled){
+  transform:scale(.98);
+}
+
+.tool:disabled{
+  opacity:.45;
+  cursor:not-allowed;
+}
+
+.tool-icon{
+  width:40px;
+  height:40px;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  flex-shrink:0;
+
+  background:#151d20;
+  border:1px solid var(--l);
+  border-radius:9px;
+
+  font-size:20px;
+}
+
+.tool b{
+  display:block;
+  font-size:14px;
+}
+
+.tool small{
+  display:block;
+  color:var(--m);
+  font-size:10px;
+  margin-top:4px;
+}
+
 
 /* ================= CONVERTER ================= */
 
@@ -125,7 +258,7 @@ body{
 }
 
 .mini{
-  width: 60px;px;
+  width: 60px;
   height:60px;
   aspect-ratio:1/1;
   flex-shrink:0;
@@ -247,6 +380,17 @@ select.unit option{
   font-size:9px;
   margin-bottom:4px;
 }
+.auto input{
+  width:100%;
+  height:auto;
+  padding:0;
+  background:transparent;
+  border:none;
+  color:var(--t);
+  font-size:14px;
+  font-weight:700;
+  outline:none;
+}
 
 .result{
   margin-top:15px;
@@ -319,24 +463,102 @@ select.unit option{
 <section class="home" id="home">
 
   <div class="cover-wrap">
-<img class="cover"  src="assets/cover.webp" alt="cover">
-
+    <img class="cover" src="assets/cover.webp" alt="cover">
   </div>
 
   <div class="profile-area">
-<img class="avatar" src="assets/profile.webp" alt="profile">
+    <img class="avatar" src="assets/profile.webp" alt="profile">
 
     <h1 class="name">Hrridoy Hassen Inno</h1>
 
     <div class="role">
       BSc in Electrical and Electronic Engineering.
-     <div class="role"> inno.eee@hotmail.com
-    </div> 
+      <div class="role">inno.eee@hotmail.com</div>
+    </div>
   </div>
 
-  <button class="open" onclick="showConverter()">
-     Power To Power Converter
-  </button>
+  <!-- ================= CATEGORIES ================= -->
+
+  <div class="categories">
+
+    <button class="category electrical" onclick="showElectrical()">
+      <span class="category-icon">⚡</span>
+      <span class="category-title">ELECTRICAL</span>
+      <span class="category-sub">Calculators & Tools</span>
+    </button>
+
+    <button class="category electronics" onclick="showElectronics()">
+      <span class="category-icon">🔌</span>
+      <span class="category-title">ELECTRONICS</span>
+      <span class="category-sub">Calculators & Tools</span>
+    </button>
+
+    <button class="category automation" onclick="showAutomation()">
+      <span class="category-icon">🤖</span>
+      <span class="category-title">AUTOMATION</span>
+      <span class="category-sub">PLC • Servo • HMI</span>
+    </button>
+
+  </div>
+
+</section>
+
+<!-- ================= ELECTRICAL ================= -->
+
+<section class="page" id="electricalPage">
+
+  <div class="top" onclick="home()" style="cursor:pointer;">
+
+    <img class="mini" src="assets/icon.webp" alt="EEEGPT">
+
+    <div>
+      <div class="title">Electrical</div>
+      <div class="sub">Electrical Calculators & Tools</div>
+    </div>
+
+  </div>
+
+  <div class="card">
+
+    <div class="label">ELECTRICAL TOOLS</div>
+
+    <button class="tool" onclick="showConverter()">
+      <span class="tool-icon">⚡</span>
+
+      <span>
+        <b>Power Converter</b>
+        <small>kW • Amp • Watt • HP</small>
+      </span>
+    </button>
+
+    <button class="tool" disabled>
+      <span class="tool-icon">🔌</span>
+
+      <span>
+        <b>Load Calculator</b>
+        <small>Coming Soon</small>
+      </span>
+    </button>
+
+    <button class="tool" disabled>
+      <span class="tool-icon">📐</span>
+
+      <span>
+        <b>Cable Size Calculator</b>
+        <small>Coming Soon</small>
+      </span>
+    </button>
+
+    <button class="tool" disabled>
+      <span class="tool-icon">🛡️</span>
+
+      <span>
+        <b>MCB / MCCB Selection</b>
+        <small>Coming Soon</small>
+      </span>
+    </button>
+
+  </div>
 
 </section>
 
@@ -344,15 +566,15 @@ select.unit option{
 
 <section class="page" id="page">
 
-  <div class="top" onclick="home()"
-  style="cursor:pointer;">
+  <div class="top" onclick="backFromConverter()"
+style="cursor:pointer;">
 
 
 <img class="mini" src="assets/icon.webp" alt="INNO's Converter">
     
 
     <div>
-      <div class="title">INNO's Converter</div>
+      <div class="title">EEEGPT</div>
       <div class="sub">The New Experience.</div>
     </div>
 
@@ -396,19 +618,35 @@ select.unit option{
 
       </div>
 
-      <div class="auto">
+     <div class="auto">
 
-        <div>
-          <span>AUTO VOLTAGE</span>
-          <b id="volt">415 V</b>
-        </div>
+  <div>
+    <span>VOLTAGE</span>
 
-        <div>
-          <span>POWER FACTOR</span>
-          <b>0.85</b>
-        </div>
+    <input
+      id="volt"
+      type="number"
+      value="220"
+      step="any"
+      oninput="customVoltage()"
+    >
+  </div>
 
-      </div>
+ <div>
+  <span>POWER FACTOR</span>
+
+  <input
+    id="pf"
+    type="number"
+    value="0.85"
+    min="0"
+    max="1"
+    step="0.01"
+    oninput="customPF()"
+  >
+</div>
+
+</div>
 
     </div>
 
@@ -437,13 +675,15 @@ select.unit option{
 
 /* ================= CONVERSION DATA ================= */
 
+/* ================= CONVERSION DATA ================= */
+
 const C = [
 
   [
     'kwamp',
     'kW → Amp',
     'A',
-    x => x * 1000 / ((P==3 ? Math.sqrt(3) : 1) * V * .85 * .9),
+    x => x * 1000 / ((P==3 ? Math.sqrt(3) : 1) * V * PF * .9),
     'I = kW × 1000 / (phase × V × PF × η)'
   ],
 
@@ -467,7 +707,7 @@ const C = [
     'aw',
     'Amp → Watt',
     'W',
-    x => x * (P==3 ? Math.sqrt(3) : 1) * V * .85,
+    x => x * (P==3 ? Math.sqrt(3) : 1) * V * PF,
     'W = I × phase × V × PF'
   ],
 
@@ -475,7 +715,7 @@ const C = [
     'ah',
     'Amp → HP',
     'HP',
-    x => x * (P==3 ? Math.sqrt(3) : 1) * V * .85 * .9 / 745.7,
+    x => x * (P==3 ? Math.sqrt(3) : 1) * V * PF * .9 / 745.7,
     'HP = I × phase × V × PF × η / 745.7'
   ],
 
@@ -483,7 +723,7 @@ const C = [
     'ak',
     'Amp → kW',
     'kW',
-    x => x * (P==3 ? Math.sqrt(3) : 1) * V * .85 / 1000,
+    x => x * (P==3 ? Math.sqrt(3) : 1) * V * PF / 1000,
     'kW = I × phase × V × PF / 1000'
   ],
 
@@ -499,7 +739,7 @@ const C = [
     'wa',
     'Watt → Amp',
     'A',
-    x => x / ((P==3 ? Math.sqrt(3) : 1) * V * .85),
+    x => x / ((P==3 ? Math.sqrt(3) : 1) * V * PF),
     'I = W / (phase × V × PF)'
   ],
 
@@ -531,16 +771,19 @@ const C = [
     'ha',
     'HP → Amp',
     'A',
-    x => x * 745.7 / ((P==3 ? Math.sqrt(3) : 1) * V * .85 * .9),
+    x => x * 745.7 / ((P==3 ? Math.sqrt(3) : 1) * V * PF * .9),
     'I = HP × 745.7 / (phase × V × PF × η)'
   ]
 
 ];
 
+
 /* ================= VARIABLES ================= */
 
 let P = 1;
 let V = 220;
+let PF = 0.85;
+
 
 /* ================= DROPDOWN ================= */
 
@@ -565,17 +808,54 @@ function phase(n){
 
   V = n == 3 ? 415 : 220;
 
+  /* Default Power Factor */
+  PF = 0.85;
+
   document.getElementById('three')
     .classList.toggle('active', n == 3);
 
   document.getElementById('one')
     .classList.toggle('active', n == 1);
 
-  document.getElementById('volt').textContent = V + ' V';
+  /* Update Voltage input */
+  document.getElementById('volt').value = V;
+
+  /* Update Power Factor input */
+  document.getElementById('pf').value = PF;
 
   calc();
 }
 
+/* ================= CUSTOM VOLTAGE ================= */
+
+function customVoltage(){
+
+  let value =
+    parseFloat(document.getElementById('volt').value);
+
+  if(!isFinite(value) || value <= 0){
+    return;
+  }
+
+  V = value;
+
+  calc();
+}
+/* ================= CUSTOM POWER FACTOR ================= */
+
+function customPF(){
+
+  let value =
+    parseFloat(document.getElementById('pf').value);
+
+  if(!isFinite(value) || value <= 0 || value > 1){
+    return;
+  }
+
+  PF = value;
+
+  calc();
+}
 /* ================= SMART DECIMAL ================= */
 /*
    আগের কোডের সমস্যা ছিল:
@@ -638,17 +918,48 @@ function calc(){
     c[4];
 }
 
-
-
 /* ================= SHOW CONVERTER ================= */
 
 function showConverter(){
 
-  document.getElementById('home').style.display = 'none';
+  /* Open Converter */
+  document.getElementById('electricalPage')
+    .classList.remove('on');
 
-  document.getElementById('page').classList.add('on');
+  document.getElementById('page')
+    .classList.add('on');
 
+  /* Reset to default */
+  P = 1;
+  V = 220;
+  PF = 0.85;
+
+  /* Reset input fields */
+  document.getElementById('volt').value = V;
+  document.getElementById('pf').value = PF;
+
+  /* Reset phase buttons */
+  document.getElementById('one')
+    .classList.add('active');
+
+  document.getElementById('three')
+    .classList.remove('active');
+
+  /* Recalculate */
   calc();
+}
+
+
+/* ================= BACK FROM CONVERTER ================= */
+
+function backFromConverter(){
+
+  document.getElementById('page')
+    .classList.remove('on');
+
+  document.getElementById('electricalPage')
+    .classList.add('on');
+
 }
 
 
@@ -659,6 +970,9 @@ function home(){
   document.getElementById('page')
     .classList.remove('on');
 
+  document.getElementById('electricalPage')
+    .classList.remove('on');
+
   document.getElementById('home')
     .style.display = 'block';
 }
@@ -667,12 +981,63 @@ function home(){
 /* ================= DEFAULT ================= */
 
 phase(1);
+/* ================= CATEGORY NAVIGATION ================= */
+
+function showElectrical(){
+
+  document.getElementById('home').style.display = 'none';
+
+  document.getElementById('electricalPage')
+    .classList.add('on');
+}
+
+function showElectronics(){
+
+  document.getElementById('home').style.display = 'none';
+
+  alert('Electronics section is coming soon.');
+}
+
+function showAutomation(){
+
+  document.getElementById('home').style.display = 'none';
+
+  alert('Automation section is coming soon.');
+}
 
 </script>
 <script>
-  if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('./service-worker.js');
-  }
+if ('serviceWorker' in navigator) {
+
+  window.addEventListener('load', async () => {
+
+    try {
+
+      const registration =
+        await navigator.serviceWorker.register(
+          './service-worker.js',
+          {
+            updateViaCache: 'none'
+          }
+        );
+
+      /* নতুন Service Worker check করবে */
+      registration.update();
+
+    } catch (error) {
+
+      console.error(
+        'Service Worker registration failed:',
+        error
+      );
+
+    }
+
+  });
+
+}
 </script>
+
 </body>
 </html>
+
