@@ -947,6 +947,12 @@ function showConverter(){
 
   /* Recalculate */
   calc();
+
+  history.pushState(
+  { page: 'converter' },
+  '',
+  '#converter'
+);
 }
 
 
@@ -975,7 +981,14 @@ function home(){
 
   document.getElementById('home')
     .style.display = 'block';
+
+  history.pushState(
+    { page: 'home' },
+    '',
+    '#home'
+  );
 }
+
 
 
 /* ================= DEFAULT ================= */
@@ -989,7 +1002,14 @@ function showElectrical(){
 
   document.getElementById('electricalPage')
     .classList.add('on');
+
+  history.pushState(
+    { page: 'electrical' },
+    '',
+    '#electrical'
+  );
 }
+
 
 function showElectronics(){
 
@@ -1004,8 +1024,64 @@ function showAutomation(){
 
   alert('Automation section is coming soon.');
 }
+/* ================= PHONE BACK BUTTON ================= */
 
+window.addEventListener('popstate', function(){
+
+  const state = history.state;
+
+  /* Back → Electrical */
+  if(state && state.page === 'electrical'){
+
+    document.getElementById('page')
+      .classList.remove('on');
+
+    document.getElementById('electricalPage')
+      .classList.add('on');
+
+    document.getElementById('home')
+      .style.display = 'none';
+
+    return;
+  }
+
+  /* Back → Home */
+  if(state && state.page === 'home'){
+
+    document.getElementById('page')
+      .classList.remove('on');
+
+    document.getElementById('electricalPage')
+      .classList.remove('on');
+
+    document.getElementById('home')
+      .style.display = 'block';
+
+    return;
+  }
+
+  /* Safety fallback */
+  document.getElementById('page')
+    .classList.remove('on');
+
+  document.getElementById('electricalPage')
+    .classList.remove('on');
+
+  document.getElementById('home')
+    .style.display = 'block';
+
+});
+
+
+/* ================= INITIAL HISTORY ================= */
+
+history.replaceState(
+  { page: 'home' },
+  '',
+  '#home'
+);
 </script>
+
 <script>
 if ('serviceWorker' in navigator) {
 
