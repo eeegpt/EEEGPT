@@ -124,9 +124,9 @@ body{
 }
 
 
-<!-- =========================================================
+/* =========================================================
    CSS: CATEGORY CARDS
-========================================================= -->
+========================================================= */
 
 .categories{
   display:grid;
@@ -538,16 +538,13 @@ select.unit option{
   grid-template-columns:
     1fr
     1fr
-    .9fr
     1fr
     1fr
     34px;
 
   gap:6px;
-
   align-items:center;
 }
-
 
 .load-row input,
 .load-row select{
@@ -610,18 +607,33 @@ select.unit option{
 
   .load-row{
     grid-template-columns:
-      1fr
-      1fr
-      1fr;
+      minmax(0, 0.8fr)
+      minmax(0, 1fr)
+      minmax(0, 1fr)
+      minmax(0, 1fr)
+      24px;
+
+    gap:3px;
   }
 
+  .load-row input,
+  .load-row select{
+    width:100%;
+    min-width:0;
+    height:36px;
+    padding:0 3px;
+    font-size:11px;
+  }
 
   .remove-load{
-    width:100%;
+    width:24px;
+    min-width:24px;
+    height:36px;
+    padding:0;
+    font-size:17px;
   }
 
 }
-
 /* =========================================================
    CSS: RESPONSIVE
 ========================================================= */
@@ -1021,36 +1033,6 @@ window.firebaseGet = get;
     </div>
 
 
-    <!-- RESIDENTIAL / INDUSTRIAL TABS -->
-
-    <div class="load-tabs">
-
-      <button
-        id="residentialTab"
-        class="load-tab active"
-        type="button"
-        onclick="switchLoadType('residential')"
-      >
-
-        🏠 Residential
-
-      </button>
-
-
-      <button
-        id="industrialTab"
-        class="load-tab"
-        type="button"
-        onclick="switchLoadType('industrial')"
-      >
-
-        🏭 Industrial
-
-      </button>
-
-    </div>
-
-
     <!-- ================================================
          RESIDENTIAL DATA
     ================================================= -->
@@ -1061,7 +1043,7 @@ window.firebaseGet = get;
     >
 
       <div class="label">
-        RESIDENTIAL LOAD / বাসাবাড়ির লোড
+        <!-- RESIDENTIAL LOAD / বাসাবাড়ির লোড -->
       </div>
 
 
@@ -1086,21 +1068,23 @@ window.firebaseGet = get;
               placeholder="Qty"
             >
 
-            <input
-  type="number"
-  class="load-watt"
-  min="0"
-  step="any"
-  placeholder="Watt"
->
+             <input
+    type="number"
+    class="load-watt"
+    min="0"
+    step="any"
+    placeholder="Watt"
+    oninput="clearKW(this)"
+  >
 
-<input
-  type="number"
-  class="load-kw"
-  min="0"
-  step="any"
-  placeholder="kW"
-> 
+  <input
+    type="number"
+    class="load-kw"
+    min="0"
+    step="any"
+    placeholder="kW"
+    oninput="clearWatt(this)"
+  >
 
         
             <input
@@ -1157,21 +1141,23 @@ window.firebaseGet = get;
               placeholder="Qty"
             >
 
-            <input
-  type="number"
-  class="load-watt"
-  min="0"
-  step="any"
-  placeholder="Watt"
->
+             <input
+    type="number"
+    class="load-watt"
+    min="0"
+    step="any"
+    placeholder="Watt"
+    oninput="clearKW(this)"
+  >
 
-<input
-  type="number"
-  class="load-kw"
-  min="0"
-  step="any"
-  placeholder="kW"
->
+  <input
+    type="number"
+    class="load-kw"
+    min="0"
+    step="any"
+    placeholder="kW"
+    oninput="clearWatt(this)"
+  >
     
 
             <input
@@ -1229,21 +1215,23 @@ window.firebaseGet = get;
               placeholder="Qty"
             >
 
-           <input
-  type="number"
-  class="load-watt"
-  min="0"
-  step="any"
-  placeholder="Watt"
->
+            <input
+    type="number"
+    class="load-watt"
+    min="0"
+    step="any"
+    placeholder="Watt"
+    oninput="clearKW(this)"
+  >
 
-<input
-  type="number"
-  class="load-kw"
-  min="0"
-  step="any"
-  placeholder="kW"
->
+  <input
+    type="number"
+    class="load-kw"
+    min="0"
+    step="any"
+    placeholder="kW"
+    oninput="clearWatt(this)"
+  >
      
             <input
               type="number"
@@ -1280,233 +1268,6 @@ window.firebaseGet = get;
     </div>
 
 
-    <!-- ================================================
-         INDUSTRIAL DATA
-    ================================================= -->
-
-    <div
-      id="industrialData"
-      class="load-data"
-      style="display:none;"
-    >
-
-      <div class="label">
-        INDUSTRIAL LOAD / শিল্প লোড
-      </div>
-
-
-      <!-- INDUSTRIAL LIGHT -->
-
-      <div class="load-group">
-
-        <div class="load-group-title">
-          💡 Light
-        </div>
-
-
-        <div id="industrialLightRows">
-
-          <div class="load-row">
-
-            <input
-              type="number"
-              class="load-qty"
-              
-              min="0"
-              placeholder="Qty"
-            >
-
-           <input
-  type="number"
-  class="load-watt"
-  min="0"
-  step="any"
-  placeholder="Watt"
->
-
-<input
-  type="number"
-  class="load-kw"
-  min="0"
-  step="any"
-  placeholder="kW"
->
-
-            <input
-              type="number"
-              class="load-hours"
-            
-              min="0"
-              step="0.1"
-              placeholder="Hours"
-            >
-
-            <button
-              type="button"
-              class="remove-load"
-              onclick="removeLoadRow(this)"
-            >
-              ×
-            </button>
-
-          </div>
-
-        </div>
-
-
-        <button
-          type="button"
-          class="add-load"
-          onclick="addLoadRow('industrialLightRows')"
-        >
-          ＋ Add Light
-        </button>
-
-      </div>
-
-
-      <!-- INDUSTRIAL FAN -->
-
-      <div class="load-group">
-
-        <div class="load-group-title">
-          🌀 Fan
-        </div>
-
-
-        <div id="industrialFanRows">
-
-          <div class="load-row">
-
-            <input
-              type="number"
-              class="load-qty"
-           
-              min="0"
-              placeholder="Qty"
-            >
-
-           <input
-  type="number"
-  class="load-watt"
-  min="0"
-  step="any"
-  placeholder="Watt"
->
-
-<input
-  type="number"
-  class="load-kw"
-  min="0"
-  step="any"
-  placeholder="kW"
->
-
-            <input
-              type="number"
-              class="load-hours"
-             
-              min="0"
-              step="0.1"
-              placeholder="Hours"
-            >
-
-            <button
-              type="button"
-              class="remove-load"
-              onclick="removeLoadRow(this)"
-            >
-              ×
-            </button>
-
-          </div>
-
-        </div>
-
-
-        <button
-          type="button"
-          class="add-load"
-          onclick="addLoadRow('industrialFanRows')"
-        >
-          ＋ Add Fan
-        </button>
-
-      </div>
-
-
-     
-
-      <!-- INDUSTRIAL OTHER LOAD -->
-
-      <div class="load-group">
-
-        <div class="load-group-title">
-          ➕ Other Load
-        </div>
-
-
-        <div id="industrialOtherRows">
-
-          <div class="load-row">
-
-            <input
-              type="number"
-              class="load-qty"
-         
-              min="0"
-              placeholder="Qty"
-            >
-
-           <input
-  type="number"
-  class="load-watt"
-  min="0"
-  step="any"
-  placeholder="Watt"
->
-
-<input
-  type="number"
-  class="load-kw"
-  min="0"
-  step="any"
-  placeholder="kW"
->
-
-            <input
-              type="number"
-              class="load-hours"
-            
-              min="0"
-              step="0.1"
-              placeholder="Hours"
-            >
-
-            <button
-              type="button"
-              class="remove-load"
-              onclick="removeLoadRow(this)"
-            >
-              ×
-            </button>
-
-          </div>
-
-        </div>
-
-
-        <button
-          type="button"
-          class="add-load"
-          onclick="addLoadRow('industrialOtherRows')"
-        >
-          ＋ Add Other Load
-        </button>
-
-      </div>
-
-    </div>
 
 
     <!-- RESULT -->
@@ -1547,7 +1308,6 @@ window.firebaseGet = get;
   </div>
 
 </section>
-
 
 
 
@@ -2473,71 +2233,6 @@ function showLoadCalculator(){
      JAVASCRIPT FUNCTION: SWITCH LOAD TYPE
 ========================================================= -->*/
 
-function switchLoadType(type){
-
-  const residentialData =
-    document.getElementById(
-      'residentialData'
-    );
-
-
-  const industrialData =
-    document.getElementById(
-      'industrialData'
-    );
-
-
-  const residentialTab =
-    document.getElementById(
-      'residentialTab'
-    );
-
-
-  const industrialTab =
-    document.getElementById(
-      'industrialTab'
-    );
-
-
-  if(type === 'industrial'){
-
-    residentialData.style.display =
-      'none';
-
-    industrialData.style.display =
-      'block';
-
-
-    residentialTab.classList.remove(
-      'active'
-    );
-
-    industrialTab.classList.add(
-      'active'
-    );
-
-  }
-
-  else{
-
-    industrialData.style.display =
-      'none';
-
-    residentialData.style.display =
-      'block';
-
-
-    industrialTab.classList.remove(
-      'active'
-    );
-
-    residentialTab.classList.add(
-      'active'
-    );
-
-  }
-
-}
 
 
 /*<!-- =========================================================
@@ -2572,12 +2267,15 @@ function addLoadRow(containerId){
     >
 
 
-    <input
-      type="number"
-      class="load-watt"
-      min="0"
-      placeholder="Watt"
-    >
+    
+<input
+  type="number"
+  class="load-watt"
+  min="0"
+  step="any"
+  placeholder="Watt"
+  oninput="clearKW(this)"
+>
 
 <input
   type="number"
@@ -2585,6 +2283,7 @@ function addLoadRow(containerId){
   min="0"
   step="any"
   placeholder="kW"
+  oninput="clearWatt(this)"
 >
 
 
@@ -2611,42 +2310,36 @@ function addLoadRow(containerId){
   container.appendChild(row);
 
 }
-/* ⬇️ NEW FUNCTION ⬇️ */
-
-function updateLoadVoltage(select){
-
-  const row =
-    select.closest('.load-row');
+/*<!-- =========================================================
+     JAVASCRIPT FUNCTION: LOAD CALCULATION
+========================================================= -->*/
 
 
-  if(!row){
-    return;
+function clearKW(input) {
+  const row = input.closest('.load-row');
+  if (!row) return;
+
+  if (input.value !== '') {
+    row.querySelector('.load-kw').value = '';
   }
 
-
-  const voltage =
-    row.querySelector('.load-voltage');
-
-
-  if(!voltage){
-    return;
-  }
-
-
-  if(select.value === '3'){
-
-    voltage.value = 415;
-
-  }
-
-  else{
-
-    voltage.value = 220;
-
-  }
-
+  calculateLoad(getActiveLoadType());
 }
 
+function clearWatt(input) {
+  const row = input.closest('.load-row');
+  if (!row) return;
+
+  if (input.value !== '') {
+    row.querySelector('.load-watt').value = '';
+  }
+
+  calculateLoad(getActiveLoadType());
+}
+
+function getActiveLoadType() {
+  return 'residential';
+}
 
 /* ⬆️ NEW FUNCTION END ⬆️ */
 
@@ -2691,11 +2384,8 @@ function removeLoadRow(button){
 
 function calculateLoad(type){
 
-  const container = document.getElementById(
-    type === 'industrial'
-      ? 'industrialData'
-      : 'residentialData'
-  );
+ const container =
+  document.getElementById('residentialData');
 
   if(!container) return;
 
@@ -2777,134 +2467,32 @@ function calculateLoad(type){
    JAVASCRIPT: LOAD CALCULATION EVENTS
 ========================================================= */
 
+
 // Input পরিবর্তন হলে হিসাব আপডেট হবে
 document.getElementById('loadPage').addEventListener(
   'input',
-  function(){
-
-    const type =
-      document.getElementById('industrialTab').classList.contains('active')
-        ? 'industrial'
-        : 'residential';
-
-    calculateLoad(type);
-
+  function(event) {
+    if (event.target.closest('.load-row')) {
+      calculateLoad('residential');
+    }
   }
 );
 
-
-// নতুন row যোগ বা Remove করলে হিসাব আপডেট হবে
+// Row Add / Remove হলে হিসাব আপডেট হবে
 document.getElementById('loadPage').addEventListener(
   'click',
-  function(event){
-
-    const type =
-      document.getElementById('industrialTab').classList.contains('active')
-        ? 'industrial'
-        : 'residential';
-
-    if(
+  function(event) {
+    if (
       event.target.closest('.add-load') ||
       event.target.closest('.remove-load')
-    ){
-
-      calculateLoad(type);
-
+    ) {
+      calculateLoad('residential');
     }
-
   }
 );
 
-
-// Tab পরিবর্তন হলে সংশ্লিষ্ট হিসাব দেখাবে
-document.getElementById('loadPage').addEventListener(
-  'click',
-  function(event){
-
-    if(!event.target.closest('.load-tab')) return;
-
-    const tab = event.target.closest('.load-tab');
-
-    const type =
-      tab.id === 'industrialTab'
-        ? 'industrial'
-        : 'residential';
-
-    calculateLoad(type);
-
-  }
-);
-
-
-// প্রথমবার Residential-এর হিসাব দেখাবে
+// প্রথমবার হিসাব
 calculateLoad('residential');
-
-function showLoadCalculator(){
-
-  hideAllPages();
-
-
-  document
-    .getElementById('loadPage')
-    .classList
-    .add('on');
-
-
-  history.pushState(
-    {page:'load'},
-    '',
-    '#load'
-  );
-
-}
-
-
-/* ⬇️ PASTE NEW CODE HERE ⬇️ */
-
-
-function switchLoadType(type){
-
-  const residentialData =
-    document.getElementById('residentialData');
-
-  const industrialData =
-    document.getElementById('industrialData');
-
-  const residentialTab =
-    document.getElementById('residentialTab');
-
-  const industrialTab =
-    document.getElementById('industrialTab');
-
-
-  if(type === 'industrial'){
-
-    residentialData.style.display = 'none';
-
-    industrialData.style.display = 'block';
-
-
-    residentialTab.classList.remove('active');
-
-    industrialTab.classList.add('active');
-
-  }
-
-  else{
-
-    residentialData.style.display = 'block';
-
-    industrialData.style.display = 'none';
-
-
-    residentialTab.classList.add('active');
-
-    industrialTab.classList.remove('active');
-
-  }
-
-}
-
 
 /* =========================================================
      JAVASCRIPT FUNCTION: SHOW RESIDENTIAL
