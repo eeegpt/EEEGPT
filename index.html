@@ -605,12 +605,27 @@ select.unit option{
 
 @media(max-width:600px){
 
-  .load-group{
+  /* Main load calculator card */
+  #loadPage .card{
+    padding:10px 6px;
+    width:100%;
+    min-width:0;
+  }
+
+  /* Load group full width */
+  #loadPage .load-group{
+    width:100%;
+    min-width:0;
+    margin-left:0;
+    margin-right:0;
     padding:8px 4px;
   }
 
-  .load-row{
+  /* Input row uses available width */
+  #loadPage .load-row{
     width:100%;
+    min-width:0;
+
     grid-template-columns:
       minmax(0, 0.8fr)
       repeat(3, minmax(0, 1fr))
@@ -619,8 +634,9 @@ select.unit option{
     gap:3px;
   }
 
-  .load-row input,
-  .load-row select{
+  /* All inputs fit automatically */
+  #loadPage .load-row input,
+  #loadPage .load-row select{
     width:100%;
     min-width:0;
     height:36px;
@@ -628,7 +644,8 @@ select.unit option{
     font-size:11px;
   }
 
-  .remove-load{
+  /* Remove button */
+  #loadPage .remove-load{
     width:24px;
     min-width:24px;
     height:36px;
