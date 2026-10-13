@@ -605,12 +605,15 @@ select.unit option{
 
 @media(max-width:600px){
 
+  .load-group{
+    padding:8px 4px;
+  }
+
   .load-row{
+    width:100%;
     grid-template-columns:
       minmax(0, 0.8fr)
-      minmax(0, 1fr)
-      minmax(0, 1fr)
-      minmax(0, 1fr)
+      repeat(3, minmax(0, 1fr))
       24px;
 
     gap:3px;
@@ -621,7 +624,7 @@ select.unit option{
     width:100%;
     min-width:0;
     height:36px;
-    padding:0 3px;
+    padding:0 2px;
     font-size:11px;
   }
 
