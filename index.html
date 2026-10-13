@@ -1087,36 +1087,22 @@ window.firebaseGet = get;
             >
 
             <input
-              type="number"
-              class="load-watt"
-              
-              min="0"
-              placeholder="Watt"
-            >
-
-            <select
-  class="load-phase"
-  onchange="updateLoadVoltage(this)"
+  type="number"
+  class="load-watt"
+  min="0"
+  step="any"
+  placeholder="Watt"
 >
 
-              <option value="1">
-                1P
-              </option>
+<input
+  type="number"
+  class="load-kw"
+  min="0"
+  step="any"
+  placeholder="kW"
+> 
 
-              <option value="3">
-                3P
-              </option>
-
-            </select>
-
-            <input
-              type="number"
-              class="load-voltage"
-              value="220"
-              min="0"
-              placeholder="Voltage"
-            >
-
+        
             <input
               type="number"
               class="load-hours"
@@ -1172,35 +1158,21 @@ window.firebaseGet = get;
             >
 
             <input
-              type="number"
-              class="load-watt"
-           
-              min="0"
-              placeholder="Watt"
-            >
-
-            <select
-  class="load-phase"
-  onchange="updateLoadVoltage(this)"
+  type="number"
+  class="load-watt"
+  min="0"
+  step="any"
+  placeholder="Watt"
 >
 
-              <option value="1">
-                1P
-              </option>
-
-              <option value="3">
-                3P
-              </option>
-
-            </select>
-
-            <input
-              type="number"
-              class="load-voltage"
-              value="220"
-              min="0"
-              placeholder="Voltage"
-            >
+<input
+  type="number"
+  class="load-kw"
+  min="0"
+  step="any"
+  placeholder="kW"
+>
+    
 
             <input
               type="number"
@@ -1235,770 +1207,6 @@ window.firebaseGet = get;
       </div>
 
 
-      <!-- AC -->
-
-      <div class="load-group">
-
-        <div class="load-group-title">
-          ❄️ AC / Cooling
-        </div>
-
-
-        <div id="acRows">
-
-          <div class="load-row">
-
-            <input
-              type="number"
-              class="load-qty"
-           
-              min="0"
-              placeholder="Qty"
-            >
-
-            <input
-              type="number"
-              class="load-watt"
-         
-              min="0"
-              placeholder="Watt"
-            >
-
-           <select
-  class="load-phase"
-  onchange="updateLoadVoltage(this)"
->
-
-              <option value="1">
-                1P
-              </option>
-
-              <option value="3">
-                3P
-              </option>
-
-            </select>
-
-            <input
-              type="number"
-              class="load-voltage"
-              value="220"
-              min="0"
-              placeholder="Voltage"
-            >
-
-            <input
-              type="number"
-              class="load-hours"
-          
-              min="0"
-              step="0.1"
-              placeholder="Hours"
-            >
-
-            <button
-              type="button"
-              class="remove-load"
-              onclick="removeLoadRow(this)"
-            >
-              ×
-            </button>
-
-          </div>
-
-        </div>
-
-
-        <button
-          type="button"
-          class="add-load"
-          onclick="addLoadRow('acRows')"
-        >
-          ＋ Add AC
-        </button>
-
-      </div>
-
-
-      <!-- SOCKET -->
-
-      <div class="load-group">
-
-        <div class="load-group-title">
-          🔌 Socket / General Load
-        </div>
-
-
-        <div id="socketRows">
-
-          <div class="load-row">
-
-            <input
-              type="number"
-              class="load-qty"
-           
-              min="0"
-              placeholder="Qty"
-            >
-
-            <input
-              type="number"
-              class="load-watt"
-            
-              min="0"
-              placeholder="Watt"
-            >
-
-            <select
-  class="load-phase"
-  onchange="updateLoadVoltage(this)"
->
-
-              <option value="1">
-                1P
-              </option>
-
-              <option value="3">
-                3P
-              </option>
-
-            </select>
-
-            <input
-              type="number"
-              class="load-voltage"
-              value="220"
-              min="0"
-              placeholder="Voltage"
-            >
-
-            <input
-              type="number"
-              class="load-hours"
-              
-              min="0"
-              step="0.1"
-              placeholder="Hours"
-            >
-
-            <button
-              type="button"
-              class="remove-load"
-              onclick="removeLoadRow(this)"
-            >
-              ×
-            </button>
-
-          </div>
-
-        </div>
-
-
-        <button
-          type="button"
-          class="add-load"
-          onclick="addLoadRow('socketRows')"
-        >
-          ＋ Add Socket
-        </button>
-
-      </div>
-
-
-      <!-- WASHING MACHINE -->
-
-      <div class="load-group">
-
-        <div class="load-group-title">
-          🧺 Washing Machine
-        </div>
-
-
-        <div id="washingRows">
-
-          <div class="load-row">
-
-            <input
-              type="number"
-              class="load-qty"
-          
-              min="0"
-              placeholder="Qty"
-            >
-
-            <input
-              type="number"
-              class="load-watt"
-           
-              min="0"
-              placeholder="Watt"
-            >
-
-          <select
-  class="load-phase"
-  onchange="updateLoadVoltage(this)"
->
-
-              <option value="1">
-                1P
-              </option>
-
-              <option value="3">
-                3P
-              </option>
-
-            </select>
-
-            <input
-              type="number"
-              class="load-voltage"
-              value="220"
-              min="0"
-              placeholder="Voltage"
-            >
-
-            <input
-              type="number"
-              class="load-hours"
-         
-              min="0"
-              step="0.1"
-              placeholder="Hours"
-            >
-
-            <button
-              type="button"
-              class="remove-load"
-              onclick="removeLoadRow(this)"
-            >
-              ×
-            </button>
-
-          </div>
-
-        </div>
-
-
-        <button
-          type="button"
-          class="add-load"
-          onclick="addLoadRow('washingRows')"
-        >
-          ＋ Add Washing Machine
-        </button>
-
-      </div>
-
-
-      <!-- MICROWAVE -->
-
-      <div class="load-group">
-
-        <div class="load-group-title">
-          🍲 Microwave
-        </div>
-
-
-        <div id="microwaveRows">
-
-          <div class="load-row">
-
-            <input
-              type="number"
-              class="load-qty"
-             
-              min="0"
-              placeholder="Qty"
-            >
-
-            <input
-              type="number"
-              class="load-watt"
-              
-              min="0"
-              placeholder="Watt"
-            >
-
-           <select
-  class="load-phase"
-  onchange="updateLoadVoltage(this)"
->
-
-              <option value="1">
-                1P
-              </option>
-
-              <option value="3">
-                3P
-              </option>
-
-            </select>
-
-            <input
-              type="number"
-              class="load-voltage"
-              value="220"
-              min="0"
-              placeholder="Voltage"
-            >
-
-            <input
-              type="number"
-              class="load-hours"
-             
-              min="0"
-              step="0.1"
-              placeholder="Hours"
-            >
-
-            <button
-              type="button"
-              class="remove-load"
-              onclick="removeLoadRow(this)"
-            >
-              ×
-            </button>
-
-          </div>
-
-        </div>
-
-
-        <button
-          type="button"
-          class="add-load"
-          onclick="addLoadRow('microwaveRows')"
-        >
-          ＋ Add Microwave
-        </button>
-
-      </div>
-
-
-      <!-- VACUUM -->
-
-      <div class="load-group">
-
-        <div class="load-group-title">
-          🧹 Vacuum Cleaner
-        </div>
-
-
-        <div id="vacuumRows">
-
-          <div class="load-row">
-
-            <input
-              type="number"
-              class="load-qty"
-             
-              min="0"
-              placeholder="Qty"
-            >
-
-            <input
-              type="number"
-              class="load-watt"
-            
-              min="0"
-              placeholder="Watt"
-            >
-
-           <select
-  class="load-phase"
-  onchange="updateLoadVoltage(this)"
->
-
-              <option value="1">
-                1P
-              </option>
-
-              <option value="3">
-                3P
-              </option>
-
-            </select>
-
-            <input
-              type="number"
-              class="load-voltage"
-              value="220"
-              min="0"
-              placeholder="Voltage"
-            >
-
-            <input
-              type="number"
-              class="load-hours"
-              
-              min="0"
-              step="0.1"
-              placeholder="Hours"
-            >
-
-            <button
-              type="button"
-              class="remove-load"
-              onclick="removeLoadRow(this)"
-            >
-              ×
-            </button>
-
-          </div>
-
-        </div>
-
-
-        <button
-          type="button"
-          class="add-load"
-          onclick="addLoadRow('vacuumRows')"
-        >
-          ＋ Add Vacuum Cleaner
-        </button>
-
-      </div>
-
-
-      <!-- GEYSER -->
-
-      <div class="load-group">
-
-        <div class="load-group-title">
-          🚿 Geyser
-        </div>
-
-
-        <div id="geyserRows">
-
-          <div class="load-row">
-
-            <input
-              type="number"
-              class="load-qty"
-              
-              min="0"
-              placeholder="Qty"
-            >
-
-            <input
-              type="number"
-              class="load-watt"
-            
-              min="0"
-              placeholder="Watt"
-            >
-
-           <select
-  class="load-phase"
-  onchange="updateLoadVoltage(this)"
->
-
-              <option value="1">
-                1P
-              </option>
-
-              <option value="3">
-                3P
-              </option>
-
-            </select>
-
-            <input
-              type="number"
-              class="load-voltage"
-              value="220"
-              min="0"
-              placeholder="Voltage"
-            >
-
-            <input
-              type="number"
-              class="load-hours"
-              
-              min="0"
-              step="0.1"
-              placeholder="Hours"
-            >
-
-            <button
-              type="button"
-              class="remove-load"
-              onclick="removeLoadRow(this)"
-            >
-              ×
-            </button>
-
-          </div>
-
-        </div>
-
-
-        <button
-          type="button"
-          class="add-load"
-          onclick="addLoadRow('geyserRows')"
-        >
-          ＋ Add Geyser
-        </button>
-
-      </div>
-
-
-      <!-- INDUCTION -->
-
-      <div class="load-group">
-
-        <div class="load-group-title">
-          🍳 Induction Cooker
-        </div>
-
-
-        <div id="inductionRows">
-
-          <div class="load-row">
-
-            <input
-              type="number"
-              class="load-qty"
-             
-              min="0"
-              placeholder="Qty"
-            >
-
-            <input
-              type="number"
-              class="load-watt"
-             
-              min="0"
-              placeholder="Watt"
-            >
-
-           <select
-  class="load-phase"
-  onchange="updateLoadVoltage(this)"
->
-
-              <option value="1">
-                1P
-              </option>
-
-              <option value="3">
-                3P
-              </option>
-
-            </select>
-
-            <input
-              type="number"
-              class="load-voltage"
-              value="220"
-              min="0"
-              placeholder="Voltage"
-            >
-
-            <input
-              type="number"
-              class="load-hours"
-              
-              min="0"
-              step="0.1"
-              placeholder="Hours"
-            >
-
-            <button
-              type="button"
-              class="remove-load"
-              onclick="removeLoadRow(this)"
-            >
-              ×
-            </button>
-
-          </div>
-
-        </div>
-
-
-        <button
-          type="button"
-          class="add-load"
-          onclick="addLoadRow('inductionRows')"
-        >
-          ＋ Add Induction
-        </button>
-
-      </div>
-
-
-      <!-- TV -->
-
-      <div class="load-group">
-
-        <div class="load-group-title">
-          📺 TV
-        </div>
-
-
-        <div id="tvRows">
-
-          <div class="load-row">
-
-            <input
-              type="number"
-              class="load-qty"
-              
-              min="0"
-              placeholder="Qty"
-            >
-
-            <input
-              type="number"
-              class="load-watt"
-              
-              min="0"
-              placeholder="Watt"
-            >
-
-           <select
-  class="load-phase"
-  onchange="updateLoadVoltage(this)"
->
-
-              <option value="1">
-                1P
-              </option>
-
-              <option value="3">
-                3P
-              </option>
-
-            </select>
-
-            <input
-              type="number"
-              class="load-voltage"
-              value="220"
-              min="0"
-              placeholder="Voltage"
-            >
-
-            <input
-              type="number"
-              class="load-hours"
-             
-              min="0"
-              step="0.1"
-              placeholder="Hours"
-            >
-
-            <button
-              type="button"
-              class="remove-load"
-              onclick="removeLoadRow(this)"
-            >
-              ×
-            </button>
-
-          </div>
-
-        </div>
-
-
-        <button
-          type="button"
-          class="add-load"
-          onclick="addLoadRow('tvRows')"
-        >
-          ＋ Add TV
-        </button>
-
-      </div>
-
-
-      <!-- FREEZER -->
-
-      <div class="load-group">
-
-        <div class="load-group-title">
-          🧊 Freezer / Fridge
-        </div>
-
-
-        <div id="freezerRows">
-
-          <div class="load-row">
-
-            <input
-              type="number"
-              class="load-qty"
-            
-              min="0"
-              placeholder="Qty"
-            >
-
-            <input
-              type="number"
-              class="load-watt"
-             
-              min="0"
-              placeholder="Watt"
-            >
-
-           <select
-  class="load-phase"
-  onchange="updateLoadVoltage(this)"
->
-
-              <option value="1">
-                1P
-              </option>
-
-              <option value="3">
-                3P
-              </option>
-
-            </select>
-
-            <input
-              type="number"
-              class="load-voltage"
-              value="220"
-              min="0"
-              placeholder="Voltage"
-            >
-
-            <input
-              type="number"
-              class="load-hours"
-              
-              min="0"
-              step="0.1"
-              placeholder="Hours"
-            >
-
-            <button
-              type="button"
-              class="remove-load"
-              onclick="removeLoadRow(this)"
-            >
-              ×
-            </button>
-
-          </div>
-
-        </div>
-
-
-        <button
-          type="button"
-          class="add-load"
-          onclick="addLoadRow('freezerRows')"
-        >
-          ＋ Add Freezer
-        </button>
-
-      </div>
-
 
       <!-- OTHER LOAD -->
 
@@ -2021,37 +1229,22 @@ window.firebaseGet = get;
               placeholder="Qty"
             >
 
-            <input
-              type="number"
-              class="load-watt"
-             
-              min="0"
-              placeholder="Watt"
-            >
-
-           <select
-  class="load-phase"
-  onchange="updateLoadVoltage(this)"
+           <input
+  type="number"
+  class="load-watt"
+  min="0"
+  step="any"
+  placeholder="Watt"
 >
 
-              <option value="1">
-                1P
-              </option>
-
-              <option value="3">
-                3P
-              </option>
-
-            </select>
-
-            <input
-              type="number"
-              class="load-voltage"
-              value="220"
-              min="0"
-              placeholder="Voltage"
-            >
-
+<input
+  type="number"
+  class="load-kw"
+  min="0"
+  step="any"
+  placeholder="kW"
+>
+     
             <input
               type="number"
               class="load-hours"
@@ -2123,36 +1316,21 @@ window.firebaseGet = get;
               placeholder="Qty"
             >
 
-            <input
-              type="number"
-              class="load-watt"
-             
-              min="0"
-              placeholder="Watt"
-            >
-
-           <select
-  class="load-phase"
-  onchange="updateLoadVoltage(this)"
+           <input
+  type="number"
+  class="load-watt"
+  min="0"
+  step="any"
+  placeholder="Watt"
 >
 
-              <option value="1" selected>
-                1P
-              </option>
-
-              <option value="3">
-                3P
-              </option>
-
-            </select>
-
-            <input
-              type="number"
-              class="load-voltage"
-              value="220"
-              min="0"
-              placeholder="Voltage"
-            >
+<input
+  type="number"
+  class="load-kw"
+  min="0"
+  step="any"
+  placeholder="kW"
+>
 
             <input
               type="number"
@@ -2208,36 +1386,21 @@ window.firebaseGet = get;
               placeholder="Qty"
             >
 
-            <input
-              type="number"
-              class="load-watt"
-            
-              min="0"
-              placeholder="Watt"
-            >
-
-           <select
-  class="load-phase"
-  onchange="updateLoadVoltage(this)"
+           <input
+  type="number"
+  class="load-watt"
+  min="0"
+  step="any"
+  placeholder="Watt"
 >
 
-              <option value="1" selected>
-                1P
-              </option>
-
-              <option value="3">
-                3P
-              </option>
-
-            </select>
-
-            <input
-              type="number"
-              class="load-voltage"
-              value="220"
-              min="0"
-              placeholder="Voltage"
-            >
+<input
+  type="number"
+  class="load-kw"
+  min="0"
+  step="any"
+  placeholder="kW"
+>
 
             <input
               type="number"
@@ -2272,90 +1435,7 @@ window.firebaseGet = get;
       </div>
 
 
-      <!-- INDUSTRIAL AC -->
-
-      <div class="load-group">
-
-        <div class="load-group-title">
-          ❄️ AC / Cooling
-        </div>
-
-
-        <div id="industrialAcRows">
-
-          <div class="load-row">
-
-            <input
-              type="number"
-              class="load-qty"
-            
-              min="0"
-              placeholder="Qty"
-            >
-
-            <input
-              type="number"
-              class="load-watt"
-             
-              min="0"
-              placeholder="Watt"
-            >
-
-           <select
-  class="load-phase"
-  onchange="updateLoadVoltage(this)"
->
-
-              <option value="1" selected>
-                1P
-              </option>
-
-              <option value="3">
-                3P
-              </option>
-
-            </select>
-
-            <input
-              type="number"
-              class="load-voltage"
-              value="220"
-              min="0"
-              placeholder="Voltage"
-            >
-
-            <input
-              type="number"
-              class="load-hours"
-             
-              min="0"
-              step="0.1"
-              placeholder="Hours"
-            >
-
-            <button
-              type="button"
-              class="remove-load"
-              onclick="removeLoadRow(this)"
-            >
-              ×
-            </button>
-
-          </div>
-
-        </div>
-
-
-        <button
-          type="button"
-          class="add-load"
-          onclick="addLoadRow('industrialAcRows')"
-        >
-          ＋ Add AC
-        </button>
-
-      </div>
-
+     
 
       <!-- INDUSTRIAL OTHER LOAD -->
 
@@ -2378,37 +1458,21 @@ window.firebaseGet = get;
               placeholder="Qty"
             >
 
-            <input
-              type="number"
-              class="load-watt"
-          
-              min="0"
-              placeholder="Watt"
-            >
-
-            <select
-  class="load-phase"
-  onchange="updateLoadVoltage(this)"
+           <input
+  type="number"
+  class="load-watt"
+  min="0"
+  step="any"
+  placeholder="Watt"
 >
 
-
-              <option value="1" selected>
-                1P
-              </option>
-
-              <option value="3">
-                3P
-              </option>
-
-            </select>
-
-            <input
-              type="number"
-              class="load-voltage"
-              value="220"
-              min="0"
-              placeholder="Voltage"
-            >
+<input
+  type="number"
+  class="load-kw"
+  min="0"
+  step="any"
+  placeholder="kW"
+>
 
             <input
               type="number"
@@ -3515,30 +2579,13 @@ function addLoadRow(containerId){
       placeholder="Watt"
     >
 
-
-    <select
-      class="load-phase"
-      onchange="updateLoadVoltage(this)"
-    >
-
-      <option value="1" selected>
-        1P
-      </option>
-
-      <option value="3">
-        3P
-      </option>
-
-    </select>
-
-
-    <input
-      type="number"
-      class="load-voltage"
-      value="220"
-      min="0"
-      placeholder="Voltage"
-    >
+<input
+  type="number"
+  class="load-kw"
+  min="0"
+  step="any"
+  placeholder="kW"
+>
 
 
     <input
@@ -3638,6 +2685,159 @@ function removeLoadRow(button){
   row.remove();
 
 }
+/* =========================================================
+   JAVASCRIPT FUNCTION: LOAD CALCULATION
+========================================================= */
+
+function calculateLoad(type){
+
+  const container = document.getElementById(
+    type === 'industrial'
+      ? 'industrialData'
+      : 'residentialData'
+  );
+
+  if(!container) return;
+
+  let totalWatt = 0;
+  let totalKWh = 0;
+
+  container.querySelectorAll('.load-row').forEach(row => {
+
+    const qtyInput = row.querySelector('.load-qty');
+    const wattInput = row.querySelector('.load-watt');
+    const kwInput = row.querySelector('.load-kw');
+    const hoursInput = row.querySelector('.load-hours');
+
+    if(!qtyInput || !wattInput || !kwInput || !hoursInput) return;
+
+    const qtyText = qtyInput.value.trim();
+    const wattText = wattInput.value.trim();
+    const kwText = kwInput.value.trim();
+    const hoursText = hoursInput.value.trim();
+
+    if(qtyText === '') return;
+
+    const qty = Number(qtyText);
+
+    if(!Number.isFinite(qty) || qty < 0) return;
+
+    // একই row-তে Watt ও kW দুটো পূরণ করা যাবে না
+    if(wattText !== '' && kwText !== '') return;
+
+    let unitWatt = 0;
+
+    if(wattText !== ''){
+
+      unitWatt = Number(wattText);
+
+    } else if(kwText !== ''){
+
+      unitWatt = Number(kwText) * 1000;
+
+    } else {
+
+      return;
+
+    }
+
+    if(!Number.isFinite(unitWatt) || unitWatt < 0) return;
+
+    const connectedWatt = qty * unitWatt;
+
+    totalWatt += connectedWatt;
+
+    if(hoursText !== ''){
+
+      const hours = Number(hoursText);
+
+      if(Number.isFinite(hours) && hours >= 0){
+
+        totalKWh += connectedWatt * hours / 1000;
+
+      }
+
+    }
+
+  });
+
+  document.getElementById('loadTotalWatt').textContent =
+    `${Number(totalWatt.toFixed(4))} W`;
+
+  document.getElementById('loadTotalKW').textContent =
+    `Total = ${Number((totalWatt / 1000).toFixed(4))} kW`;
+
+  document.getElementById('loadTotalKWH').textContent =
+    `Energy = ${Number(totalKWh.toFixed(4))} kWh`;
+
+}
+
+
+/* =========================================================
+   JAVASCRIPT: LOAD CALCULATION EVENTS
+========================================================= */
+
+// Input পরিবর্তন হলে হিসাব আপডেট হবে
+document.getElementById('loadPage').addEventListener(
+  'input',
+  function(){
+
+    const type =
+      document.getElementById('industrialTab').classList.contains('active')
+        ? 'industrial'
+        : 'residential';
+
+    calculateLoad(type);
+
+  }
+);
+
+
+// নতুন row যোগ বা Remove করলে হিসাব আপডেট হবে
+document.getElementById('loadPage').addEventListener(
+  'click',
+  function(event){
+
+    const type =
+      document.getElementById('industrialTab').classList.contains('active')
+        ? 'industrial'
+        : 'residential';
+
+    if(
+      event.target.closest('.add-load') ||
+      event.target.closest('.remove-load')
+    ){
+
+      calculateLoad(type);
+
+    }
+
+  }
+);
+
+
+// Tab পরিবর্তন হলে সংশ্লিষ্ট হিসাব দেখাবে
+document.getElementById('loadPage').addEventListener(
+  'click',
+  function(event){
+
+    if(!event.target.closest('.load-tab')) return;
+
+    const tab = event.target.closest('.load-tab');
+
+    const type =
+      tab.id === 'industrialTab'
+        ? 'industrial'
+        : 'residential';
+
+    calculateLoad(type);
+
+  }
+);
+
+
+// প্রথমবার Residential-এর হিসাব দেখাবে
+calculateLoad('residential');
 
 function showLoadCalculator(){
 
