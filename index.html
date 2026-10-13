@@ -474,7 +474,99 @@ select.unit option{
   margin-top:12px;
   line-height:1.5;
 }
+/* LOAD RESULT: Highlight total kW */
+#loadPage .load-result-kw{
+  display:block;
+  margin-top:8px;
+  padding:12px;
+  border:1px solid var(--g);
+  border-radius:10px;
+  background:#10231b;
+}
 
+#loadPage .load-result-kw .result-label{
+  color:var(--m);
+  font-size:11px;
+  margin-bottom:5px;
+}
+
+#loadPage .load-result-kw .result-value{
+  color:var(--g);
+  font-size:28px;
+  font-weight:800;
+}
+
+/* Calculation details */
+#loadPage .load-details{
+  margin-top:12px;
+  padding:12px;
+  border:1px solid var(--l);
+  border-radius:10px;
+  background:#0c1214;
+}
+
+#loadPage .load-details summary{
+  color:var(--g);
+  font-weight:700;
+  cursor:pointer;
+  font-size:12px;
+}
+
+#loadPage .load-details .formula{
+  overflow-wrap:anywhere;
+  line-height:1.7;
+}
+/* LOAD CALCULATOR RESULT */
+
+#loadPage .load-result-kw {
+  display: block;
+  margin-top: 8px;
+  padding: 12px;
+  border: 1px solid var(--g);
+  border-radius: 10px;
+  background: #10231b;
+}
+
+#loadPage .result-label {
+  color: var(--m);
+  font-size: 11px;
+  margin-bottom: 5px;
+}
+
+#loadPage .result-value {
+  color: var(--g);
+  font-size: 28px;
+  font-weight: 800;
+  overflow-wrap: anywhere;
+}
+
+#loadPage .load-details {
+  margin-top: 12px;
+  padding: 12px;
+  border: 1px solid var(--l);
+  border-radius: 10px;
+  background: #0c1214;
+}
+
+#loadPage .load-details summary {
+  color: var(--g);
+  font-weight: 700;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+#loadPage .formula-line {
+  padding: 10px 0;
+  border-bottom: 1px solid #2b3738;
+  color: var(--m);
+  font-size: 11px;
+  line-height: 1.7;
+  overflow-wrap: anywhere;
+}
+
+#loadPage .formula-line strong {
+  color: var(--t);
+}
 /* =========================================================
    CSS: LOAD CALCULATOR
 ========================================================= */
@@ -1281,46 +1373,29 @@ window.firebaseGet = get;
 
 
 
-    <!-- RESULT -->
+ <!-- RESULT -->
 
-    <div class="result">
+<div class="result">
 
-      <div class="label">
-        TOTAL LOAD / মোট লোড
-      </div>
+<div class="label"> TOTAL CONNECTED LOAD </div>
 
+<!-- Highlighted kW Result --> <div class="load-result-kw"> <div class="result-label"> TOTAL LOAD (kW) </div>
 
-      <div
-        class="big"
-        id="loadTotalWatt"
-      >
-        0 W
-      </div>
+<div class="result-value" id="loadTotalKW"> 0 kW </div> </div>
 
+<div class="formula" id="loadTotalWatt"> Total Load = 0 W </div>
 
-      <div
-        class="formula"
-        id="loadTotalKW"
-      >
-        Total = 0 kW
-      </div>
+<div class="formula" id="loadTotalKWH"> Daily Energy = 0 kWh </div>
 
+<!-- Calculation Details --> <details class="load-details" open> <summary>Calculation Details / হিসাবের সূত্র</summary>
 
-      <div
-        class="formula"
-        id="loadTotalKWH"
-      >
-        Energy = 0 kWh
-      </div>
+<div id="loadFormulaDetails" class="formula" > Enter quantity, Watt or kW, and daily usage hours. </div> </details>
 
-    </div>
+</div>
 
-
-  </div>
+</div>
 
 </section>
-
-
 
 <!-- =========================================================
      HTML: RESIDENTIAL LOAD
@@ -1343,143 +1418,6 @@ window.firebaseGet = get;
       alt="EEEGPT"
     >
 
-
-    <div>
-
-      <div class="title">
-        Residential Load
-      </div>
-
-      <div class="sub">
-        বাসাবাড়ির লোড হিসাব
-      </div>
-
-    </div>
-
-  </div>
-
-
-  <div class="card">
-
-
-    <div class="label">
-      RESIDENTIAL / বাসাবাড়ি
-    </div>
-
-
-    <!-- LIGHTING -->
-
-    <div class="tool">
-
-      <span class="tool-icon">
-        💡
-      </span>
-
-      <span>
-
-        <b>
-          Lighting Load
-        </b>
-
-        <small>
-          বাতির মোট লোড
-        </small>
-
-      </span>
-
-    </div>
-
-
-    <!-- FAN -->
-
-    <div class="tool">
-
-      <span class="tool-icon">
-        🌀
-      </span>
-
-      <span>
-
-        <b>
-          Fan Load
-        </b>
-
-        <small>
-          ফ্যানের মোট লোড
-        </small>
-
-      </span>
-
-    </div>
-
-
-    <!-- AC -->
-
-    <div class="tool">
-
-      <span class="tool-icon">
-        ❄️
-      </span>
-
-      <span>
-
-        <b>
-          AC / Cooling Load
-        </b>
-
-        <small>
-          এসি ও কুলিং লোড
-        </small>
-
-      </span>
-
-    </div>
-
-
-    <!-- SOCKET -->
-
-    <div class="tool">
-
-      <span class="tool-icon">
-        🔌
-      </span>
-
-      <span>
-
-        <b>
-          Socket / General Load
-        </b>
-
-        <small>
-          সাধারণ সকেট ও অন্যান্য লোড
-        </small>
-
-      </span>
-
-    </div>
-
-
-    <!-- RESULT -->
-
-    <div class="result">
-
-      <div class="label">
-        ESTIMATED RUNNING LOAD / আনুমানিক চলমান লোড
-      </div>
-
-      <div
-        class="big"
-        id="residentialRunningLoad"
-      >
-        0 W
-      </div>
-
-    </div>
-
-
-  </div>
-
-</section>
 
 
 
@@ -2395,15 +2333,16 @@ function removeLoadRow(button){
 
 function calculateLoad(type){
 
- const container =
-  document.getElementById('residentialData');
+  const container =
+    document.getElementById('residentialData');
 
   if(!container) return;
 
   let totalWatt = 0;
   let totalKWh = 0;
+  let details = [];
 
-  container.querySelectorAll('.load-row').forEach(row => {
+  container.querySelectorAll('.load-row').forEach((row, index) => {
 
     const qtyInput = row.querySelector('.load-qty');
     const wattInput = row.querySelector('.load-watt');
@@ -2421,58 +2360,100 @@ function calculateLoad(type){
 
     const qty = Number(qtyText);
 
-    if(!Number.isFinite(qty) || qty < 0) return;
+    if(!Number.isFinite(qty) || qty <= 0) return;
 
-    // একই row-তে Watt ও kW দুটো পূরণ করা যাবে না
     if(wattText !== '' && kwText !== '') return;
 
-    let unitWatt = 0;
+    let unitWatt;
 
     if(wattText !== ''){
-
       unitWatt = Number(wattText);
-
-    } else if(kwText !== ''){
-
+    }else if(kwText !== ''){
       unitWatt = Number(kwText) * 1000;
-
-    } else {
-
+    }else{
       return;
-
     }
 
-    if(!Number.isFinite(unitWatt) || unitWatt < 0) return;
+    if(!Number.isFinite(unitWatt) || unitWatt <= 0) return;
 
     const connectedWatt = qty * unitWatt;
+    const connectedKW = connectedWatt / 1000;
 
     totalWatt += connectedWatt;
 
+    let hours = 0;
+
     if(hoursText !== ''){
+      hours = Number(hoursText);
 
-      const hours = Number(hoursText);
-
-      if(Number.isFinite(hours) && hours >= 0){
-
-        totalKWh += connectedWatt * hours / 1000;
-
+      if(!Number.isFinite(hours) || hours < 0){
+        hours = 0;
       }
-
     }
+
+    const energy = connectedKW * hours;
+    totalKWh += energy;
+
+    details.push(`
+      <div class="formula-line">
+        <strong>Load ${index + 1}</strong><br>
+        Quantity = ${qty}<br>
+        Unit Load = ${Number(unitWatt.toFixed(4))} W<br>
+        Connected Load = ${qty} × ${Number(unitWatt.toFixed(4))} = 
+        <strong>${Number(connectedWatt.toFixed(4))} W</strong><br>
+        Connected Load in kW = ${Number(connectedWatt.toFixed(4))} ÷ 1000 =
+        <strong>${Number(connectedKW.toFixed(4))} kW</strong><br>
+        Daily Energy = ${Number(connectedKW.toFixed(4))} × ${hours} h =
+        <strong>${Number(energy.toFixed(4))} kWh</strong>
+      </div>
+    `);
 
   });
 
-  document.getElementById('loadTotalWatt').textContent =
-    `${Number(totalWatt.toFixed(4))} W`;
+  const totalKW = totalWatt / 1000;
 
   document.getElementById('loadTotalKW').textContent =
-    `Total = ${Number((totalWatt / 1000).toFixed(4))} kW`;
+    `${Number(totalKW.toFixed(4))} kW`;
+
+  document.getElementById('loadTotalWatt').textContent =
+    `Total Load = ${Number(totalWatt.toFixed(4))} W`;
 
   document.getElementById('loadTotalKWH').textContent =
-    `Energy = ${Number(totalKWh.toFixed(4))} kWh`;
+    `Daily Energy = ${Number(totalKWh.toFixed(4))} kWh`;
+
+  const formulaDetails =
+    document.getElementById('loadFormulaDetails');
+
+  if(formulaDetails){
+
+    formulaDetails.innerHTML = `
+      <div class="formula-line">
+        <strong>Formula 1: Connected Load</strong><br>
+        Total Load (W) = Quantity × Unit Watt<br>
+        Total Load (kW) = Total Watt ÷ 1000
+      </div>
+
+      <div class="formula-line">
+        <strong>Formula 2: Energy Consumption</strong><br>
+        Energy (kWh) = Load (kW) × Usage Hours
+      </div>
+
+      ${details.length
+        ? details.join('')
+        : '<div class="formula-line">Enter quantity and Watt or kW to calculate the result.</div>'
+      }
+
+      <div class="formula-line">
+        <strong>Final Total</strong><br>
+        Connected Load = ${Number(totalWatt.toFixed(4))} W<br>
+        Connected Load = ${Number(totalKW.toFixed(4))} kW<br>
+        Total Energy = ${Number(totalKWh.toFixed(4))} kWh/day
+      </div>
+    `;
+
+  }
 
 }
-
 
 /* =========================================================
    JAVASCRIPT: LOAD CALCULATION EVENTS
