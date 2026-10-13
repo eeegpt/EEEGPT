@@ -654,6 +654,48 @@ select.unit option{
   }
 
 }
+@media (max-width: 600px) {
+
+  .app {
+    width: 100%;
+    max-width: 100%;
+    padding-left: 6px;
+    padding-right: 6px;
+  }
+
+  #loadPage {
+    width: 100%;
+    min-width: 0;
+  }
+
+  #loadPage .card {
+    width: 100%;
+    padding: 8px 4px;
+  }
+
+  #loadPage .load-group {
+    width: 100%;
+    padding: 8px 3px;
+  }
+
+  #loadPage .load-row {
+    width: 100%;
+    min-width: 0;
+    grid-template-columns:
+      minmax(0, 0.8fr)
+      repeat(3, minmax(0, 1fr))
+      24px;
+    gap: 3px;
+  }
+
+  #loadPage .load-row input {
+    width: 100%;
+    min-width: 0;
+    padding: 0 2px;
+    font-size: 11px;
+  }
+
+}
 /* =========================================================
    CSS: RESPONSIVE
 ========================================================= */
