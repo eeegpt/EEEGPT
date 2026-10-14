@@ -1,6 +1,7 @@
+
 {
   "id": "/index.html",
-    "name": "EEEGPT – Electrical Engineering Assistant",
+  "name": "EEEGPT – Electrical Engineering Assistant",
   "short_name": "EEEGPT",
   "description": "Smart Electrical & Electronics Engineering Calculator and Assistant",
   "start_url": "./index.html",
@@ -12,7 +13,14 @@
     {
       "src": "./assets/icon.webp",
       "sizes": "512x512",
-      "type": "image/webp"
+      "type": "image/webp",
+      "purpose": "any"
+    },
+    {
+      "src": "./assets/icon-maskable.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
     }
   ]
 }
