@@ -2170,34 +2170,36 @@ function getActiveLoadType() {
      JAVASCRIPT FUNCTION: REMOVE LOAD ROW
 ========================================================= -->*/
 
-function removeLoadRow(button){
+function removeLoadRow(button) {
+  const row = button.closest('.load-row');
+  if (!row) return;
 
-  const row =
-    button.closest(
-      '.load-row'
-    );
+  // Check whether this row already has any entered values
+  const inputs = row.querySelectorAll('input');
 
+  const hasValues = Array.from(inputs).some(
+    input => input.value.trim() !== ''
+  );
 
-  if(!row){
+  // First click: clear values only
+  if (hasValues) {
+    inputs.forEach(input => {
+      input.value = '';
+    });
+
+    calculateLoad('residential');
     return;
   }
 
+  // Second click: remove the empty row,
+  // but keep at least one row in each group
+  const container = row.parentElement;
 
-  const container =
-    row.parentElement;
-
-
-  if(
-    container.children.length <= 1
-  ){
-
-    return;
-
+  if (container.children.length > 1) {
+    row.remove();
   }
 
-
-  row.remove();
-
+  calculateLoad('residential');
 }
 /* =========================================================
    JAVASCRIPT FUNCTION: LOAD CALCULATION
