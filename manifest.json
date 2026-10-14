@@ -9,18 +9,19 @@
   "background_color": "#0b1012",
   "theme_color": "#0b1012",
   "orientation": "portrait",
-  "icons": [
-    {
-      "src": "./assets/icon.webp",
-      "sizes": "512x512",
-      "type": "image/webp",
-      "purpose": "any"
-    },
-    {
-      "src": "./assets/icon-maskable.png",
-      "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "maskable"
-    }
-  ]
-}
+"icons": [
+  {
+    "src": "/assets/icon.webp",
+    "sizes": "512x512",
+    "type": "image/webp",
+    "purpose": "any"
+  },
+  {
+    "src": "/assets/android-icon.webp",
+    "sizes": "512x512",
+    "type": "image/webp",
+    "purpose": "maskable"
+  }
+]
+
+ }
