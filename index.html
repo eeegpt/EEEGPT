@@ -513,7 +513,9 @@ select.unit option{
   overflow-wrap:anywhere;
   line-height:1.7;
 }
-/* LOAD CALCULATOR RESULT */
+/* =========================================================
+   CSS: LOAD CALCULATOR RESULTS
+========================================================= */
 
 #loadPage .load-result-kw {
   display: block;
@@ -524,13 +526,13 @@ select.unit option{
   background: #10231b;
 }
 
-#loadPage .result-label {
+#loadPage .load-result-kw .result-label {
   color: var(--m);
   font-size: 11px;
   margin-bottom: 5px;
 }
 
-#loadPage .result-value {
+#loadPage .load-result-kw .result-value {
   color: var(--g);
   font-size: 28px;
   font-weight: 800;
@@ -552,16 +554,16 @@ select.unit option{
   font-size: 12px;
 }
 
-#loadPage .formula-line {
+#loadPage .load-details .formula-line {
   padding: 10px 0;
-  border-bottom: 1px solid #2b3738;
+  border-bottom: 1px solid var(--l);
   color: var(--m);
   font-size: 11px;
   line-height: 1.7;
   overflow-wrap: anywhere;
 }
 
-#loadPage .formula-line strong {
+#loadPage .load-details .formula-line strong {
   color: var(--t);
 }
 /* =========================================================
@@ -744,6 +746,19 @@ select.unit option{
     grid-template-columns:1fr 125px;
   }
 
+}
+
+/* HOME PAGE: BASIC CONTENT PROTECTION */
+#home {
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+}
+
+#home img {
+  -webkit-user-drag: none;
+  user-drag: none;
+  pointer-events: none;
 }
 
 </style>
@@ -1376,17 +1391,26 @@ window.firebaseGet = get;
 
 <div class="label"> TOTAL CONNECTED LOAD </div>
 
-<!-- Highlighted kW Result --> <div class="load-result-kw"> <div class="result-label"> TOTAL LOAD (kW) </div>
+<!-- Highlighted kW Result --> 
+ <div class="load-result-kw">
+   <div class="result-label"> 
+    TOTAL LOAD (kW) </div>
 
-<div class="result-value" id="loadTotalKW"> 0 kW </div> </div>
+<div class="result-value" id="loadTotalKW"> 
+  0 kW </div> </div>
 
-<div class="formula" id="loadTotalWatt"> Total Load = 0 W </div>
+<div class="formula" id="loadTotalWatt">
+   Total Load = 0 W </div>
 
-<div class="formula" id="loadTotalKWH"> Daily Energy = 0 kWh </div>
+<div class="formula" id="loadTotalKWH">
+   Daily Energy = 0 kWh </div>
 
-<!-- Calculation Details --> <details class="load-details" open> <summary>Calculation Details / হিসাবের সূত্র</summary>
+<!-- Calculation Details --> 
+ <details class="load-details">
+   <summary>Calculation Details / হিসাবের সূত্র</summary>
 
-<div id="loadFormulaDetails" class="formula" > Enter quantity, Watt or kW, and daily usage hours. </div> </details>
+<div id="loadFormulaDetails" class="formula" > 
+  Enter quantity, Watt or kW, and daily usage hours. </div> </details>
 
 </div>
 
@@ -1627,188 +1651,126 @@ window.firebaseGet = get;
 
 
 const C = [
-
-  [
-    'kwamp',
-    'kW → Amp',
-    'A',
-
-    x =>
-      x * 1000 /
-      (
-        (P === 3 ? Math.sqrt(3) : 1)
-        * V
-        * PF
-        * 0.9
-      ),
-
-    'I = kW × 1000 / (√3 × V × PF × η)'
-  ],
-
-
-  [
-    'kww',
-    'kW → Watt',
-    'W',
-
-    x =>
-      x * 1000,
-
-    'W = kW × 1000'
-  ],
-
-
-  [
-    'kwh',
-    'kW → HP',
-    'HP',
-
-    x =>
-      x / 0.7457,
-
-    'HP = kW / 0.7457'
-  ],
-
-
-  [
-    'aw',
-    'Amp → Watt',
-    'W',
-
-    x =>
-      x
-      * (P === 3 ? Math.sqrt(3) : 1)
-      * V
-      * PF,
-
-    'W = I × √3 × V × PF'
-  ],
-
-
-  [
-    'ah',
-    'Amp → HP',
-    'HP',
-
-    x =>
-      x
-      * (P === 3 ? Math.sqrt(3) : 1)
-      * V
-      * PF
-      * 0.9
-      / 745.7,
-
-    'HP = I × √3 × V × PF × η / 745.7'
-  ],
-
-
-  [
-    'ak',
-    'Amp → kW',
-    'kW',
-
-    x =>
-      x
-      * (P === 3 ? Math.sqrt(3) : 1)
-      * V
-      * PF
-      / 1000,
-
-    'kW = I × √3 × V × PF / 1000'
-  ],
-
-
-  [
-    'wk',
-    'Watt → kW',
-    'kW',
-
-    x =>
-      x / 1000,
-
-    'kW = W / 1000'
-  ],
-
-
-  [
-    'wa',
-    'Watt → Amp',
-    'A',
-
-    x =>
-      x /
-      (
-        (P === 3 ? Math.sqrt(3) : 1)
-        * V
-        * PF
-      ),
-
-    'I = W / (√3 × V × PF)'
-  ],
-
-
-  [
-    'wh',
-    'Watt → HP',
-    'HP',
-
-    x =>
-      x / 745.7,
-
-    'HP = W / 745.7'
-  ],
-
-
-  [
-    'hk',
-    'HP → kW',
-    'kW',
-
-    x =>
-      x * 0.7457,
-
-    'kW = HP × 0.7457'
-  ],
-
-
-  [
-    'hw',
-    'HP → Watt',
-    'W',
-
-    x =>
-      x * 745.7,
-
-    'W = HP × 745.7'
-  ],
-
-
-  [
-    'ha',
-    'HP → Amp',
-    'A',
-
-    x =>
-      x
-      * 745.7
-      /
-      (
-        (P === 3 ? Math.sqrt(3) : 1)
-        * V
-        * PF
-        * 0.9
-      ),
-
-    'I = HP × 745.7 / (√3 × V × PF × η)'
-  ]
-
+  {
+    id: 'kwamp',
+    label: 'kW → Amp',
+    unit: 'A',
+    formula: () => P === 3
+      ? 'I = P × 1000 / (√3 × V × PF × η)'
+      : 'I = P × 1000 / (V × PF × η)',
+    calculate: x => {
+      const factor = P === 3 ? Math.sqrt(3) : 1;
+      return (x * 1000) / (factor * V * PF * 0.9);
+    }
+  },
+  {
+    id: 'kww',
+    label: 'kW → Watt',
+    unit: 'W',
+    formula: () => 'W = kW × 1000',
+    calculate: x => x * 1000
+  },
+  {
+    id: 'kwh',
+    label: 'kW → HP',
+    unit: 'HP',
+    formula: () => 'HP = kW × 1000 / 745.7',
+    calculate: x => (x * 1000) / 745.7
+  },
+  {
+    id: 'aw',
+    label: 'Amp → Watt',
+    unit: 'W',
+    formula: () => P === 3
+      ? 'P = √3 × V × I × PF'
+      : 'P = V × I × PF',
+    calculate: x => {
+      const factor = P === 3 ? Math.sqrt(3) : 1;
+      return factor * V * x * PF;
+    }
+  },
+  {
+    id: 'ah',
+    label: 'Amp → HP',
+    unit: 'HP',
+    formula: () => P === 3
+      ? 'HP = √3 × V × I × PF × η / 745.7'
+      : 'HP = V × I × PF × η / 745.7',
+    calculate: x => {
+      const factor = P === 3 ? Math.sqrt(3) : 1;
+      return factor * V * x * PF * 0.9 / 745.7;
+    }
+  },
+  {
+    id: 'ak',
+    label: 'Amp → kW',
+    unit: 'kW',
+    formula: () => P === 3
+      ? 'kW = √3 × V × I × PF / 1000'
+      : 'kW = V × I × PF / 1000',
+    calculate: x => {
+      const factor = P === 3 ? Math.sqrt(3) : 1;
+      return factor * V * x * PF / 1000;
+    }
+  },
+  {
+    id: 'wk',
+    label: 'Watt → kW',
+    unit: 'kW',
+    formula: () => 'kW = W / 1000',
+    calculate: x => x / 1000
+  },
+  {
+    id: 'wa',
+    label: 'Watt → Amp',
+    unit: 'A',
+    formula: () => P === 3
+      ? 'I = P / (√3 × V × PF)'
+      : 'I = P / (V × PF)',
+    calculate: x => {
+      const factor = P === 3 ? Math.sqrt(3) : 1;
+      return x / (factor * V * PF);
+    }
+  },
+  {
+    id: 'wh',
+    label: 'Watt → HP',
+    unit: 'HP',
+    formula: () => 'HP = W / 745.7',
+    calculate: x => x / 745.7
+  },
+  {
+    id: 'hk',
+    label: 'HP → kW',
+    unit: 'kW',
+    formula: () => 'kW = HP × 0.7457',
+    calculate: x => x * 0.7457
+  },
+  {
+    id: 'hw',
+    label: 'HP → Watt',
+    unit: 'W',
+    formula: () => 'W = HP × 745.7',
+    calculate: x => x * 745.7
+  },
+  {
+    id: 'ha',
+    label: 'HP → Amp',
+    unit: 'A',
+    formula: () => P === 3
+      ? 'I = HP × 745.7 / (√3 × V × PF × η)'
+      : 'I = HP × 745.7 / (V × PF × η)',
+    calculate: x => {
+      const factor = P === 3 ? Math.sqrt(3) : 1;
+      return (x * 745.7) / (factor * V * PF * 0.9);
+    }
+  }
 ];
 
 
 /* =========================================================
-     JAVASCRIPT: CONVERTER VARIABLES
+   JAVASCRIPT FUNCTION:CONVERTER VARIABLES
 ========================================================= */
-
 
 let P = 1;
 let V = 220;
@@ -1816,212 +1778,112 @@ let PF = 0.85;
 
 
 /* =========================================================
-     JAVASCRIPT: CONVERTER DROPDOWN
+   JAVASCRIPT FUNCTION:CONVERTER DROPDOWN
 ========================================================= */
 
-
-const s =
-  document.getElementById('conv');
-
+const s = document.getElementById('conv');
 
 C.forEach(c => {
-
-  const option =
-    document.createElement('option');
-
-  option.value = c[0];
-
-  option.textContent = c[1];
-
+  const option = document.createElement('option');
+  option.value = c.id;
+  option.textContent = c.label;
   s.appendChild(option);
-
 });
 
 
 /* =========================================================
-     JAVASCRIPT FUNCTION: PHASE
+   JAVASCRIPT FUNCTION:PHASE SELECTION
 ========================================================= */
 
-
-function phase(n){
-
+function phase(n) {
   P = n;
-
-  V =
-    n === 3
-      ? 415
-      : 220;
-
+  V = n === 3 ? 415 : 220;
   PF = 0.85;
 
+  document.getElementById('three').classList.toggle('active', n === 3);
+  document.getElementById('one').classList.toggle('active', n === 1);
 
-  document
-    .getElementById('three')
-    .classList
-    .toggle(
-      'active',
-      n === 3
-    );
-
-
-  document
-    .getElementById('one')
-    .classList
-    .toggle(
-      'active',
-      n === 1
-    );
-
-
-  document
-    .getElementById('volt')
-    .value = V;
-
-
-  document
-    .getElementById('pf')
-    .value = PF;
-
+  document.getElementById('volt').value = V;
+  document.getElementById('pf').value = PF;
 
   calc();
-
 }
 
 
 /* =========================================================
-     JAVASCRIPT FUNCTION: CUSTOM VOLTAGE
+   JAVASCRIPT FUNCTION:CUSTOM VOLTAGE
 ========================================================= */
 
+function customVoltage() {
+  const value = Number(document.getElementById('volt').value);
 
-function customVoltage(){
-
-  const value =
-    parseFloat(
-      document.getElementById('volt').value
-    );
-
-
-  if(
-    !isFinite(value) ||
-    value <= 0
-  ){
+  if (!Number.isFinite(value) || value <= 0) {
+    document.getElementById('res').textContent = 'Enter valid voltage';
     return;
   }
-
 
   V = value;
-
   calc();
-
 }
 
 
 /* =========================================================
-     JAVASCRIPT FUNCTION: CUSTOM POWER FACTOR
+   JAVASCRIPT FUNCTION:CUSTOM POWER FACTOR
 ========================================================= */
 
+function customPF() {
+  const input = document.getElementById('pf');
+  const value = Number(input.value);
 
-function customPF(){
-
-  const value =
-    parseFloat(
-      document.getElementById('pf').value
-    );
-
-
-  if(
-    !isFinite(value) ||
-    value <= 0 ||
-    value > 1
-  ){
+  if (input.value.trim() === '' ||
+      !Number.isFinite(value) ||
+      value <= 0 ||
+      value > 1) {
+    document.getElementById('res').textContent = 'PF must be > 0 and ≤ 1';
     return;
   }
-
 
   PF = value;
-
   calc();
-
 }
 
 
 /* =========================================================
-     JAVASCRIPT FUNCTION: NUMBER FORMAT
+   JAVASCRIPT FUNCTION:NUMBER FORMATTING
 ========================================================= */
 
+function formatNumber(n) {
+  if (!Number.isFinite(n)) return '—';
+  if (n === 0) return '0';
 
-function formatNumber(n){
-
-  if(!isFinite(n)){
-    return '—';
-  }
-
-
-  if(n === 0){
-    return '0';
-  }
-
-
-  if(Math.abs(n) < 1){
-
-    return n
-      .toFixed(6)
-      .replace(/\.?0+$/,'');
-
-  }
-
-
-  return n
-    .toFixed(2)
-    .replace(/\.?0+$/,'');
-
+  return n.toLocaleString('en-US', {
+    maximumFractionDigits: 4,
+    useGrouping: false
+  });
 }
 
 
 /* =========================================================
-     JAVASCRIPT FUNCTION: CONVERTER CALCULATION
+   JAVASCRIPT FUNCTION:CONVERTER CALCULATION
 ========================================================= */
 
+function calc() {
+  const c = C.find(item => item.id === s.value) || C[0];
+  const input = document.getElementById('val');
+  const x = Number(input.value);
 
-function calc(){
-
-  const c =
-    C.find(
-      x => x[0] === s.value
-    ) || C[0];
-
-
-  const x =
-    Number(
-      document.getElementById('val').value
-    );
-
-
-  if(!isFinite(x)){
-
-    document.getElementById('res')
-      .textContent = '—';
-
+  if (input.value.trim() === '' || !Number.isFinite(x)) {
+    document.getElementById('res').textContent = '—';
+    document.getElementById('form').textContent = c.formula();
     return;
-
   }
 
+  const result = c.calculate(x);
 
-  const result =
-    c[3](x);
+  document.getElementById('res').textContent =
+    `${formatNumber(result)} ${c.unit}`;
 
-
-  document.getElementById('res')
-    .textContent =
-      formatNumber(result)
-      + ' '
-      + c[2];
-
-
-  document.getElementById('form')
-    .textContent =
-      c[4];
-
+  document.getElementById('form').textContent = c.formula();
 }
 
 
@@ -2730,6 +2592,45 @@ history.replaceState(
   '#home'
 );
 
+
+/* =========================================================
+     JAVASCRIPT: HOME PAGE: BASIC COPY PROTECTION 
+========================================================= */
+
+/* HOME PAGE: BASIC COPY PROTECTION */
+(function () {
+  const home = document.getElementById('home');
+
+  if (!home) return;
+
+  function isHomeVisible() {
+    return getComputedStyle(home).display !== 'none';
+  }
+
+  document.addEventListener('contextmenu', function (event) {
+    if (isHomeVisible() && event.target.closest('#home')) {
+      event.preventDefault();
+    }
+  });
+
+  document.addEventListener('copy', function (event) {
+    if (isHomeVisible() && event.target.closest('#home')) {
+      event.preventDefault();
+    }
+  });
+
+  document.addEventListener('cut', function (event) {
+    if (isHomeVisible() && event.target.closest('#home')) {
+      event.preventDefault();
+    }
+  });
+
+  document.addEventListener('dragstart', function (event) {
+    if (isHomeVisible() && event.target.closest('#home')) {
+      event.preventDefault();
+    }
+  });
+})();
 
 </script>
 
