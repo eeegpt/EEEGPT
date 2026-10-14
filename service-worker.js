@@ -1,11 +1,13 @@
-const CACHE_NAME = 'EEEGPT-cache-v4';
+const CACHE_NAME = 'EEEGPT-cache-v5';
 
 const FILES_TO_CACHE = [
   './',
   './index.html',
+  './manifest.json',
   './assets/cover.webp',
   './assets/profile.webp',
-  './assets/icon.webp'
+  './assets/icon.webp',
+  './assets/android-icon.webp'
 ];
 
 
