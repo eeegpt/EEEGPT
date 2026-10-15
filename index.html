@@ -760,18 +760,325 @@ select.unit option{
   user-drag: none;
   pointer-events: none;
 }
+
+
 /* =========================================================
    CSS: CABLE CALCULATOR - COMPACT TWO MODE
 ========================================================= */
 
 
-:root{--bg:#0b1112;--panel:#121b1d;--panel2:#172326;--line:#2a3a3c;--text:#e8f0ed;--muted:#94a8a2;--green:#42d392;--green2:#163b2c;--warn:#ffca73;--blue:#78c9ff}
-*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at top,#142523 0%,var(--bg) 54%);color:var(--text);font:14px/1.45 system-ui,-apple-system,Segoe UI,Arial,sans-serif;padding:16px;max-width:1100px;margin:auto}
-header{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:0 0 16px}.brand{display:flex;align-items:center;gap:10px}.logo{width:42px;height:42px;border:2px solid var(--green);border-radius:50%;display:grid;place-items:center;color:var(--green);font-weight:900}.brand h1{font-size:20px;margin:0}.brand p{margin:2px 0 0;color:var(--muted);font-size:12px}.tag{border:1px solid var(--line);color:var(--green);padding:6px 9px;border-radius:99px;font-size:11px;white-space:nowrap}
-.card{background:linear-gradient(145deg,rgba(22,34,36,.98),rgba(15,24,26,.98));border:1px solid var(--line);border-radius:14px;padding:15px;margin-bottom:12px;box-shadow:0 8px 24px #0002}.section-title{display:flex;align-items:center;gap:9px;font-size:14px;font-weight:800;margin:0 0 13px;letter-spacing:.02em}.num{display:grid;place-items:center;width:26px;height:26px;border-radius:8px;background:var(--green2);color:var(--green);font-size:12px}
-.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}.grid.three{grid-template-columns:repeat(3,minmax(0,1fr))}.field{min-width:0}label{display:block;font-size:11px;color:var(--muted);margin:0 0 5px}input,select{width:100%;min-width:0;background:#0a1214;color:var(--text);border:1px solid #314447;border-radius:8px;padding:10px 9px;font:inherit;outline:none}input:focus,select:focus{border-color:var(--green);box-shadow:0 0 0 2px #42d39220}input:disabled{opacity:.7}.subgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:10px}.hidden{display:none!important}.helper{font-size:11px;color:var(--muted);margin-top:8px}.actions{display:flex;gap:9px;margin:13px 0 12px}.btn{border:1px solid var(--green);background:var(--green);color:#062116;border-radius:9px;padding:11px 15px;font-weight:800;cursor:pointer}.btn.secondary{background:transparent;color:var(--text);border-color:var(--line)}.results{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}.metric{background:#0b1416;border:1px solid var(--line);border-radius:10px;padding:12px;min-width:0}.metric .k{font-size:11px;color:var(--muted);margin-bottom:5px}.metric .v{font-size:20px;font-weight:850;color:var(--green);overflow-wrap:anywhere}.metric .s{font-size:11px;color:var(--muted);margin-top:4px}.status{margin-top:10px;border:1px solid #70582c;background:#302718;color:var(--warn);border-radius:9px;padding:10px 12px;font-size:12px}.notice{color:var(--muted);font-size:11px;line-height:1.55;margin-top:12px}.pill{display:inline-block;border:1px solid var(--line);border-radius:6px;padding:3px 6px;font-size:10px;color:var(--muted);margin-right:4px}.result-head{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:12px}.result-head h2{font-size:16px;margin:0}.small{font-size:11px;color:var(--muted)}
-@media(max-width:650px){body{padding:10px}.card{padding:12px}.grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.grid.three{grid-template-columns:repeat(3,minmax(0,1fr));gap:7px}.grid.three input,.grid.three select{padding:9px 6px;font-size:12px}.grid.three label{font-size:10px}.results{grid-template-columns:repeat(2,minmax(0,1fr))}.metric .v{font-size:18px}.brand h1{font-size:18px}.tag{font-size:10px}}
-@media(max-width:370px){.grid.three{grid-template-columns:repeat(2,minmax(0,1fr))}.grid.three .wide{grid-column:1/-1}.tag{display:none}}
+/* =========================================================
+   CSS: CABLE CALCULATOR - SCOPED STYLES
+   Only affects #cablePage
+========================================================= */
+
+#cablePage {
+  --cable-bg: #0b1112;
+  --cable-panel: #121b1d;
+  --cable-line: #2a3a3c;
+  --cable-text: #e8f0ed;
+  --cable-muted: #94a8a2;
+  --cable-green: #42d392;
+  --cable-green2: #163b2c;
+  --cable-warn: #ffca73;
+  --cable-blue: #78c9ff;
+
+  color: var(--cable-text);
+  font: 14px/1.45 system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
+}
+
+#cablePage *,
+#cablePage *::before,
+#cablePage *::after {
+  box-sizing: border-box;
+}
+
+#cablePage .brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+#cablePage .logo {
+  width: 42px;
+  height: 42px;
+  border: 2px solid var(--cable-green);
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  color: var(--cable-green);
+  font-weight: 900;
+}
+
+#cablePage .brand h1 {
+  font-size: 20px;
+  margin: 0;
+}
+
+#cablePage .brand p {
+  margin: 2px 0 0;
+  color: var(--cable-muted);
+  font-size: 12px;
+}
+
+#cablePage .tag {
+  border: 1px solid var(--cable-line);
+  color: var(--cable-green);
+  padding: 6px 9px;
+  border-radius: 99px;
+  font-size: 11px;
+  white-space: nowrap;
+}
+
+#cablePage .card {
+  background: linear-gradient(
+    145deg,
+    rgba(22, 34, 36, .98),
+    rgba(15, 24, 26, .98)
+  );
+  border: 1px solid var(--cable-line);
+  border-radius: 14px;
+  padding: 15px;
+  margin-bottom: 12px;
+  box-shadow: 0 8px 24px #0002;
+}
+
+#cablePage .section-title {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  font-size: 14px;
+  font-weight: 800;
+  margin: 0 0 13px;
+}
+
+#cablePage .num {
+  display: grid;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 8px;
+  background: var(--cable-green2);
+  color: var(--cable-green);
+  font-size: 12px;
+}
+
+#cablePage .grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+}
+
+#cablePage .grid.three {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+#cablePage .field {
+  min-width: 0;
+}
+
+#cablePage label {
+  display: block;
+  font-size: 11px;
+  color: var(--cable-muted);
+  margin: 0 0 5px;
+}
+
+#cablePage input,
+#cablePage select {
+  width: 100%;
+  min-width: 0;
+  background: #0a1214;
+  color: var(--cable-text);
+  border: 1px solid #314447;
+  border-radius: 8px;
+  padding: 10px 9px;
+  font: inherit;
+  outline: none;
+}
+
+#cablePage input:focus,
+#cablePage select:focus {
+  border-color: var(--cable-green);
+  box-shadow: 0 0 0 2px #42d39220;
+}
+
+#cablePage input:disabled {
+  opacity: .7;
+}
+
+#cablePage .subgrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  margin-top: 10px;
+}
+
+#cablePage .hidden {
+  display: none !important;
+}
+
+#cablePage .helper {
+  font-size: 11px;
+  color: var(--cable-muted);
+  margin-top: 8px;
+}
+
+#cablePage .actions {
+  display: flex;
+  gap: 9px;
+  margin: 13px 0 12px;
+}
+
+#cablePage .btn {
+  border: 1px solid var(--cable-green);
+  background: var(--cable-green);
+  color: #062116;
+  border-radius: 9px;
+  padding: 11px 15px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+#cablePage .btn.secondary {
+  background: transparent;
+  color: var(--cable-text);
+  border-color: var(--cable-line);
+}
+
+#cablePage .results {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+#cablePage .metric {
+  background: #0b1416;
+  border: 1px solid var(--cable-line);
+  border-radius: 10px;
+  padding: 12px;
+  min-width: 0;
+}
+
+#cablePage .metric .k {
+  font-size: 11px;
+  color: var(--cable-muted);
+  margin-bottom: 5px;
+}
+
+#cablePage .metric .v {
+  font-size: 20px;
+  font-weight: 850;
+  color: var(--cable-green);
+  overflow-wrap: anywhere;
+}
+
+#cablePage .metric .s {
+  font-size: 11px;
+  color: var(--cable-muted);
+  margin-top: 4px;
+}
+
+#cablePage .status {
+  margin-top: 10px;
+  border: 1px solid #70582c;
+  background: #302718;
+  color: var(--cable-warn);
+  border-radius: 9px;
+  padding: 10px 12px;
+  font-size: 12px;
+}
+
+#cablePage .notice {
+  color: var(--cable-muted);
+  font-size: 11px;
+  line-height: 1.55;
+  margin-top: 12px;
+}
+
+#cablePage .pill {
+  display: inline-block;
+  border: 1px solid var(--cable-line);
+  border-radius: 6px;
+  padding: 3px 6px;
+  font-size: 10px;
+  color: var(--cable-muted);
+  margin-right: 4px;
+}
+
+#cablePage .result-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+#cablePage .result-head h2 {
+  font-size: 16px;
+  margin: 0;
+}
+
+#cablePage .small {
+  font-size: 11px;
+  color: var(--cable-muted);
+}
+
+@media (max-width: 650px) {
+  #cablePage .card {
+    padding: 12px;
+  }
+
+  #cablePage .grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 9px;
+  }
+
+  #cablePage .grid.three {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 7px;
+  }
+
+  #cablePage .grid.three input,
+  #cablePage .grid.three select {
+    padding: 9px 6px;
+    font-size: 12px;
+  }
+
+  #cablePage .grid.three label {
+    font-size: 10px;
+  }
+
+  #cablePage .results {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  #cablePage .metric .v {
+    font-size: 18px;
+  }
+
+  #cablePage .brand h1 {
+    font-size: 18px;
+  }
+
+  #cablePage .tag {
+    font-size: 10px;
+  }
+}
+
+@media (max-width: 370px) {
+  #cablePage .grid.three {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  #cablePage .grid.three .wide {
+    grid-column: 1 / -1;
+  }
+
+  #cablePage .tag {
+    display: none;
+  }
+}
 </style>
 
 <!-- =========================================================
@@ -1763,7 +2070,9 @@ window.firebaseGet = get;
 </section>
 
 <div class="actions">
-  <button class="btn" type="submit">Calculate Preliminary Current</button>
+  <button class="btn" type="button" onclick="calculateCable()">
+    Calculate Preliminary Current
+  </button>
   <button class="btn secondary" type="reset">Reset</button>
 </div>
 </form>
@@ -1783,13 +2092,42 @@ window.firebaseGet = get;
 ========================================================= -->
 
 <script>
-const $=id=>document.getElementById(id);
-const common=[['trayOpen','Cable Tray/Ladder — Open'],['trayCovered','Cable Tray/Ladder — Covered'],['surface','Surface / Wall'],['channel','PVC / Aluminium Channel'],['pvcSurface','PVC Conduit — Surface Mounted'],['pvcConcealed','PVC Conduit — Concealed in Wall'],['gi','GI Pipe / Metal Conduit'],['trunking','Cable Trunking / Channel'],['openAir','Open Air'],['clipped','Direct on Wall / Clipped Direct']];
-const heavy=[['trenchRack','Underground Trench — Cable Ladder/Rack'],['trenchNoRack','Underground Trench — Without Ladder/Rack'],['duct','Underground Duct / Pipe'],['buried','Direct Buried Underground Cable']];
+const $ = id => document.getElementById(id);
 
-function populateInstall(){const heavyJob=['transformer','generator'].includes($('job').value);const list=heavyJob?heavy.concat(common):common;$('install').innerHTML=list.map(x=>`<option value="${x[0]}">${x[1]}</option>`).join('');$('installHint').textContent=heavyJob?'Heavy cable route: trench/rack, duct or direct burial must match actual site conditions.':'Select the method matching the real cable route; ampacity depends on installation conditions.'}
+const common = [
+  ['trayOpen', 'Cable Tray/Ladder — Open'],
+  ['trayCovered', 'Cable Tray/Ladder — Covered'],
+  ['surface', 'Surface / Wall'],
+  ['channel', 'PVC / Aluminium Channel'],
+  ['pvcSurface', 'PVC Conduit — Surface Mounted'],
+  ['pvcConcealed', 'PVC Conduit — Concealed in Wall'],
+  ['gi', 'GI Pipe / Metal Conduit'],
+  ['trunking', 'Cable Trunking / Channel'],
+  ['openAir', 'Open Air'],
+  ['clipped', 'Direct on Wall / Clipped Direct']
+];
 
-function phaseChange() {
+const heavy = [
+  ['trenchRack', 'Underground Trench — Cable Ladder/Rack'],
+  ['trenchNoRack', 'Underground Trench — Without Ladder/Rack'],
+  ['duct', 'Underground Duct / Pipe'],
+  ['buried', 'Direct Buried Underground Cable']
+];
+
+function populateInstall() {
+  const heavyJob = ['transformer', 'generator'].includes($('job').value);
+  const list = heavyJob ? heavy.concat(common) : common;
+
+  $('install').innerHTML = list
+    .map(item => `<option value="${item[0]}">${item[1]}</option>`)
+    .join('');
+
+  $('installHint').textContent = heavyJob
+    ? 'Heavy cable route: select the actual trench, rack, duct or burial method.'
+    : 'Select the installation method matching the actual cable route.';
+}
+
+function phaseChange(shouldCalculate = true) {
   const phase = $('phase').value;
 
   if (phase === '1') {
@@ -1799,38 +2137,36 @@ function phaseChange() {
     $('voltage').value = 415;
     $('cablePf').value = 0.85;
   } else {
-    // Keep the actual DC supply voltage unchanged.
     $('cablePf').value = 1;
   }
 
-  calculateCable();
+  if (shouldCalculate) {
+    calculateCable();
+  }
 }
 
-function jobChange(){
-  const j = $('job').value;
+function jobChange() {
+  const job = $('job').value;
 
-  if(j === 'transformer'){
+  if (job === 'transformer') {
     $('unit').value = 'kva';
     $('load').value = 500;
     $('equipment').value = 'Transformer';
     $('phase').value = '3';
-    $('cablePf').value = 0.8;
     $('equipmentWrap').classList.add('hidden');
 
-  } else if(j === 'generator'){
+  } else if (job === 'generator') {
     $('unit').value = 'kva';
     $('load').value = 200;
     $('equipment').value = 'Generator';
     $('phase').value = '3';
-    $('cablePf').value = 0.8;
     $('equipmentWrap').classList.add('hidden');
 
-  } else if(j === 'final'){
+  } else if (job === 'final') {
     $('unit').value = 'w';
     $('load').value = 20;
     $('equipment').value = 'Light / Fan';
     $('phase').value = '1';
-    $('cablePf').value = 1;
     $('equipmentWrap').classList.remove('hidden');
 
   } else {
@@ -1838,143 +2174,31 @@ function jobChange(){
     $('load').value = 15;
     $('equipment').value = 'Production Machine';
     $('phase').value = '3';
-    $('cablePf').value = 0.85;
     $('equipmentWrap').classList.remove('hidden');
   }
 
-  phaseChange();
+  // Update voltage without calculating yet.
+  phaseChange(false);
+
+  // Apply the correct power factor for the selected job.
+  if (job === 'transformer' || job === 'generator') {
+    $('cablePf').value = 0.8;
+  } else if (job === 'final') {
+    $('cablePf').value = 1;
+  } else {
+    $('cablePf').value = 0.85;
+  }
+
+  // Update installation options before calculating.
   populateInstall();
+
+  // Calculate once with the final values.
   calculateCable();
 }
-
-function current(){
-  const n = Number($('load').value);
-  const v = Number($('voltage').value);
-  const pf = Number($('cablePf').value);
-  const u = $('unit').value;
-  const p = $('phase').value;
-
-  if (
-    $('load').value.trim() === '' ||
-    !Number.isFinite(n) ||
-    n <= 0 ||
-    !Number.isFinite(v) ||
-    v <= 0
-  ) {
-    return null;
-  }
-
-  if (u === 'amp') {
-    return n;
-  }
-
-  if (p !== 'dc' && u !== 'kva') {
-    if (
-      $('cablePf').value.trim() === '' ||
-      !Number.isFinite(pf) ||
-      pf <= 0 ||
-      pf > 1
-    ) {
-      return null;
-    }
-  }
-
-  const factor = p === '3' ? Math.sqrt(3) : 1;
-
-  if (u === 'kva') {
-    if (p === 'dc') return null;
-    return (n * 1000) / (factor * v);
-  }
-
-  let watts = n;
-
-  if (u === 'kw') {
-    watts = n * 1000;
-  }
-
-  if (u === 'w') {
-    watts = n;
-  }
-
-  if (p === 'dc') {
-    return watts / v;
-  }
-
-  return watts / (factor * v * pf);
-}
-
-function calculateCurrent(){
-  const a = current();
-
-  $('rCurrent').textContent =
-    a !== null && Number.isFinite(a) && a > 0
-      ? a.toLocaleString('en-US', {
-          maximumFractionDigits: 2
-        }) + ' A'
-      : 'Check inputs';
-
-  const lengthText = $('length').value.trim();
-  const l = Number(lengthText);
-  const u = $('distanceUnit').value;
-
-  const validLength =
-    lengthText !== '' &&
-    Number.isFinite(l) &&
-    l >= 0;
-
-  const meters = u === 'ft' ? l * 0.3048 : l;
-
-  $('rLength').textContent =
-    validLength
-      ? meters.toLocaleString('en-US', {
-          maximumFractionDigits: 2
-        }) + ' m'
-      : '— m';
-
-  $('rLengthNote').textContent =
-    'Route length only; total cable length depends on verified cable runs.';
-}
-
-
-$('phase').addEventListener('change', () => {
   phaseChange();
-  calculateCurrent();
-});
+  populateInstall();
 
-$('unit').addEventListener('change', calculateCurrent);
-$('load').addEventListener('input', calculateCurrent);
-$('voltage').addEventListener('input', calculateCurrent);
-$('cablePf').addEventListener('input', calculateCurrent);
-$('length').addEventListener('input', calculateCurrent);
-$('distanceUnit').addEventListener('change', calculateCurrent);
-
-
-$('job').addEventListener('change', jobChange);
-
-$('cableForm').addEventListener('input', calculateCurrent);
-$('cableForm').addEventListener('change', calculateCurrent);
-
-$('cableForm').addEventListener('submit', e => {
-  e.preventDefault();
-  calculateCurrent();
-
-  $('resultPanel').scrollIntoView({
-    behavior: 'smooth',
-    block: 'start'
-  });
-});
-
-$('cableForm').addEventListener('reset', () => {
-  setTimeout(() => {
-    jobChange();
-    calculateCurrent();
-  }, 0);
-});
-
-populateInstall();
-calculateCurrent();
 </script>
-
 
 <!-- =========================================================
      JAVASCRIPT: POWER CONVERTER DATA
@@ -2662,13 +2886,18 @@ function calculateExistingCable(){
   });
 
   form.addEventListener('change', function (event) {
-    if (event.target.id === 'job') {
-      jobChange();
-      return;
-    }
+  if (event.target.id === 'job') {
+    jobChange();
+    return;
+  }
 
-    calculateCable();
-  });
+  if (event.target.id === 'phase') {
+    phaseChange();
+    return;
+  }
+
+  calculateCable();
+});
 
   calculateCable();
 })();
