@@ -1661,21 +1661,111 @@ window.firebaseGet = get;
 <div class="field wide" id="equipmentWrap"><label for="equipment">Equipment / Load Name</label><input id="equipment" value="Production Machine" placeholder="e.g. 22 kW motor"></div>
 </div></section>
 
- <section class="card"><h2 class="section-title"><span class="num">02</span> Electrical Details</h2><div class="grid">
-<div class="field"><label for="phase">Phase</label><select id="phase"><option value="3">3 Phase</option><option value="1">1 Phase</option><option value="dc">DC</option></select></div>
-<div class="field"><label for="voltage">Voltage (V)</label><input id="voltage" type="number" min="1" value="415" required></div>
-<div class="field"><label for="pf">Power Factor</label><input id="pf" type="number" min="0.1" max="1" step="0.01" value="0.85" required></div>
-<div class="field"><label for="length">Cable Route Length</label><input id="length" type="number" min="0" step="any" value="30" required></div>
-</div><div class="subgrid"><div class="field"><label for="distanceUnit">Distance Unit</label><select id="distanceUnit"><option value="m">Meter (m)</option><option value="ft">Feet (ft)</option></select></div><div class="field"><label for="ambient">Ambient Temperature (°C)</label><input id="ambient" type="number" min="-10" max="100" value="35"></div></div><div class="helper">Phase পরিবর্তন করলে Voltage অটো-সিলেক্ট হবে; বাস্তব supply voltage অনুযায়ী পরিবর্তন করা যাবে।</div></section>
+ <section class="card">
+  <h2 class="section-title">
+    <span class="num">02</span> Electrical Details</h2>
+    <div class="grid">
+<div class="field">
+  <label for="phase">Phase</label>
+  <select id="phase">
+    <option value="3">3 Phase</option>
+    <option value="1">1 Phase</option>
+    <option value="dc">DC</option>
+  </select></div>
+<div class="field">
+  <label for="voltage">Voltage (V)</label>
+  <input id="voltage" type="number" min="1" value="415" required>
+</div>
 
-<section class="card"><h2 class="section-title"><span class="num">03</span> Cable Installation</h2><div class="grid">
-<div class="field"><label for="conductor">Conductor Material</label><select id="conductor"><option value="cu">Copper</option><option value="al">Aluminium</option></select></div>
-<div class="field"><label for="insulation">Insulation Type</label><select id="insulation"><option value="pvc">PVC</option><option value="xlpe">XLPE</option></select></div>
-<div class="field"><label for="install">Installation Method *</label><select id="install" required></select></div>
-<div class="field"><label for="drop">Maximum Voltage Drop (%)</label><input id="drop" type="number" min="0.1" max="10" step="0.1" value="2.5" required></div>
-</div><div class="helper" id="installHint">প্রকৃত installation condition অনুযায়ী method নির্বাচন করুন।</div></section>
+<div class="field">
+  <label for="cablePf">Power Factor</label>
+  <input id="cablePf" type="number" min="0.1" max="1"
+         step="0.01" value="0.85" required>
+</div>
 
-<div class="actions"><button class="btn" type="submit">Calculate Preliminary Current</button><button class="btn secondary" type="reset">Reset</button></div>
+<div class="field">
+  <label for="length">Cable Route Length</label>
+  <input id="length" type="number" min="0" step="any" value="30" required>
+</div>
+</div>
+<div class="subgrid">
+  <div class="field">
+    <label for="distanceUnit">Distance Unit</label>
+    <select id="distanceUnit"><option value="m">Meter (m)</option>
+      <option value="ft">Feet (ft)</option></select></div><div class="field">
+        <label for="ambient">Ambient Temperature (°C)</label>
+        <input id="ambient" type="number" min="-10" max="100" value="35">
+      </div>
+    </div
+    ><div class="helper">Phase পরিবর্তন করলে Voltage অটো-সিলেক্ট হবে; বাস্তব supply voltage অনুযায়ী পরিবর্তন করা যাবে।</div></section>
+
+<section class="card">
+  <h2 class="section-title">
+    <span class="num">03</span> Cable Installation</h2>
+    <div class="grid">
+<div class="field">
+  <label for="conductor">Conductor Material</label>
+  <select id="conductor">
+    <option value="cu">Copper</option>
+    <option value="al">Aluminium</option>
+  </select>
+</div>
+<div class="field">
+  <label for="insulation">Insulation Type</label>
+  <select id="insulation">
+    <option value="pvc">PVC</option>
+    <option value="xlpe">XLPE</option>
+  </select>
+</div>
+<div class="field">
+  <label for="install">Installation Method *</label>
+  <select id="install" required>
+
+  </select>
+</div>
+<div class="field">
+  <label for="drop">Maximum Voltage Drop (%)</label>
+  <input id="drop" type="number" min="0.1" max="10" step="0.1" value="2.5" required>
+</div>
+
+<div class="field">
+  <label for="manualCableSize">Test Cable Size (mm²)</label>
+  <select id="manualCableSize">
+    <option value="">Select cable size</option>
+    <option value="1.5">1.5 mm²</option>
+    <option value="2.5">2.5 mm²</option>
+    <option value="4">4 mm²</option>
+    <option value="6">6 mm²</option>
+    <option value="10">10 mm²</option>
+    <option value="16">16 mm²</option>
+    <option value="25">25 mm²</option>
+    <option value="35">35 mm²</option>
+    <option value="50">50 mm²</option>
+    <option value="70">70 mm²</option>
+    <option value="95">95 mm²</option>
+    <option value="120">120 mm²</option>
+  </select>
+  <div class="helper">
+    Manual test input only; not an automatic cable recommendation.
+  </div>
+</div>
+
+<div class="field">
+  <label>Calculated Voltage Drop</label>
+  <div id="rVoltageDrop">—</div>
+  <div id="rVoltageDropStatus" class="helper">
+    Select a cable size to calculate.
+  </div>
+</div>
+
+</div>
+<div class="helper" id="installHint">প্রকৃত installation condition অনুযায়ী method নির্বাচন করুন।</div>
+</section>
+
+<div class="actions">
+  <button class="btn" type="submit">Calculate Preliminary Current</button>
+  <button class="btn secondary" type="reset">Reset</button>
+</div>
 </form>
 
   <section class="card" id="resultPanel"><div class="result-head"><h2>Calculation Results</h2><span class="pill">PRELIMINARY</span></div><div class="results">
@@ -1704,16 +1794,16 @@ function phaseChange() {
 
   if (phase === '1') {
     $('voltage').value = 220;
-    $('pf').value = 0.85;
+    $('cablePf').value = 0.85;
   } else if (phase === '3') {
     $('voltage').value = 415;
-    $('pf').value = 0.85;
+    $('cablePf').value = 0.85;
   } else {
-    $('voltage').value = 24;
-    $('pf').value = 1;
+    // Keep the actual DC supply voltage unchanged.
+    $('cablePf').value = 1;
   }
 
-  calculateCurrent();
+  calculateCable();
 }
 
 function jobChange(){
@@ -1724,7 +1814,7 @@ function jobChange(){
     $('load').value = 500;
     $('equipment').value = 'Transformer';
     $('phase').value = '3';
-    $('pf').value = 0.8;
+    $('cablePf').value = 0.8;
     $('equipmentWrap').classList.add('hidden');
 
   } else if(j === 'generator'){
@@ -1732,7 +1822,7 @@ function jobChange(){
     $('load').value = 200;
     $('equipment').value = 'Generator';
     $('phase').value = '3';
-    $('pf').value = 0.8;
+    $('cablePf').value = 0.8;
     $('equipmentWrap').classList.add('hidden');
 
   } else if(j === 'final'){
@@ -1740,7 +1830,7 @@ function jobChange(){
     $('load').value = 20;
     $('equipment').value = 'Light / Fan';
     $('phase').value = '1';
-    $('pf').value = 1;
+    $('cablePf').value = 1;
     $('equipmentWrap').classList.remove('hidden');
 
   } else {
@@ -1748,18 +1838,19 @@ function jobChange(){
     $('load').value = 15;
     $('equipment').value = 'Production Machine';
     $('phase').value = '3';
-    $('pf').value = 0.85;
+    $('cablePf').value = 0.85;
     $('equipmentWrap').classList.remove('hidden');
   }
 
   phaseChange();
   populateInstall();
-  calculateCurrent();
+  calculateCable();
 }
+
 function current(){
   const n = Number($('load').value);
   const v = Number($('voltage').value);
-  const pf = Number($('pf').value);
+  const pf = Number($('cablePf').value);
   const u = $('unit').value;
   const p = $('phase').value;
 
@@ -1779,7 +1870,7 @@ function current(){
 
   if (p !== 'dc' && u !== 'kva') {
     if (
-      $('pf').value.trim() === '' ||
+      $('cablePf').value.trim() === '' ||
       !Number.isFinite(pf) ||
       pf <= 0 ||
       pf > 1
@@ -1853,7 +1944,7 @@ $('phase').addEventListener('change', () => {
 $('unit').addEventListener('change', calculateCurrent);
 $('load').addEventListener('input', calculateCurrent);
 $('voltage').addEventListener('input', calculateCurrent);
-$('pf').addEventListener('input', calculateCurrent);
+$('cablePf').addEventListener('input', calculateCurrent);
 $('length').addEventListener('input', calculateCurrent);
 $('distanceUnit').addEventListener('change', calculateCurrent);
 
@@ -2188,7 +2279,6 @@ function showCableCalculator(){
 
   document.getElementById('cablePage').classList.add('on');
 
-  setCableMode('size');
   calculateCable();
 
   history.pushState(
@@ -2283,7 +2373,7 @@ const loadType =
 
 const load = cableNumber('load');
 const voltage = cableNumber('voltage');
-const pf = cableNumber('pf');
+const pf = cableNumber('cablePf');
 const length = cableNumber('length');
 const ambient = cableNumber('ambient');
 const maxDrop = cableNumber('drop');
@@ -2353,9 +2443,71 @@ if (currentElement) {
       : 'Check inputs';
 }
 
+ // Update cable route length
+  const lengthElement = document.getElementById('rLength');
+  const lengthNoteElement = document.getElementById('rLengthNote');
+
+  const runs = 1; // Actual cable runs are not yet calculated
+
+  if (lengthElement) {
+    if (validLength) {
+      const unitLabel = distanceUnit === 'ft' ? 'ft' : 'm';
+      lengthElement.textContent =
+        cableFormat(length) + ' ' + unitLabel;
+    } else {
+      lengthElement.textContent = '—';
+    }
+  }
+
+  if (lengthNoteElement) {
+    lengthNoteElement.textContent =
+      'Route length only; parallel runs not yet verified';
+  }
+
   // BNBC অনুযায়ী যাচাইকৃত ampacity table,
   // installation method ও derating factor ছাড়া
   // cable size বা breaker অনুমান করা হবে না.
+
+  // Voltage drop display
+  const sizeElement = document.getElementById('manualCableSize');
+  const dropResult = document.getElementById('rVoltageDrop');
+  const dropStatus = document.getElementById('rVoltageDropStatus');
+
+  const cableSize = sizeElement && sizeElement.value !== ''
+    ? Number(sizeElement.value)
+    : NaN;
+
+  const vd = sizeElement && sizeElement.value !== ''
+    ? calculateVoltageDrop(
+        current,
+        voltage,
+        length,
+        cableSize,
+        phaseType,
+        material,
+        pf
+      )
+    : null;
+
+  if (dropResult) {
+    dropResult.textContent = vd
+      ? `${cableFormat(vd.volts)} V (${cableFormat(vd.percent)}%)`
+      : '—';
+  }
+
+  if (dropStatus) {
+    if (!vd) {
+      dropStatus.textContent =
+        'Select a cable size and enter valid inputs.';
+    } else if (vd.percent <= maxDrop) {
+      dropStatus.textContent =
+        'Preliminary estimate within limit; verify using applicable cable data.';
+    } else {
+      dropStatus.textContent =
+        'Preliminary estimate exceeds the entered limit.';
+    }
+  }
+
 
 const resultPanel = document.getElementById('resultPanel');
 
@@ -2420,6 +2572,43 @@ if (resultPanel) {
   }
 
 } // END calculateCable()
+
+function calculateVoltageDrop(current, voltage, length, size, phaseType, material, pf) {
+  if (
+    !Number.isFinite(current) || current <= 0 ||
+    !Number.isFinite(voltage) || voltage <= 0 ||
+    !Number.isFinite(length) || length <= 0 ||
+    !Number.isFinite(size) || size <= 0 ||
+    !Number.isFinite(pf) || pf <= 0 || pf > 1
+  ) {
+    return null;
+  }
+
+  // Approximate conductor resistivity at 20°C.
+  // Preliminary estimate only; excludes AC reactance.
+  const rho = material === 'al' ? 0.0282 : 0.0175;
+
+  const lengthM = document.getElementById('distanceUnit').value === 'ft'
+    ? length * 0.3048
+    : length;
+
+  const resistance = rho * lengthM / size;
+
+  let dropV;
+
+  if (phaseType === '3') {
+  dropV = Math.sqrt(3) * current * resistance;
+} else if (phaseType === '1') {
+  dropV = 2 * current * resistance;
+} else {
+  dropV = current * resistance;
+}
+
+  return {
+    volts: dropV,
+    percent: (dropV / voltage) * 100
+  };
+}
 /* =========================================================
    MODE 2: EXISTING CABLE TO BREAKER
 ========================================================= */
@@ -2461,43 +2650,27 @@ function calculateExistingCable(){
 /* =========================================================
    CABLE CALCULATOR: AUTOMATIC INPUT UPDATES
 ========================================================= */
+(function initCableCalculator() {
+  const form = document.getElementById('cableForm');
 
-(function initCableCalculator(){
+  if (!form) return;
 
-   const inputIds = [
-    'job',
-    'unit',
-    'load',
-    'equipment',
-    'phase',
-    'voltage',
-    'pf',
-    'length',
-    'distanceUnit',
-    'ambient',
-    'conductor',
-    'insulation',
-    'install',
-    'drop'
-  ];
-  inputIds.forEach(function(id){
-
-    const element = document.getElementById(id);
-
-    if(!element) return;
-
-    element.addEventListener('input', updateCableResults);
-    element.addEventListener('change', updateCableResults);
-
+  // One delegated listener handles form input updates.
+  form.addEventListener('input', function (event) {
+    if (event.target.id === 'job') return;
+    calculateCable();
   });
 
-      function updateCableResults(){
+  form.addEventListener('change', function (event) {
+    if (event.target.id === 'job') {
+      jobChange();
+      return;
+    }
+
     calculateCable();
-  }
+  });
 
   calculateCable();
-  calculateExistingCable();
-
 })();
 
 /* =========================================================
