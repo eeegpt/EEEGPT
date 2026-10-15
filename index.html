@@ -764,135 +764,15 @@ select.unit option{
    CSS: CABLE CALCULATOR - COMPACT TWO MODE
 ========================================================= */
 
-#cablePage .card{
-  padding:12px;
-}
 
-#cablePage .cable-modes{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:8px;
-  margin-bottom:14px;
-}
-
-#cablePage .cable-mode{
-  min-height:45px;
-  padding:8px 5px;
-  border:1px solid var(--l);
-  border-radius:9px;
-  background:#0c1214;
-  color:var(--m);
-  font-size:12px;
-  font-weight:700;
-  cursor:pointer;
-}
-
-#cablePage .cable-mode.active{
-  color:var(--g);
-  border-color:var(--g);
-  background:#10231b;
-}
-
-#cablePage .cable-grid{
-  display:grid;
-  grid-template-columns:repeat(4,minmax(0,1fr));
-  gap:10px;
-}
-
-#cablePage .cable-field{
-  min-width:0;
-}
-
-#cablePage .cable-field label{
-  display:block;
-  min-height:25px;
-  margin-bottom:5px;
-  color:var(--m);
-  font-size:10px;
-  line-height:1.35;
-}
-
-#cablePage .cable-field input,
-#cablePage .cable-field select{
-  min-width:0;
-  width:100%;
-  height:42px;
-  padding:0 7px;
-  font-size:13px;
-}
-
-#cablePage .cable-results{
-  display:grid;
-  grid-template-columns:repeat(2,minmax(0,1fr));
-  gap:9px;
-  margin-top:14px;
-}
-
-#cablePage .cable-result{
-  min-width:0;
-  padding:11px 9px;
-  background:#0c1214;
-  border:1px solid var(--l);
-  border-radius:10px;
-}
-
-#cablePage .cable-result .label{
-  min-height:25px;
-  line-height:1.4;
-  overflow-wrap:anywhere;
-}
-
-#cablePage .cable-value{
-  color:var(--g);
-  font-size:19px;
-  font-weight:800;
-  line-height:1.35;
-  overflow-wrap:anywhere;
-}
-
-#cablePage .cable-status{
-  margin-top:12px;
-  padding:10px;
-  background:#0c1214;
-  border:1px solid var(--l);
-  border-radius:9px;
-  color:var(--m);
-  font-size:11px;
-  line-height:1.6;
-  overflow-wrap:anywhere;
-}
-
-#cablePage .cable-status strong{
-  color:var(--t);
-}
-
-#cablePage .cable-note{
-  margin-top:10px;
-  color:var(--m);
-  font-size:10px;
-  line-height:1.6;
-}
-
-@media(max-width:430px){
-  #cablePage .cable-grid{
-    grid-template-columns:repeat(2,minmax(0,1fr));
-    gap:9px;
-  }
-
-  #cablePage .cable-field label{
-    min-height:0;
-  }
-
-  #cablePage .cable-results{
-    gap:7px;
-  }
-
-  #cablePage .cable-value{
-    font-size:16px;
-  }
-}
+:root{--bg:#0b1112;--panel:#121b1d;--panel2:#172326;--line:#2a3a3c;--text:#e8f0ed;--muted:#94a8a2;--green:#42d392;--green2:#163b2c;--warn:#ffca73;--blue:#78c9ff}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at top,#142523 0%,var(--bg) 54%);color:var(--text);font:14px/1.45 system-ui,-apple-system,Segoe UI,Arial,sans-serif;padding:16px;max-width:1100px;margin:auto}
+header{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:0 0 16px}.brand{display:flex;align-items:center;gap:10px}.logo{width:42px;height:42px;border:2px solid var(--green);border-radius:50%;display:grid;place-items:center;color:var(--green);font-weight:900}.brand h1{font-size:20px;margin:0}.brand p{margin:2px 0 0;color:var(--muted);font-size:12px}.tag{border:1px solid var(--line);color:var(--green);padding:6px 9px;border-radius:99px;font-size:11px;white-space:nowrap}
+.card{background:linear-gradient(145deg,rgba(22,34,36,.98),rgba(15,24,26,.98));border:1px solid var(--line);border-radius:14px;padding:15px;margin-bottom:12px;box-shadow:0 8px 24px #0002}.section-title{display:flex;align-items:center;gap:9px;font-size:14px;font-weight:800;margin:0 0 13px;letter-spacing:.02em}.num{display:grid;place-items:center;width:26px;height:26px;border-radius:8px;background:var(--green2);color:var(--green);font-size:12px}
+.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}.grid.three{grid-template-columns:repeat(3,minmax(0,1fr))}.field{min-width:0}label{display:block;font-size:11px;color:var(--muted);margin:0 0 5px}input,select{width:100%;min-width:0;background:#0a1214;color:var(--text);border:1px solid #314447;border-radius:8px;padding:10px 9px;font:inherit;outline:none}input:focus,select:focus{border-color:var(--green);box-shadow:0 0 0 2px #42d39220}input:disabled{opacity:.7}.subgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:10px}.hidden{display:none!important}.helper{font-size:11px;color:var(--muted);margin-top:8px}.actions{display:flex;gap:9px;margin:13px 0 12px}.btn{border:1px solid var(--green);background:var(--green);color:#062116;border-radius:9px;padding:11px 15px;font-weight:800;cursor:pointer}.btn.secondary{background:transparent;color:var(--text);border-color:var(--line)}.results{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}.metric{background:#0b1416;border:1px solid var(--line);border-radius:10px;padding:12px;min-width:0}.metric .k{font-size:11px;color:var(--muted);margin-bottom:5px}.metric .v{font-size:20px;font-weight:850;color:var(--green);overflow-wrap:anywhere}.metric .s{font-size:11px;color:var(--muted);margin-top:4px}.status{margin-top:10px;border:1px solid #70582c;background:#302718;color:var(--warn);border-radius:9px;padding:10px 12px;font-size:12px}.notice{color:var(--muted);font-size:11px;line-height:1.55;margin-top:12px}.pill{display:inline-block;border:1px solid var(--line);border-radius:6px;padding:3px 6px;font-size:10px;color:var(--muted);margin-right:4px}.result-head{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:12px}.result-head h2{font-size:16px;margin:0}.small{font-size:11px;color:var(--muted)}
+@media(max-width:650px){body{padding:10px}.card{padding:12px}.grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.grid.three{grid-template-columns:repeat(3,minmax(0,1fr));gap:7px}.grid.three input,.grid.three select{padding:9px 6px;font-size:12px}.grid.three label{font-size:10px}.results{grid-template-columns:repeat(2,minmax(0,1fr))}.metric .v{font-size:18px}.brand h1{font-size:18px}.tag{font-size:10px}}
+@media(max-width:370px){.grid.three{grid-template-columns:repeat(2,minmax(0,1fr))}.grid.three .wide{grid-column:1/-1}.tag{display:none}}
 </style>
-
 
 <!-- =========================================================
      JAVASCRIPT: FIREBASE
@@ -1762,294 +1642,247 @@ window.firebaseGet = get;
 
 
 <!-- CABLE SIZE CALCULATOR: TWO MODES -->
-<section class="page" id="cablePage">
 
+<section class="page" id="cablePage">
+<form id="cableForm">
   <div class="top" onclick="backFromCable()">
     <img class="mini" src="assets/icon.webp" alt="EEEGPT">
+
     <div>
       <div class="title">Cable Size Calculator</div>
-      <div class="sub">Cable Sizing & Breaker Selection</div>
+      <div class="sub">BNBC 2020 • RSC • Cable Selection</div>
     </div>
   </div>
 
-  <div class="card">
+ <section class="card"><h2 class="section-title"><span class="num">01</span> Selection Type</h2><div class="grid three">
+<div class="field"><label for="job">Application / Selection Type</label><select id="job"><option value="machine">DB / Panel → Machine</option><option value="transformer">Transformer → LT Panel</option><option value="generator">Generator → LT Panel</option><option value="final">Light / Fan / Socket</option></select></div>
+<div class="field"><label for="unit">Load Unit</label><select id="unit"><option value="kw">kW</option><option value="kva">kVA</option><option value="w">W</option><option value="amp">Ampere (A)</option></select></div>
+<div class="field"><label for="load">Load</label><input id="load" type="number" min="0" step="any" value="15" required></div>
+<div class="field wide" id="equipmentWrap"><label for="equipment">Equipment / Load Name</label><input id="equipment" value="Production Machine" placeholder="e.g. 22 kW motor"></div>
+</div></section>
 
-    <div class="cable-modes">
-      <button type="button" class="cable-mode active"
-        id="cableModeSize" onclick="setCableMode('size')">
-        Cable Size
-      </button>
+ <section class="card"><h2 class="section-title"><span class="num">02</span> Electrical Details</h2><div class="grid">
+<div class="field"><label for="phase">Phase</label><select id="phase"><option value="3">3 Phase</option><option value="1">1 Phase</option><option value="dc">DC</option></select></div>
+<div class="field"><label for="voltage">Voltage (V)</label><input id="voltage" type="number" min="1" value="415" required></div>
+<div class="field"><label for="pf">Power Factor</label><input id="pf" type="number" min="0.1" max="1" step="0.01" value="0.85" required></div>
+<div class="field"><label for="length">Cable Route Length</label><input id="length" type="number" min="0" step="any" value="30" required></div>
+</div><div class="subgrid"><div class="field"><label for="distanceUnit">Distance Unit</label><select id="distanceUnit"><option value="m">Meter (m)</option><option value="ft">Feet (ft)</option></select></div><div class="field"><label for="ambient">Ambient Temperature (°C)</label><input id="ambient" type="number" min="-10" max="100" value="35"></div></div><div class="helper">Phase পরিবর্তন করলে Voltage অটো-সিলেক্ট হবে; বাস্তব supply voltage অনুযায়ী পরিবর্তন করা যাবে।</div></section>
 
-      <button type="button" class="cable-mode"
-        id="cableModeBreaker" onclick="setCableMode('breaker')">
-        Cable to Breaker
-      </button>
-    </div>
+<section class="card"><h2 class="section-title"><span class="num">03</span> Cable Installation</h2><div class="grid">
+<div class="field"><label for="conductor">Conductor Material</label><select id="conductor"><option value="cu">Copper</option><option value="al">Aluminium</option></select></div>
+<div class="field"><label for="insulation">Insulation Type</label><select id="insulation"><option value="pvc">PVC</option><option value="xlpe">XLPE</option></select></div>
+<div class="field"><label for="install">Installation Method *</label><select id="install" required></select></div>
+<div class="field"><label for="drop">Maximum Voltage Drop (%)</label><input id="drop" type="number" min="0.1" max="10" step="0.1" value="2.5" required></div>
+</div><div class="helper" id="installHint">প্রকৃত installation condition অনুযায়ী method নির্বাচন করুন।</div></section>
 
-    <!-- MODE 1: CABLE SIZE CALCULATION -->
-    <div id="cableSizeMode">
+<div class="actions"><button class="btn" type="submit">Calculate Preliminary Current</button><button class="btn secondary" type="reset">Reset</button></div>
+</form>
 
-      <div class="label">SUPPLY & LOAD</div>
+  <section class="card" id="resultPanel"><div class="result-head"><h2>Calculation Results</h2><span class="pill">PRELIMINARY</span></div><div class="results">
+<div class="metric"><div class="k">Calculated Load Current</div><div class="v" id="rCurrent">— A</div><div class="s">Based on entered load</div></div>
+<div class="metric"><div class="k">Recommended Cable</div><div class="v" style="font-size:15px">Verification Required</div><div class="s">No unverified size will be invented</div></div>
+<div class="metric"><div class="k">Parallel Cable Runs</div><div class="v" style="font-size:15px">Auto — Pending</div><div class="s">Minimum feasible runs, up to 10</div></div>
+<div class="metric"><div class="k">Cable Length</div><div class="v" id="rLength">— RM</div><div class="s" id="rLengthNote">Route length × runs when determined</div></div>
+<div class="metric"><div class="k">ECC / Earth Cable</div><div class="v" style="font-size:15px">Verification Required</div><div class="s">BNBC / applicable protection rules</div></div>
+<div class="metric"><div class="k">Breaker Recommendation</div><div class="v" style="font-size:15px">Verification Required</div><div class="s">MCB / MCCB / ACB etc. after protection checks</div></div>
+</div><div class="status">Cable size, runs, ECC, voltage drop, breaker rating and short-circuit protection are NOT verified in this prototype.</div><div class="notice"><b>Compliance checklist:</b> BNBC 2020 and RSC Technical Guidelines must be checked against the applicable clauses/tables and installation conditions. Verified ampacity tables, temperature/grouping correction factors, voltage-drop impedance data, fault level and protection coordination are required before final recommendations. This interface does not approve an installation.</div></section>
 
-      <div class="cable-grid">
-
-        <div class="cable-field">
-          <label for="cablePhase">Phase</label>
-          <select id="cablePhase">
-            <option value="3" selected>3 Phase</option>
-            <option value="1">1 Phase</option>
-            <option value="dc">DC</option>
-          </select>
-        </div>
-
-        <div class="cable-field">
-          <label for="cableLoadType">Load Unit</label>
-          <select id="cableLoadType">
-            <option value="kw">kW input</option>
-            <option value="kva">kVA</option>
-            <option value="amp">Ampere</option>
-          </select>
-        </div>
-
-        <div class="cable-field">
-          <label for="cableLoad">Load</label>
-          <input id="cableLoad" type="number"
-            min="0" step="any" value="15">
-        </div>
-
-        <div class="cable-field">
-          <label for="cableVoltage">Voltage (V)</label>
-          <input id="cableVoltage" type="number"
-            min="1" step="any" value="400">
-        </div>
-
-      </div>
-
-      <div class="label section">CABLE & INSTALLATION</div>
-
-      <div class="cable-grid">
-
-        <div class="cable-field">
-          <label for="cableMaterial">Conductor</label>
-          <select id="cableMaterial">
-            <option value="cu">Copper</option>
-            <option value="al">Aluminium</option>
-          </select>
-        </div>
-
-        <div class="cable-field">
-          <label for="cableInsulation">Insulation</label>
-          <select id="cableInsulation">
-            <option value="pvc">PVC</option>
-            <option value="xlpe">XLPE</option>
-          </select>
-        </div>
-
-        <div class="cable-field">
-          <label for="cableLength">Length (m)</label>
-          <input id="cableLength" type="number"
-            min="0" step="any" value="50">
-        </div>
-
-        <div class="cable-field">
-          <label for="cableInstallation">Installation</label>
-          <select id="cableInstallation">
-            <option value="tray">Cable Tray</option>
-            <option value="conduit">Conduit / Trunking</option>
-            <option value="buried">Direct Buried</option>
-            <option value="air">Clipped Direct / Air</option>
-          </select>
-        </div>
-
-      </div>
-
-      <div class="label section">PROTECTION & CONDITIONS</div>
-
-      <div class="cable-grid">
-
-        <div class="cable-field">
-          <label for="cablePF">Power Factor</label>
-          <input id="cablePF" type="number"
-            min="0.01" max="1" step="any" value="0.85">
-        </div>
-
-        <div class="cable-field">
-          <label for="cableTemp">Ambient °C</label>
-          <input id="cableTemp" type="number"
-            step="any" value="40">
-        </div>
-
-        <div class="cable-field">
-          <label for="cableMaxDrop">Max Drop %</label>
-          <input id="cableMaxDrop" type="number"
-            min="0.1" max="100" step="any" value="3">
-        </div>
-
-        <div class="cable-field">
-          <label for="cableBreakerFamily">Breaker</label>
-          <select id="cableBreakerFamily">
-            <option value="mcb">MCB</option>
-            <option value="mccb">MCCB</option>
-          </select>
-        </div>
-
-      </div>
-
-      <div class="cable-results">
-
-        <div class="cable-result">
-          <div class="label">1. Load Current</div>
-          <div class="cable-value" id="cableCurrent">—</div>
-        </div>
-
-        <div class="cable-result">
-          <div class="label">2. Recommended Cable</div>
-          <div class="cable-value" id="cableSize">Verification Required</div>
-        </div>
-
-        <div class="cable-result">
-          <div class="label">3. Cable Ampacity</div>
-          <div class="cable-value" id="cableAmpacity">Verification Required</div>
-        </div>
-
-        <div class="cable-result">
-          <div class="label">4. Voltage Drop</div>
-          <div class="cable-value" id="cableDrop">Verification Required</div>
-        </div>
-
-        <div class="cable-result">
-          <div class="label">5. Recommended Breaker</div>
-          <div class="cable-value" id="cableBreaker">Verification Required</div>
-        </div>
-
-      </div>
-
-      <div class="cable-status" id="cableStatus" role="status">
-        Electrical design checks are pending verification.
-      </div>
-
-    </div>
-
-    <!-- MODE 2: EXISTING CABLE TO BREAKER -->
-    <div id="cableBreakerMode" hidden>
-
-      <div class="label">EXISTING CABLE DETAILS</div>
-
-      <div class="cable-grid">
-
-        <div class="cable-field">
-          <label for="existingCableSize">Cable Size mm²</label>
-          <select id="existingCableSize">
-            <option value="1.5">1.5 mm²</option>
-            <option value="2.5">2.5 mm²</option>
-            <option value="4">4 mm²</option>
-            <option value="6">6 mm²</option>
-            <option value="10">10 mm²</option>
-            <option value="16">16 mm²</option>
-            <option value="25">25 mm²</option>
-            <option value="35">35 mm²</option>
-            <option value="50">50 mm²</option>
-            <option value="70">70 mm²</option>
-            <option value="95">95 mm²</option>
-            <option value="120">120 mm²</option>
-            <option value="150">150 mm²</option>
-            <option value="185">185 mm²</option>
-            <option value="240">240 mm²</option>
-          </select>
-        </div>
-
-        <div class="cable-field">
-          <label for="existingCableMaterial">Conductor</label>
-          <select id="existingCableMaterial">
-            <option value="cu">Copper</option>
-            <option value="al">Aluminium</option>
-          </select>
-        </div>
-
-        <div class="cable-field">
-          <label for="existingCableInsulation">Insulation</label>
-          <select id="existingCableInsulation">
-            <option value="pvc">PVC</option>
-            <option value="xlpe">XLPE</option>
-          </select>
-        </div>
-
-        <div class="cable-field">
-          <label for="existingCableInstallation">Installation</label>
-          <select id="existingCableInstallation">
-            <option value="tray">Cable Tray</option>
-            <option value="conduit">Conduit / Trunking</option>
-            <option value="buried">Direct Buried</option>
-            <option value="air">Clipped Direct / Air</option>
-          </select>
-        </div>
-
-        <div class="cable-field">
-          <label for="existingCableTemp">Ambient °C</label>
-          <input id="existingCableTemp" type="number"
-            step="any" value="40">
-        </div>
-
-        <div class="cable-field">
-          <label for="existingCablePhase">Phase</label>
-          <select id="existingCablePhase">
-            <option value="3">3 Phase</option>
-            <option value="1">1 Phase</option>
-            <option value="dc">DC</option>
-          </select>
-        </div>
-
-        <div class="cable-field">
-          <label for="existingCableVoltage">Voltage (V)</label>
-          <input id="existingCableVoltage" type="number"
-            min="1" step="any" value="400">
-        </div>
-
-        <div class="cable-field">
-          <label for="existingBreakerFamily">Breaker Family</label>
-          <select id="existingBreakerFamily">
-            <option value="mcb">MCB</option>
-            <option value="mccb">MCCB</option>
-          </select>
-        </div>
-
-      </div>
-
-      <div class="cable-results">
-
-        <div class="cable-result">
-          <div class="label">Cable Ampacity</div>
-          <div class="cable-value" id="existingAmpacity">
-            Verification Required
-          </div>
-        </div>
-
-        <div class="cable-result">
-          <div class="label">Recommended Breaker</div>
-          <div class="cable-value" id="existingBreaker">
-            Verification Required
-          </div>
-        </div>
-
-      </div>
-
-      <div class="cable-status" id="existingCableStatus" role="status">
-        Ampacity, overload coordination and short-circuit verification required.
-      </div>
-
-    </div>
-
-    <div class="cable-note">
-      Preliminary calculations only. Cable ampacity, voltage drop,
-      breaker coordination and short-circuit withstand require verified
-      standards data and installation details. No compliance is implied.
-    </div>
-
-  </div>
 </section>
+<!-- =========================================================
+     JAVASCRIPT: Cable Selection
+========================================================= -->
+
+<script>
+const $=id=>document.getElementById(id);
+const common=[['trayOpen','Cable Tray/Ladder — Open'],['trayCovered','Cable Tray/Ladder — Covered'],['surface','Surface / Wall'],['channel','PVC / Aluminium Channel'],['pvcSurface','PVC Conduit — Surface Mounted'],['pvcConcealed','PVC Conduit — Concealed in Wall'],['gi','GI Pipe / Metal Conduit'],['trunking','Cable Trunking / Channel'],['openAir','Open Air'],['clipped','Direct on Wall / Clipped Direct']];
+const heavy=[['trenchRack','Underground Trench — Cable Ladder/Rack'],['trenchNoRack','Underground Trench — Without Ladder/Rack'],['duct','Underground Duct / Pipe'],['buried','Direct Buried Underground Cable']];
+
+function populateInstall(){const heavyJob=['transformer','generator'].includes($('job').value);const list=heavyJob?heavy.concat(common):common;$('install').innerHTML=list.map(x=>`<option value="${x[0]}">${x[1]}</option>`).join('');$('installHint').textContent=heavyJob?'Heavy cable route: trench/rack, duct or direct burial must match actual site conditions.':'Select the method matching the real cable route; ampacity depends on installation conditions.'}
+
+function phaseChange() {
+  const phase = $('phase').value;
+
+  if (phase === '1') {
+    $('voltage').value = 220;
+    $('pf').value = 0.85;
+  } else if (phase === '3') {
+    $('voltage').value = 415;
+    $('pf').value = 0.85;
+  } else {
+    $('voltage').value = 24;
+    $('pf').value = 1;
+  }
+
+  calculateCurrent();
+}
+
+function jobChange(){
+  const j = $('job').value;
+
+  if(j === 'transformer'){
+    $('unit').value = 'kva';
+    $('load').value = 500;
+    $('equipment').value = 'Transformer';
+    $('phase').value = '3';
+    $('pf').value = 0.8;
+    $('equipmentWrap').classList.add('hidden');
+
+  } else if(j === 'generator'){
+    $('unit').value = 'kva';
+    $('load').value = 200;
+    $('equipment').value = 'Generator';
+    $('phase').value = '3';
+    $('pf').value = 0.8;
+    $('equipmentWrap').classList.add('hidden');
+
+  } else if(j === 'final'){
+    $('unit').value = 'w';
+    $('load').value = 20;
+    $('equipment').value = 'Light / Fan';
+    $('phase').value = '1';
+    $('pf').value = 1;
+    $('equipmentWrap').classList.remove('hidden');
+
+  } else {
+    $('unit').value = 'kw';
+    $('load').value = 15;
+    $('equipment').value = 'Production Machine';
+    $('phase').value = '3';
+    $('pf').value = 0.85;
+    $('equipmentWrap').classList.remove('hidden');
+  }
+
+  phaseChange();
+  populateInstall();
+  calculateCurrent();
+}
+function current(){
+  const n = Number($('load').value);
+  const v = Number($('voltage').value);
+  const pf = Number($('pf').value);
+  const u = $('unit').value;
+  const p = $('phase').value;
+
+  if (
+    $('load').value.trim() === '' ||
+    !Number.isFinite(n) ||
+    n <= 0 ||
+    !Number.isFinite(v) ||
+    v <= 0
+  ) {
+    return null;
+  }
+
+  if (u === 'amp') {
+    return n;
+  }
+
+  if (p !== 'dc' && u !== 'kva') {
+    if (
+      $('pf').value.trim() === '' ||
+      !Number.isFinite(pf) ||
+      pf <= 0 ||
+      pf > 1
+    ) {
+      return null;
+    }
+  }
+
+  const factor = p === '3' ? Math.sqrt(3) : 1;
+
+  if (u === 'kva') {
+    if (p === 'dc') return null;
+    return (n * 1000) / (factor * v);
+  }
+
+  let watts = n;
+
+  if (u === 'kw') {
+    watts = n * 1000;
+  }
+
+  if (u === 'w') {
+    watts = n;
+  }
+
+  if (p === 'dc') {
+    return watts / v;
+  }
+
+  return watts / (factor * v * pf);
+}
+
+function calculateCurrent(){
+  const a = current();
+
+  $('rCurrent').textContent =
+    a !== null && Number.isFinite(a) && a > 0
+      ? a.toLocaleString('en-US', {
+          maximumFractionDigits: 2
+        }) + ' A'
+      : 'Check inputs';
+
+  const lengthText = $('length').value.trim();
+  const l = Number(lengthText);
+  const u = $('distanceUnit').value;
+
+  const validLength =
+    lengthText !== '' &&
+    Number.isFinite(l) &&
+    l >= 0;
+
+  const meters = u === 'ft' ? l * 0.3048 : l;
+
+  $('rLength').textContent =
+    validLength
+      ? meters.toLocaleString('en-US', {
+          maximumFractionDigits: 2
+        }) + ' m'
+      : '— m';
+
+  $('rLengthNote').textContent =
+    'Route length only; total cable length depends on verified cable runs.';
+}
 
 
-</div>
+$('phase').addEventListener('change', () => {
+  phaseChange();
+  calculateCurrent();
+});
+
+$('unit').addEventListener('change', calculateCurrent);
+$('load').addEventListener('input', calculateCurrent);
+$('voltage').addEventListener('input', calculateCurrent);
+$('pf').addEventListener('input', calculateCurrent);
+$('length').addEventListener('input', calculateCurrent);
+$('distanceUnit').addEventListener('change', calculateCurrent);
+
+
+$('job').addEventListener('change', jobChange);
+
+$('cableForm').addEventListener('input', calculateCurrent);
+$('cableForm').addEventListener('change', calculateCurrent);
+
+$('cableForm').addEventListener('submit', e => {
+  e.preventDefault();
+  calculateCurrent();
+
+  $('resultPanel').scrollIntoView({
+    behavior: 'smooth',
+    block: 'start'
+  });
+});
+
+$('cableForm').addEventListener('reset', () => {
+  setTimeout(() => {
+    jobChange();
+    calculateCurrent();
+  }, 0);
+});
+
+populateInstall();
+calculateCurrent();
+</script>
 
 
 <!-- =========================================================
@@ -2443,96 +2276,103 @@ function cableSet(id, value){
 function calculateCable(){
 
   const phaseType =
-    document.getElementById('cablePhase').value;
+  document.getElementById('phase').value;
 
-  const loadType =
-    document.getElementById('cableLoadType').value;
+const loadType =
+  document.getElementById('unit').value;
 
-  const load = cableNumber('cableLoad');
-  const voltage = cableNumber('cableVoltage');
-  const pf = cableNumber('cablePF');
-  const length = cableNumber('cableLength');
-  const ambient = cableNumber('cableTemp');
-  const maxDrop = cableNumber('cableMaxDrop');
+const load = cableNumber('load');
+const voltage = cableNumber('voltage');
+const pf = cableNumber('pf');
+const length = cableNumber('length');
+const ambient = cableNumber('ambient');
+const maxDrop = cableNumber('drop');
 
-  const validLoad =
-    Number.isFinite(load) && load > 0;
+const material =
+  document.getElementById('conductor').value;
 
-  const validVoltage =
-    Number.isFinite(voltage) && voltage > 0;
+const insulation =
+  document.getElementById('insulation').value;
 
-  const validPF =
-    Number.isFinite(pf) && pf > 0 && pf <= 1;
+const installation =
+  document.getElementById('install').value;
 
-  const validLength =
-    Number.isFinite(length) && length > 0;
+const distanceUnit =
+  document.getElementById('distanceUnit').value;
 
-  const validAmbient =
-    Number.isFinite(ambient);
+const job =
+  document.getElementById('job').value;
 
-  const validDrop =
-    Number.isFinite(maxDrop) &&
-    maxDrop > 0 && maxDrop <= 100;
+  const validLoad = Number.isFinite(load) && load > 0;
+  const validVoltage = Number.isFinite(voltage) && voltage > 0;
+  const validPF = Number.isFinite(pf) && pf > 0 && pf <= 1;
+  const validLength = Number.isFinite(length) && length > 0;
+  const validAmbient = Number.isFinite(ambient);
+  const validDrop = Number.isFinite(maxDrop) && maxDrop > 0 && maxDrop <= 100;
 
   let current = NaN;
 
-  if(validLoad && validVoltage){
+if (validLoad && validVoltage) {
+  const phaseFactor =
+    phaseType === '3' ? Math.sqrt(3) : 1;
 
-    if(loadType === 'amp'){
+  let loadInWatt = load;
 
-      current = load;
-
-    }else if(phaseType === 'dc'){
-
-      if(loadType === 'kw'){
-        current = load * 1000 / voltage;
-      }
-
-      // DC kVA is not accepted by this preliminary model.
-
-    }else if(validPF){
-
-      const phaseFactor =
-        phaseType === '3' ? Math.sqrt(3) : 1;
-
-      if(loadType === 'kw'){
-
-        // kW is treated as electrical input power.
-        current =
-          load * 1000 /
-          (phaseFactor * voltage * pf);
-
-      }else if(loadType === 'kva'){
-
-        // kVA already represents apparent power.
-        current =
-          load * 1000 /
-          (phaseFactor * voltage);
-
-      }
-
-    }
-
+  if (loadType === 'kw') {
+    loadInWatt = load * 1000;
+  } else if (loadType === 'kva') {
+    loadInWatt = load * 1000;
+  } else if (loadType === 'w') {
+    loadInWatt = load;
   }
 
-  cableSet(
-    'cableCurrent',
+  if (loadType === 'amp') {
+    current = load;
+  } else if (phaseType === 'dc') {
+    if (loadType !== 'kva') {
+      current = loadInWatt / voltage;
+    }
+  } else if (validPF) {
+    if (loadType === 'kva') {
+      current =
+        loadInWatt / (phaseFactor * voltage);
+    } else {
+      current =
+        loadInWatt / (phaseFactor * voltage * pf);
+    }
+  }
+}
+
+
+ const currentElement = document.getElementById('rCurrent');
+
+if (currentElement) {
+  currentElement.textContent =
     Number.isFinite(current) && current > 0
       ? cableFormat(current) + ' A'
-      : 'Check inputs'
-  );
+      : 'Check inputs';
+}
 
-  // Never invent a cable size or ampacity without
-  // a verified ampacity table and correction factors.
+  // BNBC অনুযায়ী যাচাইকৃত ampacity table,
+  // installation method ও derating factor ছাড়া
+  // cable size বা breaker অনুমান করা হবে না.
 
-  cableSet('cableSize', 'Verification Required');
-  cableSet('cableAmpacity', 'Verification Required');
-  cableSet('cableBreaker', 'Verification Required');
+const resultPanel = document.getElementById('resultPanel');
 
-  // Voltage drop needs verified cable impedance/resistance,
-  // reactance, operating temperature and installation data.
+if (resultPanel) {
+  const metrics = resultPanel.querySelectorAll('.metric .v');
 
-  cableSet('cableDrop', 'Verification Required');
+  // Keep unverified recommendations clearly marked.
+  [1, 2, 4, 5].forEach(index => {
+    if (metrics[index]) {
+      // Preserve the existing HTML labels and units.
+      if (index === 1) metrics[index].textContent = 'Verification Required';
+      if (index === 2) metrics[index].textContent = 'Auto — Pending';
+      if (index === 4) metrics[index].textContent = 'Verification Required';
+      if (index === 5) metrics[index].textContent = 'Verification Required';
+    }
+  });
+}
 
   const messages = [];
 
@@ -2549,7 +2389,7 @@ function calculateCable(){
   }
 
   if(loadType === 'kva' && phaseType === 'dc'){
-    messages.push('DC with kVA input is not supported by this model.');
+    messages.push('DC with kVA input is not supported.');
   }
 
   if(!validLength){
@@ -2565,33 +2405,33 @@ function calculateCable(){
   }
 
   messages.push(
-    'Cable size, ampacity, voltage drop and breaker require verified engineering data.'
+    'Final cable size, ampacity, voltage drop and breaker selection require verification against the applicable BNBC provisions and installation-specific data.'
   );
 
   messages.push(
     'Short-circuit withstand, protective-device breaking capacity and code compliance have not been verified.'
   );
 
-  cableSet('cableStatus', messages.join(' '));
+  const statusElement =
+  document.querySelector('#resultPanel .status');
 
-}
+ if (statusElement) {
+    statusElement.textContent = messages.join(' ');
+  }
 
-
+} // END calculateCable()
 /* =========================================================
    MODE 2: EXISTING CABLE TO BREAKER
 ========================================================= */
 
 function calculateExistingCable(){
 
-  // Keep all outputs unverified until the applicable
-  // ampacity table and correction factors are validated.
-
-  cableSet('existingAmpacity', 'Verification Required');
-  cableSet('existingBreaker', 'Verification Required');
-
   const size = cableNumber('existingCableSize');
   const temp = cableNumber('existingCableTemp');
   const voltage = cableNumber('existingCableVoltage');
+
+  cableSet('existingAmpacity', 'Verification Required');
+  cableSet('existingBreaker', 'Verification Required');
 
   const messages = [];
 
@@ -2608,48 +2448,38 @@ function calculateExistingCable(){
   }
 
   messages.push(
-    'Ampacity and breaker selection require verified installation-specific tables and correction factors.'
+    'Verify cable ampacity using the applicable BNBC requirements, conductor material, insulation rating, installation method and correction factors.'
   );
 
   messages.push(
-    'Short-circuit withstand, fault current, disconnection time and breaker breaking capacity remain unverified.'
+    'Verify breaker rating, short-circuit withstand, fault current and disconnection requirements before installation.'
   );
 
   cableSet('existingCableStatus', messages.join(' '));
 
 }
-
-
 /* =========================================================
    CABLE CALCULATOR: AUTOMATIC INPUT UPDATES
 ========================================================= */
 
 (function initCableCalculator(){
 
-  const inputIds = [
-    'cablePhase',
-    'cableLoadType',
-    'cableLoad',
-    'cableVoltage',
-    'cablePF',
-    'cableLength',
-    'cableTemp',
-    'cableMaxDrop',
-    'cableMaterial',
-    'cableInsulation',
-    'cableInstallation',
-    'cableBreakerFamily',
-
-    'existingCableSize',
-    'existingCableMaterial',
-    'existingCableInsulation',
-    'existingCableInstallation',
-    'existingCableTemp',
-    'existingCablePhase',
-    'existingCableVoltage',
-    'existingBreakerFamily'
+   const inputIds = [
+    'job',
+    'unit',
+    'load',
+    'equipment',
+    'phase',
+    'voltage',
+    'pf',
+    'length',
+    'distanceUnit',
+    'ambient',
+    'conductor',
+    'insulation',
+    'install',
+    'drop'
   ];
-
   inputIds.forEach(function(id){
 
     const element = document.getElementById(id);
@@ -2661,17 +2491,8 @@ function calculateExistingCable(){
 
   });
 
-  function updateCableResults(){
-
-    const breakerMode =
-      !document.getElementById('cableBreakerMode').hidden;
-
-    if(breakerMode){
-      calculateExistingCable();
-    }else{
-      calculateCable();
-    }
-
+      function updateCableResults(){
+    calculateCable();
   }
 
   calculateCable();
@@ -3104,6 +2925,9 @@ document.getElementById('loadPage').addEventListener(
 
 // প্রথমবার হিসাব
 calculateLoad('residential');
+
+
+
 
 /* =========================================================
      JAVASCRIPT FUNCTION: SHOW RESIDENTIAL
