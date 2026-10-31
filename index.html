@@ -2077,14 +2077,68 @@ window.firebaseGet = get;
 </div>
 </form>
 
-  <section class="card" id="resultPanel"><div class="result-head"><h2>Calculation Results</h2><span class="pill">PRELIMINARY</span></div><div class="results">
-<div class="metric"><div class="k">Calculated Load Current</div><div class="v" id="rCurrent">— A</div><div class="s">Based on entered load</div></div>
-<div class="metric"><div class="k">Recommended Cable</div><div class="v" style="font-size:15px">Verification Required</div><div class="s">No unverified size will be invented</div></div>
-<div class="metric"><div class="k">Parallel Cable Runs</div><div class="v" style="font-size:15px">Auto — Pending</div><div class="s">Minimum feasible runs, up to 10</div></div>
-<div class="metric"><div class="k">Cable Length</div><div class="v" id="rLength">— RM</div><div class="s" id="rLengthNote">Route length × runs when determined</div></div>
-<div class="metric"><div class="k">ECC / Earth Cable</div><div class="v" style="font-size:15px">Verification Required</div><div class="s">BNBC / applicable protection rules</div></div>
-<div class="metric"><div class="k">Breaker Recommendation</div><div class="v" style="font-size:15px">Verification Required</div><div class="s">MCB / MCCB / ACB etc. after protection checks</div></div>
-</div><div class="status">Cable size, runs, ECC, voltage drop, breaker rating and short-circuit protection are NOT verified in this prototype.</div><div class="notice"><b>Compliance checklist:</b> BNBC 2020 and RSC Technical Guidelines must be checked against the applicable clauses/tables and installation conditions. Verified ampacity tables, temperature/grouping correction factors, voltage-drop impedance data, fault level and protection coordination are required before final recommendations. This interface does not approve an installation.</div></section>
+  <section class="card" id="resultPanel">
+    <div class="result-head">
+      <h2>Calculation Results</h2>
+      <span class="pill">PRELIMINARY</span>
+    </div>
+    <div class="results">
+<div class="metric">
+  <div class="k">Calculated Load Current</div>
+  <div class="v" id="rCurrent">— A</div>
+  <div class="s">Based on entered load</div>
+</div>
+<div class="metric">
+  <div class="k">Recommended Cable</div>
+  <div class="v" id="rCableSize" style="font-size:15px">
+    Verification Required
+  </div>
+  <div class="s" id="rCableNote">
+    Awaiting cable calculation
+  </div>
+</div>
+<div class="metric">
+  <div class="k">Parallel Cable Runs</div>
+  <div class="v" style="font-size:15px">Auto — Pending</div>
+  <div class="s">Minimum feasible runs, up to 10</div>
+</div>
+<div class="metric">
+  <div class="k">Cable Length</div>
+  <div class="v" id="rLength">— RM</div>
+  <div class="s" id="rLengthNote">Route length × runs when determined</div>
+</div>
+<div class="metric">
+  <div class="k">Voltage Drop</div>
+  <div class="v" id="rResultVoltageDrop">
+    — V
+  </div>
+  <div class="s" id="rResultVoltageDropStatus">
+    Awaiting cable size selection
+  </div>
+</div>
+<div class="metric">
+  <div class="k">ECC / Earth Cable</div>
+  <div class="v" style="font-size:15px">Verification Required</div>
+  <div class="s">BNBC / applicable protection rules</div>
+</div>
+<div class="metric">
+  <div class="k">Breaker Recommendation</div>
+  <div class="v" style="font-size:15px">Verification Required</div>
+  <div class="s">MCB / MCCB / ACB etc. after protection checks</div>
+</div>
+</div>
+<div class="status">Cable size, runs, ECC, voltage drop,
+   breaker rating and short-circuit protection are NOT verified 
+   in this prototype.</div>
+   <div class="notice">
+    <b>Compliance checklist:</b> 
+    BNBC 2020 and RSC Technical Guidelines must be checked against 
+    the applicable clauses/tables and installation conditions. 
+    Verified ampacity tables, temperature/grouping correction factors,
+     voltage-drop impedance data, fault level and protection coordination
+      are required before final recommendations. This interface does not 
+      approve an installation.</div>
+    </section>
 
 </section>
 <!-- =========================================================
@@ -2587,6 +2641,153 @@ function cableSet(id, value){
    MODE 1: PRELIMINARY LOAD CURRENT
 ========================================================= */
 
+
+/* =========================================================
+   VERIFIED CABLE AMPACITY DATABASE
+   Source: User-provided Cable Capacity PDF
+   Reference ambient temperature: 35°C
+   ========================================================= */
+
+const CABLE_AMPACITY_DB = [
+
+  // ---------- COPPER BYA: SINGLE CORE ----------
+  {type:'BYA', material:'cu', cores:1, size:1, ampacity:16, derated:11, ecc:3.243},
+  {type:'BYA', material:'cu', cores:1, size:1.5, ampacity:20, derated:14, ecc:3.243},
+  {type:'BYA', material:'cu', cores:1, size:2.5, ampacity:28, derated:20, ecc:3.243},
+  {type:'BYA', material:'cu', cores:1, size:4, ampacity:37, derated:26, ecc:4},
+  {type:'BYA', material:'cu', cores:1, size:6, ampacity:47, derated:33, ecc:6},
+  {type:'BYA', material:'cu', cores:1, size:10, ampacity:63, derated:44, ecc:10},
+  {type:'BYA', material:'cu', cores:1, size:16, ampacity:85, derated:60, ecc:16},
+  {type:'BYA', material:'cu', cores:1, size:25, ampacity:110, derated:77, ecc:16},
+  {type:'BYA', material:'cu', cores:1, size:35, ampacity:136, derated:95, ecc:16},
+  {type:'BYA', material:'cu', cores:1, size:50, ampacity:164, derated:130, ecc:25},
+  {type:'BYA', material:'cu', cores:1, size:70, ampacity:207, derated:166, ecc:35},
+  {type:'BYA', material:'cu', cores:1, size:95, ampacity:253, derated:202, ecc:50},
+  {type:'BYA', material:'cu', cores:1, size:120, ampacity:291, derated:232, ecc:70},
+  {type:'BYA', material:'cu', cores:1, size:150, ampacity:333, derated:266, ecc:95},
+  {type:'BYA', material:'cu', cores:1, size:185, ampacity:381, derated:305, ecc:95},
+  {type:'BYA', material:'cu', cores:1, size:240, ampacity:452, derated:360, ecc:120},
+  {type:'BYA', material:'cu', cores:1, size:300, ampacity:526, derated:420, ecc:150},
+  {type:'BYA', material:'cu', cores:1, size:400, ampacity:639, derated:511, ecc:240},
+  {type:'BYA', material:'cu', cores:1, size:500, ampacity:752, derated:600, ecc:null},
+  {type:'BYA', material:'cu', cores:1, size:630, ampacity:855, derated:684, ecc:null},
+
+  // ---------- COPPER NYY: SINGLE CORE ----------
+  {type:'NYY', material:'cu', cores:1, size:1.5, ampacity:22, derated:16, ecc:3.243},
+  {type:'NYY', material:'cu', cores:1, size:2.5, ampacity:30, derated:21, ecc:3.243},
+  {type:'NYY', material:'cu', cores:1, size:4, ampacity:39, derated:27, ecc:4},
+  {type:'NYY', material:'cu', cores:1, size:6, ampacity:50, derated:35, ecc:6},
+  {type:'NYY', material:'cu', cores:1, size:10, ampacity:69, derated:48, ecc:10},
+  {type:'NYY', material:'cu', cores:1, size:16, ampacity:94, derated:66, ecc:16},
+  {type:'NYY', material:'cu', cores:1, size:25, ampacity:125, derated:88, ecc:16},
+  {type:'NYY', material:'cu', cores:1, size:35, ampacity:160, derated:112, ecc:16},
+  {type:'NYY', material:'cu', cores:1, size:50, ampacity:195, derated:156, ecc:25},
+  {type:'NYY', material:'cu', cores:1, size:70, ampacity:245, derated:196, ecc:35},
+  {type:'NYY', material:'cu', cores:1, size:95, ampacity:300, derated:240, ecc:50},
+  {type:'NYY', material:'cu', cores:1, size:120, ampacity:350, derated:280, ecc:70},
+  {type:'NYY', material:'cu', cores:1, size:150, ampacity:405, derated:324, ecc:95},
+  {type:'NYY', material:'cu', cores:1, size:185, ampacity:460, derated:368, ecc:95},
+  {type:'NYY', material:'cu', cores:1, size:240, ampacity:555, derated:444, ecc:120},
+  {type:'NYY', material:'cu', cores:1, size:300, ampacity:640, derated:512, ecc:150},
+  {type:'NYY', material:'cu', cores:1, size:400, ampacity:770, derated:616, ecc:240},
+  {type:'NYY', material:'cu', cores:1, size:500, ampacity:900, derated:720, ecc:null},
+  {type:'NYY', material:'cu', cores:1, size:630, ampacity:1030, derated:824, ecc:null},
+
+  // ---------- COPPER NYY: THREE CORE ----------
+  {type:'NYY', material:'cu', cores:3, size:1.5, ampacity:16, derated:16, ecc:3.243},
+  {type:'NYY', material:'cu', cores:3, size:2.5, ampacity:23, derated:23, ecc:3.243},
+  {type:'NYY', material:'cu', cores:3, size:4, ampacity:32, derated:32, ecc:4},
+  {type:'NYY', material:'cu', cores:3, size:6, ampacity:41, derated:41, ecc:6},
+  {type:'NYY', material:'cu', cores:3, size:10, ampacity:56, derated:56, ecc:10},
+  {type:'NYY', material:'cu', cores:3, size:16, ampacity:75, derated:75, ecc:16},
+  {type:'NYY', material:'cu', cores:3, size:25, ampacity:98, derated:98, ecc:16},
+  {type:'NYY', material:'cu', cores:3, size:35, ampacity:120, derated:120, ecc:16},
+  {type:'NYY', material:'cu', cores:3, size:50, ampacity:150, derated:150, ecc:25},
+  {type:'NYY', material:'cu', cores:3, size:70, ampacity:190, derated:190, ecc:35},
+  {type:'NYY', material:'cu', cores:3, size:95, ampacity:230, derated:230, ecc:50},
+  {type:'NYY', material:'cu', cores:3, size:120, ampacity:270, derated:270, ecc:70},
+  {type:'NYY', material:'cu', cores:3, size:150, ampacity:305, derated:305, ecc:95},
+  {type:'NYY', material:'cu', cores:3, size:185, ampacity:350, derated:350, ecc:95},
+  {type:'NYY', material:'cu', cores:3, size:240, ampacity:410, derated:410, ecc:120},
+  {type:'NYY', material:'cu', cores:3, size:300, ampacity:470, derated:470, ecc:150},
+  {type:'NYY', material:'cu', cores:3, size:400, ampacity:530, derated:530, ecc:240},
+  {type:'NYY', material:'cu', cores:3, size:500, ampacity:600, derated:600, ecc:null},
+  {type:'NYY', material:'cu', cores:3, size:630, ampacity:690, derated:690, ecc:null},
+
+  // ---------- COPPER NYY: FOUR CORE ----------
+  {type:'NYY', material:'cu', cores:4, size:1.5, ampacity:16, derated:16, ecc:3.243},
+  {type:'NYY', material:'cu', cores:4, size:2.5, ampacity:23, derated:23, ecc:3.243},
+  {type:'NYY', material:'cu', cores:4, size:4, ampacity:32, derated:32, ecc:4},
+  {type:'NYY', material:'cu', cores:4, size:6, ampacity:41, derated:41, ecc:6},
+  {type:'NYY', material:'cu', cores:4, size:10, ampacity:56, derated:56, ecc:10},
+  {type:'NYY', material:'cu', cores:4, size:16, ampacity:75, derated:75, ecc:16},
+  {type:'NYY', material:'cu', cores:4, size:25, ampacity:98, derated:98, ecc:16},
+  {type:'NYY', material:'cu', cores:4, size:35, ampacity:120, derated:120, ecc:16},
+  {type:'NYY', material:'cu', cores:4, size:50, ampacity:150, derated:150, ecc:25},
+  {type:'NYY', material:'cu', cores:4, size:70, ampacity:190, derated:190, ecc:35},
+  {type:'NYY', material:'cu', cores:4, size:95, ampacity:230, derated:230, ecc:50},
+  {type:'NYY', material:'cu', cores:4, size:120, ampacity:270, derated:270, ecc:70},
+  {type:'NYY', material:'cu', cores:4, size:150, ampacity:305, derated:305, ecc:95},
+  {type:'NYY', material:'cu', cores:4, size:185, ampacity:350, derated:350, ecc:95},
+  {type:'NYY', material:'cu', cores:4, size:240, ampacity:410, derated:410, ecc:120},
+  {type:'NYY', material:'cu', cores:4, size:300, ampacity:470, derated:470, ecc:150}
+
+];
+
+// Aluminium data is not present in the supplied PDF.
+// Do not add estimated ampacity values.
+
+// ==========================================
+// EEEGPT CABLE AMPACITY DATABASE
+// Source: User-provided cable capacity PDF
+// NYY 600/1000V | Copper | PVC | 35°C
+// ==========================================
+
+const CABLE_AMPACITY_DB = {
+
+    NYY_3_CORE: [
+        { size: 1.5, ampacity: 16 },
+        { size: 2.5, ampacity: 23 },
+        { size: 4,   ampacity: 32 },
+        { size: 6,   ampacity: 41 },
+        { size: 10,  ampacity: 56 },
+        { size: 16,  ampacity: 75 },
+        { size: 25,  ampacity: 98 },
+        { size: 35,  ampacity: 120 },
+        { size: 50,  ampacity: 150 },
+        { size: 70,  ampacity: 190 },
+        { size: 95,  ampacity: 230 },
+        { size: 120, ampacity: 270 },
+        { size: 150, ampacity: 305 },
+        { size: 185, ampacity: 350 },
+        { size: 240, ampacity: 410 },
+        { size: 300, ampacity: 470 },
+        { size: 400, ampacity: 530 },
+        { size: 500, ampacity: 600 },
+        { size: 630, ampacity: 690 }
+    ],
+
+    NYY_4_CORE: [
+        { size: 1.5, ampacity: 16 },
+        { size: 2.5, ampacity: 23 },
+        { size: 4,   ampacity: 32 },
+        { size: 6,   ampacity: 41 },
+        { size: 10,  ampacity: 56 },
+        { size: 16,  ampacity: 75 },
+        { size: 25,  ampacity: 98 },
+        { size: 35,  ampacity: 120 },
+        { size: 50,  ampacity: 150 },
+        { size: 70,  ampacity: 190 },
+        { size: 95,  ampacity: 230 },
+        { size: 120, ampacity: 270 },
+        { size: 150, ampacity: 305 },
+        { size: 185, ampacity: 350 },
+        { size: 240, ampacity: 410 },
+        { size: 300, ampacity: 470 }
+    ]
+
+};
+
 function calculateCable(){
 
   const phaseType =
@@ -2696,7 +2897,8 @@ if (currentElement) {
   const sizeElement = document.getElementById('manualCableSize');
   const dropResult = document.getElementById('rVoltageDrop');
   const dropStatus = document.getElementById('rVoltageDropStatus');
-
+const resultDrop = document.getElementById('rResultVoltageDrop');
+const resultDropStatus = document.getElementById('rResultVoltageDropStatus');
   const cableSize = sizeElement && sizeElement.value !== ''
     ? Number(sizeElement.value)
     : NaN;
@@ -2731,23 +2933,34 @@ if (currentElement) {
         'Preliminary estimate exceeds the entered limit.';
     }
   }
+// Update Voltage Drop in Calculation Results
+if (resultDrop) {
+  resultDrop.textContent = vd
+    ? `${cableFormat(vd.volts)} V`
+    : '— V';
+}
 
+if (resultDropStatus) {
+  resultDropStatus.textContent = !vd
+    ? 'Select a cable size to calculate.'
+    : vd.percent <= maxDrop
+      ? `Preliminary: ${cableFormat(vd.percent)}% — Within limit`
+      : `Preliminary: ${cableFormat(vd.percent)}% — Exceeds limit`;
+}
 
 const resultPanel = document.getElementById('resultPanel');
 
 if (resultPanel) {
-  const metrics = resultPanel.querySelectorAll('.metric .v');
+  const cableSizeResult = document.getElementById('rCableSize');
+  const cableNoteResult = document.getElementById('rCableNote');
 
-  // Keep unverified recommendations clearly marked.
-  [1, 2, 4, 5].forEach(index => {
-    if (metrics[index]) {
-      // Preserve the existing HTML labels and units.
-      if (index === 1) metrics[index].textContent = 'Verification Required';
-      if (index === 2) metrics[index].textContent = 'Auto — Pending';
-      if (index === 4) metrics[index].textContent = 'Verification Required';
-      if (index === 5) metrics[index].textContent = 'Verification Required';
-    }
-  });
+  if (cableSizeResult) {
+    cableSizeResult.textContent = 'Verification Required';
+  }
+
+  if (cableNoteResult) {
+    cableNoteResult.textContent = 'Verified ampacity data pending';
+  }
 }
 
   const messages = [];
