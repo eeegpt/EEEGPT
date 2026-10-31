@@ -1961,12 +1961,39 @@ window.firebaseGet = get;
     </div>
   </div>
 
- <section class="card"><h2 class="section-title"><span class="num">01</span> Selection Type</h2><div class="grid three">
-<div class="field"><label for="job">Application / Selection Type</label><select id="job"><option value="machine">DB / Panel → Machine</option><option value="transformer">Transformer → LT Panel</option><option value="generator">Generator → LT Panel</option><option value="final">Light / Fan / Socket</option></select></div>
-<div class="field"><label for="unit">Load Unit</label><select id="unit"><option value="kw">kW</option><option value="kva">kVA</option><option value="w">W</option><option value="amp">Ampere (A)</option></select></div>
-<div class="field"><label for="load">Load</label><input id="load" type="number" min="0" step="any" value="15" required></div>
-<div class="field wide" id="equipmentWrap"><label for="equipment">Equipment / Load Name</label><input id="equipment" value="Production Machine" placeholder="e.g. 22 kW motor"></div>
-</div></section>
+ <section class="card">
+  <h2 class="section-title">
+    <span class="num">01</span> Selection Type</h2>
+    <div class="grid three">
+
+<div class="field">
+  <label for="job">Application / Selection Type</label>
+  <select id="job"><option value="machine">DB / Panel → Machine</option>
+    <option value="transformer">Transformer → LT Panel</option>
+    <option value="generator">Generator → LT Panel</option>
+    <option value="final">Light / Fan / Socket</option>
+  </select>
+</div>
+
+<div class="field">
+  <label for="unit">Load Unit</label>
+  <select id="unit">
+    <option value="kw">kW</option>
+    <option value="kva">kVA</option>
+    <option value="w">W</option>
+    <option value="amp">Ampere (A)</option>
+  </select>
+</div>
+<div class="field">
+  <label for="load">Load</label>
+  <input id="load" type="number" min="0" step="any" value="15" required>
+</div>
+<div class="field wide" id="equipmentWrap">
+  <label for="equipment">Equipment / Load Name</label>
+  <input id="equipment" value="Production Machine" placeholder="e.g. 22 kW motor">
+</div>
+</div>
+</section>
 
  <section class="card">
   <h2 class="section-title">
@@ -2024,6 +2051,17 @@ window.firebaseGet = get;
     <option value="xlpe">XLPE</option>
   </select>
 </div>
+
+<div class="field">
+  <label for="cableType">Cable Construction</label>
+  <select id="cableType">
+    <option value="BYA_SINGLE">BYA — Single Core</option>
+    <option value="NYY_SINGLE">NYY — Single Core</option>
+    <option value="NYY_3_CORE">NYY — 3 Core</option>
+    <option value="NYY_4_CORE">NYY — 4 Core</option>
+  </select>
+</div>
+
 <div class="field">
   <label for="install">Installation Method *</label>
   <select id="install" required>
@@ -2737,56 +2775,6 @@ const CABLE_AMPACITY_DB = [
 // Aluminium data is not present in the supplied PDF.
 // Do not add estimated ampacity values.
 
-// ==========================================
-// EEEGPT CABLE AMPACITY DATABASE
-// Source: User-provided cable capacity PDF
-// NYY 600/1000V | Copper | PVC | 35°C
-// ==========================================
-
-const CABLE_AMPACITY_DB = {
-
-    NYY_3_CORE: [
-        { size: 1.5, ampacity: 16 },
-        { size: 2.5, ampacity: 23 },
-        { size: 4,   ampacity: 32 },
-        { size: 6,   ampacity: 41 },
-        { size: 10,  ampacity: 56 },
-        { size: 16,  ampacity: 75 },
-        { size: 25,  ampacity: 98 },
-        { size: 35,  ampacity: 120 },
-        { size: 50,  ampacity: 150 },
-        { size: 70,  ampacity: 190 },
-        { size: 95,  ampacity: 230 },
-        { size: 120, ampacity: 270 },
-        { size: 150, ampacity: 305 },
-        { size: 185, ampacity: 350 },
-        { size: 240, ampacity: 410 },
-        { size: 300, ampacity: 470 },
-        { size: 400, ampacity: 530 },
-        { size: 500, ampacity: 600 },
-        { size: 630, ampacity: 690 }
-    ],
-
-    NYY_4_CORE: [
-        { size: 1.5, ampacity: 16 },
-        { size: 2.5, ampacity: 23 },
-        { size: 4,   ampacity: 32 },
-        { size: 6,   ampacity: 41 },
-        { size: 10,  ampacity: 56 },
-        { size: 16,  ampacity: 75 },
-        { size: 25,  ampacity: 98 },
-        { size: 35,  ampacity: 120 },
-        { size: 50,  ampacity: 150 },
-        { size: 70,  ampacity: 190 },
-        { size: 95,  ampacity: 230 },
-        { size: 120, ampacity: 270 },
-        { size: 150, ampacity: 305 },
-        { size: 185, ampacity: 350 },
-        { size: 240, ampacity: 410 },
-        { size: 300, ampacity: 470 }
-    ]
-
-};
 
 function calculateCable(){
 
@@ -2806,11 +2794,65 @@ const maxDrop = cableNumber('drop');
 const material =
   document.getElementById('conductor').value;
 
-const insulation =
+  const insulation =
   document.getElementById('insulation').value;
+
+const cableType = 
+  document.getElementById('cableType').value;
+
+  // Cable database mapping
+const cableConfig = {
+  BYA_SINGLE: { type: 'BYA', cores: 1 },
+  NYY_SINGLE: { type: 'NYY', cores: 1 },
+  NYY_3_CORE: { type: 'NYY', cores: 3 },
+  NYY_4_CORE: { type: 'NYY', cores: 4 }
+};
+
+const selectedCable = cableConfig[cableType];
+
+const matchingCables = CABLE_AMPACITY_DB.filter(c =>
+  c.type === selectedCable.type &&
+  c.cores === selectedCable.cores &&
+  c.material === material
+);
+
+
+
 
 const installation =
   document.getElementById('install').value;
+
+  // Installation compatibility check
+const byaInstallationAllowed =
+  ['trayOpen', 'clipped'].includes(installation);
+
+const nyyInstallationAllowed =
+  installation === 'openAir';
+
+const installationCompatible =
+  cableType === 'BYA_SINGLE'
+    ? byaInstallationAllowed
+    : nyyInstallationAllowed;
+
+   // Validate database and installation compatibility
+const databaseCompatible =
+  material === 'cu' &&
+  insulation === 'pvc' &&
+  matchingCables.length > 0 &&
+  installationCompatible;
+
+const cableDatabaseStatus = databaseCompatible
+  ? 'Preliminary database match available'
+  : 'Verification Required: Database or installation mismatch';
+
+// Cable database selection preparation
+const cableDatabaseAvailable =
+  Array.isArray(CABLE_AMPACITY_DB) &&
+  CABLE_AMPACITY_DB.length > 0;
+
+const cableSelectionStatus = cableDatabaseAvailable
+  ? 'Ampacity database loaded'
+  : 'Ampacity database unavailable';
 
 const distanceUnit =
   document.getElementById('distanceUnit').value;
@@ -2858,6 +2900,14 @@ if (validLoad && validVoltage) {
   }
 }
 
+// Preliminary cable size selection by database ampacity
+let selectedCableSize = null;
+
+if (databaseCompatible && Number.isFinite(current) && current > 0) {
+  selectedCableSize = matchingCables
+    .filter(c => c.derated >= current)
+    .sort((a, b) => a.size - b.size)[0] || null;
+}
 
  const currentElement = document.getElementById('rCurrent');
 
@@ -2950,16 +3000,30 @@ if (resultDropStatus) {
 
 const resultPanel = document.getElementById('resultPanel');
 
+// Display preliminary cable selection
 if (resultPanel) {
   const cableSizeResult = document.getElementById('rCableSize');
   const cableNoteResult = document.getElementById('rCableNote');
 
-  if (cableSizeResult) {
-    cableSizeResult.textContent = 'Verification Required';
-  }
+  if (cableSizeResult && cableNoteResult) {
 
-  if (cableNoteResult) {
-    cableNoteResult.textContent = 'Verified ampacity data pending';
+    if (!databaseCompatible) {
+      cableSizeResult.textContent = 'Verification Required';
+      cableNoteResult.textContent = cableDatabaseStatus;
+
+    } else if (selectedCableSize) {
+      cableSizeResult.textContent =
+        selectedCableSize.size + ' mm²';
+
+      cableNoteResult.textContent =
+        cableType + ' | Copper | PVC | Database rating: ' +
+        selectedCableSize.derated + ' A';
+
+    } else {
+      cableSizeResult.textContent = 'No Suitable Size';
+      cableNoteResult.textContent =
+        'No database cable size meets the calculated current';
+    }
   }
 }
 
