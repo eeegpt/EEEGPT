@@ -865,8 +865,9 @@ select.unit option{
 
 #cablePage .grid {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 10px;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 190px), 1fr));
+  gap: 12px;
+  align-items: start;
 }
 
 #cablePage .grid.three {
@@ -2029,82 +2030,117 @@ window.firebaseGet = get;
       <option value="ft">Feet (ft)</option></select></div><div class="field">
         <label for="ambient">Ambient Temperature (°C)</label>
         <input id="ambient" type="number" min="-10" max="100" value="35">
+        <div class="helper" id="ambientCorrection">
+  PVC correction factor: —
+</div>
       </div>
     </div
-    ><div class="helper">Phase পরিবর্তন করলে Voltage অটো-সিলেক্ট হবে; বাস্তব supply voltage অনুযায়ী পরিবর্তন করা যাবে।</div></section>
+    ><div class="helper">
+
+    </div>
+  </section>
+
 
 <section class="card">
   <h2 class="section-title">
-    <span class="num">03</span> Cable Installation</h2>
-    <div class="grid">
-<div class="field">
-  <label for="conductor">Conductor Material</label>
-  <select id="conductor">
-    <option value="cu">Copper</option>
-    <option value="al">Aluminium</option>
-  </select>
-</div>
-<div class="field">
-  <label for="insulation">Insulation Type</label>
-  <select id="insulation">
-    <option value="pvc">PVC</option>
-    <option value="xlpe">XLPE</option>
-  </select>
-</div>
+    <span class="num">03</span> Cable Installation
+  </h2>
 
-<div class="field">
-  <label for="cableType">Cable Construction</label>
-  <select id="cableType">
-    <option value="BYA_SINGLE">BYA — Single Core</option>
-    <option value="NYY_SINGLE">NYY — Single Core</option>
-    <option value="NYY_3_CORE">NYY — 3 Core</option>
-    <option value="NYY_4_CORE">NYY — 4 Core</option>
-  </select>
-</div>
+  <div class="grid">
 
-<div class="field">
-  <label for="install">Installation Method *</label>
-  <select id="install" required>
+    <div class="field">
+      <label for="conductor">Conductor Material</label>
+      <select id="conductor">
+        <option value="cu">Copper</option>
+        <option value="al">Aluminium</option>
+      </select>
+    </div>
 
-  </select>
-</div>
-<div class="field">
-  <label for="drop">Maximum Voltage Drop (%)</label>
-  <input id="drop" type="number" min="0.1" max="10" step="0.1" value="2.5" required>
-</div>
+    <div class="field">
+      <label for="insulation">Insulation Type</label>
+      <select id="insulation">
+        <option value="pvc">PVC</option>
+        <option value="xlpe">XLPE</option>
+      </select>
+    </div>
 
-<div class="field">
-  <label for="manualCableSize">Test Cable Size (mm²)</label>
-  <select id="manualCableSize">
-    <option value="">Select cable size</option>
-    <option value="1.5">1.5 mm²</option>
-    <option value="2.5">2.5 mm²</option>
-    <option value="4">4 mm²</option>
-    <option value="6">6 mm²</option>
-    <option value="10">10 mm²</option>
-    <option value="16">16 mm²</option>
-    <option value="25">25 mm²</option>
-    <option value="35">35 mm²</option>
-    <option value="50">50 mm²</option>
-    <option value="70">70 mm²</option>
-    <option value="95">95 mm²</option>
-    <option value="120">120 mm²</option>
-  </select>
-  <div class="helper">
-    Manual test input only; not an automatic cable recommendation.
+    <div class="field">
+      <label for="cableType">Cable Construction</label>
+      <select id="cableType">
+        <option value="BYA_SINGLE">BYA — Single Core</option>
+        <option value="NYY_SINGLE">NYY — Single Core</option>
+        <option value="NYY_3_CORE">NYY — 3 Core</option>
+        <option value="NYY_4_CORE">NYY — 4 Core</option>
+      </select>
+    </div>
+
+    <div class="field">
+      <label for="install">Installation Method *</label>
+      <select id="install" required></select>
+    </div>
+
+    <div class="field">
+      <label for="drop">Maximum Voltage Drop (%)</label>
+      <input id="drop" type="number" min="0.1" max="10"
+        step="0.1" value="2.5" required>
+    </div>
+
+    <div class="field">
+      <label for="manualCableSize">Test Cable Size (mm²)</label>
+      <select id="manualCableSize">
+        <option value="">Select cable size</option>
+        <option value="1.5">1.5 mm²</option>
+        <option value="2.5">2.5 mm²</option>
+        <option value="4">4 mm²</option>
+        <option value="6">6 mm²</option>
+        <option value="10">10 mm²</option>
+        <option value="16">16 mm²</option>
+        <option value="25">25 mm²</option>
+        <option value="35">35 mm²</option>
+        <option value="50">50 mm²</option>
+        <option value="70">70 mm²</option>
+        <option value="95">95 mm²</option>
+        <option value="120">120 mm²</option>
+      </select>
+    </div>
+
+    <div class="field">
+      <label>Ambient Correction Factor</label>
+      <div class="helper" id="ampacityAmbientCorrection">
+        Ambient correction factor: —
+      </div>
+    </div>
+
+    <div class="field">
+      <label>Temperature-Adjusted Ampacity</label>
+      <div class="helper" id="adjustedAmpacity">
+        Temperature-adjusted ampacity: —
+      </div>
+    </div>
+
+    <div class="field">
+      <label>Ampacity Status</label>
+      <div class="helper" id="ampacityStatus">
+        Select cable construction and size.
+      </div>
+    </div>
+
+    <div class="field">
+      <label>Calculated Voltage Drop</label>
+      <div id="rVoltageDrop">—</div>
+      <div id="rVoltageDropStatus" class="helper">
+        Select a cable size to calculate.
+      </div>
+    </div>
+
+    <div class="field">
+      <label>Installation Note</label>
+      <div class="helper" id="installHint">
+        প্রকৃত installation condition অনুযায়ী method নির্বাচন করুন।
+      </div>
+    </div>
+
   </div>
-</div>
-
-<div class="field">
-  <label>Calculated Voltage Drop</label>
-  <div id="rVoltageDrop">—</div>
-  <div id="rVoltageDropStatus" class="helper">
-    Select a cable size to calculate.
-  </div>
-</div>
-
-</div>
-<div class="helper" id="installHint">প্রকৃত installation condition অনুযায়ী method নির্বাচন করুন।</div>
 </section>
 
 <div class="actions">
@@ -2287,8 +2323,6 @@ function jobChange() {
   // Calculate once with the final values.
   calculateCable();
 }
-  phaseChange();
-  populateInstall();
 
 </script>
 
@@ -2772,6 +2806,79 @@ const CABLE_AMPACITY_DB = [
 
 ];
 
+/* =========================================================
+   AMBIENT TEMPERATURE CORRECTION
+   Reference database temperature: 35°C
+   IEC 60364-5-52 Table B.52.14
+   PVC insulation, 70°C conductor
+========================================================= */
+
+const PVC_AMBIENT_FACTORS = [
+  { temp: 30, factor: 1.00 },
+  { temp: 35, factor: 0.94 },
+  { temp: 40, factor: 0.87 },
+  { temp: 45, factor: 0.79 },
+  { temp: 50, factor: 0.71 },
+  { temp: 55, factor: 0.61 },
+  { temp: 60, factor: 0.50 }
+];
+
+function getAmbientCorrection(temp, insulation) {
+
+  // Current cable database contains PVC data only.
+  if (insulation !== 'pvc') {
+    return {
+      supported: false,
+      factor: null,
+      message: 'XLPE ambient correction data not available.'
+    };
+  }
+
+  if (!Number.isFinite(temp) || temp < -10 || temp > 60) {
+    return {
+      supported: false,
+      factor: null,
+      message: 'Temperature outside supported range.'
+    };
+  }
+
+  // Database reference is 35°C.
+  // Below 35°C, do not increase the database ampacity.
+  if (temp <= 35) {
+    return {
+      supported: true,
+      factor: 1.00,
+      message: 'No reduction applied (35°C database reference).'
+    };
+  }
+
+  // Use next higher IEC temperature row:
+  // conservative step selection, no interpolation.
+  const row = PVC_AMBIENT_FACTORS.find(
+    item => item.temp >= temp
+  );
+
+  if (!row) {
+    return {
+      supported: false,
+      factor: null,
+      message: 'Correction factor unavailable.'
+    };
+  }
+
+  // Normalize IEC factor to the database's 35°C reference.
+  const baseFactor = 0.94;
+  const normalizedFactor = row.factor / baseFactor;
+
+  return {
+    supported: true,
+    factor: normalizedFactor,
+    message: `Applied using ${row.temp}°C IEC table row.`
+  };
+}
+
+
+
 // Aluminium data is not present in the supplied PDF.
 // Do not add estimated ampacity values.
 
@@ -2796,6 +2903,25 @@ const material =
 
   const insulation =
   document.getElementById('insulation').value;
+
+  const ambientResult =
+  getAmbientCorrection(ambient, insulation);
+
+const ambientOutput =
+  document.getElementById('ambientCorrection');
+
+if (ambientOutput) {
+
+  if (ambientResult.supported) {
+    ambientOutput.textContent =
+      `Ambient correction factor: ${
+        cableFormat(ambientResult.factor, 3)
+      } — ${ambientResult.message}`;
+  } else {
+    ambientOutput.textContent =
+      `Verification Required — ${ambientResult.message}`;
+  }
+}
 
 const cableType = 
   document.getElementById('cableType').value;
@@ -2953,6 +3079,58 @@ const resultDropStatus = document.getElementById('rResultVoltageDropStatus');
     ? Number(sizeElement.value)
     : NaN;
 
+const cableRecord = selectedCable
+  ? CABLE_AMPACITY_DB.find(item =>
+      item.type === selectedCable.type &&
+      item.material === material &&
+      item.cores === selectedCable.cores &&
+      item.size === cableSize
+    )
+  : null;
+
+const ambientBox = $('ampacityAmbientCorrection');
+const ampacityBox = $('adjustedAmpacity');
+const ampacityStatus = $('ampacityStatus');
+
+if (ambientBox) {
+  ambientBox.textContent = ambientResult.supported
+    ? `Ambient correction factor: ${cableFormat(ambientResult.factor, 3)}`
+    : `Verification Required — ${ambientResult.message}`;
+}
+
+if (
+  cableRecord &&
+  ambientResult.supported &&
+  insulation === 'pvc' &&
+  Number.isFinite(current) &&
+  current > 0
+) {
+  const adjustedAmpacity =
+    cableRecord.derated * ambientResult.factor;
+
+  if (ampacityBox) {
+    ampacityBox.textContent =
+      `Temperature-adjusted ampacity: ${cableFormat(adjustedAmpacity)} A`;
+  }
+
+  if (ampacityStatus) {
+    ampacityStatus.textContent =
+      current <= adjustedAmpacity
+        ? `Preliminary: Load ${cableFormat(current)} A is within database capacity.`
+        : `Warning: Load ${cableFormat(current)} A exceeds database capacity.`;
+  }
+
+} else {
+  if (ampacityBox) {
+    ampacityBox.textContent =
+      'Temperature-adjusted ampacity: Verification Required';
+  }
+
+  if (ampacityStatus) {
+    ampacityStatus.textContent =
+      'Matching cable data or supported correction factor unavailable.';
+  }
+}
   const vd = sizeElement && sizeElement.value !== ''
     ? calculateVoltageDrop(
         current,
@@ -3175,7 +3353,7 @@ function calculateExistingCable(){
 
   calculateCable();
 });
-
+    populateInstall();
   calculateCable();
 })();
 
