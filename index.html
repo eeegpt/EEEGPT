@@ -925,6 +925,29 @@ select.unit option{
   margin-top: 8px;
 }
 
+/* CABLE INSTALLATION: RESULT LAYOUT */
+
+#cablePage #ampacityAmbientCorrection,
+#cablePage #adjustedAmpacity,
+#cablePage #ampacityStatus,
+#cablePage #rVoltageDropStatus,
+#cablePage #installHint {
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+}
+
+#cablePage #rVoltageDrop {
+  color: var(--cable-green);
+  font-size: 17px;
+  font-weight: 800;
+  margin-top: 3px;
+}
+
+#cablePage .field {
+  min-width: 0;
+  align-self: start;
+}
+
 #cablePage .actions {
   display: flex;
   gap: 9px;
@@ -949,8 +972,9 @@ select.unit option{
 
 #cablePage .results {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 190px), 1fr));
   gap: 10px;
+  align-items: stretch;
 }
 
 #cablePage .metric {
@@ -981,13 +1005,17 @@ select.unit option{
 }
 
 #cablePage .status {
+  display: block;
+  width: 100%;
   margin-top: 10px;
   border: 1px solid #70582c;
-  background: #302718;
+  background: linear-gradient(135deg, #302718, #211d16);
   color: var(--cable-warn);
   border-radius: 9px;
-  padding: 10px 12px;
+  padding: 11px 13px;
   font-size: 12px;
+  line-height: 1.6;
+  overflow-wrap: anywhere;
 }
 
 #cablePage .notice {
@@ -995,6 +1023,23 @@ select.unit option{
   font-size: 11px;
   line-height: 1.55;
   margin-top: 12px;
+}
+
+/* INSTALLATION NOTE DESIGN */
+
+#cablePage #installHint {
+  display: block;
+  width: 100%;
+  padding: 11px 13px;
+  margin-top: 12px;
+  background: #10221c;
+  border: 1px solid #285c43;
+  border-left: 3px solid var(--cable-green);
+  border-radius: 9px;
+  color: #b9d9ca;
+  font-size: 12px;
+  line-height: 1.65;
+  overflow-wrap: anywhere;
 }
 
 #cablePage .pill {
@@ -1030,15 +1075,26 @@ select.unit option{
     padding: 12px;
   }
 
-  #cablePage .grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 9px;
-  }
+#cablePage .actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 9px;
+}
 
-  #cablePage .grid.three {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 7px;
-  }
+#cablePage .actions .btn {
+  flex: 1 1 120px;
+  min-width: 0;
+}
+
+#cablePage .grid {
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 160px), 1fr));
+  gap: 9px;
+}
+
+#cablePage .grid.three {
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 105px), 1fr));
+  gap: 7px;
+}
 
   #cablePage .grid.three input,
   #cablePage .grid.three select {
@@ -1050,9 +1106,10 @@ select.unit option{
     font-size: 10px;
   }
 
-  #cablePage .results {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
+
+ #cablePage .results {
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 145px), 1fr));
+}
 
   #cablePage .metric .v {
     font-size: 18px;
@@ -1068,9 +1125,7 @@ select.unit option{
 }
 
 @media (max-width: 370px) {
-  #cablePage .grid.three {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
+
 
   #cablePage .grid.three .wide {
     grid-column: 1 / -1;
@@ -1264,9 +1319,11 @@ window.firebaseGet = get;
 
 
 
+
 <!-- =========================================================
      HTML: ELECTRICAL PAGE
 =========================================================-->
+
 
 <section
   class="page"
@@ -1408,9 +1465,11 @@ window.firebaseGet = get;
 
 
 
+
 <!--=========================================================
      HTML: LOAD CALCULATOR
 =========================================================-->
+
 
 <section
   class="page"
@@ -1768,6 +1827,7 @@ window.firebaseGet = get;
      HTML: POWER CONVERTER
 ========================================================= -->
 
+
 <section
   class="page"
   id="converterPage"
@@ -1946,10 +2006,12 @@ window.firebaseGet = get;
 
   </div>
 
-</section>
+</section> 
+
 
 
 <!-- CABLE SIZE CALCULATOR: TWO MODES -->
+
 
 <section class="page" id="cablePage">
 <form id="cableForm">
@@ -2215,6 +2277,8 @@ window.firebaseGet = get;
     </section>
 
 </section>
+
+
 <!-- =========================================================
      JAVASCRIPT: Cable Selection
 ========================================================= -->
@@ -2995,53 +3059,56 @@ const job =
 
   let current = NaN;
 
+
 if (validLoad && validVoltage) {
+
   const phaseFactor =
     phaseType === '3' ? Math.sqrt(3) : 1;
 
-  let loadInWatt = load;
-
-  if (loadType === 'kw') {
-    loadInWatt = load * 1000;
-  } else if (loadType === 'kva') {
-    loadInWatt = load * 1000;
-  } else if (loadType === 'w') {
-    loadInWatt = load;
-  }
-
   if (loadType === 'amp') {
+
     current = load;
+
   } else if (phaseType === 'dc') {
-    if (loadType !== 'kva') {
-      current = loadInWatt / voltage;
+
+    if (loadType === 'kw') {
+      current = load * 1000 / voltage;
+    } else if (loadType === 'w') {
+      current = load / voltage;
     }
-  } else if (validPF) {
-    if (loadType === 'kva') {
-      current =
-        loadInWatt / (phaseFactor * voltage);
-    } else {
-      current =
-        loadInWatt / (phaseFactor * voltage * pf);
-    }
+
+  } else if (loadType === 'kva') {
+
+    current =
+      load * 1000 / (phaseFactor * voltage);
+
+  } else if (
+    (loadType === 'kw' || loadType === 'w') &&
+    validPF
+  ) {
+
+    const loadInWatt =
+      loadType === 'kw' ? load * 1000 : load;
+
+    current =
+      loadInWatt / (phaseFactor * voltage * pf);
   }
 }
 
-// Preliminary cable size selection by database ampacity
+// Preliminary cable size selection using temperature-adjusted ampacity
 let selectedCableSize = null;
 
-if (databaseCompatible && Number.isFinite(current) && current > 0) {
+if (
+  databaseCompatible &&
+  ambientResult.supported &&
+  Number.isFinite(current) &&
+  current > 0
+) {
   selectedCableSize = matchingCables
-    .filter(c => c.derated >= current)
+    .filter(c =>
+      c.derated * ambientResult.factor >= current
+    )
     .sort((a, b) => a.size - b.size)[0] || null;
-}
-
- const currentElement = document.getElementById('rCurrent');
-
-if (currentElement) {
-  currentElement.textContent =
-    Number.isFinite(current) && current > 0
-      ? cableFormat(current) + ' A'
-      : 'Check inputs';
 }
 
  // Update cable route length
@@ -3131,17 +3198,28 @@ if (
       'Matching cable data or supported correction factor unavailable.';
   }
 }
-  const vd = sizeElement && sizeElement.value !== ''
-    ? calculateVoltageDrop(
-        current,
-        voltage,
-        length,
-        cableSize,
-        phaseType,
-        material,
-        pf
-      )
-    : null;
+
+ console.log({
+  current,
+  voltage,
+  length,
+  cableSize,
+  phaseType,
+  material,
+  pf
+});
+
+const vd = sizeElement && sizeElement.value !== ''
+  ? calculateVoltageDrop(
+      current,
+      voltage,
+      length,
+      cableSize,
+      phaseType,
+      material,
+      pf
+    )
+  : null;
 
   if (dropResult) {
     dropResult.textContent = vd
@@ -3205,27 +3283,32 @@ if (resultPanel) {
   }
 }
 
-  const messages = [];
+ 
+const messages = [];
 
-  if(!validLoad){
-    messages.push('Enter a load greater than zero.');
-  }
+if (!validLoad) {
+  messages.push('Enter a load greater than zero.');
+}
 
-  if(!validVoltage){
-    messages.push('Enter a valid supply voltage.');
-  }
+if (!validVoltage) {
+  messages.push('Enter a valid supply voltage.');
+}
 
-  if(loadType !== 'amp' && phaseType !== 'dc' && !validPF){
-    messages.push('Power factor must be greater than 0 and at most 1.');
-  }
+if (
+  (loadType === 'kw' || loadType === 'w') &&
+  phaseType !== 'dc' &&
+  !validPF
+) {
+  messages.push('Power factor must be greater than 0 and at most 1.');
+}
 
-  if(loadType === 'kva' && phaseType === 'dc'){
-    messages.push('DC with kVA input is not supported.');
-  }
+if (loadType === 'kva' && phaseType === 'dc') {
+  messages.push('DC with kVA input is not supported.');
+}
 
-  if(!validLength){
-    messages.push('Enter cable length greater than zero.');
-  }
+if (!validLength) {
+  messages.push('Enter cable length greater than zero.');
+}
 
   if(!validAmbient){
     messages.push('Enter a valid ambient temperature.');
@@ -3253,35 +3336,57 @@ if (resultPanel) {
 } // END calculateCable()
 
 function calculateVoltageDrop(current, voltage, length, size, phaseType, material, pf) {
+
   if (
     !Number.isFinite(current) || current <= 0 ||
     !Number.isFinite(voltage) || voltage <= 0 ||
     !Number.isFinite(length) || length <= 0 ||
-    !Number.isFinite(size) || size <= 0 ||
-    !Number.isFinite(pf) || pf <= 0 || pf > 1
+    !Number.isFinite(size) || size <= 0
+  ) {
+    return null;
+  }
+
+  // AC voltage-drop estimate requires a valid power factor.
+  if (
+    phaseType !== 'dc' &&
+    (!Number.isFinite(pf) || pf <= 0 || pf > 1)
   ) {
     return null;
   }
 
   // Approximate conductor resistivity at 20°C.
-  // Preliminary estimate only; excludes AC reactance.
+  // AC reactance and operating-temperature resistance are excluded.
   const rho = material === 'al' ? 0.0282 : 0.0175;
 
-  const lengthM = document.getElementById('distanceUnit').value === 'ft'
-    ? length * 0.3048
-    : length;
+  const distanceUnit =
+    document.getElementById('distanceUnit').value;
+
+  const lengthM =
+    distanceUnit === 'ft' ? length * 0.3048 : length;
 
   const resistance = rho * lengthM / size;
 
   let dropV;
 
   if (phaseType === '3') {
-  dropV = Math.sqrt(3) * current * resistance;
-} else if (phaseType === '1') {
-  dropV = 2 * current * resistance;
-} else {
-  dropV = current * resistance;
-}
+
+    dropV =
+      Math.sqrt(3) * current * resistance * pf;
+
+  } else if (phaseType === '1') {
+
+    dropV =
+      2 * current * resistance * pf;
+
+  } else if (phaseType === 'dc') {
+
+    // One-way cable route; outgoing and return conductors.
+    dropV =
+      2 * current * resistance;
+
+  } else {
+    return null;
+  }
 
   return {
     volts: dropV,
