@@ -756,9 +756,9 @@ select.unit option{
 }
 
 #home img {
-  -webkit-user-drag: none;
-  user-drag: none;
   pointer-events: none;
+  user-select: none;
+  -webkit-user-select: none;
 }
 
 
@@ -1186,6 +1186,136 @@ select.unit option{
     grid-template-columns: 1fr;
   }
 }
+
+/* Normal Screen: Strictly hide watermark */
+#cablePage .print-watermark,
+.print-watermark {
+  display: none !important;
+}
+
+/* =========================================================
+   A4 PRINT & PDF EXPORT STYLES (INK SAVER & ENGINEERING REPORT)
+========================================================= */
+@media print {
+  body {
+    background: #ffffff !important;
+    color: #111111 !important;
+    font-size: 12px;
+  }
+
+  .app {
+    max-width: 100% !important;
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  /* Hide navigation, tabs & buttons during print */
+  .home,
+  #electricalPage,
+  #loadPage,
+  #residentialLoadPage,
+  #converterPage,
+  #cablePage .top,
+  #cablePage .load-tabs,
+  #cablePage .actions,
+  #cablePage .tag {
+    display: none !important;
+  }
+
+  #cablePage {
+    color: #111111 !important;
+  }
+
+  #cablePage .card {
+    background: #ffffff !important;
+    border: 1px solid #cbd5e1 !important;
+    box-shadow: none !important;
+    page-break-inside: avoid;
+    break-inside: avoid;
+    margin-bottom: 12px !important;
+    padding: 12px !important;
+  }
+
+  #cablePage .num {
+    background: #e2e8f0 !important;
+    color: #0f172a !important;
+  }
+
+  #cablePage label {
+    color: #475569 !important;
+    font-weight: 600;
+  }
+
+  #cablePage input,
+  #cablePage select {
+    background: #f8fafc !important;
+    color: #0f172a !important;
+    border: 1px solid #cbd5e1 !important;
+    -webkit-appearance: none;
+    appearance: none;
+  }
+
+  #cablePage .results {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 8px !important;
+  }
+
+  #cablePage .metric {
+    background: #f8fafc !important;
+    border: 1px solid #cbd5e1 !important;
+    page-break-inside: avoid;
+    break-inside: avoid;
+    padding: 10px !important;
+  }
+
+  #cablePage .metric .k {
+    color: #475569 !important;
+  }
+
+  #cablePage .metric .v {
+    color: #15803d !important;
+    font-size: 15px !important;
+  }
+
+  #cablePage .metric .s {
+    color: #334155 !important;
+  }
+
+  #cablePage .helper {
+    color: #475569 !important;
+  }
+
+  #cablePage .status {
+    background: #fffbeb !important;
+    color: #92400e !important;
+    border: 1px solid #fde68a !important;
+  }
+
+  /* Print Watermark - Visible ONLY when printing or saving PDF */
+  #cablePage .print-watermark,
+  .print-watermark {
+    display: flex !important;
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    align-items: center !important;
+    justify-content: center !important;
+    pointer-events: none !important;
+    z-index: 9999 !important;
+    opacity: 0.08 !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  .print-watermark img {
+    width: 300px !important;
+    height: 300px !important;
+    object-fit: contain !important;
+  }
+}
 </style>
 
 <!-- =========================================================
@@ -1479,12 +1609,10 @@ window.firebaseGet = get;
 >
   <span class="tool-icon">📐</span>
   <span>
-    <b>Cable Size Calculator</b>
-    <small>BNBC 2020 • RSC • Cable & Breaker Sizing</small>
+    <b>Cable Sizing & Audit</b>
+    <small>BNBC 2020 • RSC • Sizing & Safety Audit</small>
   </span>
 </button>
-
-        
 
     <button
       class="tool"
@@ -2065,12 +2193,16 @@ window.firebaseGet = get;
 
 
 <section class="page" id="cablePage">
+  <div class="print-watermark" style="display: none;">
+    <img src="assets/android-icon.webp" alt="EEEGPT Watermark">
+  </div>
+
   <div class="top" onclick="backFromCable()">
-    <img class="mini" src="assets/icon.webp" alt="EEEGPT">
+    <img class="mini" src="assets/android-icon.webp" alt="EEEGPT">
 
     <div>
-      <div class="title">Cable Size Calculator</div>
-      <div class="sub">BNBC 2020 • RSC • Cable Selection</div>
+      <div class="title">Cable Sizing & Audit</div>
+      <div class="sub">BNBC 2020 • RSC • Sizing & Protection Design</div>
     </div>
   </div>
 
@@ -2261,6 +2393,9 @@ window.firebaseGet = get;
 <div class="actions">
   <button class="btn" type="button" onclick="calculateCable()">
     Calculate Cable & Protection
+  </button>
+  <button class="btn secondary" type="button" onclick="window.print()">
+    🖨️ Print / Save PDF
   </button>
   <button class="btn secondary" type="reset">Reset</button>
 </div>
@@ -2459,9 +2594,12 @@ window.firebaseGet = get;
       </div>
     </section>
 
-    <div class="actions">
+  <div class="actions">
       <button class="btn" type="button" onclick="calculateExistingCable()">
         Evaluate Existing Cable
+      </button>
+      <button class="btn secondary" type="button" onclick="window.print()">
+        🖨️ Print / Save PDF
       </button>
       <button class="btn secondary" type="reset">Reset</button>
     </div>
@@ -4987,7 +5125,5 @@ if(
 }
 
 </script>
-
-
 </body>
 </html>
