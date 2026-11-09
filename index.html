@@ -776,15 +776,46 @@ select.unit option{
   --cable-bg: #0b1112;
   --cable-panel: #121b1d;
   --cable-line: #2a3a3c;
-  --cable-text: #e8f0ed;
-  --cable-muted: #94a8a2;
-  --cable-green: #42d392;
-  --cable-green2: #163b2c;
+  --cable-text: #edf3f1;
+  --cable-muted: #8fa19c;
+  --cable-green: #4fd18b;
+  --cable-green2: #10231b;
   --cable-warn: #ffca73;
-  --cable-blue: #78c9ff;
+  --cable-blue: #55a8ff;
 
   color: var(--cable-text);
-  font: 14px/1.45 system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
+  font: 14px/1.5 system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
+}
+
+#cablePage .load-tabs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin: 0 0 16px;
+}
+
+#cablePage .load-tab {
+  height: 44px;
+  background: #0c1214;
+  color: var(--cable-muted);
+  border: 1px solid var(--cable-line);
+  border-radius: 9px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all .2s ease;
+}
+
+#cablePage .load-tab:hover {
+  border-color: #4fd18b66;
+  color: var(--cable-text);
+}
+
+#cablePage .load-tab.active {
+  background: var(--cable-green2);
+  color: var(--cable-green);
+  border-color: var(--cable-green);
+  box-shadow: inset 0 0 0 1px #4fd18b44;
 }
 
 #cablePage *,
@@ -992,16 +1023,21 @@ select.unit option{
 }
 
 #cablePage .metric .v {
-  font-size: 20px;
-  font-weight: 850;
+  font-size: 18px;
+  font-weight: 800;
   color: var(--cable-green);
-  overflow-wrap: anywhere;
+  line-height: 1.35;
+  margin-top: 2px;
+  overflow-wrap: break-word;
+  word-break: break-word;
 }
 
 #cablePage .metric .s {
   font-size: 11px;
   color: var(--cable-muted);
-  margin-top: 4px;
+  margin-top: 6px;
+  line-height: 1.5;
+  overflow-wrap: break-word;
 }
 
 #cablePage .status {
@@ -1070,69 +1106,81 @@ select.unit option{
   color: var(--cable-muted);
 }
 
+#cablePage .field.wide {
+  grid-column: 1 / -1;
+}
+
+#cablePage .metric {
+  background: #0b1416;
+  border: 1px solid var(--cable-line);
+  border-radius: 11px;
+  padding: 12px 11px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: border-color .2s ease;
+}
+
+#cablePage .metric:hover {
+  border-color: #4fd18b66;
+}
+
 @media (max-width: 650px) {
   #cablePage .card {
-    padding: 12px;
+    padding: 12px 10px;
   }
 
-#cablePage .actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 9px;
-}
-
-#cablePage .actions .btn {
-  flex: 1 1 120px;
-  min-width: 0;
-}
-
-#cablePage .grid {
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 160px), 1fr));
-  gap: 9px;
-}
-
-#cablePage .grid.three {
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 105px), 1fr));
-  gap: 7px;
-}
-
-  #cablePage .grid.three input,
-  #cablePage .grid.three select {
-    padding: 9px 6px;
-    font-size: 12px;
+  #cablePage .actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
   }
 
-  #cablePage .grid.three label {
-    font-size: 10px;
+  #cablePage .actions .btn {
+    flex: 1 1 130px;
+    padding: 10px 12px;
+    font-size: 13px;
   }
 
-
- #cablePage .results {
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 145px), 1fr));
-}
-
-  #cablePage .metric .v {
-    font-size: 18px;
+  #cablePage .grid {
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 140px), 1fr));
+    gap: 8px;
   }
 
-  #cablePage .brand h1 {
-    font-size: 18px;
+  #cablePage .grid.three {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
   }
-
-  #cablePage .tag {
-    font-size: 10px;
-  }
-}
-
-@media (max-width: 370px) {
-
 
   #cablePage .grid.three .wide {
     grid-column: 1 / -1;
   }
 
-  #cablePage .tag {
-    display: none;
+  #cablePage .results {
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 140px), 1fr));
+    gap: 8px;
+  }
+
+  #cablePage .metric {
+    padding: 10px 8px;
+  }
+
+  #cablePage .metric .v {
+    font-size: 16px;
+  }
+
+  #cablePage .metric .s {
+    font-size: 10.5px;
+  }
+}
+
+@media (max-width: 360px) {
+  #cablePage .results {
+    grid-template-columns: 1fr;
+  }
+
+  #cablePage .grid.three {
+    grid-template-columns: 1fr;
   }
 }
 </style>
@@ -2014,7 +2062,6 @@ window.firebaseGet = get;
 
 
 <section class="page" id="cablePage">
-<form id="cableForm">
   <div class="top" onclick="backFromCable()">
     <img class="mini" src="assets/icon.webp" alt="EEEGPT">
 
@@ -2024,14 +2071,26 @@ window.firebaseGet = get;
     </div>
   </div>
 
+  <div class="load-tabs" style="margin-bottom:14px">
+    <button type="button" class="load-tab active" id="cableModeSize" onclick="setCableMode('size')">
+      Mode 1: Sizing
+    </button>
+    <button type="button" class="load-tab" id="cableModeBreaker" onclick="setCableMode('breaker')">
+      Mode 2: Existing Cable
+    </button>
+  </div>
+
+<div id="cableSizeMode">
+<form id="cableForm">
  <section class="card">
   <h2 class="section-title">
     <span class="num">01</span> Selection Type</h2>
     <div class="grid three">
 
-<div class="field">
+<div class="field wide">
   <label for="job">Application / Selection Type</label>
-  <select id="job"><option value="machine">DB / Panel → Machine</option>
+  <select id="job">
+    <option value="machine">DB / Panel → Machine</option>
     <option value="transformer">Transformer → LT Panel</option>
     <option value="generator">Generator → LT Panel</option>
     <option value="final">Light / Fan / Socket</option>
@@ -2198,10 +2257,11 @@ window.firebaseGet = get;
 
 <div class="actions">
   <button class="btn" type="button" onclick="calculateCable()">
-    Calculate Preliminary Current
+    Calculate Cable & Protection
   </button>
   <button class="btn secondary" type="reset">Reset</button>
 </div>
+
 </form>
 
   <section class="card" id="resultPanel">
@@ -2253,6 +2313,12 @@ window.firebaseGet = get;
 </div>
 
 <div class="metric">
+  <div class="k">Conduit / Pipe Size</div>
+  <div class="v" id="rConduit" style="font-size:15px">—</div>
+  <div class="s" id="rConduitNote">BNBC 40% Space Factor rule</div>
+</div>
+
+<div class="metric">
   <div class="k">Breaker Recommendation</div>
   <div class="v" id="rBreaker" style="font-size:15px">—</div>
   <div class="s" id="rBreakerNote">Standard rating coordination (Ib ≤ In ≤ Iz)</div>
@@ -2261,7 +2327,190 @@ window.firebaseGet = get;
 </div>
 <div class="status" style="display:none"></div>
     </section>
+</div> <!-- END cableSizeMode -->
 
+<!-- =========================================================
+     MODE 2: EXISTING CABLE TO BREAKER & SAFE CAPACITY
+========================================================= -->
+<div id="cableBreakerMode" hidden>
+  <form id="exCableForm">
+    <section class="card">
+      <h2 class="section-title"><span class="num">01</span> Existing Cable Details</h2>
+      <div class="grid">
+        <div class="field">
+          <label for="exConductor">Conductor Material</label>
+          <select id="exConductor">
+            <option value="cu">Copper</option>
+            <option value="al">Aluminium</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="exInsulation">Insulation Type</label>
+          <select id="exInsulation">
+            <option value="pvc">PVC</option>
+            <option value="xlpe">XLPE</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="exCableType">Cable Construction</label>
+          <select id="exCableType">
+            <option value="BYA_SINGLE">BYA — Single Core</option>
+            <option value="NYY_SINGLE">NYY — Single Core</option>
+            <option value="NYY_3_CORE">NYY — 3 Core</option>
+            <option value="NYY_4_CORE">NYY — 4 Core</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="exCableSize">Existing Cable Size (mm²)</label>
+          <select id="exCableSize">
+            <option value="1.5">1.5 mm²</option>
+            <option value="2.5">2.5 mm²</option>
+            <option value="4">4 mm²</option>
+            <option value="6">6 mm²</option>
+            <option value="10">10 mm²</option>
+            <option value="16" selected>16 mm²</option>
+            <option value="25">25 mm²</option>
+            <option value="35">35 mm²</option>
+            <option value="50">50 mm²</option>
+            <option value="70">70 mm²</option>
+            <option value="95">95 mm²</option>
+            <option value="120">120 mm²</option>
+            <option value="150">150 mm²</option>
+            <option value="185">185 mm²</option>
+            <option value="240">240 mm²</option>
+            <option value="300">300 mm²</option>
+            <option value="400">400 mm²</option>
+            <option value="500">500 mm²</option>
+            <option value="630">630 mm²</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="exRuns">Parallel Runs (No. of Cables)</label>
+          <select id="exRuns">
+            <option value="1" selected>1 Run (Single Cable)</option>
+            <option value="2">2 Runs in Parallel</option>
+            <option value="3">3 Runs in Parallel</option>
+            <option value="4">4 Runs in Parallel</option>
+            <option value="5">5 Runs in Parallel</option>
+            <option value="6">6 Runs in Parallel</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="exInstall">Installation Method</label>
+          <select id="exInstall"></select>
+        </div>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2 class="section-title"><span class="num">02</span> Operating & Circuit Conditions</h2>
+      <div class="grid three">
+        <div class="field">
+          <label for="exPhase">Phase</label>
+          <select id="exPhase">
+            <option value="3">3 Phase</option>
+            <option value="1">1 Phase</option>
+            <option value="dc">DC</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="exVoltage">Voltage (V)</label>
+          <input id="exVoltage" type="number" min="1" value="415" required>
+        </div>
+
+        <div class="field">
+          <label for="exPf">Power Factor</label>
+          <input id="exPf" type="number" min="0.1" max="1" step="0.01" value="0.85" required>
+        </div>
+      </div>
+
+      <div class="subgrid">
+        <div class="field">
+          <label for="exLength">Route Length</label>
+          <input id="exLength" type="number" min="1" step="any" value="30" required>
+        </div>
+
+        <div class="field">
+          <label for="exDistanceUnit">Unit</label>
+          <select id="exDistanceUnit">
+            <option value="m">Meter (m)</option>
+            <option value="ft">Feet (ft)</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="exAmbient">Ambient Temp (°C)</label>
+          <input id="exAmbient" type="number" min="-10" max="60" value="35">
+        </div>
+
+        <div class="field">
+          <label>Temperature Derating Factor</label>
+          <div class="helper" id="exAmbientCorrection">Factor: 1.00 (35°C Base)</div>
+        </div>
+      </div>
+    </section>
+
+    <div class="actions">
+      <button class="btn" type="button" onclick="calculateExistingCable()">
+        Evaluate Existing Cable
+      </button>
+      <button class="btn secondary" type="reset">Reset</button>
+    </div>
+  </form>
+
+  <section class="card" id="exResultPanel">
+    <div class="result-head">
+      <h2>Evaluation Results</h2>
+      <span class="pill">VERIFIED STANDARD</span>
+    </div>
+
+    <div class="results">
+      <div class="metric">
+        <div class="k">Safe Current Capacity (Iz)</div>
+        <div class="v" id="rExAmpacity">— A</div>
+        <div class="s" id="rExAmpacityNote">Effective continuous ampacity</div>
+      </div>
+
+      <div class="metric">
+        <div class="k">Recommended Breaker (In)</div>
+        <div class="v" id="rExBreaker" style="font-size:15px">—</div>
+        <div class="s" id="rExBreakerNote">Coordination In ≤ Iz</div>
+      </div>
+
+      <div class="metric">
+        <div class="k">Max Safe Load Capacity</div>
+        <div class="v" id="rExSafeLoad" style="font-size:16px">— kW</div>
+        <div class="s" id="rExSafeLoadNote">At operating voltage & PF</div>
+      </div>
+
+      <div class="metric">
+        <div class="k">Voltage Drop @ In Rating</div>
+        <div class="v" id="rExDrop">— V</div>
+        <div class="s" id="rExDropNote">At full breaker rated load</div>
+      </div>
+
+      <div class="metric">
+        <div class="k">Required ECC / Earth Cable</div>
+        <div class="v" id="rExEcc" style="font-size:15px">—</div>
+        <div class="s" id="rExEccNote">BNBC Table 8.1.26 rule</div>
+      </div>
+
+      <div class="metric">
+        <div class="k">Conduit / Pipe Size</div>
+        <div class="v" id="rExConduit" style="font-size:15px">—</div>
+        <div class="s" id="rExConduitNote">BNBC 40% Space Factor rule</div>
+      </div>
+    </div>
+
+    <div class="status" id="exStatus" style="display:none"></div>
+  </section>
+</div>
 </section>
 
 
@@ -2272,29 +2521,38 @@ window.firebaseGet = get;
 <script>
 const $ = id => document.getElementById(id);
 
-const common = [
-  ['trayOpen', 'Cable Tray/Ladder — Open'],
-  ['trayCovered', 'Cable Tray/Ladder — Covered'],
-  ['surface', 'Surface / Wall'],
-  ['channel', 'PVC / Aluminium Channel'],
-  ['pvcSurface', 'PVC Conduit — Surface Mounted'],
-  ['pvcConcealed', 'PVC Conduit — Concealed in Wall'],
-  ['gi', 'GI Pipe / Metal Conduit'],
+// 6 Streamlined Standard Installation Methods (BNBC 2020 & RSC)
+const standardMethods = [
+  ['conduitConcealed', 'PVC Conduit — Concealed in Wall/Ceiling'],
+  ['conduitSurface', 'Surface Conduit / GI Pipe'],
   ['trunking', 'Cable Trunking / Channel'],
-  ['openAir', 'Open Air'],
-  ['clipped', 'Direct on Wall / Clipped Direct']
-];
-
-const heavy = [
-  ['trenchRack', 'Underground Trench — Cable Ladder/Rack'],
-  ['trenchNoRack', 'Underground Trench — Without Ladder/Rack'],
-  ['duct', 'Underground Duct / Pipe'],
-  ['buried', 'Direct Buried Underground Cable']
+  ['tray', 'Cable Tray / Ladder Rack'],
+  ['clipped', 'Direct on Wall / Clipped'],
+  ['trench', 'Underground Trench / Duct']
 ];
 
 function populateInstall() {
-  const heavyJob = ['transformer', 'generator'].includes($('job').value);
-  const list = heavyJob ? heavy.concat(common) : common;
+  const job = $('job') ? $('job').value : 'machine';
+  const isHeavyLT = ['transformer', 'generator'].includes(job);
+  let list;
+
+  if (isHeavyLT) {
+    // Heavy LT Feeders (Substation/Generator): Trench or Heavy Cable Ladder
+    list = [
+      ['trench', 'Underground Trench / Duct (LT Feeder)'],
+      ['tray', 'Cable Tray / Heavy Ladder Rack']
+    ];
+  } else if (job === 'final') {
+    // Final branch circuits: Conduit or Trunking
+    list = [
+      ['conduitConcealed', 'PVC Conduit — Concealed in Wall/Ceiling'],
+      ['conduitSurface', 'Surface Conduit / GI Pipe'],
+      ['trunking', 'Cable Trunking / Channel']
+    ];
+  } else {
+    // Industrial Machines & General DBs: All practical methods
+    list = standardMethods;
+  }
 
   $('install').innerHTML = list
     .map(item => `<option value="${item[0]}">${item[1]}</option>`)
@@ -2700,26 +2958,33 @@ function backFromCable(){
 
 
 function setCableMode(mode){
-
   const isSize = mode === 'size';
 
-  document.getElementById('cableSizeMode').hidden = !isSize;
-  document.getElementById('cableBreakerMode').hidden = isSize;
+  const sizeDiv = document.getElementById('cableSizeMode');
+  const breakerDiv = document.getElementById('cableBreakerMode');
+  const sizeTab = document.getElementById('cableModeSize');
+  const breakerTab = document.getElementById('cableModeBreaker');
 
-  document.getElementById('cableModeSize')
-    .classList.toggle('active', isSize);
+  if (sizeDiv) sizeDiv.style.display = isSize ? 'block' : 'none';
+  if (breakerDiv) breakerDiv.style.display = isSize ? 'none' : 'block';
 
-  document.getElementById('cableModeBreaker')
-    .classList.toggle('active', !isSize);
+  if (sizeTab) sizeTab.classList.toggle('active', isSize);
+  if (breakerTab) breakerTab.classList.toggle('active', !isSize);
 
-  if(isSize){
+  if (isSize) {
     calculateCable();
-  }else{
+  } else {
+    populateExInstall();
     calculateExistingCable();
   }
 }
 
-
+function populateExInstall() {
+  const el = $('exInstall');
+  if (!el || el.children.length > 0) return;
+  el.innerHTML = standardMethods.map(item => `<option value="${item[0]}">${item[1]}</option>`).join('');
+  el.value = 'conduitConcealed';
+}
 /* =========================================================
    CABLE CALCULATOR: VALIDATION HELPERS
 ========================================================= */
@@ -3010,28 +3275,20 @@ if (isHeavyJob) {
     jobMismatchReason =
       'BNBC 2020 (Part 8, Sec 2.5 & 2.7) এবং RSC (Sec 10.3) অনুযায়ী: ট্রান্সফরমার বা জেনারেটরের মেইন ফিডারে নন-শেথেড BYA তার সম্পূর্ণ নিষিদ্ধ। ডাবল ইনসুলেটেড NYY বা XLPE শেথেড কেবল ব্যবহার আবশ্যক।';
   } else {
-    // Transformer / Generator must use heavy raceways (trench, ladder, tray, duct)
-    const heavyAllowed = [
-      'trenchRack',
-      'trenchNoRack',
-      'duct',
-      'buried',
-      'trayOpen',
-      'trayCovered',
-      'openAir'
-    ];
+
+    // Transformer / Generator must use heavy raceways (trench or heavy tray/ladder)
+    const heavyAllowed = ['trench', 'tray'];
     if (!heavyAllowed.includes(installation)) {
       jobCompatible = false;
       jobMismatchReason =
-        'BNBC 2020 (Part 8, Sec 2.5.4) এবং RSC (Sec 10.3/10.4) অনুযায়ী: সাবস্টেশন ও জেনারেটরের মেইন ফিডার লাইনে মেকানিক্যাল প্রটেকশন ও সেফটির জন্য ক্যাবল ট্রেঞ্চ (Trench), হেভি ল্যাডার বা ডাক্ট মেথড ব্যবহার আবশ্যক।';
+        'BNBC 2020 (Part 8, Sec 2.5.4) এবং RSC (Sec 10.3/10.4) অনুযায়ী: সাবস্টেশন ও জেনারেটরের মেইন ফিডার লাইনে মেকানিক্যাল প্রটেকশন ও সেফটির জন্য ক্যাবল ট্রেঞ্চ (Trench) বা হেভি ল্যাডার মেথড ব্যবহার আবশ্যক।';
     }
   }
 }
 
 else if (job === 'final') {
   // Branch circuits (Light / Fan) do not use heavy underground trenching
-  const heavyTrench = ['trenchRack', 'trenchNoRack', 'buried'];
-  if (heavyTrench.includes(installation)) {
+  if (installation === 'trench') {
     jobCompatible = false;
     jobMismatchReason =
       'ফাইনাল ব্রাঞ্চ সার্কিটের (Light/Fan) জন্য আন্ডারগ্রাউন্ড ট্রেঞ্চ স্ট্যান্ডার্ড নয়; সারফেস/কনসিল্ড কনডুইট বা চ্যানেল নির্বাচন করুন।';
@@ -3040,28 +3297,18 @@ else if (job === 'final') {
 
 // 2. Standard Cable Construction Compatibility
 const byaInstallationAllowed = [
-  'pvcSurface',
-  'pvcConcealed',
-  'gi',
-  'channel',
+  'conduitConcealed',
+  'conduitSurface',
   'trunking'
 ].includes(installation);
 
 const nyyInstallationAllowed = [
-  'trayOpen',
-  'trayCovered',
-  'surface',
+  'tray',
   'clipped',
-  'openAir',
-  'channel',
+  'conduitConcealed',
+  'conduitSurface',
   'trunking',
-  'pvcSurface',
-  'pvcConcealed',
-  'gi',
-  'trenchRack',
-  'trenchNoRack',
-  'duct',
-  'buried'
+  'trench'
 ].includes(installation);
 
 const installationCompatible =
@@ -3081,7 +3328,8 @@ const databaseCompatible =
 let cableDatabaseStatus = 'Preliminary database match available';
 
 if (material !== 'cu') {
-  cableDatabaseStatus = 'Verification Required: Aluminium ampacity data is not available in database.';
+  cableDatabaseStatus =
+    'BNBC 2020 (Part 8, Sec 2.7.1.1) ও RSC (Sec 10.3) অনুযায়ী: অভ্যন্তরীণ ব্রাঞ্চ সার্কিটে অ্যালুমিনিয়াম তার নিষিদ্ধ (মেইন ফিডারে ন্যূনতম ১৬/২৫ mm² প্রযোজ্য)। অ্যালুমিনিয়াম ব্যবহারের ক্ষেত্রে বাই-মেটালিক লাগ (Bi-metallic lugs) ও প্রস্তুতকারক ক্যাটালগ অ্যাম্পাসিটি ভেরিফিকেশন আবশ্যক।';
 } else if (insulation !== 'pvc') {
   cableDatabaseStatus = 'Verification Required: XLPE ampacity data is not available in database.';
 } else if (!jobCompatible) {
@@ -3520,15 +3768,82 @@ if (resultPanel) {
         ? `Preliminary: ${pole} | Ib (${cableFormat(current)} A) ≤ In (${In} A) ≤ Iz (${cableFormat(totalIz)} A)`
         : `⚠️ Warning: In (${In} A) exceeds Iz (${cableFormat(totalIz)} A)`;
 
-      breakerNoteElement.innerHTML = `
+   breakerNoteElement.innerHTML = `
         ${coordText}<br>
         ⚡ ${inrushNote}<br>
         🛡️ Cable Withstand: ${cableFormat(Isc1s, 2)} kA (1s) / ${cableFormat(Isc01s, 2)} kA (0.1s)
       `;
     }
   }
-}
 
+  // Display Conduit / Pipe Size Recommendation (BNBC 2020 Table 8.1.13/14 & 40% Space Factor)
+  const conduitElement = document.getElementById('rConduit');
+  const conduitNoteElement = document.getElementById('rConduitNote');
+
+  if (conduitElement && conduitNoteElement) {
+    const isConduitMethod = ['conduitConcealed', 'conduitSurface'].includes(installation);
+
+    if (!isConduitMethod) {
+      conduitElement.textContent = 'Not Applicable';
+      conduitNoteElement.textContent = 'Open Tray / Trench / Direct wiring';
+    } else if (!databaseCompatible || !selectedCableSize) {
+      conduitElement.textContent = 'Verification Required';
+      conduitNoteElement.textContent = 'Awaiting verified cable sizing';
+    } else {
+      // Overall cross-sectional area with insulation (mm²) for standard BYA/Single-core (BDS 900 / BS 6004)
+      const CABLE_OVERALL_AREAS = {
+        1: 6.2, 1.5: 7.1, 2.5: 10.2, 4: 13.9, 6: 18.1,
+        10: 29.2, 16: 40.7, 25: 62.2, 35: 81.7, 50: 115.0,
+        70: 153.9, 95: 206.1, 120: 254.5, 150: 314.0,
+        185: 380.0, 240: 490.0, 300: 590.0, 400: 755.0
+      };
+
+      // Standard conduit sizes with 40% maximum allowable internal cable area
+      const CONDUIT_SIZES = [
+        { metric: '20 mm', imperial: '¾"', maxArea40: 82, intArea: 206 },
+        { metric: '25 mm', imperial: '1"', maxArea40: 138, intArea: 346 },
+        { metric: '32 mm', imperial: '1¼"', maxArea40: 237, intArea: 594 },
+        { metric: '38 mm', imperial: '1½"', maxArea40: 363, intArea: 907 },
+        { metric: '50 mm', imperial: '2"', maxArea40: 622, intArea: 1555 },
+        { metric: '63 mm', imperial: '2½"', maxArea40: 1002, intArea: 2507 }
+      ];
+
+      const phaseArea = CABLE_OVERALL_AREAS[selectedCableSize.size] || (Math.PI * Math.pow(Math.sqrt(selectedCableSize.size) * 1.5 + 1.2, 2) / 4);
+      
+      // ECC Size calculation
+      const S = selectedCableSize.size;
+      const eccS = S <= 16 ? S : (S <= 35 ? 16 : (S / 2));
+      const eccArea = CABLE_OVERALL_AREAS[eccS] || phaseArea * 0.6;
+
+      // Conductor count per conduit run:
+      // 3-Phase: 3 Phase + 1 Neutral = 4 wires + 1 ECC = 5 wires
+      // 1-Phase: 1 Phase + 1 Neutral = 2 wires + 1 ECC = 3 wires
+      // DC: 2 wires + 1 Earth = 3 wires
+      const activeCores = phaseType === '3' ? 4 : 2;
+      const totalCableAreaPerRun = (activeCores * phaseArea) + eccArea;
+      const totalWiresPerRun = activeCores + 1;
+
+      // Select smallest standard conduit satisfying ≤ 40% fill rule
+      const suitableConduit = CONDUIT_SIZES.find(c => c.maxArea40 >= totalCableAreaPerRun);
+
+      if (suitableConduit) {
+        const fillPercent = ((totalCableAreaPerRun / suitableConduit.intArea) * 100).toFixed(1);
+        const pipeType = installation === 'gi' ? 'GI Conduit' : 'PVC Conduit';
+
+        conduitElement.textContent = selectedRuns > 1
+          ? `${selectedRuns} × ${suitableConduit.metric} (${suitableConduit.imperial})`
+          : `${suitableConduit.metric} (${suitableConduit.imperial})`;
+
+        conduitNoteElement.textContent = selectedRuns > 1
+          ? `Per run: ${suitableConduit.metric} ${pipeType} (${totalWiresPerRun} wires, ${fillPercent}% fill ≤ 40%)`
+          : `${pipeType} | ${totalWiresPerRun} wires (${activeCores}C + 1 ECC) | Fill: ${fillPercent}% (Max 40%)`;
+      } else {
+        conduitElement.textContent = 'Trunking / Tray Required';
+        conduitNoteElement.textContent = 'Total cable volume exceeds standard 63 mm (2½") conduit capacity';
+      }
+    }
+  }
+}
 
  
 const messages = [];
@@ -3640,42 +3955,225 @@ function calculateVoltageDrop(current, voltage, length, size, phaseType, materia
   };
 }
 /* =========================================================
-   MODE 2: EXISTING CABLE TO BREAKER
+   MODE 2: EXISTING CABLE TO BREAKER (BNBC 2020 & RSC)
 ========================================================= */
 
 function calculateExistingCable(){
+  populateExInstall();
 
-  const size = cableNumber('existingCableSize');
-  const temp = cableNumber('existingCableTemp');
-  const voltage = cableNumber('existingCableVoltage');
+  const material = $('exConductor') ? $('exConductor').value : 'cu';
+  const insulation = $('exInsulation') ? $('exInsulation').value : 'pvc';
+  const cableType = $('exCableType') ? $('exCableType').value : 'BYA_SINGLE';
+  const size = cableNumber('exCableSize');
+  const runs = cableNumber('exRuns') || 1;
+  const installation = $('exInstall') ? $('exInstall').value : 'pvcConcealed';
+  const phase = $('exPhase') ? $('exPhase').value : '3';
+  const voltage = cableNumber('exVoltage');
+  const pf = cableNumber('exPf') || 0.85;
+  const length = cableNumber('exLength') || 30;
+  const distanceUnit = $('exDistanceUnit') ? $('exDistanceUnit').value : 'm';
+  const ambient = cableNumber('exAmbient');
 
-  cableSet('existingAmpacity', 'Verification Required');
-  cableSet('existingBreaker', 'Verification Required');
+  const ampacityEl = $('rExAmpacity');
+  const ampacityNoteEl = $('rExAmpacityNote');
+  const breakerEl = $('rExBreaker');
+  const breakerNoteEl = $('rExBreakerNote');
+  const safeLoadEl = $('rExSafeLoad');
+  const safeLoadNoteEl = $('rExSafeLoadNote');
+  const dropEl = $('rExDrop');
+  const dropNoteEl = $('rExDropNote');
+  const eccEl = $('rExEcc');
+  const eccNoteEl = $('rExEccNote');
+  const conduitEl = $('rExConduit');
+  const conduitNoteEl = $('rExConduitNote');
+  const statusEl = $('exStatus');
 
   const messages = [];
 
-  if(!Number.isFinite(size) || size <= 0){
-    messages.push('Select a valid cable size.');
+ // Compatibility Checks
+  const byaAllowed = ['conduitConcealed', 'conduitSurface', 'trunking'].includes(installation);
+  if (cableType === 'BYA_SINGLE' && !byaAllowed) {
+    messages.push('BNBC/RSC Violation: BYA cable is prohibited in open tray, ladder, or direct clipped wiring. Conduit/Trunking required.');
   }
 
-  if(!Number.isFinite(temp)){
-    messages.push('Enter a valid ambient temperature.');
+  if (material === 'al') {
+    messages.push('BNBC Part 8, Sec 2.7.1.1: Aluminium is prohibited in internal branch wiring. Bi-metallic lugs and catalog verification required.');
+  }
+  if (insulation !== 'pvc') {
+    messages.push('Verification Required: XLPE database ampacity values are currently pending catalog integration.');
   }
 
-  if(!Number.isFinite(voltage) || voltage <= 0){
-    messages.push('Enter a valid supply voltage.');
+  // Ambient correction
+  const amb = getAmbientCorrection(ambient, insulation);
+  const ambFactor = amb.supported ? amb.factor : 1.0;
+  if ($('exAmbientCorrection')) {
+    $('exAmbientCorrection').textContent = amb.supported
+      ? `Factor: ${cableFormat(ambFactor, 2)} (${amb.message})`
+      : 'Verification Required';
   }
 
-  messages.push(
-    'Verify cable ampacity using the applicable BNBC requirements, conductor material, insulation rating, installation method and correction factors.'
+  const cableConfig = {
+    BYA_SINGLE: { type: 'BYA', cores: 1 },
+    NYY_SINGLE: { type: 'NYY', cores: 1 },
+    NYY_3_CORE: { type: 'NYY', cores: 3 },
+    NYY_4_CORE: { type: 'NYY', cores: 4 }
+  };
+  const cfg = cableConfig[cableType];
+  const record = CABLE_AMPACITY_DB.find(c =>
+    c.type === cfg.type && c.cores === cfg.cores && c.material === material && c.size === size
   );
 
-  messages.push(
-    'Verify breaker rating, short-circuit withstand, fault current and disconnection requirements before installation.'
-  );
+  if (!record || !amb.supported || material !== 'cu' || insulation !== 'pvc' || (cableType === 'BYA_SINGLE' && !byaAllowed)) {
+    if (ampacityEl) ampacityEl.textContent = 'Verification Required';
+    if (breakerEl) breakerEl.textContent = 'Verification Required';
+    if (safeLoadEl) safeLoadEl.textContent = '—';
+    if (dropEl) dropEl.textContent = '—';
+    if (eccEl) eccEl.textContent = '—';
+    if (conduitEl) conduitEl.textContent = '—';
 
-  cableSet('existingCableStatus', messages.join(' '));
+    if (statusEl) {
+      statusEl.style.display = messages.length > 0 ? 'block' : 'none';
+      statusEl.innerHTML = messages.join('<br>');
+    }
+    return;
+  }
 
+  // 1. Safe Continuous Ampacity (Iz)
+  const basePerRun = record.derated;
+  const singleIz = basePerRun * ambFactor;
+  const totalIz = singleIz * runs;
+
+  if (ampacityEl) {
+    ampacityEl.textContent = `${cableFormat(totalIz)} A`;
+  }
+  if (ampacityNoteEl) {
+    ampacityNoteEl.textContent = runs > 1
+      ? `${runs} Runs × ${cableFormat(singleIz)} A (Base: ${basePerRun} A @ 35°C, Temp Factor: ${cableFormat(ambFactor, 2)})`
+      : `Single Run | Base: ${basePerRun} A @ 35°C | Temp Factor: ${cableFormat(ambFactor, 2)}`;
+  }
+
+  // 2. Recommended Breaker Rating (In ≤ Iz coordination)
+  const standardBreakers = [
+    6, 10, 16, 20, 25, 32, 40, 50, 63, 80, 100, 125, 160, 200, 250, 315, 350, 400, 500, 630, 800,
+    1000, 1250, 1600, 2000, 2500, 3200, 4000
+  ];
+  // Largest standard breaker rating <= totalIz
+  const In = [...standardBreakers].reverse().find(r => r <= totalIz) || 6;
+
+  let breakerType = 'MCB';
+  if (phase === 'dc') {
+    breakerType = In <= 63 ? 'DC-MCB' : 'DC-MCCB';
+  } else if (In > 630) {
+    breakerType = 'ACB';
+  } else if (In > 63) {
+    breakerType = 'MCCB';
+  }
+
+  if (breakerEl) {
+    breakerEl.textContent = `${In} A ${breakerType}`;
+  }
+  if (breakerNoteEl) {
+    breakerNoteEl.innerHTML = `Safe rule In (${In} A) ≤ Iz (${cableFormat(totalIz)} A) | ${phase === '3' ? '3P/4P' : (phase === '1' ? '1P/2P' : '2P DC')}`;
+  }
+
+  // 3. Maximum Safe Load Capacity (at Breaker In)
+  let maxKW = 0;
+  let maxKVA = 0;
+  if (phase === '3') {
+    maxKW = (Math.sqrt(3) * voltage * In * pf) / 1000;
+    maxKVA = (Math.sqrt(3) * voltage * In) / 1000;
+  } else if (phase === '1') {
+    maxKW = (voltage * In * pf) / 1000;
+    maxKVA = (voltage * In) / 1000;
+  } else {
+    maxKW = (voltage * In) / 1000;
+    maxKVA = maxKW;
+  }
+
+  if (safeLoadEl) {
+    safeLoadEl.textContent = `${cableFormat(maxKW)} kW`;
+  }
+  if (safeLoadNoteEl) {
+    safeLoadNoteEl.textContent = phase === 'dc'
+      ? `DC Load Capacity @ ${voltage} V`
+      : `Apparent: ${cableFormat(maxKVA)} kVA @ PF ${pf}, ${voltage} V`;
+  }
+
+  // 4. Voltage Drop at Full Breaker Rating (In)
+  const currentPerRun = In / runs;
+  const vd = calculateVoltageDrop(currentPerRun, voltage, length, size, phase, material, pf);
+
+  if (dropEl && vd) {
+    dropEl.textContent = `${cableFormat(vd.volts)} V (${cableFormat(vd.percent)}%)`;
+  }
+  if (dropNoteEl && vd) {
+    const isSafe = vd.percent <= 3.0;
+    dropNoteEl.textContent = isSafe
+      ? `✓ Voltage drop is safe (≤ 3.0% at ${length} ${distanceUnit})`
+      : `⚠️ High drop (${cableFormat(vd.percent)}% > 3.0%). Derate load or reduce length.`;
+  }
+
+  // 5. ECC / Earth Cable (BNBC Table 8.1.26)
+  let eccSize = size <= 16 ? size : (size <= 35 ? 16 : (size / 2));
+  const standardECC = [1.5, 2.5, 4, 6, 10, 16, 25, 35, 50, 70, 95, 120, 150, 185, 240];
+  eccSize = standardECC.find(s => s >= eccSize) || Math.ceil(eccSize);
+
+  // Short-circuit adiabatic (1s and 0.1s)
+  const k = 115;
+  const Isc1s = (k * size * runs) / 1000;
+  const Isc01s = (k * size * runs) / (Math.sqrt(0.1) * 1000);
+
+  if (eccEl) {
+    eccEl.textContent = runs > 1 ? `${runs} × ${eccSize} mm²` : `${eccSize} mm²`;
+  }
+  if (eccNoteEl) {
+    eccNoteEl.innerHTML = `Copper ECC (BNBC Table 8.1.26)<br>Fault withstand: ${cableFormat(Isc1s, 2)} kA (1s) / ${cableFormat(Isc01s, 2)} kA (0.1s)`;
+  }
+
+  // 6. Conduit / Pipe Sizing
+  const isConduit = ['conduitConcealed', 'conduitSurface'].includes(installation);
+  if (conduitEl && conduitNoteEl) {
+    if (!isConduit) {
+      conduitEl.textContent = 'Not Applicable';
+      conduitNoteEl.textContent = 'Open Tray / Trench / Direct wiring';
+    } else {
+      const CABLE_OVERALL_AREAS = {
+        1: 6.2, 1.5: 7.1, 2.5: 10.2, 4: 13.9, 6: 18.1,
+        10: 29.2, 16: 40.7, 25: 62.2, 35: 81.7, 50: 115.0,
+        70: 153.9, 95: 206.1, 120: 254.5, 150: 314.0,
+        185: 380.0, 240: 490.0, 300: 590.0, 400: 755.0
+      };
+      const CONDUIT_SIZES = [
+        { metric: '20 mm', imperial: '¾"', maxArea40: 82, intArea: 206 },
+        { metric: '25 mm', imperial: '1"', maxArea40: 138, intArea: 346 },
+        { metric: '32 mm', imperial: '1¼"', maxArea40: 237, intArea: 594 },
+        { metric: '38 mm', imperial: '1½"', maxArea40: 363, intArea: 907 },
+        { metric: '50 mm', imperial: '2"', maxArea40: 622, intArea: 1555 },
+        { metric: '63 mm', imperial: '2½"', maxArea40: 1002, intArea: 2507 }
+      ];
+
+      const phaseArea = CABLE_OVERALL_AREAS[size] || 60;
+      const eccArea = CABLE_OVERALL_AREAS[eccSize] || 40;
+      const activeCores = phase === '3' ? 4 : 2;
+      const totalArea = (activeCores * phaseArea) + eccArea;
+      const pipe = CONDUIT_SIZES.find(c => c.maxArea40 >= totalArea);
+
+      if (pipe) {
+        const fill = ((totalArea / pipe.intArea) * 100).toFixed(1);
+        conduitEl.textContent = runs > 1 ? `${runs} × ${pipe.metric} (${pipe.imperial})` : `${pipe.metric} (${pipe.imperial})`;
+        conduitNoteEl.textContent = `Fill: ${fill}% (Max 40% BNBC rule) | ${activeCores + 1} wires per pipe`;
+      } else {
+        conduitEl.textContent = 'Trunking Required';
+        conduitNoteEl.textContent = 'Exceeds standard 63 mm pipe';
+      }
+    }
+  }
+
+  // Status box
+  if (statusEl) {
+    statusEl.style.display = messages.length > 0 ? 'block' : 'none';
+    statusEl.innerHTML = messages.join('<br>');
+  }
 }
 /* =========================================================
    CABLE CALCULATOR: AUTOMATIC INPUT UPDATES
@@ -3691,20 +4189,34 @@ function calculateExistingCable(){
     calculateCable();
   });
 
-  form.addEventListener('change', function (event) {
-  if (event.target.id === 'job') {
-    jobChange();
-    return;
+form.addEventListener('change', function (event) {
+    if (event.target.id === 'job') {
+      jobChange();
+      return;
+    }
+
+    if (event.target.id === 'phase') {
+      phaseChange();
+      return;
+    }
+
+    calculateCable();
+  });
+
+  const exForm = document.getElementById('exCableForm');
+  if (exForm) {
+    exForm.addEventListener('input', calculateExistingCable);
+    exForm.addEventListener('change', function (event) {
+      if (event.target.id === 'exPhase') {
+        const p = $('exPhase').value;
+        if (p === '1') $('exVoltage').value = 220;
+        else if (p === '3') $('exVoltage').value = 415;
+      }
+      calculateExistingCable();
+    });
   }
 
-  if (event.target.id === 'phase') {
-    phaseChange();
-    return;
-  }
-
-  calculateCable();
-});
-    populateInstall();
+  populateInstall();
   calculateCable();
 })();
 
