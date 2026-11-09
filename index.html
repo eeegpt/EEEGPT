@@ -795,17 +795,20 @@ select.unit option{
 }
 
 #cablePage .load-tab {
-  height: 44px;
+  min-height: 46px;
+  height: auto;
+  padding: 8px 6px;
   background: #0c1214;
   color: var(--cable-muted);
   border: 1px solid var(--cable-line);
   border-radius: 9px;
-  font-size: 13px;
+  font-size: 12.5px;
   font-weight: 700;
+  line-height: 1.35;
+  text-align: center;
   cursor: pointer;
   transition: all .2s ease;
 }
-
 #cablePage .load-tab:hover {
   border-color: #4fd18b66;
   color: var(--cable-text);
@@ -2073,10 +2076,10 @@ window.firebaseGet = get;
 
   <div class="load-tabs" style="margin-bottom:14px">
     <button type="button" class="load-tab active" id="cableModeSize" onclick="setCableMode('size')">
-      Mode 1: Sizing
+      New Cable Sizing
     </button>
     <button type="button" class="load-tab" id="cableModeBreaker" onclick="setCableMode('breaker')">
-      Mode 2: Existing Cable
+      Existing Cable Audit
     </button>
   </div>
 
