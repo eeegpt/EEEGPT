@@ -1216,11 +1216,39 @@ select.unit option{
   #loadPage,
   #residentialLoadPage,
   #converterPage,
-  #cablePage .top,
   #cablePage .load-tabs,
   #cablePage .actions,
   #cablePage .tag {
     display: none !important;
+  }
+
+  /* Official Engineering Report Header in Print */
+  #cablePage .top {
+    display: flex !important;
+    align-items: center !important;
+    gap: 12px !important;
+    padding-bottom: 10px !important;
+    margin-bottom: 14px !important;
+    border-bottom: 2px solid #0f172a !important;
+    cursor: default !important;
+  }
+
+  #cablePage .top .mini {
+    width: 44px !important;
+    height: 44px !important;
+    border: 2px solid #16a34a !important;
+  }
+
+  #cablePage .top .title {
+    font-size: 18px !important;
+    font-weight: 800 !important;
+    color: #0f172a !important;
+  }
+
+  #cablePage .top .sub {
+    font-size: 11px !important;
+    color: #475569 !important;
+    margin-top: 2px !important;
   }
 
   #cablePage {
