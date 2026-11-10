@@ -5162,6 +5162,38 @@ if(
 }
 
 </script>
+<!-- =========================================================
+     GA4 CUSTOM BUTTON & TOOL TRACKING
+========================================================= -->
+<script>
+  document.addEventListener('click', function (e) {
+    const btn = e.target.closest('button');
+    if (!btn || typeof gtag !== 'function') return;
+
+    const action = btn.getAttribute('onclick') || '';
+    const label = btn.innerText.replace(/\s+/g, ' ').trim();
+
+    if (action.includes('showConverter')) {
+      gtag('event', 'open_power_converter', { tool_name: 'Power Converter' });
+    } else if (action.includes('showLoadCalculator')) {
+      gtag('event', 'open_load_calculator', { tool_name: 'Load Calculator' });
+    } else if (action.includes('showCableCalculator')) {
+      gtag('event', 'open_cable_calculator', { tool_name: 'Cable Sizing & Audit' });
+    } else if (action.includes('showElectronics')) {
+      gtag('event', 'click_coming_soon', { section: 'Electronics' });
+    } else if (action.includes('showAutomation')) {
+      gtag('event', 'click_coming_soon', { section: 'Automation' });
+    } else if (action.includes('calculateCable')) {
+      gtag('event', 'calculate_new_cable', { button: label });
+    } else if (action.includes('calculateExistingCable')) {
+      gtag('event', 'evaluate_existing_cable', { button: label });
+    } else if (action.includes('window.print')) {
+      gtag('event', 'export_pdf_report', { button: 'Print / Save PDF' });
+    } else if (action.includes('addLoadRow')) {
+      gtag('event', 'add_load_row', { button: label });
+    }
+  });
+</script>
 <!-- Vercel Analytics -->
 <script>
   window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
