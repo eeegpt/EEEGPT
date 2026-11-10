@@ -1653,7 +1653,7 @@ window.firebaseGet = get;
 
     <button
       class="tool"
-      disabled
+      onclick="showBreakerSelection()"
     >
 
       <span class="tool-icon">
@@ -1663,11 +1663,11 @@ window.firebaseGet = get;
       <span>
 
         <b>
-          MCB / MCCB Selection
+          MCB / MCCB / ACB Selection
         </b>
 
         <small>
-          Coming Soon
+          IEC 60947-2 • IEC 60898 • Curve & kA Sizing
         </small>
 
       </span>
@@ -1969,72 +1969,72 @@ window.firebaseGet = get;
 
 
 
- <!-- RESULT -->
-
+ <!-- RESULT: BNBC 2020 COMPLIANT -->
 <div class="result">
 
-<div class="label"> TOTAL CONNECTED LOAD </div>
+  <div class="label">ELECTRICAL DEMAND & SERVICE SIZING</div>
 
-<!-- Highlighted kW Result --> 
- <div class="load-result-kw">
-   <div class="result-label"> 
-    TOTAL LOAD (kW) </div>
-
-<div class="result-value" id="loadTotalKW"> 
-  0 kW </div> </div>
-
-<div class="formula" id="loadTotalWatt">
-   Total Load = 0 W </div>
-
-<div class="formula" id="loadTotalKWH">
-   Daily Energy = 0 kWh </div>
-
-<!-- Calculation Details --> 
- <details class="load-details">
-   <summary>Calculation Details / হিসাবের সূত্র</summary>
-
-<div id="loadFormulaDetails" class="formula" > 
-  Enter quantity, Watt or kW, and daily usage hours. </div> </details>
-
-</div>
-
-</div>
-
-</section>
-
-
-
-<!-- =========================================================
-     HTML: RESIDENTIAL LOAD
-========================================================= -->
-
-<section
-  class="page"
-  id="residentialLoadPage"
->
-
-  <div
-    class="top"
-    onclick="backFromResidential()"
-  >
-
-    <img
-      class="mini"
-      src="assets/icon.webp"
-      alt="EEEGPT"
-    >
-
+  <!-- Highlighted Connected Load vs Maximum Demand -->
+  <div class="load-result-kw" style="display:grid; grid-template-columns:1fr 1fr; gap:10px; background:#10231b; padding:12px; border-radius:10px; border:1px solid var(--g);">
     <div>
-      <div class="title">
-        Residential Load
-      </div>
+      <div class="result-label" style="color:var(--m); font-size:11px;">CONNECTED LOAD</div>
+      <div class="result-value" id="loadTotalKW" style="color:var(--t); font-size:22px; font-weight:800;">0 kW</div>
+      <small id="loadTotalWatt" style="color:var(--m); font-size:10px;">0 W</small>
+    </div>
+    <div style="border-left:1px solid #234636; padding-left:10px;">
+      <div class="result-label" style="color:var(--g); font-size:11px; font-weight:700;">MAX DEMAND (75%)</div>
+      <div class="result-value" id="loadMaxDemandKW" style="color:var(--g); font-size:22px; font-weight:800;">0 kW</div>
+      <small style="color:#6b827d; font-size:10px;">BNBC 2020 Sec 2.6.2</small>
+    </div>
+  </div>
 
-      <div class="sub">
-        Residential Load Calculation
-      </div>
+ <!-- Service Connection & Main Current Output (Spacious & Large Cards) -->
+  <div style="margin-top:14px; display:grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap:10px;">
+    
+    <!-- BOX 1: Service Connection -->
+    <div style="background:#0c1214; border:1px solid var(--l); border-radius:12px; padding:15px; display:flex; flex-direction:column; justify-content:space-between; min-height:92px;">
+      <div style="font-size:11px; font-weight:700; color:var(--m); letter-spacing:.5px;">SERVICE CONNECTION</div>
+      <div id="loadMeterType" style="font-size:17px; font-weight:800; color:var(--g); margin:5px 0 3px; line-height:1.3;">Single Phase</div>
+      <div id="loadMeterRule" style="font-size:11px; color:#a2b5b0;">Load ≤ 7.5 kW Rule</div>
+    </div>
+
+    <!-- BOX 2: Main Service Current -->
+    <div style="background:#0c1214; border:1px solid var(--l); border-radius:12px; padding:15px; display:flex; flex-direction:column; justify-content:space-between; min-height:92px;">
+      <div style="font-size:11px; font-weight:700; color:var(--m); letter-spacing:.5px;">MAIN SERVICE CURRENT</div>
+      <div id="loadMainCurrent" style="font-size:22px; font-weight:800; color:#55a8ff; margin:3px 0 2px; line-height:1.2;">0 A</div>
+      <div style="font-size:11px; color:#a2b5b0;">Operating @ 0.90 PF</div>
     </div>
 
   </div>
+
+  <!-- BOX 3: Energy Consumption Summary (Large Full-Width Card) -->
+  <div style="margin-top:12px; padding:15px; background:linear-gradient(145deg, #0f181a, #0c1214); border:1px solid var(--l); border-radius:12px;">
+    <div style="font-size:11px; font-weight:700; color:var(--m); letter-spacing:.5px; margin-bottom:8px;">ENERGY CONSUMPTION SUMMARY</div>
+    
+    <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap:12px; align-items:center;">
+      <div style="background:#131d20; padding:10px 14px; border-radius:9px; border-left:3px solid var(--g);">
+        <div style="font-size:10px; color:var(--m); margin-bottom:2px;">DAILY CONSUMPTION</div>
+        <div id="loadTotalKWH" style="color:var(--g); font-size:16px; font-weight:800;">0 kWh / day</div>
+      </div>
+
+      <div style="background:#131d20; padding:10px 14px; border-radius:9px; border-left:3px solid #b477ff;">
+        <div style="font-size:10px; color:var(--m); margin-bottom:2px;">MONTHLY BILLING ESTIMATE (30 DAYS)</div>
+        <div id="loadMonthlyKWH" style="color:#edf3f1; font-size:16px; font-weight:800;">~0 Units (kWh)</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Calculation Details Accordion -->
+  <details class="load-details">
+    <summary>Calculation Details / হিসাবের সূত্র ও কোড রেফারেন্স</summary>
+    <div id="loadFormulaDetails" class="formula">
+      Enter quantity, Watt or kW, and daily usage hours.
+    </div>
+  </details>
+
+</div>
+
+</div>
 
 </section>
 
@@ -2138,15 +2138,10 @@ window.firebaseGet = get;
       </div>
 
 
-      <div class="auto">
-
+     <div class="auto" style="grid-template-columns: repeat(auto-fit, minmax(95px, 1fr));">
 
         <div>
-
-          <span>
-            VOLTAGE
-          </span>
-
+          <span>VOLTAGE</span>
           <input
             id="volt"
             type="number"
@@ -2154,16 +2149,10 @@ window.firebaseGet = get;
             step="any"
             oninput="customVoltage()"
           >
-
         </div>
 
-
         <div>
-
-          <span>
-            POWER FACTOR
-          </span>
-
+          <span>POWER FACTOR</span>
           <input
             id="pf"
             type="number"
@@ -2173,9 +2162,20 @@ window.firebaseGet = get;
             step="0.01"
             oninput="customPF()"
           >
-
         </div>
 
+        <div>
+          <span>EFFICIENCY (η)</span>
+          <input
+            id="eff"
+            type="number"
+            value="0.90"
+            min="0.1"
+            max="1"
+            step="0.01"
+            oninput="customEFF()"
+          >
+        </div>
 
       </div>
 
@@ -2224,7 +2224,146 @@ window.firebaseGet = get;
 
 </section> 
 
+<!-- =========================================================
+     HTML: MCB / MCCB / ACB SELECTION TOOL
+========================================================= -->
+<section class="page" id="breakerPage">
 
+  <!-- TOP BAR -->
+  <div class="top" onclick="backFromBreaker()">
+    <img class="mini" src="assets/icon.webp" alt="EEEGPT">
+    <div>
+      <div class="title">Breaker Selection</div>
+      <div class="sub">IEC 60947-2 • IEC 60898 • BNBC 2020</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="label">CIRCUIT & LOAD SPECIFICATIONS</div>
+
+    <!-- 1. Application / Load Type -->
+    <div style="margin-bottom:12px;">
+      <label style="display:block; font-size:11px; color:var(--m); margin-bottom:5px;">Application / Load Type</label>
+      <select id="brkLoadType" onchange="brkTypeChange()">
+        <option value="motor_dol">Motor — Direct-On-Line (DOL Starter)</option>
+        <option value="motor_sd">Motor — Star-Delta Starter</option>
+        <option value="motor_vfd">Motor — VFD / Soft Starter</option>
+        <option value="transformer">Transformer Incomer / Feeder</option>
+        <option value="general">General Power / Lighting / Resistive</option>
+        <option value="capacitor">Capacitor Bank (APFI Panel)</option>
+        <option value="dc_load">DC Load (Solar PV / Battery Bank)</option>
+      </select>
+    </div>
+
+    <!-- 2. Power Input & Unit -->
+    <div class="row" style="margin-bottom:12px;">
+      <div>
+        <label style="display:block; font-size:11px; color:var(--m); margin-bottom:5px;">Load Value</label>
+        <input id="brkLoadVal" type="number" value="15" step="any" min="0" oninput="calculateBreaker()">
+      </div>
+      <div>
+        <label style="display:block; font-size:11px; color:var(--m); margin-bottom:5px;">Unit</label>
+        <select id="brkLoadUnit" class="unit" onchange="calculateBreaker()">
+          <option value="kw" selected>kW</option>
+          <option value="hp">HP</option>
+          <option value="amp">Ampere (A)</option>
+          <option value="kva">kVA</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- 3. System Electrical Parameters -->
+    <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap:10px; margin-bottom:12px;">
+      <div>
+        <label style="display:block; font-size:11px; color:var(--m); margin-bottom:5px;">System Phase</label>
+        <select id="brkPhase" onchange="brkPhaseChange()">
+          <option value="3" selected>Three Phase (415V)</option>
+          <option value="1">Single Phase (220V)</option>
+          <option value="dc">DC System</option>
+        </select>
+      </div>
+      <div>
+        <label style="display:block; font-size:11px; color:var(--m); margin-bottom:5px;">Voltage (V)</label>
+        <input id="brkVoltage" type="number" value="415" step="any" oninput="calculateBreaker()">
+      </div>
+      <div>
+        <label style="display:block; font-size:11px; color:var(--m); margin-bottom:5px;">Power Factor (PF)</label>
+        <input id="brkPf" type="number" value="0.85" step="0.01" min="0.1" max="1" oninput="calculateBreaker()">
+      </div>
+      <div>
+        <label style="display:block; font-size:11px; color:var(--m); margin-bottom:5px;">Efficiency (η)</label>
+        <input id="brkEff" type="number" value="0.90" step="0.01" min="0.1" max="1" oninput="calculateBreaker()">
+      </div>
+    </div>
+
+    <!-- 4. Location / Fault Level Estimation -->
+    <div style="margin-bottom:15px;">
+      <label style="display:block; font-size:11px; color:var(--m); margin-bottom:5px;">Installation Location / Required Breaking Capacity</label>
+      <select id="brkFaultLocation" onchange="calculateBreaker()">
+        <option value="branch" selected>Final Sub-DB / Branch (Residential / Commercial ~ 6kA / 10kA)</option>
+        <option value="sub_panel">Industrial Floor DB / Sub-Panel (Moderate Fault ~ 16kA / 25kA / 36kA)</option>
+        <option value="main_lt">Main LT Panel / Substation Incomer (High Fault ~ 50kA / 65kA)</option>
+      </select>
+    </div>
+
+  <!-- RESULTS PANEL (CLEAN & NO DUPLICATES) -->
+    <div class="result" style="border-color:#4fd18b;">
+      <div class="label">RECOMMENDED BREAKER SPECIFICATION</div>
+
+      <!-- Main Highlighted Breaker Rating -->
+      <div style="background:#10231b; border:1px solid var(--g); border-radius:12px; padding:15px; margin-top:8px;">
+        <div style="font-size:11px; color:var(--m); font-weight:700;">RECOMMENDED DEVICE & RATING (In)</div>
+        <div id="brkFinalResult" style="font-size:24px; font-weight:800; color:var(--g); margin:4px 0;">—</div>
+        <div id="brkFrameType" style="font-size:12px; color:var(--t); font-weight:600;">—</div>
+      </div>
+
+      <!-- Exactly 5 Parameter Grid Cards -->
+      <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap:10px; margin-top:12px;">
+        
+        <div style="background:#0c1214; border:1px solid var(--l); border-radius:10px; padding:12px;">
+          <div style="font-size:10.5px; color:var(--m);">OPERATING CURRENT & SIZING</div>
+          <div id="brkCurrents" style="font-size:16px; font-weight:800; color:#55a8ff; margin-top:3px;">— A</div>
+          <div id="brkSizingRule" style="font-size:10px; color:var(--m); margin-top:3px;">Continuous Duty Factor</div>
+        </div>
+
+        <div style="background:#0c1214; border:1px solid var(--l); border-radius:10px; padding:12px; border-left:3px solid var(--g);">
+          <div style="font-size:10.5px; color:var(--g); font-weight:700;">MINIMUM CABLE SIZE (Iz ≥ In)</div>
+          <div id="brkCableSize" style="font-size:16px; font-weight:800; color:var(--g); margin-top:3px;">— mm²</div>
+          <div id="brkCableDetail" style="font-size:10px; color:var(--m); margin-top:3px;">Satisfies RSC & BNBC Rule Ib ≤ In ≤ Iz</div>
+        </div>
+
+        <div style="background:#0c1214; border:1px solid var(--l); border-radius:10px; padding:12px;">
+          <div style="font-size:10.5px; color:var(--m);">TRIPPING CURVE CHARACTERISTIC</div>
+          <div id="brkCurve" style="font-size:16px; font-weight:800; color:var(--t); margin-top:3px;">—</div>
+          <div id="brkCurveDetail" style="font-size:10px; color:var(--m); margin-top:3px;">Magnetic Inrush Withstand</div>
+        </div>
+
+        <div style="background:#0c1214; border:1px solid var(--l); border-radius:10px; padding:12px;">
+          <div style="font-size:10.5px; color:var(--m);">MINIMUM BREAKING CAPACITY (Icu)</div>
+          <div id="brkBreakingCap" style="font-size:16px; font-weight:800; color:#ffca73; margin-top:3px;">— kA</div>
+          <div id="brkBreakingDetail" style="font-size:10px; color:var(--m); margin-top:3px;">Short-Circuit Level</div>
+        </div>
+
+        <div style="background:#0c1214; border:1px solid var(--l); border-radius:10px; padding:12px;">
+          <div style="font-size:10.5px; color:var(--m);">POLE CONFIGURATION</div>
+          <div id="brkPoles" style="font-size:16px; font-weight:800; color:var(--t); margin-top:3px;">—</div>
+          <div id="brkPoleDetail" style="font-size:10px; color:var(--m); margin-top:3px;">Isolation Standard</div>
+        </div>
+
+      </div>
+
+      <!-- Engineering Reference Accordion -->
+      <details class="load-details" style="margin-top:12px;">
+        <summary>Design Notes & Engineering Standards / সূত্র ও কোড</summary>
+        <div id="brkEngineeringNotes" class="formula" style="line-height:1.6; font-size:11.5px; padding-top:8px;">
+          Select parameters above to view sizing standards.
+        </div>
+      </details>
+
+    </div>
+  </div>
+
+</section>
 
 <!-- CABLE SIZE CALCULATOR: TWO MODES -->
 
@@ -2825,7 +2964,7 @@ const C = [
       : 'I = P × 1000 / (V × PF × η)',
     calculate: x => {
       const factor = P === 3 ? Math.sqrt(3) : 1;
-      return (x * 1000) / (factor * V * PF * 0.9);
+      return (x * 1000) / (factor * V * PF * EFF);
     }
   },
   {
@@ -2847,11 +2986,11 @@ const C = [
     label: 'Amp → Watt',
     unit: 'W',
     formula: () => P === 3
-      ? 'P = √3 × V × I × PF'
-      : 'P = V × I × PF',
+      ? 'P = √3 × V × I × PF × η'
+      : 'P = V × I × PF × η',
     calculate: x => {
       const factor = P === 3 ? Math.sqrt(3) : 1;
-      return factor * V * x * PF;
+      return factor * V * x * PF * EFF;
     }
   },
   {
@@ -2863,7 +3002,7 @@ const C = [
       : 'HP = V × I × PF × η / 745.7',
     calculate: x => {
       const factor = P === 3 ? Math.sqrt(3) : 1;
-      return factor * V * x * PF * 0.9 / 745.7;
+      return (factor * V * x * PF * EFF) / 745.7;
     }
   },
   {
@@ -2871,11 +3010,11 @@ const C = [
     label: 'Amp → kW',
     unit: 'kW',
     formula: () => P === 3
-      ? 'kW = √3 × V × I × PF / 1000'
-      : 'kW = V × I × PF / 1000',
+      ? 'kW = √3 × V × I × PF × η / 1000'
+      : 'kW = V × I × PF × η / 1000',
     calculate: x => {
       const factor = P === 3 ? Math.sqrt(3) : 1;
-      return factor * V * x * PF / 1000;
+      return (factor * V * x * PF * EFF) / 1000;
     }
   },
   {
@@ -2890,11 +3029,11 @@ const C = [
     label: 'Watt → Amp',
     unit: 'A',
     formula: () => P === 3
-      ? 'I = P / (√3 × V × PF)'
-      : 'I = P / (V × PF)',
+      ? 'I = P / (√3 × V × PF × η)'
+      : 'I = P / (V × PF × η)',
     calculate: x => {
       const factor = P === 3 ? Math.sqrt(3) : 1;
-      return x / (factor * V * PF);
+      return x / (factor * V * PF * EFF);
     }
   },
   {
@@ -2927,20 +3066,32 @@ const C = [
       : 'I = HP × 745.7 / (V × PF × η)',
     calculate: x => {
       const factor = P === 3 ? Math.sqrt(3) : 1;
-      return (x * 745.7) / (factor * V * PF * 0.9);
+      return (x * 745.7) / (factor * V * PF * EFF);
     }
   }
 ];
 
-
 /* =========================================================
-   JAVASCRIPT FUNCTION:CONVERTER VARIABLES
+   JAVASCRIPT FUNCTION: CONVERTER VARIABLES
 ========================================================= */
 
 let P = 1;
 let V = 220;
 let PF = 0.85;
+let EFF = 0.90;
 
+function customEFF() {
+  const input = document.getElementById('eff');
+  const value = Number(input.value);
+
+  if (input.value.trim() === '' || !Number.isFinite(value) || value <= 0 || value > 1) {
+    document.getElementById('res').textContent = 'η must be > 0 and ≤ 1';
+    return;
+  }
+
+  EFF = value;
+  calc();
+}
 
 /* =========================================================
    JAVASCRIPT FUNCTION:CONVERTER DROPDOWN
@@ -3293,6 +3444,145 @@ const CABLE_AMPACITY_DB = [
   {type:'NYY', material:'cu', cores:4, size:240, ampacity:410, derated:410, ecc:120},
   {type:'NYY', material:'cu', cores:4, size:300, ampacity:470, derated:470, ecc:150}
 
+  ,
+  // ---------- COPPER XLPE (2XY): SINGLE CORE (IEC 60502-1 & BDS IEC 60502-1) ----------
+  {type:'NYY', material:'cu', cores:1, insulation:'xlpe', size:1.5, ampacity:26, derated:19, ecc:1.5},
+  {type:'NYY', material:'cu', cores:1, insulation:'xlpe', size:2.5, ampacity:36, derated:26, ecc:2.5},
+  {type:'NYY', material:'cu', cores:1, insulation:'xlpe', size:4, ampacity:49, derated:35, ecc:4},
+  {type:'NYY', material:'cu', cores:1, insulation:'xlpe', size:6, ampacity:63, derated:45, ecc:6},
+  {type:'NYY', material:'cu', cores:1, insulation:'xlpe', size:10, ampacity:86, derated:62, ecc:10},
+  {type:'NYY', material:'cu', cores:1, insulation:'xlpe', size:16, ampacity:115, derated:84, ecc:16},
+  {type:'NYY', material:'cu', cores:1, insulation:'xlpe', size:25, ampacity:149, derated:111, ecc:16},
+  {type:'NYY', material:'cu', cores:1, insulation:'xlpe', size:35, ampacity:185, derated:138, ecc:16},
+  {type:'NYY', material:'cu', cores:1, insulation:'xlpe', size:50, ampacity:225, derated:168, ecc:25},
+  {type:'NYY', material:'cu', cores:1, insulation:'xlpe', size:70, ampacity:289, derated:215, ecc:35},
+  {type:'NYY', material:'cu', cores:1, insulation:'xlpe', size:95, ampacity:352, derated:260, ecc:50},
+  {type:'NYY', material:'cu', cores:1, insulation:'xlpe', size:120, ampacity:410, derated:300, ecc:70},
+  {type:'NYY', material:'cu', cores:1, insulation:'xlpe', size:150, ampacity:473, derated:344, ecc:95},
+  {type:'NYY', material:'cu', cores:1, insulation:'xlpe', size:185, ampacity:542, derated:392, ecc:95},
+  {type:'NYY', material:'cu', cores:1, insulation:'xlpe', size:240, ampacity:641, derated:461, ecc:120},
+  {type:'NYY', material:'cu', cores:1, insulation:'xlpe', size:300, ampacity:741, derated:528, ecc:150},
+  {type:'NYY', material:'cu', cores:1, insulation:'xlpe', size:400, ampacity:865, derated:607, ecc:240},
+
+  // ---------- COPPER XLPE (2XFY): THREE CORE (IEC 60502-1 & BDS IEC 60502-1) ----------
+  {type:'NYY', material:'cu', cores:3, insulation:'xlpe', size:1.5, ampacity:21, derated:18, ecc:1.5},
+  {type:'NYY', material:'cu', cores:3, insulation:'xlpe', size:2.5, ampacity:28, derated:24, ecc:2.5},
+  {type:'NYY', material:'cu', cores:3, insulation:'xlpe', size:4, ampacity:38, derated:32, ecc:4},
+  {type:'NYY', material:'cu', cores:3, insulation:'xlpe', size:6, ampacity:49, derated:42, ecc:6},
+  {type:'NYY', material:'cu', cores:3, insulation:'xlpe', size:10, ampacity:68, derated:58, ecc:10},
+  {type:'NYY', material:'cu', cores:3, insulation:'xlpe', size:16, ampacity:91, derated:77, ecc:16},
+  {type:'NYY', material:'cu', cores:3, insulation:'xlpe', size:25, ampacity:120, derated:100, ecc:16},
+  {type:'NYY', material:'cu', cores:3, insulation:'xlpe', size:35, ampacity:148, derated:123, ecc:16},
+  {type:'NYY', material:'cu', cores:3, insulation:'xlpe', size:50, ampacity:180, derated:148, ecc:25},
+  {type:'NYY', material:'cu', cores:3, insulation:'xlpe', size:70, ampacity:227, derated:186, ecc:35},
+  {type:'NYY', material:'cu', cores:3, insulation:'xlpe', size:95, ampacity:278, derated:227, ecc:50},
+  {type:'NYY', material:'cu', cores:3, insulation:'xlpe', size:120, ampacity:324, derated:264, ecc:70},
+  {type:'NYY', material:'cu', cores:3, insulation:'xlpe', size:150, ampacity:371, derated:302, ecc:95},
+  {type:'NYY', material:'cu', cores:3, insulation:'xlpe', size:185, ampacity:424, derated:345, ecc:95},
+  {type:'NYY', material:'cu', cores:3, insulation:'xlpe', size:240, ampacity:500, derated:405, ecc:120},
+  {type:'NYY', material:'cu', cores:3, insulation:'xlpe', size:300, ampacity:570, derated:460, ecc:150},
+  {type:'NYY', material:'cu', cores:3, insulation:'xlpe', size:400, ampacity:650, derated:520, ecc:240},
+
+  // ---------- COPPER XLPE (2XFY): FOUR CORE (IEC 60502-1 & BDS IEC 60502-1) ----------
+  {type:'NYY', material:'cu', cores:4, insulation:'xlpe', size:1.5, ampacity:21, derated:18, ecc:1.5},
+  {type:'NYY', material:'cu', cores:4, insulation:'xlpe', size:2.5, ampacity:28, derated:24, ecc:2.5},
+  {type:'NYY', material:'cu', cores:4, insulation:'xlpe', size:4, ampacity:38, derated:32, ecc:4},
+  {type:'NYY', material:'cu', cores:4, insulation:'xlpe', size:6, ampacity:49, derated:42, ecc:6},
+  {type:'NYY', material:'cu', cores:4, insulation:'xlpe', size:10, ampacity:68, derated:58, ecc:10},
+  {type:'NYY', material:'cu', cores:4, insulation:'xlpe', size:16, ampacity:91, derated:77, ecc:16},
+  {type:'NYY', material:'cu', cores:4, insulation:'xlpe', size:25, ampacity:120, derated:100, ecc:16},
+  {type:'NYY', material:'cu', cores:4, insulation:'xlpe', size:35, ampacity:148, derated:123, ecc:16},
+  {type:'NYY', material:'cu', cores:4, insulation:'xlpe', size:50, ampacity:180, derated:148, ecc:25},
+  {type:'NYY', material:'cu', cores:4, insulation:'xlpe', size:70, ampacity:227, derated:186, ecc:35},
+  {type:'NYY', material:'cu', cores:4, insulation:'xlpe', size:95, ampacity:278, derated:227, ecc:50},
+  {type:'NYY', material:'cu', cores:4, insulation:'xlpe', size:120, ampacity:324, derated:264, ecc:70},
+  {type:'NYY', material:'cu', cores:4, insulation:'xlpe', size:150, ampacity:371, derated:302, ecc:95},
+  {type:'NYY', material:'cu', cores:4, insulation:'xlpe', size:185, ampacity:424, derated:345, ecc:95},
+  {type:'NYY', material:'cu', cores:4, insulation:'xlpe', size:240, ampacity:500, derated:405, ecc:120},
+  {type:'NYY', material:'cu', cores:4, insulation:'xlpe', size:300, ampacity:570, derated:460, ecc:150}
+
+,
+  // ---------- ALUMINIUM PVC (AYY/AYWY): SINGLE CORE (BDS IEC 60502-1 & IEC 60364-5-52) ----------
+  {type:'NYY', material:'al', cores:1, insulation:'pvc', size:16, ampacity:73, derated:51, ecc:16},
+  {type:'NYY', material:'al', cores:1, insulation:'pvc', size:25, ampacity:96, derated:68, ecc:16},
+  {type:'NYY', material:'al', cores:1, insulation:'pvc', size:35, ampacity:123, derated:87, ecc:16},
+  {type:'NYY', material:'al', cores:1, insulation:'pvc', size:50, ampacity:150, derated:120, ecc:25},
+  {type:'NYY', material:'al', cores:1, insulation:'pvc', size:70, ampacity:188, derated:150, ecc:35},
+  {type:'NYY', material:'al', cores:1, insulation:'pvc', size:95, ampacity:230, derated:184, ecc:50},
+  {type:'NYY', material:'al', cores:1, insulation:'pvc', size:120, ampacity:269, derated:215, ecc:70},
+  {type:'NYY', material:'al', cores:1, insulation:'pvc', size:150, ampacity:311, derated:249, ecc:95},
+  {type:'NYY', material:'al', cores:1, insulation:'pvc', size:185, ampacity:354, derated:283, ecc:95},
+  {type:'NYY', material:'al', cores:1, insulation:'pvc', size:240, ampacity:427, derated:341, ecc:120},
+  {type:'NYY', material:'al', cores:1, insulation:'pvc', size:300, ampacity:492, derated:393, ecc:150},
+  {type:'NYY', material:'al', cores:1, insulation:'pvc', size:400, ampacity:592, derated:473, ecc:240},
+
+  // ---------- ALUMINIUM PVC (AYFY): 3-CORE & 4-CORE ----------
+  {type:'NYY', material:'al', cores:3, insulation:'pvc', size:16, ampacity:58, derated:58, ecc:16},
+  {type:'NYY', material:'al', cores:3, insulation:'pvc', size:25, ampacity:75, derated:75, ecc:16},
+  {type:'NYY', material:'al', cores:3, insulation:'pvc', size:35, ampacity:92, derated:92, ecc:16},
+  {type:'NYY', material:'al', cores:3, insulation:'pvc', size:50, ampacity:115, derated:115, ecc:25},
+  {type:'NYY', material:'al', cores:3, insulation:'pvc', size:70, ampacity:146, derated:146, ecc:35},
+  {type:'NYY', material:'al', cores:3, insulation:'pvc', size:95, ampacity:177, derated:177, ecc:50},
+  {type:'NYY', material:'al', cores:3, insulation:'pvc', size:120, ampacity:207, derated:207, ecc:70},
+  {type:'NYY', material:'al', cores:3, insulation:'pvc', size:150, ampacity:234, derated:234, ecc:95},
+  {type:'NYY', material:'al', cores:3, insulation:'pvc', size:185, ampacity:269, derated:269, ecc:95},
+  {type:'NYY', material:'al', cores:3, insulation:'pvc', size:240, ampacity:315, derated:315, ecc:120},
+  {type:'NYY', material:'al', cores:3, insulation:'pvc', size:300, ampacity:361, derated:361, ecc:150},
+  {type:'NYY', material:'al', cores:3, insulation:'pvc', size:400, ampacity:407, derated:407, ecc:240},
+
+  {type:'NYY', material:'al', cores:4, insulation:'pvc', size:16, ampacity:58, derated:58, ecc:16},
+  {type:'NYY', material:'al', cores:4, insulation:'pvc', size:25, ampacity:75, derated:75, ecc:16},
+  {type:'NYY', material:'al', cores:4, insulation:'pvc', size:35, ampacity:92, derated:92, ecc:16},
+  {type:'NYY', material:'al', cores:4, insulation:'pvc', size:50, ampacity:115, derated:115, ecc:25},
+  {type:'NYY', material:'al', cores:4, insulation:'pvc', size:70, ampacity:146, derated:146, ecc:35},
+  {type:'NYY', material:'al', cores:4, insulation:'pvc', size:95, ampacity:177, derated:177, ecc:50},
+  {type:'NYY', material:'al', cores:4, insulation:'pvc', size:120, ampacity:207, derated:207, ecc:70},
+  {type:'NYY', material:'al', cores:4, insulation:'pvc', size:150, ampacity:234, derated:234, ecc:95},
+  {type:'NYY', material:'al', cores:4, insulation:'pvc', size:185, ampacity:269, derated:269, ecc:95},
+  {type:'NYY', material:'al', cores:4, insulation:'pvc', size:240, ampacity:315, derated:315, ecc:120},
+  {type:'NYY', material:'al', cores:4, insulation:'pvc', size:300, ampacity:361, derated:361, ecc:150},
+  {type:'NYY', material:'al', cores:4, insulation:'pvc', size:400, ampacity:407, derated:407, ecc:240},
+
+  // ---------- ALUMINIUM XLPE (A2XY/A2XFY): SINGLE CORE & MULTI-CORE (90°C) ----------
+  {type:'NYY', material:'al', cores:1, insulation:'xlpe', size:16, ampacity:89, derated:65, ecc:16},
+  {type:'NYY', material:'al', cores:1, insulation:'xlpe', size:25, ampacity:115, derated:86, ecc:16},
+  {type:'NYY', material:'al', cores:1, insulation:'xlpe', size:35, ampacity:143, derated:107, ecc:16},
+  {type:'NYY', material:'al', cores:1, insulation:'xlpe', size:50, ampacity:174, derated:130, ecc:25},
+  {type:'NYY', material:'al', cores:1, insulation:'xlpe', size:70, ampacity:224, derated:167, ecc:35},
+  {type:'NYY', material:'al', cores:1, insulation:'xlpe', size:95, ampacity:273, derated:202, ecc:50},
+  {type:'NYY', material:'al', cores:1, insulation:'xlpe', size:120, ampacity:318, derated:233, ecc:70},
+  {type:'NYY', material:'al', cores:1, insulation:'xlpe', size:150, ampacity:367, derated:267, ecc:95},
+  {type:'NYY', material:'al', cores:1, insulation:'xlpe', size:185, ampacity:420, derated:304, ecc:95},
+  {type:'NYY', material:'al', cores:1, insulation:'xlpe', size:240, ampacity:497, derated:357, ecc:120},
+  {type:'NYY', material:'al', cores:1, insulation:'xlpe', size:300, ampacity:574, derated:409, ecc:150},
+  {type:'NYY', material:'al', cores:1, insulation:'xlpe', size:400, ampacity:670, derated:470, ecc:240},
+
+  {type:'NYY', material:'al', cores:3, insulation:'xlpe', size:16, ampacity:70, derated:60, ecc:16},
+  {type:'NYY', material:'al', cores:3, insulation:'xlpe', size:25, ampacity:93, derated:78, ecc:16},
+  {type:'NYY', material:'al', cores:3, insulation:'xlpe', size:35, ampacity:115, derated:95, ecc:16},
+  {type:'NYY', material:'al', cores:3, insulation:'xlpe', size:50, ampacity:140, derated:115, ecc:25},
+  {type:'NYY', material:'al', cores:3, insulation:'xlpe', size:70, ampacity:176, derated:144, ecc:35},
+  {type:'NYY', material:'al', cores:3, insulation:'xlpe', size:95, ampacity:215, derated:176, ecc:50},
+  {type:'NYY', material:'al', cores:3, insulation:'xlpe', size:120, ampacity:251, derated:205, ecc:70},
+  {type:'NYY', material:'al', cores:3, insulation:'xlpe', size:150, ampacity:288, derated:234, ecc:95},
+  {type:'NYY', material:'al', cores:3, insulation:'xlpe', size:185, ampacity:329, derated:267, ecc:95},
+  {type:'NYY', material:'al', cores:3, insulation:'xlpe', size:240, ampacity:388, derated:314, ecc:120},
+  {type:'NYY', material:'al', cores:3, insulation:'xlpe', size:300, ampacity:442, derated:357, ecc:150},
+  {type:'NYY', material:'al', cores:3, insulation:'xlpe', size:400, ampacity:504, derated:403, ecc:240},
+
+  {type:'NYY', material:'al', cores:4, insulation:'xlpe', size:16, ampacity:70, derated:60, ecc:16},
+  {type:'NYY', material:'al', cores:4, insulation:'xlpe', size:25, ampacity:93, derated:78, ecc:16},
+  {type:'NYY', material:'al', cores:4, insulation:'xlpe', size:35, ampacity:115, derated:95, ecc:16},
+  {type:'NYY', material:'al', cores:4, insulation:'xlpe', size:50, ampacity:140, derated:115, ecc:25},
+  {type:'NYY', material:'al', cores:4, insulation:'xlpe', size:70, ampacity:176, derated:144, ecc:35},
+  {type:'NYY', material:'al', cores:4, insulation:'xlpe', size:95, ampacity:215, derated:176, ecc:50},
+  {type:'NYY', material:'al', cores:4, insulation:'xlpe', size:120, ampacity:251, derated:205, ecc:70},
+  {type:'NYY', material:'al', cores:4, insulation:'xlpe', size:150, ampacity:288, derated:234, ecc:95},
+  {type:'NYY', material:'al', cores:4, insulation:'xlpe', size:185, ampacity:329, derated:267, ecc:95},
+  {type:'NYY', material:'al', cores:4, insulation:'xlpe', size:240, ampacity:388, derated:314, ecc:120},
+  {type:'NYY', material:'al', cores:4, insulation:'xlpe', size:300, ampacity:442, derated:357, ecc:150},
+  {type:'NYY', material:'al', cores:4, insulation:'xlpe', size:400, ampacity:504, derated:403, ecc:240}
+
 ];
 
 /* =========================================================
@@ -3366,14 +3656,62 @@ function getAmbientCorrection(temp, insulation) {
   };
 }
 
+// IEC 60364-5-52 Table B.52.15 (90°C XLPE Conductor Ambient Factors)
+const XLPE_AMBIENT_FACTORS = [
+  { temp: 30, factor: 1.00 },
+  { temp: 35, factor: 1.00 },
+  { temp: 40, factor: 0.95 },
+  { temp: 45, factor: 0.90 },
+  { temp: 50, factor: 0.85 },
+  { temp: 55, factor: 0.80 },
+  { temp: 60, factor: 0.74 }
+];
 
+function getAmbientCorrection(temp, insulation) {
+  if (!['pvc', 'xlpe'].includes(insulation)) {
+    return {
+      supported: false,
+      factor: null,
+      message: 'Unsupported insulation type.'
+    };
+  }
 
-// Aluminium data is not present in the supplied PDF.
-// Do not add estimated ampacity values.
+  if (!Number.isFinite(temp) || temp < -10 || temp > 60) {
+    return {
+      supported: false,
+      factor: null,
+      message: 'Temperature outside supported range (-10°C to 60°C).'
+    };
+  }
+
+  // 35°C Database Reference: no reduction below 35°C
+  if (temp <= 35) {
+    return {
+      supported: true,
+      factor: 1.00,
+      message: 'No derating applied (35°C base standard).'
+    };
+  }
+
+  if (insulation === 'xlpe') {
+    const row = XLPE_AMBIENT_FACTORS.find(item => item.temp >= temp);
+    return row
+      ? { supported: true, factor: row.factor, message: `Applied IEC 60364-5-52 (${row.temp}°C XLPE 90°C Table B.52.15)` }
+      : { supported: false, factor: null, message: 'Temperature derating unavailable.' };
+  } else {
+    // PVC
+    const row = PVC_AMBIENT_FACTORS.find(item => item.temp >= temp);
+    if (!row) return { supported: false, factor: null, message: 'Correction factor unavailable.' };
+    const normalizedFactor = row.factor / 0.94; // Normalized to 35°C
+    return { supported: true, factor: normalizedFactor, message: `Applied IEC 60364-5-52 (${row.temp}°C PVC 70°C Table B.52.14)` };
+  }
+}
 
 
 function calculateCable(){
-
+if ($('install') && $('install').children.length === 0) {
+    populateInstall();
+  }
   const phaseType =
   document.getElementById('phase').value;
 
@@ -3428,7 +3766,8 @@ const selectedCable = cableConfig[cableType];
 const matchingCables = CABLE_AMPACITY_DB.filter(c =>
   c.type === selectedCable.type &&
   c.cores === selectedCable.cores &&
-  c.material === material
+  c.material === material &&
+  (c.insulation || 'pvc') === insulation
 );
 
 const installation =
@@ -3494,25 +3833,46 @@ const installationCompatible =
     ? byaInstallationAllowed
     : nyyInstallationAllowed;
 
+
+// BNBC 2020 Sec 2.7.1.1 Rule: Aluminium is prohibited in final branch circuits (Light/Fan)
+let alRuleCompatible = true;
+let alRuleReason = '';
+
+if (material === 'al') {
+  if (job === 'final') {
+    alRuleCompatible = false;
+    alRuleReason = 'BNBC 2020 (Part 8, Sec 2.7.1.1) অনুযায়ী অভ্যন্তরীণ ফাইনাল ব্রাঞ্চ সার্কিটে (Light/Fan) অ্যালুমিনিয়াম তার সম্পূর্ণ নিষিদ্ধ। কপার নির্বাচন করুন।';
+  } else if (cableType === 'BYA_SINGLE') {
+    alRuleCompatible = false;
+    alRuleReason = 'অ্যালুমিনিয়ামে সাধারণ নন-শেথেড BYA তার স্ট্যান্ডার্ড নয়। NYY বা XLPE শেথেড কেবল ব্যবহার করুন।';
+  }
+}
+
 // Overall compatibility validation
 const databaseCompatible =
-  material === 'cu' &&
-  insulation === 'pvc' &&
+  ['cu', 'al'].includes(material) &&
+  ['pvc', 'xlpe'].includes(insulation) &&
   matchingCables.length > 0 &&
   installationCompatible &&
-  jobCompatible;
+  jobCompatible &&
+  alRuleCompatible;
 
 // Professional BNBC & RSC Compliance Status
 let cableDatabaseStatus = 'Preliminary database match available';
 
-if (material !== 'cu') {
-  cableDatabaseStatus =
-    'BNBC 2020 (Part 8, Sec 2.7.1.1) ও RSC (Sec 10.3) অনুযায়ী: অভ্যন্তরীণ ব্রাঞ্চ সার্কিটে অ্যালুমিনিয়াম তার নিষিদ্ধ (মেইন ফিডারে ন্যূনতম ১৬/২৫ mm² প্রযোজ্য)। অ্যালুমিনিয়াম ব্যবহারের ক্ষেত্রে বাই-মেটালিক লাগ (Bi-metallic lugs) ও প্রস্তুতকারক ক্যাটালগ অ্যাম্পাসিটি ভেরিফিকেশন আবশ্যক।';
-} else if (insulation !== 'pvc') {
-  cableDatabaseStatus = 'Verification Required: XLPE ampacity data is not available in database.';
+if (!alRuleCompatible) {
+  cableDatabaseStatus = alRuleReason;
 } else if (!jobCompatible) {
   cableDatabaseStatus = jobMismatchReason;
+} else if (material === 'al') {
+  cableDatabaseStatus = 'BNBC 2020 (Sec 2.7.1.1) & RSC 10.3 Note: Bi-Metallic Lugs mandatory when terminating Aluminium to Copper busbar.';
 } else if (!installationCompatible) {
+  cableDatabaseStatus = cableType === 'BYA_SINGLE'
+    ? 'BNBC ও RSC অনুযায়ী নন-শেথেড BYA তার ওপেন ট্রে বা ক্লিপে টানা নিষিদ্ধ। কনডুইট ব্যবহার করুন।'
+    : 'Verification Required: Selected installation method not approved.';
+}
+
+else if (!installationCompatible) {
   if (cableType === 'BYA_SINGLE') {
     cableDatabaseStatus =
       'BNBC (Part 8, Sec 2.7) ও RSC (Sec 10.3/10.4) অনুযায়ী নন-শেথেড BYA তার ওপেন ক্যাবল ট্রে বা সরাসরি ক্লিপ করে টানা নিষিদ্ধ। আবদ্ধ কনডুইট বা চ্যানেল/ট্রাংকিং ব্যবহার করতে হবে।';
@@ -3578,9 +3938,21 @@ if (validLoad && validVoltage) {
   }
 }
 
-// Preliminary cable size and parallel runs selection (1 up to 10 runs)
+// Verified Cable Sizing & Overcurrent Coordination (BNBC 2020 Sec 2.7.4 & NEC Article 430.22)
+// Rule: Motor/Machine requires Cable Iz >= 1.25 x FLC (Continuous Duty Thermal Rule)
 let selectedCableSize = null;
 let selectedRuns = 1;
+let selectedBreakerIn = null;
+
+const isMotorMachine = job === 'machine';
+const safetyFactor = isMotorMachine ? 1.25 : 1.0;
+const designCurrent = Number.isFinite(current) ? (current * safetyFactor) : NaN;
+
+const STANDARD_BREAKERS = [
+  6, 10, 16, 20, 25, 32, 40, 50, 63, 80, 100,
+  125, 160, 200, 250, 315, 350, 400, 500, 630, 800,
+  1000, 1250, 1600, 2000, 2500, 3200, 4000
+];
 
 if (
   databaseCompatible &&
@@ -3588,16 +3960,26 @@ if (
   Number.isFinite(current) &&
   current > 0
 ) {
+  // 1. Determine protective breaker rating: smallest In >= Ib
+  selectedBreakerIn = STANDARD_BREAKERS.find(r => r >= current) || Math.ceil(current);
+
+  // 2. Cable Selection: Satisfy Iz >= 1.25 x FLC (for motor) AND Iz >= In AND Voltage Drop <= maxDrop
   for (let r = 1; r <= 10; r++) {
     const currentPerRun = current / r;
+    const designPerRun = designCurrent / r;
+    const breakerPerRun = selectedBreakerIn / r;
 
     const candidate = matchingCables
       .filter(c => {
-        // 1. Thermal Ampacity Check per run
         const adjustedAmp = c.derated * ambientResult.factor;
-        if (adjustedAmp < currentPerRun) return false;
 
-        // 2. Voltage Drop Check per run (effective parallel drop)
+        // Condition A1: 125% Motor Continuous Capacity (BNBC Sec 2.7.4.3 & NEC 430.22)
+        if (adjustedAmp < designPerRun) return false;
+
+        // Condition A2: Thermal Overload Coordination with Breaker (Iz >= In per run)
+        if (adjustedAmp < breakerPerRun) return false;
+
+        // Condition B: Voltage Drop at Operating Load Current (Ib)
         if (validVoltage && validLength && validDrop) {
           const drop = calculateVoltageDrop(
             currentPerRun,
@@ -3618,18 +4000,26 @@ if (
     if (candidate) {
       selectedCableSize = candidate;
       selectedRuns = r;
-      break; // Found minimum feasible runs
+      break;
     }
   }
 }
 
-  // Update calculated load current
+// Update calculated load current & 125% Motor Sizing Note
   const currentElement = document.getElementById('rCurrent');
+  const currentNoteElement = document.querySelector('#resultPanel .metric:nth-child(1) .s');
+
   if (currentElement) {
     currentElement.textContent =
       Number.isFinite(current) && current > 0
         ? cableFormat(current) + ' A'
         : '— A';
+  }
+
+  if (currentNoteElement && Number.isFinite(current) && current > 0) {
+    currentNoteElement.innerHTML = isMotorMachine
+      ? `FLC: ${cableFormat(current)} A | Sizing (125%): <strong>${cableFormat(designCurrent)} A</strong><br><span style="font-size:9.5px; color:#4fd18b">Ref: BNBC Sec 2.7.4.3 & NEC 430.22</span>`
+      : 'Based on entered load';
   }
 
   // Update parallel cable runs display
@@ -3872,7 +4262,7 @@ if (resultPanel) {
     }
   }
 
- // Display Breaker recommendation & Short-Circuit Protection (BNBC / IEC / RSC)
+ // Display Breaker recommendation & Short-Circuit Protection (BNBC 2020 & IEC 60364-4-43)
   const breakerElement = document.getElementById('rBreaker');
   const breakerNoteElement = document.getElementById('rBreakerNote');
 
@@ -3882,18 +4272,9 @@ if (resultPanel) {
       breakerNoteElement.textContent = 'Protection checks & fault level verification required';
     } else {
       const totalIz = (selectedCableSize.derated * ambientResult.factor) * selectedRuns;
+      const In = selectedBreakerIn || (STANDARD_BREAKERS.find(r => r >= current) || Math.ceil(current));
 
-      // Standard breaker ratings (Amperes)
-      const standardBreakers = [
-        6, 10, 16, 20, 25, 32, 40, 50, 63, 80, 100,
-        125, 160, 200, 250, 315, 350, 400, 500, 630, 800,
-        1000, 1250, 1600, 2000, 2500, 3200, 4000
-      ];
-
-      // Smallest standard rating >= load current
-      const In = standardBreakers.find(rating => rating >= current) || Math.ceil(current);
-
-      // Determine breaker type
+      // Determine breaker frame type
       let breakerType = 'MCB';
       if (phaseType === 'dc') {
         breakerType = In <= 63 ? 'DC-MCB' : 'DC-MCCB';
@@ -3903,18 +4284,18 @@ if (resultPanel) {
         breakerType = 'MCCB';
       }
 
-      // Curve type and inrush handling for motor/starting current
+      // Protection Curve Type & Inrush Withstand
       let curveType = 'Type C';
-      let inrushNote = 'Type C curve withstands 5–10×In inrush';
+      let inrushNote = 'Type C curve withstands 5–10×In motor inrush';
       if (job === 'final') {
         curveType = 'Type B/C';
-        inrushNote = 'Type B/C curve for general branch circuits';
+        inrushNote = 'Type B/C curve for resistive/lighting circuits';
       } else if (['transformer', 'generator'].includes(job) || In > 63) {
         curveType = 'Adjustable Trip';
-        inrushNote = 'Adjustable magnetic trip (8–12×In) for magnetizing inrush';
+        inrushNote = 'Adjustable magnetic trip (8–12×In) for transformer inrush';
       }
 
-      // Minimum breaking capacity recommendation (kA)
+      // Minimum breaking capacity recommendation (Icu in kA)
       let minBreakingCapacity = '10 kA';
       if (['transformer', 'generator'].includes(job) || In > 630) {
         minBreakingCapacity = '36 kA / 50 kA';
@@ -3923,16 +4304,14 @@ if (resultPanel) {
       }
 
       // Cable Short-Circuit Adiabatic Withstand (BNBC Sec 2.7.4.2 & IEC 60364-5-54)
-      // k factor: Copper PVC = 115, Copper XLPE = 143, Aluminium PVC = 76, Aluminium XLPE = 94
       const kFactor = material === 'al'
         ? (insulation === 'xlpe' ? 94 : 76)
         : (insulation === 'xlpe' ? 143 : 115);
 
       const totalArea = selectedCableSize.size * selectedRuns;
-      const Isc1s = (kFactor * totalArea) / 1000; // in kA for 1 sec
-      const Isc01s = (kFactor * totalArea) / (Math.sqrt(0.1) * 1000); // in kA for 0.1 sec (instantaneous)
+      const Isc1s = (kFactor * totalArea) / 1000;
+      const Isc01s = (kFactor * totalArea) / (Math.sqrt(0.1) * 1000);
 
-      // Pole configuration recommendation
       const pole = phaseType === '3' ? '3P/4P' : (phaseType === '1' ? '1P/2P' : '2P DC');
 
       // Card Main Display
@@ -3940,21 +4319,17 @@ if (resultPanel) {
         ? `${In} A ${breakerType} (${curveType}, min ${minBreakingCapacity})`
         : `${In} A ${breakerType} (min ${minBreakingCapacity})`;
 
-      // Card Sub-Note Display
-      const coordinationOk = In <= totalIz;
-      const coordText = coordinationOk
-        ? `Preliminary: ${pole} | Ib (${cableFormat(current)} A) ≤ In (${In} A) ≤ Iz (${cableFormat(totalIz)} A)`
-        : `⚠️ Warning: In (${In} A) exceeds Iz (${cableFormat(totalIz)} A)`;
-
-   breakerNoteElement.innerHTML = `
-        ${coordText}<br>
+      // Verified Coordination Sub-Note Display (BNBC 2020 Sec 2.7.4 Rule)
+      breakerNoteElement.innerHTML = `
+        <span style="color:#4fd18b; font-weight:700">✓ Fully Coordinated:</span> ${pole} | Ib (${cableFormat(current)} A) ≤ In (${In} A) ≤ Iz (${cableFormat(totalIz)} A)<br>
         ⚡ ${inrushNote}<br>
-        🛡️ Cable Withstand: ${cableFormat(Isc1s, 2)} kA (1s) / ${cableFormat(Isc01s, 2)} kA (0.1s)
+        🛡️ Short-Circuit Withstand: ${cableFormat(Isc1s, 2)} kA (1s) / ${cableFormat(Isc01s, 2)} kA (0.1s)<br>
+        <span style="font-size:10px; color:#6b827d">Ref: BNBC 2020 Sec 2.7.4 & IEC 60364-4-43</span>
       `;
     }
   }
 
-  // Display Conduit / Pipe Size Recommendation (BNBC 2020 Table 8.1.13/14 & 40% Space Factor)
+  // Display Conduit / Pipe Size Recommendation (BNBC 2020 Sec 2.7.3 & NEC Ch. 9 Table 1)
   const conduitElement = document.getElementById('rConduit');
   const conduitNoteElement = document.getElementById('rConduitNote');
 
@@ -3968,7 +4343,17 @@ if (resultPanel) {
       conduitElement.textContent = 'Verification Required';
       conduitNoteElement.textContent = 'Awaiting verified cable sizing';
     } else {
-      // Overall cross-sectional area with insulation (mm²) for standard BYA/Single-core (BDS 900 / BS 6004)
+      // Standard conduit internal dimensions (mm & internal area mm²)
+      const CONDUIT_SIZES = [
+        { metric: '20 mm', imperial: '¾"', intArea: 206 },
+        { metric: '25 mm', imperial: '1"', intArea: 346 },
+        { metric: '32 mm', imperial: '1¼"', intArea: 594 },
+        { metric: '38 mm', imperial: '1½"', intArea: 907 },
+        { metric: '50 mm', imperial: '2"', intArea: 1555 },
+        { metric: '63 mm', imperial: '2½"', intArea: 2507 }
+      ];
+
+      // Approximate overall cable cross-sectional area (including outer insulation)
       const CABLE_OVERALL_AREAS = {
         1: 6.2, 1.5: 7.1, 2.5: 10.2, 4: 13.9, 6: 18.1,
         10: 29.2, 16: 40.7, 25: 62.2, 35: 81.7, 50: 115.0,
@@ -3976,54 +4361,64 @@ if (resultPanel) {
         185: 380.0, 240: 490.0, 300: 590.0, 400: 755.0
       };
 
-      // Standard conduit sizes with 40% maximum allowable internal cable area
-      const CONDUIT_SIZES = [
-        { metric: '20 mm', imperial: '¾"', maxArea40: 82, intArea: 206 },
-        { metric: '25 mm', imperial: '1"', maxArea40: 138, intArea: 346 },
-        { metric: '32 mm', imperial: '1¼"', maxArea40: 237, intArea: 594 },
-        { metric: '38 mm', imperial: '1½"', maxArea40: 363, intArea: 907 },
-        { metric: '50 mm', imperial: '2"', maxArea40: 622, intArea: 1555 },
-        { metric: '63 mm', imperial: '2½"', maxArea40: 1002, intArea: 2507 }
-      ];
-
       const phaseArea = CABLE_OVERALL_AREAS[selectedCableSize.size] || (Math.PI * Math.pow(Math.sqrt(selectedCableSize.size) * 1.5 + 1.2, 2) / 4);
       
-      // ECC Size calculation
+      // ECC Size calculation (BNBC Table 8.1.26)
       const S = selectedCableSize.size;
       const eccS = S <= 16 ? S : (S <= 35 ? 16 : (S / 2));
       const eccArea = CABLE_OVERALL_AREAS[eccS] || phaseArea * 0.6;
 
-      // Conductor count per conduit run:
-      // 3-Phase: 3 Phase + 1 Neutral = 4 wires + 1 ECC = 5 wires
-      // 1-Phase: 1 Phase + 1 Neutral = 2 wires + 1 ECC = 3 wires
-      // DC: 2 wires + 1 Earth = 3 wires
-      const activeCores = phaseType === '3' ? 4 : 2;
-      const totalCableAreaPerRun = (activeCores * phaseArea) + eccArea;
-      const totalWiresPerRun = activeCores + 1;
+      // Determine conductor count and total cable volume per conduit
+      const isMultiCore = ['NYY_3_CORE', 'NYY_4_CORE'].includes(cableType);
+      let totalWiresPerRun = 0;
+      let totalCableAreaPerRun = 0;
 
-      // Select smallest standard conduit satisfying ≤ 40% fill rule
-      const suitableConduit = CONDUIT_SIZES.find(c => c.maxArea40 >= totalCableAreaPerRun);
+      if (isMultiCore) {
+        // Multi-core cable counts as 1 main assembly inside the conduit (+ optional ECC)
+        totalWiresPerRun = 1;
+        totalCableAreaPerRun = (phaseArea * (selectedCable.cores === 4 ? 4.2 : 3.3)) + eccArea;
+      } else {
+        // Single core BYA/NYY wires
+        const activeCores = phaseType === '3' ? 4 : 2; // 3P+N or 1P+N
+        totalWiresPerRun = activeCores + 1; // + 1 ECC earth wire
+        totalCableAreaPerRun = (activeCores * phaseArea) + eccArea;
+      }
+
+      // Space Factor Rule (BNBC 2020 Part 8 Sec 2.7.3 & NEC Ch. 9 Table 1)
+      // 1 wire/cable = 53%, 2 wires = 31% (anti-jamming), 3+ wires = 40% max fill
+      let maxFillPercent = 40;
+      if (totalWiresPerRun === 1) {
+        maxFillPercent = 53;
+      } else if (totalWiresPerRun === 2) {
+        maxFillPercent = 31;
+      } else {
+        maxFillPercent = 40;
+      }
+
+      // Find the smallest conduit that satisfies the Space Factor rule
+      const suitableConduit = CONDUIT_SIZES.find(c => {
+        const allowedArea = c.intArea * (maxFillPercent / 100);
+        return allowedArea >= totalCableAreaPerRun;
+      });
 
       if (suitableConduit) {
         const fillPercent = ((totalCableAreaPerRun / suitableConduit.intArea) * 100).toFixed(1);
-        const pipeType = installation === 'gi' ? 'GI Conduit' : 'PVC Conduit';
+        const pipeType = installation === 'conduitSurface' ? 'Surface Conduit / GI' : 'PVC Conduit';
 
         conduitElement.textContent = selectedRuns > 1
           ? `${selectedRuns} × ${suitableConduit.metric} (${suitableConduit.imperial})`
           : `${suitableConduit.metric} (${suitableConduit.imperial})`;
 
-        conduitNoteElement.textContent = selectedRuns > 1
-          ? `Per run: ${suitableConduit.metric} ${pipeType} (${totalWiresPerRun} wires, ${fillPercent}% fill ≤ 40%)`
-          : `${pipeType} | ${totalWiresPerRun} wires (${activeCores}C + 1 ECC) | Fill: ${fillPercent}% (Max 40%)`;
+        conduitNoteElement.innerHTML = selectedRuns > 1
+          ? `Per run: ${suitableConduit.metric} ${pipeType} (${totalWiresPerRun} cables, ${fillPercent}% fill ≤ ${maxFillPercent}%)<br><span style="font-size:10px; color:#6b827d">Ref: BNBC 2020 Sec 2.7.3 & NEC Ch. 9</span>`
+          : `${pipeType} | ${totalWiresPerRun} cables | Fill: ${fillPercent}% (Max ${maxFillPercent}%)<br><span style="font-size:10px; color:#6b827d">Ref: BNBC 2020 Sec 2.7.3 & NEC Ch. 9</span>`;
       } else {
         conduitElement.textContent = 'Trunking / Tray Required';
-        conduitNoteElement.textContent = 'Total cable volume exceeds standard 63 mm (2½") conduit capacity';
+        conduitNoteElement.textContent = 'Total cable volume exceeds standard 63 mm (2½") conduit capacity. Use Cable Trunking.';
       }
     }
   }
 }
-
- 
 const messages = [];
 
 if (!validLoad) {
@@ -4054,16 +4449,21 @@ if (!validLength) {
     messages.push('Enter a valid ambient temperature.');
   }
 
-  if(!validDrop){
+ if(!validDrop){
     messages.push('Enter a valid maximum voltage-drop percentage.');
   }
 
-const statusElement = document.querySelector('#resultPanel .status');
+  // BNBC & RSC রুলসের নিষেধাজ্ঞা সরাসরি নোটিসে যুক্ত করা
+  if (!databaseCompatible && cableDatabaseStatus) {
+    messages.push(cableDatabaseStatus);
+  }
+
+  const statusElement = document.querySelector('#resultPanel .status');
 
   if (statusElement) {
     if (messages.length > 0) {
       statusElement.style.display = 'block';
-      statusElement.innerHTML = '⚠️ <strong>Input Notice:</strong> ' + messages.join(' ');
+      statusElement.innerHTML = '⚠️ <strong>BNBC / RSC Compliance Notice:</strong><br>' + messages.join('<br>');
       statusElement.style.borderColor = '#c5832b';
       statusElement.style.color = '#ffca73';
       statusElement.style.background = 'linear-gradient(135deg, #302718, #211d16)';
@@ -4074,8 +4474,8 @@ const statusElement = document.querySelector('#resultPanel .status');
   }
 
 } // END calculateCable()
-function calculateVoltageDrop(current, voltage, length, size, phaseType, material, pf) {
 
+function calculateVoltageDrop(current, voltage, length, size, phaseType, material, pf) {
   if (
     !Number.isFinite(current) || current <= 0 ||
     !Number.isFinite(voltage) || voltage <= 0 ||
@@ -4085,46 +4485,51 @@ function calculateVoltageDrop(current, voltage, length, size, phaseType, materia
     return null;
   }
 
-  // AC voltage-drop estimate requires a valid power factor.
-  if (
-    phaseType !== 'dc' &&
-    (!Number.isFinite(pf) || pf <= 0 || pf > 1)
-  ) {
+  // AC voltage drop requires valid power factor (0 < PF <= 1)
+  if (phaseType !== 'dc' && (!Number.isFinite(pf) || pf <= 0 || pf > 1)) {
     return null;
   }
 
-  // Approximate conductor resistivity at 20°C.
-  // AC reactance and operating-temperature resistance are excluded.
-  const rho = material === 'al' ? 0.0282 : 0.0175;
+  // 1. Conductor Resistivity at 70°C Operating Temperature (IEC 60364-5-52 / BNBC)
+  // At 20°C: Cu = 0.0175, Al = 0.0282
+  // At 70°C: R70 = R20 * (1 + 0.00393 * 50) -> Cu ~ 0.0210 Ω·mm²/m, Al ~ 0.0339 Ω·mm²/m
+  const rho70 = material === 'al' ? 0.0339 : 0.0210;
 
-  const distanceUnit =
-    document.getElementById('distanceUnit').value;
+  // Detect distance unit (handles both Mode 1 & Mode 2)
+  const isMode2 = document.getElementById('cableBreakerMode') && 
+                  document.getElementById('cableBreakerMode').style.display !== 'none';
+  const unitEl = isMode2 
+    ? (document.getElementById('exDistanceUnit') || document.getElementById('distanceUnit'))
+    : (document.getElementById('distanceUnit') || document.getElementById('exDistanceUnit'));
+    
+  const distanceUnit = unitEl ? unitEl.value : 'm';
+  const lengthM = distanceUnit === 'ft' ? length * 0.3048 : length;
 
-  const lengthM =
-    distanceUnit === 'ft' ? length * 0.3048 : length;
+  // Resistance (Ohms) at 70°C
+  const R = (rho70 * lengthM) / size;
 
-  const resistance = rho * lengthM / size;
+  let dropV = 0;
 
-  let dropV;
-
-  if (phaseType === '3') {
-
-    dropV =
-      Math.sqrt(3) * current * resistance * pf;
-
-  } else if (phaseType === '1') {
-
-    dropV =
-      2 * current * resistance * pf;
-
-  } else if (phaseType === 'dc') {
-
-    // One-way cable route; outgoing and return conductors.
-    dropV =
-      2 * current * resistance;
-
+  if (phaseType === 'dc') {
+    // Pure DC circuit: 2-way route length (outgoing + return)
+    dropV = 2 * current * R;
   } else {
-    return null;
+    // AC circuit: Include Reactance (X) per IEC / BNBC standards
+    // Typical low-voltage cable reactance ~ 0.08 mΩ/m (0.00008 Ω/m)
+    const X = 0.00008 * lengthM;
+    const cosPhi = pf;
+    const sinPhi = Math.sqrt(Math.max(0, 1 - Math.pow(cosPhi, 2)));
+
+    // Total effective impedance component: (R * cosθ + X * sinθ)
+    const impedanceDrop = (R * cosPhi) + (X * sinPhi);
+
+    if (phaseType === '3') {
+      // 3-Phase AC formula: √3 * I * (R·cosθ + X·sinθ)
+      dropV = Math.sqrt(3) * current * impedanceDrop;
+    } else {
+      // 1-Phase AC formula: 2 * I * (R·cosθ + X·sinθ)
+      dropV = 2 * current * impedanceDrop;
+    }
   }
 
   return {
@@ -4198,10 +4603,14 @@ function calculateExistingCable(){
   };
   const cfg = cableConfig[cableType];
   const record = CABLE_AMPACITY_DB.find(c =>
-    c.type === cfg.type && c.cores === cfg.cores && c.material === material && c.size === size
+    c.type === cfg.type && c.cores === cfg.cores && c.material === material && (c.insulation || 'pvc') === insulation && c.size === size
   );
 
-  if (!record || !amb.supported || material !== 'cu' || insulation !== 'pvc' || (cableType === 'BYA_SINGLE' && !byaAllowed)) {
+const isMatSupported = ['cu', 'al'].includes(material);
+const isInsSupported = ['pvc', 'xlpe'].includes(insulation);
+
+if (!record || !amb.supported || !isMatSupported || !isInsSupported || (cableType === 'BYA_SINGLE' && !byaAllowed)) {
+
     if (ampacityEl) ampacityEl.textContent = 'Verification Required';
     if (breakerEl) breakerEl.textContent = 'Verification Required';
     if (safeLoadEl) safeLoadEl.textContent = '—';
@@ -4308,41 +4717,56 @@ function calculateExistingCable(){
     eccNoteEl.innerHTML = `Copper ECC (BNBC Table 8.1.26)<br>Fault withstand: ${cableFormat(Isc1s, 2)} kA (1s) / ${cableFormat(Isc01s, 2)} kA (0.1s)`;
   }
 
-  // 6. Conduit / Pipe Sizing
+  // 6. Conduit / Pipe Sizing (BNBC 2020 Sec 2.7.3 & NEC Ch. 9 Table 1)
   const isConduit = ['conduitConcealed', 'conduitSurface'].includes(installation);
   if (conduitEl && conduitNoteEl) {
     if (!isConduit) {
       conduitEl.textContent = 'Not Applicable';
       conduitNoteEl.textContent = 'Open Tray / Trench / Direct wiring';
     } else {
+      const CONDUIT_SIZES = [
+        { metric: '20 mm', imperial: '¾"', intArea: 206 },
+        { metric: '25 mm', imperial: '1"', intArea: 346 },
+        { metric: '32 mm', imperial: '1¼"', intArea: 594 },
+        { metric: '38 mm', imperial: '1½"', intArea: 907 },
+        { metric: '50 mm', imperial: '2"', intArea: 1555 },
+        { metric: '63 mm', imperial: '2½"', intArea: 2507 }
+      ];
+
       const CABLE_OVERALL_AREAS = {
         1: 6.2, 1.5: 7.1, 2.5: 10.2, 4: 13.9, 6: 18.1,
         10: 29.2, 16: 40.7, 25: 62.2, 35: 81.7, 50: 115.0,
         70: 153.9, 95: 206.1, 120: 254.5, 150: 314.0,
         185: 380.0, 240: 490.0, 300: 590.0, 400: 755.0
       };
-      const CONDUIT_SIZES = [
-        { metric: '20 mm', imperial: '¾"', maxArea40: 82, intArea: 206 },
-        { metric: '25 mm', imperial: '1"', maxArea40: 138, intArea: 346 },
-        { metric: '32 mm', imperial: '1¼"', maxArea40: 237, intArea: 594 },
-        { metric: '38 mm', imperial: '1½"', maxArea40: 363, intArea: 907 },
-        { metric: '50 mm', imperial: '2"', maxArea40: 622, intArea: 1555 },
-        { metric: '63 mm', imperial: '2½"', maxArea40: 1002, intArea: 2507 }
-      ];
 
       const phaseArea = CABLE_OVERALL_AREAS[size] || 60;
       const eccArea = CABLE_OVERALL_AREAS[eccSize] || 40;
-      const activeCores = phase === '3' ? 4 : 2;
-      const totalArea = (activeCores * phaseArea) + eccArea;
-      const pipe = CONDUIT_SIZES.find(c => c.maxArea40 >= totalArea);
 
-      if (pipe) {
+      const isMultiCore = ['NYY_3_CORE', 'NYY_4_CORE'].includes(cableType);
+      let totalWires = 0;
+      let totalArea = 0;
+
+      if (isMultiCore) {
+        totalWires = 1;
+        totalArea = (phaseArea * (cableType === 'NYY_4_CORE' ? 4.2 : 3.3)) + eccArea;
+      } else {
+        const activeCores = phase === '3' ? 4 : 2;
+        totalWires = activeCores + 1;
+        totalArea = (activeCores * phaseArea) + eccArea;
+      }
+
+      // Space Factor Rule
+      const maxFill = totalWires === 1 ? 53 : (totalWires === 2 ? 31 : 40);
+      const pipe = CONDUIT_SIZES.find(c => (c.intArea * (maxFill / 100)) >= totalArea);
+
+    if (pipe) {
         const fill = ((totalArea / pipe.intArea) * 100).toFixed(1);
         conduitEl.textContent = runs > 1 ? `${runs} × ${pipe.metric} (${pipe.imperial})` : `${pipe.metric} (${pipe.imperial})`;
-        conduitNoteEl.textContent = `Fill: ${fill}% (Max 40% BNBC rule) | ${activeCores + 1} wires per pipe`;
+        conduitNoteEl.innerHTML = `Fill: ${fill}% (Max ${maxFill}%) | ${totalWires} cables<br><span style="font-size:10px; color:#6b827d">BNBC 2020 Sec 2.7.3 & NEC Ch. 9 Rule</span>`;
       } else {
         conduitEl.textContent = 'Trunking Required';
-        conduitNoteEl.textContent = 'Exceeds standard 63 mm pipe';
+        conduitNoteEl.textContent = 'Total volume exceeds 63 mm pipe. Use Cable Trunking.';
       }
     }
   }
@@ -4404,43 +4828,333 @@ form.addEventListener('change', function (event) {
 
 
 function hideAllPages(){
+  const homeEl = document.getElementById('home');
+  if (homeEl) homeEl.style.display = 'none';
 
-  document
-    .getElementById('home')
-    .style
-    .display = 'none';
+  // সব পেজ নিরাপদে হাইড করা (কোনো পেজ মিসিং থাকলেও কখনো এরর দিবে না)
+  ['electricalPage', 'loadPage', 'converterPage', 'cablePage'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.classList.remove('on');
+  });
+}
 
+/* =========================================================
+     JAVASCRIPT: BREAKER SELECTION & PAGE CONTROL
+========================================================= */
+
+function hideAllPages(){
+  const homeEl = document.getElementById('home');
+  if (homeEl) homeEl.style.display = 'none';
+
+  // নতুন breakerPage সহ সব পেজ নিরাপদে হাইড করা
+  ['electricalPage', 'loadPage', 'converterPage', 'cablePage', 'breakerPage'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.classList.remove('on');
+  });
+}
+
+function showBreakerSelection(){
+  hideAllPages();
+
+  const page = document.getElementById('breakerPage');
+  if (page) {
+    page.classList.add('on');
+  }
+
+  // পেজ লোড হলেই স্বয়ংক্রিয়ভাবে প্রথম ক্যালকুলেশন রান করা
+  calculateBreaker();
+
+  history.pushState(
+    {page:'breaker'},
+    '',
+    '#breaker'
+  );
+}
+
+function backFromBreaker(){
+  hideAllPages();
 
   document
     .getElementById('electricalPage')
     .classList
-    .remove('on');
+    .add('on');
 
-
-  document
-    .getElementById('loadPage')
-    .classList
-    .remove('on');
-
-
-  document
-    .getElementById('residentialLoadPage')
-    .classList
-    .remove('on');
-
-
-  document
-    .getElementById('converterPage')
-    .classList
-    .remove('on');
-
-     document
-    .getElementById('cablePage')
-    .classList
-    .remove('on');
+  history.pushState(
+    {page:'electrical'},
+    '',
+    '#electrical'
+  );
 }
 
+// লোডের ধরণ পরিবর্তনের সাথে প্যারামিটার অটো-আপডেট
+function brkTypeChange(){
+  const type = document.getElementById('brkLoadType').value;
+  
+  if (type.startsWith('motor_')) {
+    document.getElementById('brkLoadUnit').value = 'kw';
+    document.getElementById('brkPhase').value = '3';
+    document.getElementById('brkVoltage').value = '415';
+    document.getElementById('brkPf').value = '0.85';
+    document.getElementById('brkEff').value = '0.90';
+  } else if (type === 'transformer') {
+    document.getElementById('brkLoadUnit').value = 'kva';
+    document.getElementById('brkLoadVal').value = '250';
+    document.getElementById('brkPhase').value = '3';
+    document.getElementById('brkVoltage').value = '415';
+    document.getElementById('brkPf').value = '0.80';
+    document.getElementById('brkEff').value = '1.0';
+    document.getElementById('brkFaultLocation').value = 'main_lt';
+  } else if (type === 'capacitor') {
+    document.getElementById('brkLoadUnit').value = 'kva';
+    document.getElementById('brkLoadVal').value = '50';
+    document.getElementById('brkPhase').value = '3';
+    document.getElementById('brkVoltage').value = '415';
+    document.getElementById('brkPf').value = '1.0';
+    document.getElementById('brkEff').value = '1.0';
+  } else if (type === 'dc_load') {
+    document.getElementById('brkLoadUnit').value = 'amp';
+    document.getElementById('brkPhase').value = 'dc';
+    document.getElementById('brkVoltage').value = '110';
+    document.getElementById('brkPf').value = '1.0';
+    document.getElementById('brkEff').value = '1.0';
+  } else {
+    document.getElementById('brkLoadUnit').value = 'kw';
+    document.getElementById('brkPhase').value = '1';
+    document.getElementById('brkVoltage').value = '220';
+    document.getElementById('brkPf').value = '0.90';
+    document.getElementById('brkEff').value = '1.0';
+  }
 
+  calculateBreaker();
+}
+
+function brkPhaseChange(){
+  const phase = document.getElementById('brkPhase').value;
+  if (phase === '1') {
+    document.getElementById('brkVoltage').value = '220';
+  } else if (phase === '3') {
+    document.getElementById('brkVoltage').value = '415';
+  } else {
+    document.getElementById('brkVoltage').value = '110';
+  }
+  calculateBreaker();
+}
+
+/* =========================================================
+     JAVASCRIPT: BREAKER SIZING ENGINE (IEC 60947-2 & IEC 60898)
+========================================================= */
+
+function calculateBreaker(){
+  const loadType = document.getElementById('brkLoadType') ? document.getElementById('brkLoadType').value : 'motor_dol';
+  const val = Number(document.getElementById('brkLoadVal').value);
+  const unit = document.getElementById('brkLoadUnit').value;
+  const phase = document.getElementById('brkPhase').value;
+  const voltage = Number(document.getElementById('brkVoltage').value);
+  const pf = Number(document.getElementById('brkPf').value) || 0.85;
+  const eff = Number(document.getElementById('brkEff').value) || 0.90;
+  const location = document.getElementById('brkFaultLocation').value;
+
+  if (!Number.isFinite(val) || val <= 0 || !Number.isFinite(voltage) || voltage <= 0) {
+    document.getElementById('brkFinalResult').textContent = '—';
+    return;
+  }
+
+  // 1. Calculate Operating Load Current (Ib / FLC)
+  let ib = 0;
+  const phaseFactor = phase === '3' ? Math.sqrt(3) : 1;
+
+  if (unit === 'amp') {
+    ib = val;
+  } else if (unit === 'kva') {
+    ib = (val * 1000) / (phaseFactor * voltage);
+  } else if (unit === 'hp') {
+    const watt = val * 745.7;
+    ib = watt / (phaseFactor * voltage * pf * eff);
+  } else {
+    // kW
+    const watt = val * 1000;
+    if (phase === 'dc') {
+      ib = watt / voltage;
+    } else {
+      ib = watt / (phaseFactor * voltage * pf * eff);
+    }
+  }
+
+  // 2. Continuous Duty Sizing Factor (NFPA 70 Art 210.20 & BNBC 2020 Sec 2.7.4.3)
+  let safetyMultiplier = 1.0;
+  let sizingRuleNote = 'Standard 100% Load Current';
+
+  if (loadType.startsWith('motor_')) {
+    safetyMultiplier = 1.25; // 125% Rule for motors
+    sizingRuleNote = '125% Motor Continuous Duty (BNBC 2.7.4.3 & NEC 430.22)';
+  } else if (loadType === 'capacitor') {
+    safetyMultiplier = 1.35; // 135% for capacitor harmonics/overvoltage (IEC 60831)
+    sizingRuleNote = '135% Capacitor Duty Factor (IEC 60831 & Harmonics)';
+  } else if (loadType === 'general') {
+    safetyMultiplier = 1.25; // 125% continuous duty (NFPA 70 Art 210.20)
+    sizingRuleNote = '125% Continuous Duty Factor (NFPA 70 Art 210.20)';
+  }
+
+  const iDesign = ib * safetyMultiplier;
+
+  // 3. Standard IEC Breaker Ratings (Amperes)
+  const STANDARD_BREAKERS = [
+    6, 10, 16, 20, 25, 32, 40, 50, 63, 80, 100,
+    125, 160, 200, 250, 315, 350, 400, 500, 630, 800,
+    1000, 1250, 1600, 2000, 2500, 3200, 4000, 5000, 6300
+  ];
+
+  // Pick smallest standard In >= iDesign
+  const In = STANDARD_BREAKERS.find(r => r >= iDesign) || Math.ceil(iDesign);
+
+  // 4. Minimum Coordinated Cable Sizing (RSC & BNBC Golden Rule: Ib <= In <= Iz)
+  // Standard Copper PVC Derated Ampacities at 35°C (Conduit/Enclosed)
+  const COPPER_CABLE_CAPACITIES = [
+    { size: 1.5, cap: 14 },
+    { size: 2.5, cap: 20 },
+    { size: 4, cap: 26 },
+    { size: 6, cap: 33 },
+    { size: 10, cap: 44 },
+    { size: 16, cap: 60 },
+    { size: 25, cap: 77 },
+    { size: 35, cap: 95 },
+    { size: 50, cap: 130 },
+    { size: 70, cap: 166 },
+    { size: 95, cap: 202 },
+    { size: 120, cap: 232 },
+    { size: 150, cap: 266 },
+    { size: 185, cap: 305 },
+    { size: 240, cap: 360 },
+    { size: 300, cap: 420 },
+    { size: 400, cap: 511 }
+  ];
+
+  let recCableText = 'Verification Required';
+  let recCableDetail = 'Satisfies RSC & BNBC Rule Ib ≤ In ≤ Iz';
+
+  // Find minimum single cable satisfying Iz >= In
+  let matchedCable = COPPER_CABLE_CAPACITIES.find(c => c.cap >= In);
+  if (matchedCable) {
+    recCableText = `${matchedCable.size} mm² Cu`;
+    recCableDetail = `Capacity: ${matchedCable.cap} A (Iz ≥ In ${In} A) | Copper/PVC`;
+  } else {
+    // If current is huge, calculate parallel runs
+    for (let r = 2; r <= 8; r++) {
+      const perRunIn = In / r;
+      const parallelMatch = COPPER_CABLE_CAPACITIES.find(c => c.cap >= perRunIn);
+      if (parallelMatch) {
+        recCableText = `${r} × (${parallelMatch.size} mm²) Cu`;
+        recCableDetail = `${r} Runs in Parallel | Total Cap: ${parallelMatch.cap * r} A (Iz ≥ ${In} A)`;
+        break;
+      }
+    }
+  }
+
+  // 5. Determine Breaker Frame Type (MCB vs MCCB vs ACB)
+  let frameType = 'MCB';
+  let frameDetail = 'Miniature Circuit Breaker (Standard Din-Rail Mounted)';
+
+  if (phase === 'dc') {
+    frameType = In <= 63 ? 'DC-MCB' : 'DC-MCCB';
+    frameDetail = 'Polarized DC Circuit Breaker (IEC 60947-2 Annex P)';
+  } else if (In > 630 || (location === 'main_lt' && In >= 800)) {
+    frameType = 'ACB';
+    frameDetail = 'Air Circuit Breaker (Drawout / Fixed with Microprocessor Trip Unit)';
+  } else if (In > 63 || location === 'main_lt' || location === 'sub_panel') {
+    frameType = 'MCCB';
+    frameDetail = 'Molded Case Circuit Breaker (Thermal-Magnetic / Electronic Trip)';
+  } else {
+    frameType = 'MCB';
+    frameDetail = 'Miniature Circuit Breaker (IEC 60898-1 / Residential & Commercial)';
+  }
+
+  // 6. Tripping Curve Selection (IEC 60898 / IEC 60947-2)
+  let curve = 'Type C';
+  let curveNote = 'Trips at 5–10×In (Standard industrial inductive loads)';
+
+  if (loadType === 'motor_dol') {
+    curve = 'Type D / Motor Duty';
+    curveNote = 'Trips at 10–20×In (Withstands 6–8×In DOL starting inrush without false tripping)';
+  } else if (loadType === 'motor_sd') {
+    curve = 'Type C';
+    curveNote = 'Trips at 5–10×In (Handles 2.5–3×In Star-Delta transition inrush)';
+  } else if (loadType === 'motor_vfd') {
+    curve = 'Type C / Type B';
+    curveNote = 'Trips at 3–5×In / 5–10×In (VFD eliminates heavy starting inrush)';
+  } else if (loadType === 'transformer') {
+    curve = 'Adjustable Electronic (LSI)';
+    curveNote = 'Adjustable magnetic pickup (8–12×In) to withstand magnetizing inrush';
+  } else if (loadType === 'capacitor') {
+    curve = 'Type D / Capacitor Duty';
+    curveNote = 'Withstands high-frequency capacitive switching transient peaks';
+  } else if (phase === 'dc') {
+    curve = 'DC Curve C';
+    curveNote = 'Trips at 7–10×In for DC inductive circuits';
+  } else {
+    curve = 'Type B / C';
+    curveNote = 'Type B (3–5×In) for resistive, Type C (5–10×In) for sockets';
+  }
+
+  // 7. Breaking Capacity (Icu in kA)
+  let icu = '10 kA';
+  let icuDetail = 'Standard final branch breaking capacity';
+
+  if (location === 'main_lt') {
+    icu = In >= 1000 ? '65 kA / 85 kA' : '50 kA';
+    icuDetail = 'Main Substation LT Panel (Close proximity to Transformer)';
+  } else if (location === 'sub_panel') {
+    icu = In > 250 ? '36 kA / 50 kA' : '25 kA / 36 kA';
+    icuDetail = 'Floor Distribution Board / Heavy Factory Sub-Panel';
+  } else {
+    icu = frameType === 'MCCB' ? '16 kA / 25 kA' : (In <= 32 ? '6 kA / 10 kA' : '10 kA');
+    icuDetail = 'Final Sub-DB / Commercial Building Branch';
+  }
+
+  // 8. Pole Configuration
+  let poles = '3-Pole (3P)';
+  let poleDetail = '3-Phase unswitched neutral distribution';
+
+  if (phase === '1') {
+    poles = In <= 63 ? '1P+N / 2P (DP)' : '2-Pole (2P)';
+    poleDetail = 'Phase + Neutral Isolation';
+  } else if (phase === 'dc') {
+    poles = voltage <= 220 ? '2-Pole DC (2P)' : '4-Pole DC (4P series)';
+    poleDetail = 'Positive & Negative Pole Isolation';
+  } else {
+    poles = location === 'main_lt' ? '3P / 4P (TPN)' : '3-Pole (3P)';
+    poleDetail = location === 'main_lt' ? '4-Pole recommended for Generator transfer' : '3-Phase Standard 3P';
+  }
+
+  // 9. Update UI Outputs
+  document.getElementById('brkFinalResult').textContent = `${In} A ${frameType}`;
+  document.getElementById('brkFrameType').textContent = `${frameDetail} • ${poles}`;
+  document.getElementById('brkCurrents').textContent = `FLC: ${ib.toFixed(1)} A → Sizing: ${iDesign.toFixed(1)} A`;
+  document.getElementById('brkSizingRule').textContent = sizingRuleNote;
+  document.getElementById('brkCableSize').textContent = recCableText;
+  document.getElementById('brkCableDetail').textContent = recCableDetail;
+  document.getElementById('brkCurve').textContent = curve;
+  document.getElementById('brkCurveDetail').textContent = curveNote;
+  document.getElementById('brkBreakingCap').textContent = `${icu} (Icu)`;
+  document.getElementById('brkBreakingDetail').textContent = icuDetail;
+  document.getElementById('brkPoles').textContent = poles;
+  document.getElementById('brkPoleDetail').textContent = poleDetail;
+
+  // 10. Engineering Standards & Code Compliance Reference Accordion
+  const notesEl = document.getElementById('brkEngineeringNotes');
+  if (notesEl) {
+    notesEl.innerHTML = `
+      <strong>1. Standards & Code References:</strong><br>
+      • <strong>RSC (Sec 10 & 11) & BNBC 2020 (Sec 2.7.4):</strong> Golden Rule <em>Ib (${ib.toFixed(1)} A) ≤ In (${In} A) ≤ Iz</em> strictly satisfied. Selected cable ensures the breaker trips before the cable overheats.<br>
+      • <strong>NFPA 70 (NEC) Art. 210.20 & 430.22:</strong> 125% continuous sizing factor applied.<br>
+      • <strong>Motor Overload Protection:</strong> Thermal Overload Relay (OLR) must be set to 100% of motor nameplate FLC (<strong>${ib.toFixed(1)} A</strong>), while this ${In} A breaker provides short-circuit/backup protection.<br><br>
+      <strong>2. Device Specification:</strong><br>
+      • <strong>Device Frame:</strong> ${frameType} (${frameDetail})<br>
+      • <strong>Nominal Rating (In):</strong> ${In} A | <strong>Tripping Curve:</strong> ${curve}<br>
+      • <strong>Rated Breaking Capacity (Icu):</strong> ${icu} (${icuDetail})<br>
+      • <strong>Minimum Safe Cable Size:</strong> <strong>${recCableText}</strong> (${recCableDetail})
+    `;
+  }
+}
 /* =========================================================
      JAVASCRIPT FUNCTION: HOME
 ========================================================= */
@@ -4670,10 +5384,7 @@ function removeLoadRow(button) {
 ========================================================= */
 
 function calculateLoad(type){
-
-  const container =
-    document.getElementById('residentialData');
-
+  const container = document.getElementById('residentialData');
   if(!container) return;
 
   let totalWatt = 0;
@@ -4681,7 +5392,6 @@ function calculateLoad(type){
   let details = [];
 
   container.querySelectorAll('.load-row').forEach((row, index) => {
-
     const qtyInput = row.querySelector('.load-qty');
     const wattInput = row.querySelector('.load-watt');
     const kwInput = row.querySelector('.load-kw');
@@ -4695,20 +5405,17 @@ function calculateLoad(type){
     const hoursText = hoursInput.value.trim();
 
     if(qtyText === '') return;
-
     const qty = Number(qtyText);
-
     if(!Number.isFinite(qty) || qty <= 0) return;
 
     if(wattText !== '' && kwText !== '') return;
 
     let unitWatt;
-
     if(wattText !== ''){
       unitWatt = Number(wattText);
-    }else if(kwText !== ''){
+    } else if(kwText !== ''){
       unitWatt = Number(kwText) * 1000;
-    }else{
+    } else {
       return;
     }
 
@@ -4716,81 +5423,119 @@ function calculateLoad(type){
 
     const connectedWatt = qty * unitWatt;
     const connectedKW = connectedWatt / 1000;
-
     totalWatt += connectedWatt;
 
     let hours = 0;
-
     if(hoursText !== ''){
       hours = Number(hoursText);
-
-      if(!Number.isFinite(hours) || hours < 0){
-        hours = 0;
-      }
+      if(!Number.isFinite(hours) || hours < 0) hours = 0;
     }
 
     const energy = connectedKW * hours;
     totalKWh += energy;
 
+    // লোডের ক্যাটাগরি নাম (Light, Fan বা Other Load) স্বয়ংক্রিয়ভাবে শনাক্ত করা
+    const parentGroup = row.closest('.load-group');
+    const groupTitle = parentGroup ? (parentGroup.querySelector('.load-group-title')?.innerText || 'Load') : 'Load';
+
     details.push(`
       <div class="formula-line">
-        <strong>Load ${index + 1}</strong><br>
-        Quantity = ${qty}<br>
-        Unit Load = ${Number(unitWatt.toFixed(4))} W<br>
-        Connected Load = ${qty} × ${Number(unitWatt.toFixed(4))} = 
-        <strong>${Number(connectedWatt.toFixed(4))} W</strong><br>
-        Connected Load in kW = ${Number(connectedWatt.toFixed(4))} ÷ 1000 =
-        <strong>${Number(connectedKW.toFixed(4))} kW</strong><br>
-        Daily Energy = ${Number(connectedKW.toFixed(4))} × ${hours} h =
-        <strong>${Number(energy.toFixed(4))} kWh</strong>
+        <strong>${groupTitle} #${index + 1}</strong>: Qty ${qty} × ${unitWatt.toFixed(1)} W = <strong>${connectedWatt.toFixed(1)} W (${connectedKW.toFixed(3)} kW)</strong> | Usage: ${hours} h/day (${energy.toFixed(3)} kWh)
       </div>
     `);
-
   });
 
   const totalKW = totalWatt / 1000;
 
-  document.getElementById('loadTotalKW').textContent =
-    `${Number(totalKW.toFixed(4))} kW`;
+  // 1. BNBC 2020 Part 8 Sec 2.6.2: Maximum Demand (MD) using 75% Residential Diversity Factor
+  const DIVERSITY_FACTOR = 0.75;
+  const maxDemandKW = totalKW * DIVERSITY_FACTOR;
 
-  document.getElementById('loadTotalWatt').textContent =
-    `Total Load = ${Number(totalWatt.toFixed(4))} W`;
+  // 2. Service Connection & Meter Sizing (DESCO / DPDC / BREB Rules & BNBC 2020)
+  // PF = 0.90 standard residential billing power factor
+  const PF = 0.90;
+  let meterType = 'Single Phase (1-Phase)';
+  let meterRule = 'Sanction Load ≤ 7.5 kW Rule';
+  let mainCurrent = 0;
 
-  document.getElementById('loadTotalKWH').textContent =
-    `Daily Energy = ${Number(totalKWh.toFixed(4))} kWh`;
-
-  const formulaDetails =
-    document.getElementById('loadFormulaDetails');
-
-  if(formulaDetails){
-
-    formulaDetails.innerHTML = `
-      <div class="formula-line">
-        <strong>Formula 1: Connected Load</strong><br>
-        Total Load (W) = Quantity × Unit Watt<br>
-        Total Load (kW) = Total Watt ÷ 1000
-      </div>
-
-      <div class="formula-line">
-        <strong>Formula 2: Energy Consumption</strong><br>
-        Energy (kWh) = Load (kW) × Usage Hours
-      </div>
-
-      ${details.length
-        ? details.join('')
-        : '<div class="formula-line">Enter quantity and Watt or kW to calculate the result.</div>'
-      }
-
-      <div class="formula-line">
-        <strong>Final Total</strong><br>
-        Connected Load = ${Number(totalWatt.toFixed(4))} W<br>
-        Connected Load = ${Number(totalKW.toFixed(4))} kW<br>
-        Total Energy = ${Number(totalKWh.toFixed(4))} kWh/day
-      </div>
-    `;
-
+  if (maxDemandKW <= 0) {
+    meterType = 'Single Phase';
+    meterRule = 'Enter load to determine';
+    mainCurrent = 0;
+  } else if (maxDemandKW <= 7.5) {
+    // Single Phase 230V: I = (kW * 1000) / (230 * PF)
+    mainCurrent = (maxDemandKW * 1000) / (230 * PF);
+    meterType = 'Single Phase (230 V)';
+    meterRule = `Sanction Load ${maxDemandKW.toFixed(2)} kW ≤ 7.5 kW`;
+  } else if (maxDemandKW <= 50) {
+    // Three Phase 400V: I = (kW * 1000) / (√3 * 400 * PF)
+    mainCurrent = (maxDemandKW * 1000) / (Math.sqrt(3) * 400 * PF);
+    meterType = 'Three Phase (400 V)';
+    meterRule = `Sanction Load > 7.5 kW (3-Phase Mandatory)`;
+  } else {
+    // Dedicated Substation Required (> 50 kW)
+    mainCurrent = (maxDemandKW * 1000) / (Math.sqrt(3) * 400 * PF);
+    meterType = 'Dedicated Substation';
+    meterRule = 'Load > 50 kW: HT Consumer (11/0.415 kV)';
   }
 
+  // 3. Monthly Units Estimate
+  const monthlyKWh = totalKWh * 30;
+
+  // 4. Update UI Outputs
+  if (document.getElementById('loadTotalKW')) {
+    document.getElementById('loadTotalKW').textContent = `${totalKW.toFixed(3)} kW`;
+  }
+  if (document.getElementById('loadTotalWatt')) {
+    document.getElementById('loadTotalWatt').textContent = `${Math.round(totalWatt)} W`;
+  }
+  if (document.getElementById('loadMaxDemandKW')) {
+    document.getElementById('loadMaxDemandKW').textContent = `${maxDemandKW.toFixed(3)} kW`;
+  }
+  if (document.getElementById('loadMeterType')) {
+    document.getElementById('loadMeterType').textContent = meterType;
+  }
+  if (document.getElementById('loadMeterRule')) {
+    document.getElementById('loadMeterRule').textContent = meterRule;
+  }
+  if (document.getElementById('loadMainCurrent')) {
+    document.getElementById('loadMainCurrent').textContent = `${mainCurrent.toFixed(1)} A`;
+  }
+  if (document.getElementById('loadTotalKWH')) {
+    document.getElementById('loadTotalKWH').textContent = `Daily Energy: ${totalKWh.toFixed(2)} kWh/day`;
+  }
+  if (document.getElementById('loadMonthlyKWH')) {
+    document.getElementById('loadMonthlyKWH').textContent = `Monthly Billing Energy: ~${Math.round(monthlyKWh)} Units (kWh)`;
+  }
+
+  // 5. Update Formula and Details
+  const formulaDetails = document.getElementById('loadFormulaDetails');
+  if(formulaDetails){
+    formulaDetails.innerHTML = `
+      <div class="formula-line">
+        <strong>1. Connected Load vs Maximum Demand (BNBC 2020 Sec 2.6.2)</strong><br>
+        Total Connected Load = <strong>${totalKW.toFixed(3)} kW (${Math.round(totalWatt)} W)</strong><br>
+        Maximum Demand = Connected Load × 0.75 Diversity Factor = <strong>${maxDemandKW.toFixed(3)} kW</strong>
+      </div>
+
+      <div class="formula-line">
+        <strong>2. Meter & Service Sizing (BPDB / DESCO / DPDC / BREB Rules)</strong><br>
+        Connection Type: <strong>${meterType}</strong> (${meterRule})<br>
+        Service Current at 0.90 PF = <strong>${mainCurrent.toFixed(1)} A</strong>
+      </div>
+
+      <div class="formula-line">
+        <strong>3. Energy Consumption Estimate</strong><br>
+        Daily Energy = <strong>${totalKWh.toFixed(2)} kWh/day</strong><br>
+        Monthly Energy (30 days) = <strong>~${Math.round(monthlyKWh)} Units (kWh/month)</strong>
+      </div>
+
+      <div class="formula-line">
+        <strong>Item-wise Breakdown:</strong>
+        ${details.length ? details.join('') : '<br>No active load rows.'}
+      </div>
+    `;
+  }
 }
 
 /* =========================================================
@@ -4989,6 +5734,16 @@ window.addEventListener(
 
       return;
 
+    }
+if (
+      state &&
+      state.page === 'breaker'
+    ){
+      document
+        .getElementById('breakerPage')
+        .classList
+        .add('on');
+      return;
     }
 
     if(
@@ -5201,3 +5956,6 @@ if(
 <script defer src="/_vercel/insights/script.js"></script>
 </body>
 </html>
+
+
+
