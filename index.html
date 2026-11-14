@@ -22,7 +22,7 @@
  <title>EEEGPT</title>
 
   <link rel="manifest" href="./manifest.json">
-  <meta name="theme-color" content="#0b1012">
+<meta name="theme-color" content="#ffffff">
 
 <!-- =========================================================
      CSS: MAIN STYLE
@@ -1194,6 +1194,219 @@ select.unit option{
   #cablePage .grid.three {
     grid-template-columns: 1fr;
   }
+}
+
+/* =========================================================
+   LIGHT & PROFESSIONAL ENGINEERING THEME OVERRIDE
+========================================================= */
+:root {
+  --bg: #f4f7f9;
+  --p: #ffffff;
+  --l: #dbe3e8;
+  --t: #0f172a;
+  --m: #5b6b73;
+  --g: #059669;
+}
+
+body {
+  background: radial-gradient(circle at top, #ecfdf5 0%, #f4f7f9 45%) !important;
+  color: var(--t) !important;
+}
+
+.cover-wrap,
+.avatar,
+.mini {
+  background: #e2e8f0 !important;
+}
+
+.avatar {
+  border-color: #ffffff !important;
+  box-shadow: 0 0 0 3px var(--g), 0 8px 20px rgba(5, 150, 105, 0.18) !important;
+}
+
+.card,
+.category {
+  background: #ffffff !important;
+  border-color: var(--l) !important;
+  box-shadow: 0 4px 16px rgba(15, 23, 42, 0.04) !important;
+}
+
+.category:hover {
+  background: #f8fafc !important;
+  border-color: #10b981 !important;
+}
+
+.tool {
+  background: #f8fafc !important;
+  border-color: var(--l) !important;
+  color: var(--t) !important;
+}
+
+.tool:hover:not(:disabled) {
+  background: #ecfdf5 !important;
+  border-color: #10b981 !important;
+}
+
+.tool-icon {
+  background: #ffffff !important;
+  border-color: var(--l) !important;
+}
+
+input,
+select {
+  background: #ffffff !important;
+  color: var(--t) !important;
+  border: 1px solid #cbd5e1 !important;
+}
+
+select.unit {
+  color: var(--g) !important;
+  border-color: #10b981 !important;
+}
+
+select.unit option {
+  background: #ffffff !important;
+  color: var(--t) !important;
+}
+
+.ph button,
+.load-tab {
+  background: #f1f5f9 !important;
+  color: #475569 !important;
+  border-color: var(--l) !important;
+}
+
+.ph button.active,
+.load-tab.active {
+  background: #ecfdf5 !important;
+  color: #047857 !important;
+  border-color: var(--g) !important;
+}
+
+.auto div,
+.load-group,
+#loadPage .load-details {
+  background: #f8fafc !important;
+  border-color: var(--l) !important;
+}
+
+.auto input {
+  background: transparent !important;
+  border: none !important;
+  color: var(--t) !important;
+}
+
+.result {
+  background: #ffffff !important;
+  border-color: #10b981 !important;
+}
+
+.remove-load {
+  background: #fef2f2 !important;
+  color: #dc2626 !important;
+  border-color: #fecaca !important;
+}
+
+.add-load {
+  background: #ecfdf5 !important;
+  color: #047857 !important;
+  border-color: #a7f3d0 !important;
+}
+
+/* Inline Dark Styles Override (Load & Breaker Pages) */
+[style*="background:#0c1214"],
+[style*="background: #0c1214"] {
+  background: #f8fafc !important;
+  border-color: var(--l) !important;
+}
+
+[style*="background:#10231b"],
+[style*="background: #10231b"],
+#loadPage .load-result-kw {
+  background: #ecfdf5 !important;
+  border-color: #10b981 !important;
+}
+
+[style*="background:#131d20"],
+[style*="background: #131d20"],
+[style*="background:linear-gradient(145deg, #0f181a, #0c1214)"] {
+  background: #f8fafc !important;
+  border-color: var(--l) !important;
+}
+
+#loadPage .load-result-kw > div:nth-child(2) {
+  border-left-color: #a7f3d0 !important;
+}
+
+#loadMeterRule,
+[style*="color:#a2b5b0"] {
+  color: var(--m) !important;
+}
+
+[style*="color:#4fd18b"] {
+  color: var(--g) !important;
+}
+
+#loadMonthlyKWH {
+  color: var(--t) !important;
+}
+
+#loadMainCurrent,
+#brkCurrents {
+  color: #2563eb !important;
+}
+
+#brkBreakingCap {
+  color: #d97706 !important;
+}
+
+/* Cable Calculator Light Theme */
+#cablePage {
+  --cable-bg: #f4f7f9;
+  --cable-panel: #ffffff;
+  --cable-line: #dbe3e8;
+  --cable-text: #0f172a;
+  --cable-muted: #5b6b73;
+  --cable-green: #059669;
+  --cable-green2: #ecfdf5;
+  --cable-warn: #92400e;
+  --cable-blue: #2563eb;
+}
+
+#cablePage .card {
+  background: #ffffff !important;
+  border-color: var(--cable-line) !important;
+  box-shadow: 0 4px 16px rgba(15, 23, 42, 0.04) !important;
+}
+
+#cablePage .metric {
+  background: #f8fafc !important;
+  border-color: var(--cable-line) !important;
+}
+
+#cablePage .btn {
+  background: var(--g) !important;
+  border-color: var(--g) !important;
+  color: #ffffff !important;
+}
+
+#cablePage .btn.secondary {
+  background: #ffffff !important;
+  color: var(--t) !important;
+  border-color: #cbd5e1 !important;
+}
+
+#cablePage .status {
+  background: #fffbeb !important;
+  border-color: #f59e0b !important;
+  color: #92400e !important;
+}
+
+#cablePage #installHint {
+  background: #ecfdf5 !important;
+  border-color: #a7f3d0 !important;
+  border-left: 3px solid var(--g) !important;
+  color: #065f46 !important;
 }
 
 /* Normal Screen: Strictly hide watermark */
@@ -4461,12 +4674,12 @@ if (!validLength) {
   const statusElement = document.querySelector('#resultPanel .status');
 
   if (statusElement) {
-    if (messages.length > 0) {
+   if (messages.length > 0) {
       statusElement.style.display = 'block';
       statusElement.innerHTML = '⚠️ <strong>BNBC / RSC Compliance Notice:</strong><br>' + messages.join('<br>');
-      statusElement.style.borderColor = '#c5832b';
-      statusElement.style.color = '#ffca73';
-      statusElement.style.background = 'linear-gradient(135deg, #302718, #211d16)';
+      statusElement.style.borderColor = '#f59e0b';
+      statusElement.style.color = '#92400e';
+      statusElement.style.background = '#fffbeb';
     } else {
       statusElement.style.display = 'none';
       statusElement.innerHTML = '';
