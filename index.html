@@ -1836,21 +1836,55 @@ select.unit option {
   object-position: center;
 }
 
-.hero-wave {
-  position: absolute;
-  left: 0;
-  bottom: -1px;
-  width: 100%;
-  height: 28px;
+/* =========================================================
+   COMPLETE HOME PAGE UI (CLEAN & ALL-IN-ONE)
+========================================================= */
+#home {
   display: block;
-  z-index: 2;
-  pointer-events: none;
+  margin: -20px -15px -20px;
+  padding: 0 0 92px;
+  min-height: 100vh;
+  background: linear-gradient(180deg, #f2f7fe 0%, #eaf1fc 100%);
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  position: relative;
+  overflow-x: hidden;
+  text-align: left;
 }
-/* Floating Profile Card */
-.home-profile-card {
+
+@media (max-width: 600px) {
+  #home {
+    margin: -20px -6px -20px;
+  }
+}
+
+/* Cover Image */
+.home-cover-wrap {
+  width: 100%;
+  aspect-ratio: 1519 / 687;
+  height: auto;
+  position: relative;
+  overflow: hidden;
+  border-radius: 0 0 22px 22px;
+  background: linear-gradient(135deg, #032258 0%, #06449e 52%, #0c74dc 100%);
+}
+
+.home-cover-img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  object-position: center;
+}
+
+.hero-wave {
+  display: none !important;
+}
+
+/* Profile Card (Clean White Card Below Cover) */
+#home .home-profile-card {
   position: relative;
   z-index: 4;
-  margin: -22px 14px 16px;
+  margin: 10px 14px 16px;
   background: #ffffff;
   border-radius: 22px;
   padding: 13px 15px;
@@ -1863,7 +1897,7 @@ select.unit option {
   transition: transform 0.15s ease;
 }
 
-.home-profile-card:active {
+#home .home-profile-card:active {
   transform: scale(0.985);
 }
 
@@ -1938,7 +1972,7 @@ select.unit option {
   overflow: hidden;
   width: 100%;
   min-height: 90px;
-  padding: 15px 15px;
+  padding: 15px;
   background: #ffffff !important;
   border: 1px solid #e6eef9 !important;
   border-radius: 22px !important;
@@ -2052,7 +2086,7 @@ select.unit option {
   z-index: 2;
 }
 
-/* Full-width Bottom Skyline & Tagline */
+/* Bottom Skyline & Tagline */
 .home-footer-art {
   margin-top: 16px;
   text-align: center;
@@ -2177,12 +2211,6 @@ select.unit option {
 }
 
 @media (max-width: 390px) {
-  .hero-logo-wrap { width: 132px; }
-  .hero-logo-svg { width: 56px; height: 52px; }
-  .hero-wordmark { font-size: 26px; }
-  .hero-sub { font-size: 10.2px; }
-  .hero-sub-line { width: 132px; }
-  .hero-badge { max-width: 182px; font-size: 8.8px; padding: 7px 10px 7px 12px; }
   .home-cat-icon { width: 50px; height: 50px; }
   .home-cat-title { font-size: 17.5px; }
   .home-cat-sub { font-size: 11.8px; }
