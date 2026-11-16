@@ -196,6 +196,10 @@ body{
   border-left:3px solid var(--g);
 }
 
+.category.audit{
+  border-left:3px solid #f59e0b;
+}
+
 .category.electronics{
   border-left:3px solid #55a8ff;
 }
@@ -1409,6 +1413,231 @@ select.unit option {
   color: #065f46 !important;
 }
 
+/* =========================================================
+   CSS: AUDIT REPORT SUBMISSION REMINDER
+========================================================= */
+.audit-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #dc2626;
+  color: #ffffff;
+  font-size: 10px;
+  font-weight: 800;
+  padding: 2px 7px;
+  border-radius: 99px;
+  margin-left: 6px;
+  vertical-align: middle;
+}
+
+.audit-summary-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.audit-kpi {
+  background: #f8fafc;
+  border: 1px solid var(--l);
+  border-radius: 10px;
+  padding: 10px 6px;
+  text-align: center;
+}
+
+.audit-kpi .k-num {
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--t);
+}
+
+.audit-kpi .k-lbl {
+  font-size: 10px;
+  color: var(--m);
+  margin-top: 2px;
+}
+
+.audit-kpi.red-kpi {
+  background: #fef2f2;
+  border-color: #fecaca;
+}
+.audit-kpi.red-kpi .k-num { color: #dc2626; }
+
+.audit-kpi.green-kpi {
+  background: #ecfdf5;
+  border-color: #a7f3d0;
+}
+.audit-kpi.green-kpi .k-num { color: #059669; }
+
+.audit-alert-banner {
+  background: #fef2f2;
+  border: 1px solid #f87171;
+  border-left: 4px solid #dc2626;
+  color: #991b1b;
+  border-radius: 10px;
+  padding: 11px 12px;
+  font-size: 12px;
+  line-height: 1.5;
+  margin-bottom: 12px;
+}
+
+.audit-form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+
+.audit-form-grid .full {
+  grid-column: 1 / -1;
+}
+
+.audit-form-grid label {
+  display: block;
+  font-size: 11px;
+  color: var(--m);
+  margin-bottom: 4px;
+  font-weight: 600;
+}
+
+.audit-form-grid input,
+.audit-form-grid select {
+  height: 42px;
+  font-size: 13px;
+}
+
+.audit-btn-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.audit-btn-primary {
+  flex: 1 1 140px;
+  height: 42px;
+  border: none;
+  border-radius: 9px;
+  background: #059669;
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.audit-btn-sec {
+  height: 42px;
+  padding: 0 12px;
+  border: 1px solid #cbd5e1;
+  border-radius: 9px;
+  background: #ffffff;
+  color: var(--t);
+  font-weight: 600;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.audit-table-wrap {
+  width: 100%;
+  overflow-x: auto;
+  margin-top: 10px;
+  border: 1px solid var(--l);
+  border-radius: 10px;
+  background: #ffffff;
+}
+
+.audit-table {
+  width: 100%;
+  min-width: 760px;
+  border-collapse: collapse;
+  font-size: 12px;
+  text-align: center;
+}
+
+.audit-table th {
+  background: #f1f5f9;
+  color: #0f172a;
+  font-weight: 800;
+  padding: 10px 8px;
+  border-bottom: 1px solid #cbd5e1;
+  white-space: nowrap;
+}
+
+.audit-table td {
+  padding: 9px 8px;
+  border-bottom: 1px solid #e2e8f0;
+  color: #0f172a;
+  vertical-align: middle;
+}
+
+.audit-table td:first-child {
+  text-align: left;
+  font-weight: 600;
+  min-width: 190px;
+}
+
+.audit-table tr.row-red {
+  background: #fef2f2 !important;
+}
+
+.audit-table tr.row-red td {
+  color: #991b1b;
+}
+
+.audit-status-excellent {
+  color: #059669;
+  font-weight: 800;
+}
+
+.audit-status-warning {
+  color: #d97706;
+  font-weight: 800;
+}
+
+.audit-status-red {
+  display: inline-block;
+  background: #dc2626;
+  color: #ffffff;
+  padding: 2px 8px;
+  border-radius: 99px;
+  font-size: 10.5px;
+  font-weight: 800;
+}
+
+.audit-row-act button {
+  border: 1px solid #cbd5e1;
+  background: #ffffff;
+  border-radius: 6px;
+  padding: 4px 7px;
+  font-size: 11px;
+  cursor: pointer;
+  margin: 0 2px;
+}
+
+.audit-row-act button.del {
+  border-color: #fecaca;
+  color: #dc2626;
+  background: #fef2f2;
+}
+
+@media (max-width: 500px) {
+  .audit-summary-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .audit-form-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media print {
+  #auditFormCard,
+  .audit-row-act,
+  .audit-filter-bar,
+  .audit-table th:last-child,
+  .audit-table td:last-child {
+    display: none !important;
+  }
+}
+
 /* Normal Screen: Strictly hide watermark */
 #cablePage .print-watermark,
 .print-watermark {
@@ -1432,9 +1661,10 @@ select.unit option {
     padding: 0 !important;
   }
 
-  /* Hide navigation, tabs & buttons during print */
+/* Hide navigation, tabs & buttons during print */
   .home,
   #electricalPage,
+  #auditPage,
   #loadPage,
   #residentialLoadPage,
   #converterPage,
@@ -1581,7 +1811,8 @@ import {
 import {
   getDatabase,
   ref,
-  get
+  get,
+  set
 } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-database.js";
 
 
@@ -1621,6 +1852,7 @@ const db =
 window.firebaseDB = db;
 window.firebaseRef = ref;
 window.firebaseGet = get;
+window.firebaseSet = set;
 
 </script>
 
@@ -1705,7 +1937,28 @@ window.firebaseGet = get;
 
 
     <button
+      class="category audit"
+      onclick="showAudit()"
+    >
+
+      <span class="category-icon">
+        📋
+      </span>
+
+     <span class="category-title">
+        AUDIT & STANDARDIZATION <span id="homeAuditBadge" class="audit-badge" style="display:none;">0</span>
+      </span>
+
+      <span class="category-sub">
+        BNBC • RSC • NFPA Compliance & Audit
+      </span>
+
+    </button>
+
+
+    <button
       class="category electronics"
+
       onclick="showElectronics()"
     >
 
@@ -1879,7 +2132,8 @@ window.firebaseGet = get;
           MCB / MCCB / ACB Selection
         </b>
 
-        <small>
+        l
+<small>
           IEC 60947-2 • IEC 60898 • Curve & kA Sizing
         </small>
 
@@ -1888,6 +2142,302 @@ window.firebaseGet = get;
     </button>
 
 
+  </div>
+
+</section>
+
+
+
+
+<!-- =========================================================
+     HTML: AUDIT & STANDARDIZATION PAGE
+=========================================================-->
+
+
+<section
+  class="page"
+  id="auditPage"
+>
+
+
+  <div
+    class="top"
+    onclick="home()"
+  >
+
+    <img
+      class="mini"
+      src="assets/icon.webp"
+      alt="EEEGPT"
+    >
+
+
+    <div>
+
+      <div class="title">
+        Audit & Standardization
+      </div>
+
+      <div class="sub">
+        BNBC 2020 • RSC • NFPA Compliance & Audit
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <div class="card">
+
+
+   <div class="label">
+      AUDIT & STANDARDIZATION TOOLS
+    </div>
+
+
+    <button
+      class="tool"
+      onclick="showAuditReminder()"
+    >
+
+      <span class="tool-icon">
+        📅
+      </span>
+
+      <span>
+
+        <b>
+          Audit Report Submission Reminder <span id="auditToolBadge" class="audit-badge" style="display:none;">0</span>
+        </b>
+
+        <small>
+          Track Report Expiry • Auto Day Left • 1-Month Red Alert
+        </small>
+
+      </span>
+
+    </button>
+
+
+    <button
+      class="tool"
+      disabled
+    >
+
+      <span class="tool-icon">
+        📋
+      </span>
+
+      <span>
+
+        <b>
+          Electrical Safety Audit Checklist
+        </b>
+
+        <small>
+          Coming Soon • RSC & BNBC Inspection Points
+        </small>
+
+      </span>
+
+    </button>
+
+
+    <button
+      class="tool"
+      disabled
+    >
+
+      <span class="tool-icon">
+        🏷️
+      </span>
+
+      <span>
+
+        <b>
+          Panel & Cable Standardization
+        </b>
+
+        <small>
+          Coming Soon • Color Coding, Labeling & SLD Rules
+        </small>
+
+      </span>
+
+    </button>
+
+
+    <button
+      class="tool"
+      disabled
+    >
+
+      <span class="tool-icon">
+        ⚡
+      </span>
+
+     <span>
+
+        <b>
+          Earthing & Lightning Protection Audit
+        </b>
+
+        <small>
+          Coming Soon • BNBC & IEC 62305 Compliance
+        </small>
+
+      </span>
+
+    </button>
+
+
+  </div>
+
+</section>
+
+
+
+
+<!-- =========================================================
+     HTML: AUDIT REPORT SUBMISSION REMINDER PAGE
+=========================================================-->
+
+
+<section class="page" id="auditReminderPage">
+
+  <div class="top" onclick="backFromAuditReminder()">
+    <img class="mini" src="assets/icon.webp" alt="EEEGPT">
+    <div>
+      <div class="title">Audit Report Submission Reminder</div>
+      <div class="sub">RSC • BNBC • Report Validity & Expiry Tracker</div>
+    </div>
+  </div>
+
+  <!-- Alert Banner (Auto visible when any report is <= 30 days or Expired) -->
+  <div id="auditAlertBanner" class="audit-alert-banner" style="display:none;"></div>
+
+  <!-- Summary KPIs -->
+  <div class="audit-summary-grid">
+    <div class="audit-kpi">
+      <div class="k-num" id="kpiTotalReports">0</div>
+      <div class="k-lbl">Total Reports</div>
+    </div>
+    <div class="audit-kpi green-kpi">
+      <div class="k-num" id="kpiValidReports">0</div>
+      <div class="k-lbl">Valid</div>
+    </div>
+    <div class="audit-kpi red-kpi">
+      <div class="k-num" id="kpiDueReports">0</div>
+      <div class="k-lbl">Due Soon (Red)</div>
+    </div>
+    <div class="audit-kpi red-kpi">
+      <div class="k-num" id="kpiExpiredReports">0</div>
+      <div class="k-lbl">Expired</div>
+    </div>
+  </div>
+
+  <!-- Input Form Card -->
+  <div class="card" id="auditFormCard" style="margin-bottom:12px;">
+    <div class="label" id="auditFormTitle">ADD / UPDATE AUDIT REPORT</div>
+    <input type="hidden" id="auditEditId" value="">
+
+    <div class="audit-form-grid">
+      <div class="full">
+        <label for="auditReportName">Name of Report *</label>
+        <input id="auditReportName" type="text" placeholder="Type any report name (e.g. Cable Insulation Resistance Test Report)">
+      </div>
+
+      <div>
+        <label for="auditRscId">RSC ID / Ref No</label>
+        <input id="auditRscId" type="text" placeholder="e.g. 25557">
+      </div>
+
+      <div>
+        <label for="auditRetestFreq">Re-Test Frequency *</label>
+        <select id="auditRetestFreq" onchange="autoCalculateExpireDate()">
+          <option value="1y" selected>Yearly (Every 1 Year)</option>
+          <option value="2y">Every 2 Years</option>
+          <option value="3y">Every 3 Years</option>
+          <option value="4y">Every 4 Years</option>
+          <option value="5y">Every 5 Years</option>
+          <option value="6m">Half-Yearly (6 Months)</option>
+          <option value="3m">Quarterly (3 Months)</option>
+          <option value="1m">Monthly (1 Month)</option>
+          <option value="custom">Custom Expire Date</option>
+        </select>
+      </div>
+
+      <div>
+        <label for="auditSubDate">Submission Date *</label>
+        <input id="auditSubDate" type="date" onchange="autoCalculateExpireDate()">
+      </div>
+
+      <div>
+        <label for="auditExpDate">Expire Date * (Auto / Editable)</label>
+        <input id="auditExpDate" type="date">
+      </div>
+
+      <div class="full">
+        <label for="auditRemarks">Remarks (Optional)</label>
+        <input id="auditRemarks" type="text" placeholder="e.g. Submitted to RSC Portal / Next testing vendor...">
+      </div>
+    </div>
+
+    <div class="audit-btn-row">
+      <button type="button" class="audit-btn-primary" id="auditSaveBtn" onclick="saveAuditReport()">
+        ＋ Save Report
+      </button>
+      <button type="button" class="audit-btn-sec" id="auditCancelBtn" onclick="cancelAuditEdit()" style="display:none;">
+        Cancel
+      </button>
+     <button type="button" class="audit-btn-sec" onclick="requestAuditNotificationPermission()">
+        🔔 Enable Alert
+      </button>
+      <button type="button" class="audit-btn-sec" onclick="testAuditServerPush()">
+        🚀 Test Push
+      </button>
+    </div>
+  </div>
+
+  <!-- Saved Reports Table Card -->
+  <div class="card">
+    <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
+      <div class="label" style="margin:0;">SAVED AUDIT REPORTS</div>
+      <div class="audit-filter-bar" style="display:flex; gap:6px; flex-wrap:wrap;">
+        <select id="auditFilterStatus" onchange="renderAuditReports()" style="height:32px; width:auto; font-size:11px; padding:0 8px;">
+          <option value="all">Show All</option>
+          <option value="red">Red Alert / Expired Only</option>
+          <option value="valid">Valid Only</option>
+        </select>
+        <button type="button" class="audit-btn-sec" style="height:32px; font-size:11px;" onclick="exportAuditCSV()">📥 CSV</button>
+        <button type="button" class="audit-btn-sec" style="height:32px; font-size:11px;" onclick="window.print()">🖨️ Print</button>
+      </div>
+    </div>
+
+    <div class="audit-table-wrap">
+      <table class="audit-table">
+        <thead>
+          <tr>
+            <th>Name of Report</th>
+            <th>RSC ID</th>
+            <th>Submission Date</th>
+            <th>Expire Date</th>
+            <th>Re-Test</th>
+            <th>Day Left</th>
+            <th>Status</th>
+            <th>Remarks</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody id="auditTableBody">
+          <tr>
+            <td colspan="9" style="text-align:center; color:var(--m); padding:20px;">
+              No reports added yet. Add your first report above.
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 
 </section>
@@ -5059,8 +5609,8 @@ function hideAllPages(){
   const homeEl = document.getElementById('home');
   if (homeEl) homeEl.style.display = 'none';
 
-  // নতুন breakerPage সহ সব পেজ নিরাপদে হাইড করা
-  ['electricalPage', 'loadPage', 'converterPage', 'cablePage', 'breakerPage'].forEach(id => {
+  // নতুন breakerPage ও auditPage সহ সব পেজ নিরাপদে হাইড করা
+ ['electricalPage', 'auditPage', 'auditReminderPage', 'loadPage', 'converterPage', 'cablePage', 'breakerPage'].forEach(id => {
     const el = document.getElementById(id);
     if (el) el.classList.remove('on');
   });
@@ -5890,6 +6440,497 @@ function backFromConverter(){
 ========================================================= */
 
 
+
+/* =========================================================
+   JAVASCRIPT: AUDIT REPORT SUBMISSION REMINDER ENGINE
+========================================================= */
+const AUDIT_STORAGE_KEY = 'eeegpt_audit_reports_v1';
+
+const AUDIT_FREQ_LABELS = {
+  '1m': 'Monthly',
+  '3m': 'Quarterly',
+  '6m': 'Half-Yearly',
+  '1y': 'Yearly',
+  '2y': 'Every 2 Years',
+  '3y': 'Every 3 Years',
+  '4y': 'Every 4 Years',
+  '5y': 'Every 5 Years',
+  'custom': 'Custom'
+};
+
+function getAuditReports() {
+  try {
+    const raw = localStorage.getItem(AUDIT_STORAGE_KEY);
+    return raw ? JSON.parse(raw) : [];
+  } catch (e) {
+    return [];
+  }
+}
+
+function saveAuditReportsToStorage(list) {
+  localStorage.setItem(AUDIT_STORAGE_KEY, JSON.stringify(list));
+}
+
+function parseLocalDate(str) {
+  if (!str) return null;
+  const parts = str.split('-').map(Number);
+  if (parts.length !== 3) return null;
+  return new Date(parts[0], parts[1] - 1, parts[2]);
+}
+
+function toInputDateStr(dateObj) {
+  const y = dateObj.getFullYear();
+  const m = String(dateObj.getMonth() + 1).padStart(2, '0');
+  const d = String(dateObj.getDate()).padStart(2, '0');
+  return `${y}-${m}-${d}`;
+}
+
+function formatShortDate(str) {
+  const d = parseLocalDate(str);
+  if (!d) return '—';
+  const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  const day = d.getDate();
+  const mon = months[d.getMonth()];
+  const yr = String(d.getFullYear()).slice(-2);
+  return `${day}-${mon}-${yr}`;
+}
+
+function getDayLeft(expStr) {
+  const exp = parseLocalDate(expStr);
+  if (!exp) return null;
+  const now = new Date();
+  const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+  return Math.round((exp - today) / 86400000);
+}
+
+function getAlertThresholdDays(freq) {
+  if (freq === '1m') return 7;   // Monthly: 1 week before
+  if (freq === '3m') return 14;  // 3 Months: 2 weeks before
+  if (freq === '6m') return 21;  // 6 Months: 3 weeks before
+  return 30;                     // 1, 2, 3, 4, 5 Years & Custom: 1 month before
+}
+
+function evaluateReportStatus(report) {
+  const dayLeft = getDayLeft(report.expDate);
+  const threshold = getAlertThresholdDays(report.freq);
+
+  if (dayLeft === null) {
+    return { dayLeft: '—', level: 'unknown', label: 'Invalid Date', isRed: false };
+  }
+  if (dayLeft < 0) {
+    return { dayLeft, level: 'expired', label: 'Expired', isRed: true };
+  }
+  if (dayLeft <= threshold) {
+    return { dayLeft, level: 'due', label: 'Due Soon', isRed: true };
+  }
+  if (dayLeft <= threshold * 2) {
+    return { dayLeft, level: 'upcoming', label: 'Good', isRed: false };
+  }
+  return { dayLeft, level: 'excellent', label: 'Excellent', isRed: false };
+}
+
+function autoCalculateExpireDate() {
+  const subVal = document.getElementById('auditSubDate').value;
+  const freq = document.getElementById('auditRetestFreq').value;
+  const expInput = document.getElementById('auditExpDate');
+
+  if (!subVal || freq === 'custom') return;
+
+  const d = parseLocalDate(subVal);
+  if (!d) return;
+
+  if (freq === '1m') d.setMonth(d.getMonth() + 1);
+  else if (freq === '3m') d.setMonth(d.getMonth() + 3);
+  else if (freq === '6m') d.setMonth(d.getMonth() + 6);
+  else if (freq === '1y') d.setFullYear(d.getFullYear() + 1);
+  else if (freq === '2y') d.setFullYear(d.getFullYear() + 2);
+  else if (freq === '3y') d.setFullYear(d.getFullYear() + 3);
+  else if (freq === '4y') d.setFullYear(d.getFullYear() + 4);
+  else if (freq === '5y') d.setFullYear(d.getFullYear() + 5);
+
+  d.setDate(d.getDate() - 1);
+  expInput.value = toInputDateStr(d);
+}
+
+function saveAuditReport() {
+  const name = document.getElementById('auditReportName').value.trim();
+  const rscId = document.getElementById('auditRscId').value.trim();
+  const freq = document.getElementById('auditRetestFreq').value;
+  const subDate = document.getElementById('auditSubDate').value;
+  const expDate = document.getElementById('auditExpDate').value;
+  const remarks = document.getElementById('auditRemarks').value.trim();
+  const editId = document.getElementById('auditEditId').value;
+
+  if (!name || !subDate || !expDate) {
+    alert('Please enter Report Name, Submission Date, and Expire Date.');
+    return;
+  }
+
+  const list = getAuditReports();
+
+  if (editId) {
+    const idx = list.findIndex(item => item.id === editId);
+    if (idx !== -1) {
+      list[idx] = { ...list[idx], name, rscId, freq, subDate, expDate, remarks };
+    }
+  } else {
+    list.push({
+      id: 'rep_' + Date.now(),
+      name,
+      rscId,
+      freq,
+      subDate,
+      expDate,
+      remarks
+    });
+  }
+
+  saveAuditReportsToStorage(list);
+  syncAuditToFirebase();
+  cancelAuditEdit();
+  renderAuditReports();
+  updateAuditBadges(false);
+}
+
+function editAuditReport(id) {
+  const list = getAuditReports();
+  const item = list.find(r => r.id === id);
+  if (!item) return;
+
+  document.getElementById('auditEditId').value = item.id;
+  document.getElementById('auditReportName').value = item.name;
+  document.getElementById('auditRscId').value = item.rscId || '';
+  document.getElementById('auditRetestFreq').value = item.freq || '1y';
+  document.getElementById('auditSubDate').value = item.subDate;
+  document.getElementById('auditExpDate').value = item.expDate;
+  document.getElementById('auditRemarks').value = item.remarks || '';
+
+  document.getElementById('auditFormTitle').textContent = 'EDIT AUDIT REPORT';
+  document.getElementById('auditSaveBtn').textContent = '✓ Update Report';
+  document.getElementById('auditCancelBtn').style.display = 'inline-block';
+  document.getElementById('auditFormCard').scrollIntoView({ behavior: 'smooth' });
+}
+
+function cancelAuditEdit() {
+  document.getElementById('auditEditId').value = '';
+  document.getElementById('auditReportName').value = '';
+  document.getElementById('auditRscId').value = '';
+  document.getElementById('auditRetestFreq').value = '1y';
+  document.getElementById('auditSubDate').value = '';
+  document.getElementById('auditExpDate').value = '';
+  document.getElementById('auditRemarks').value = '';
+
+  document.getElementById('auditFormTitle').textContent = 'ADD / UPDATE AUDIT REPORT';
+  document.getElementById('auditSaveBtn').textContent = '＋ Save Report';
+  document.getElementById('auditCancelBtn').style.display = 'none';
+}
+
+function deleteAuditReport(id) {
+  if (!confirm('Are you sure you want to delete this report?')) return;
+  const list = getAuditReports().filter(r => r.id !== id);
+  saveAuditReportsToStorage(list);
+  renderAuditReports();
+  updateAuditBadges(false);
+}
+
+function escapeHTML(str) {
+  return String(str || '').replace(/[&<>"']/g, m => ({
+    '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+  }[m]));
+}
+
+function renderAuditReports() {
+  const list = getAuditReports();
+  const filter = document.getElementById('auditFilterStatus') ? document.getElementById('auditFilterStatus').value : 'all';
+  const tbody = document.getElementById('auditTableBody');
+  if (!tbody) return;
+
+  let validCount = 0;
+  let dueCount = 0;
+  let expiredCount = 0;
+  const redAlerts = [];
+
+  const enriched = list.map(r => {
+    const st = evaluateReportStatus(r);
+    if (st.level === 'expired') {
+      expiredCount++;
+      redAlerts.push(`${r.name} (Expired ${Math.abs(st.dayLeft)}d ago)`);
+    } else if (st.level === 'due') {
+      dueCount++;
+      redAlerts.push(`${r.name} (${st.dayLeft} days left)`);
+    } else {
+      validCount++;
+    }
+    return { ...r, st };
+  });
+
+  enriched.sort((a, b) => (a.st.dayLeft ?? 99999) - (b.st.dayLeft ?? 99999));
+
+  document.getElementById('kpiTotalReports').textContent = list.length;
+  document.getElementById('kpiValidReports').textContent = validCount;
+  document.getElementById('kpiDueReports').textContent = dueCount;
+  document.getElementById('kpiExpiredReports').textContent = expiredCount;
+
+  const banner = document.getElementById('auditAlertBanner');
+  if (banner) {
+    if (redAlerts.length > 0) {
+      banner.style.display = 'block';
+      banner.innerHTML = `<strong>🔔 Action Required (${redAlerts.length} Report${redAlerts.length > 1 ? 's' : ''}):</strong><br>` +
+        redAlerts.map(msg => `• ${escapeHTML(msg)}`).join('<br>');
+    } else {
+      banner.style.display = 'none';
+      banner.innerHTML = '';
+    }
+  }
+
+  const filtered = enriched.filter(item => {
+    if (filter === 'red') return item.st.isRed;
+    if (filter === 'valid') return !item.st.isRed;
+    return true;
+  });
+
+  if (filtered.length === 0) {
+    tbody.innerHTML = `<tr><td colspan="9" style="text-align:center; color:var(--m); padding:20px;">No matching audit reports found.</td></tr>`;
+    return;
+  }
+
+  tbody.innerHTML = filtered.map(r => {
+    const st = r.st;
+    const rowClass = st.isRed ? 'row-red' : '';
+    let statusHtml = `<span class="audit-status-excellent">${st.label}</span>`;
+    if (st.isRed) {
+      statusHtml = `<span class="audit-status-red">${st.label}</span>`;
+    } else if (st.level === 'upcoming') {
+      statusHtml = `<span class="audit-status-warning">${st.label}</span>`;
+    }
+
+    const dayText = st.dayLeft < 0 ? `${st.dayLeft} (Overdue)` : st.dayLeft;
+
+    return `
+      <tr class="${rowClass}">
+        <td>${escapeHTML(r.name)}</td>
+        <td>${escapeHTML(r.rscId || '—')}</td>
+        <td style="color:#059669; font-weight:700;">${formatShortDate(r.subDate)}</td>
+        <td style="color:#1d4ed8; font-weight:700;">${formatShortDate(r.expDate)}</td>
+        <td>${AUDIT_FREQ_LABELS[r.freq] || r.freq}</td>
+        <td style="font-weight:800;">${dayText}</td>
+        <td>${statusHtml}</td>
+        <td>${escapeHTML(r.remarks || '')}</td>
+        <td class="audit-row-act">
+          <button type="button" onclick="editAuditReport('${r.id}')" title="Edit">✏️</button>
+          <button type="button" class="del" onclick="deleteAuditReport('${r.id}')" title="Delete">🗑️</button>
+        </td>
+      </tr>
+    `;
+  }).join('');
+}
+
+const VAPID_PUBLIC_KEY = 'YOUR_VAPID_PUBLIC_KEY_HERE';
+const AUDIT_DEVICE_KEY = 'eeegpt_device_id';
+
+function getAuditDeviceId() {
+  let id = localStorage.getItem(AUDIT_DEVICE_KEY);
+  if (!id) {
+    id = 'dev_' + Date.now() + '_' + Math.random().toString(36).slice(2, 10);
+    localStorage.setItem(AUDIT_DEVICE_KEY, id);
+  }
+  return id;
+}
+
+function urlBase64ToUint8Array(base64String) {
+  const padding = '='.repeat((4 - base64String.length % 4) % 4);
+  const base64 = (base64String + padding).replace(/-/g, '+').replace(/_/g, '/');
+  const rawData = window.atob(base64);
+  const outputArray = new Uint8Array(rawData.length);
+  for (let i = 0; i < rawData.length; ++i) {
+    outputArray[i] = rawData.charCodeAt(i);
+  }
+  return outputArray;
+}
+
+async function syncAuditToFirebase(customSub) {
+  try {
+    if (!window.firebaseDB || !window.firebaseSet || !window.firebaseRef) return;
+    const deviceId = getAuditDeviceId();
+    const reports = getAuditReports();
+
+    let subData = customSub || null;
+    if (!subData && 'serviceWorker' in navigator && 'PushManager' in window) {
+      const reg = await navigator.serviceWorker.ready;
+      const existingSub = await reg.pushManager.getSubscription();
+      if (existingSub) subData = existingSub.toJSON();
+    }
+
+    await window.firebaseSet(
+      window.firebaseRef(window.firebaseDB, 'audit_devices/' + deviceId + '/reports'),
+      reports
+    );
+    if (subData) {
+      await window.firebaseSet(
+        window.firebaseRef(window.firebaseDB, 'audit_devices/' + deviceId + '/subscription'),
+        subData
+      );
+    }
+    await window.firebaseSet(
+      window.firebaseRef(window.firebaseDB, 'audit_devices/' + deviceId + '/updatedAt'),
+      Date.now()
+    );
+  } catch (err) {
+    console.warn('Firebase audit sync skipped:', err);
+  }
+}
+
+function updateAuditBadges(triggerOSNotify) {
+  const list = getAuditReports();
+  const redItems = list.filter(r => evaluateReportStatus(r).isRed);
+  const count = redItems.length;
+
+  ['homeAuditBadge', 'auditToolBadge'].forEach(id => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    if (count > 0) {
+      el.style.display = 'inline-flex';
+      el.textContent = count;
+    } else {
+      el.style.display = 'none';
+    }
+  });
+
+  if (navigator.setAppBadge) {
+    if (count > 0) navigator.setAppBadge(count).catch(() => {});
+    else if (navigator.clearAppBadge) navigator.clearAppBadge().catch(() => {});
+  }
+
+  if (triggerOSNotify && count > 0 && 'Notification' in window && Notification.permission === 'granted') {
+    const todayKey = 'eeegpt_last_notify_' + toInputDateStr(new Date());
+    if (!sessionStorage.getItem(todayKey)) {
+      sessionStorage.setItem(todayKey, '1');
+      new Notification(`EEEGPT Audit Alert (${count} Report Due)`, {
+        body: redItems.slice(0, 3).map(r => `${r.name} (${evaluateReportStatus(r).dayLeft}d left)`).join('\n'),
+        icon: 'assets/icon.webp'
+      });
+    }
+  }
+}
+
+async function requestAuditNotificationPermission() {
+  if (!('Notification' in window)) {
+    alert('This browser does not support notifications.');
+    return;
+  }
+  const perm = await Notification.requestPermission();
+  if (perm !== 'granted') {
+    alert('Notification permission was not granted.');
+    return;
+  }
+
+  try {
+    if ('serviceWorker' in navigator && 'PushManager' in window && VAPID_PUBLIC_KEY !== 'YOUR_VAPID_PUBLIC_KEY_HERE') {
+      const reg = await navigator.serviceWorker.ready;
+      let sub = await reg.pushManager.getSubscription();
+      if (!sub) {
+        sub = await reg.pushManager.subscribe({
+          userVisibleOnly: true,
+          applicationServerKey: urlBase64ToUint8Array(VAPID_PUBLIC_KEY)
+        });
+      }
+      await syncAuditToFirebase(sub.toJSON());
+    }
+    updateAuditBadges(true);
+    alert('Push Alerts enabled! You will receive automatic daily reminders & app icon badges.');
+  } catch (err) {
+    alert('Alert enabled locally, but push subscription error: ' + err.message);
+  }
+}
+
+async function testAuditServerPush() {
+  try {
+    await syncAuditToFirebase();
+    const deviceId = getAuditDeviceId();
+    const res = await fetch('/api/cron-audit?deviceId=' + encodeURIComponent(deviceId));
+    const data = await res.json();
+    if (res.ok && data.notificationsSent > 0) {
+      alert('Push notification sent! Check your notification bar / app icon.');
+    } else if (res.ok) {
+      alert('Checked successfully! No due reports found OR Enable Alert was not clicked first.');
+    } else {
+      alert('Server response: ' + (data.error || 'Error sending push'));
+    }
+  } catch (err) {
+    alert('Test Push works after deploying to Vercel: ' + err.message);
+  }
+}
+
+window.addEventListener('load', () => {
+  setTimeout(() => syncAuditToFirebase(), 1500);
+});
+
+function exportAuditCSV() {
+  const list = getAuditReports();
+  if (list.length === 0) {
+    alert('No reports to export.');
+    return;
+  }
+  const headers = ['Name of Report', 'RSC ID', 'Submission Date', 'Expire Date', 'Re-Test', 'Day Left', 'Status', 'Remarks'];
+  const rows = list.map(r => {
+    const st = evaluateReportStatus(r);
+    return [
+      `"${(r.name || '').replace(/"/g, '""')}"`,
+      `"${(r.rscId || '').replace(/"/g, '""')}"`,
+      formatShortDate(r.subDate),
+      formatShortDate(r.expDate),
+      AUDIT_FREQ_LABELS[r.freq] || r.freq,
+      st.dayLeft,
+      st.label,
+      `"${(r.remarks || '').replace(/"/g, '""')}"`
+    ].join(',');
+  });
+
+  const csv = [headers.join(','), ...rows].join('\n');
+  const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `EEEGPT_Audit_Reports_${toInputDateStr(new Date())}.csv`;
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+function showAuditReminder() {
+  hideAllPages();
+  document.getElementById('auditReminderPage').classList.add('on');
+  renderAuditReports();
+  updateAuditBadges(false);
+  history.pushState({ page: 'auditReminder' }, '', '#audit-reminder');
+}
+
+function backFromAuditReminder() {
+  hideAllPages();
+  document.getElementById('auditPage').classList.add('on');
+  history.pushState({ page: 'audit' }, '', '#audit');
+}
+
+updateAuditBadges(true);
+
+
+function showAudit(){
+
+  hideAllPages();
+
+  document
+    .getElementById('auditPage')
+    .classList
+    .add('on');
+
+  history.pushState(
+    {page:'audit'},
+    '',
+    '#audit'
+  );
+
+}
+
+
 function showElectronics(){
 
   alert(
@@ -5996,6 +7037,37 @@ if (
 
       document
         .getElementById('loadPage')
+        .classList
+        .add('on');
+
+      return;
+
+    }
+
+
+  if(
+      state &&
+      state.page === 'auditReminder'
+    ){
+
+      document
+        .getElementById('auditReminderPage')
+        .classList
+        .add('on');
+
+      renderAuditReports();
+      return;
+
+    }
+
+
+    if(
+      state &&
+      state.page === 'audit'
+    ){
+
+      document
+        .getElementById('auditPage')
         .classList
         .add('on');
 
@@ -6147,6 +7219,8 @@ if(
       gtag('event', 'open_load_calculator', { tool_name: 'Load Calculator' });
     } else if (action.includes('showCableCalculator')) {
       gtag('event', 'open_cable_calculator', { tool_name: 'Cable Sizing & Audit' });
+    } else if (action.includes('showAudit')) {
+      gtag('event', 'open_audit_section', { section: 'Audit & Standardization' });
     } else if (action.includes('showElectronics')) {
       gtag('event', 'click_coming_soon', { section: 'Electronics' });
     } else if (action.includes('showAutomation')) {
