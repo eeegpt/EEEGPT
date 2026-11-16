@@ -4,7 +4,7 @@ const FILES_TO_CACHE = [
   './',
   './index.html',
   './manifest.json',
-  './assets/eeegpt_cover.webp',
+  './assets/eeegptcover.webp',
   './assets/profile.webp',
   './assets/icon.webp',
   './assets/android-icon.webp'

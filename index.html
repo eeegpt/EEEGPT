@@ -1796,6 +1796,404 @@ select.unit option {
     object-fit: contain !important;
   }
 }
+
+/* =========================================================
+   NEW HOME PAGE UI (PIXEL-ALIGNED WITH DESIGN)
+========================================================= */
+#home {
+  display: block;
+  margin: -20px -15px -20px;
+  padding: 0 0 92px;
+  min-height: 100vh;
+  background: linear-gradient(180deg, #f2f7fe 0%, #eaf1fc 100%);
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  position: relative;
+  overflow-x: hidden;
+  text-align: left;
+}
+
+@media (max-width: 600px) {
+  #home {
+    margin: -20px -6px -20px;
+  }
+}
+
+/* Top Cover Image Container (Like Original 1519/687 Ratio + Smooth Curve) */
+.home-cover-wrap {
+  width: 100%;
+  aspect-ratio: 1519 / 687;
+  height: auto;
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(135deg, #032258 0%, #06449e 52%, #0c74dc 100%);
+}
+
+.home-cover-img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  object-position: center;
+}
+
+.hero-wave {
+  position: absolute;
+  left: 0;
+  bottom: -1px;
+  width: 100%;
+  height: 28px;
+  display: block;
+  z-index: 2;
+  pointer-events: none;
+}
+/* Floating Profile Card */
+.home-profile-card {
+  position: relative;
+  z-index: 4;
+  margin: -22px 14px 16px;
+  background: #ffffff;
+  border-radius: 22px;
+  padding: 13px 15px;
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  border: 1px solid #e6eef9;
+  box-shadow: 0 10px 26px rgba(15, 45, 95, 0.08);
+  cursor: pointer;
+  transition: transform 0.15s ease;
+}
+
+.home-profile-card:active {
+  transform: scale(0.985);
+}
+
+.home-avatar-ring {
+  width: 68px;
+  height: 68px;
+  border-radius: 50%;
+  padding: 3px;
+  background: linear-gradient(135deg, #5ec8ff, #0b5ed7);
+  flex-shrink: 0;
+  box-shadow: 0 4px 14px rgba(11, 94, 215, 0.22);
+}
+
+.home-avatar {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  display: block;
+  background: #dbeafe;
+  border: 2.5px solid #ffffff;
+}
+
+.home-profile-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.home-profile-name {
+  font-size: 17.5px;
+  font-weight: 800;
+  color: #061c46;
+  margin: 0;
+  line-height: 1.25;
+}
+
+.home-profile-role {
+  font-size: 11.5px;
+  color: #5b6d85;
+  margin: 3px 0 5px;
+  line-height: 1.3;
+}
+
+.home-profile-mail {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #162e54;
+}
+
+.home-profile-chevron {
+  color: #465b78;
+  font-size: 20px;
+  font-weight: 600;
+  flex-shrink: 0;
+}
+
+/* 4 Category Cards */
+.home-categories {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin: 0 14px;
+  position: relative;
+  z-index: 3;
+}
+
+#home .home-cat {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  min-height: 90px;
+  padding: 15px 15px;
+  background: #ffffff !important;
+  border: 1px solid #e6eef9 !important;
+  border-radius: 22px !important;
+  box-shadow: 0 8px 24px rgba(15, 45, 95, 0.07) !important;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 14px;
+  text-align: left;
+  font-family: inherit;
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+#home .home-cat:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 26px rgba(15, 45, 95, 0.11) !important;
+}
+
+#home .home-cat:active {
+  transform: scale(0.985);
+}
+
+.home-cat-wave {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 165px;
+  height: 54px;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.home-cat-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  position: relative;
+  z-index: 2;
+}
+
+.cat-electrical .home-cat-icon {
+  background: radial-gradient(circle at 30% 25%, #5ab4ff, #0d6efd 55%, #003ca8 100%);
+  box-shadow: 0 6px 16px rgba(0, 82, 212, 0.32), inset 0 2px 4px rgba(255, 255, 255, 0.45);
+}
+
+.cat-audit .home-cat-icon {
+  background: radial-gradient(circle at 30% 25%, #fde047, #f59e0b 55%, #b45309 100%);
+  box-shadow: 0 6px 16px rgba(217, 119, 6, 0.32), inset 0 2px 4px rgba(255, 255, 255, 0.45);
+}
+
+.cat-electronics .home-cat-icon {
+  background: radial-gradient(circle at 30% 25%, #a78bfa, #6d28d9 55%, #3730a3 100%);
+  box-shadow: 0 6px 16px rgba(99, 60, 220, 0.32), inset 0 2px 4px rgba(255, 255, 255, 0.45);
+}
+
+.cat-automation .home-cat-icon {
+  background: radial-gradient(circle at 30% 25%, #86efac, #22c55e 55%, #15803d 100%);
+  box-shadow: 0 6px 16px rgba(22, 163, 74, 0.32), inset 0 2px 4px rgba(255, 255, 255, 0.45);
+}
+
+.home-cat-sep {
+  width: 1px;
+  height: 44px;
+  background: #cfe0f5;
+  flex-shrink: 0;
+  position: relative;
+  z-index: 2;
+}
+
+.home-cat-body {
+  flex: 1;
+  min-width: 0;
+  position: relative;
+  z-index: 2;
+}
+
+.home-cat-title {
+  font-size: 20px;
+  font-weight: 800;
+  color: #061c46;
+  line-height: 1.2;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.home-cat-sub {
+  font-size: 13px;
+  color: #556882;
+  margin-top: 3px;
+}
+
+.home-cat-arrow {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 1px solid #cce0fa;
+  background: rgba(242, 247, 255, 0.92);
+  color: #0b4db8;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  position: relative;
+  z-index: 2;
+}
+
+/* Full-width Bottom Skyline & Tagline */
+.home-footer-art {
+  margin-top: 16px;
+  text-align: center;
+  position: relative;
+  width: 100%;
+}
+
+.home-footer-skyline {
+  width: 100%;
+  height: 60px;
+  opacity: 0.32;
+  display: block;
+}
+
+.home-tagline {
+  font-size: 13.5px;
+  font-style: italic;
+  font-weight: 600;
+  color: #254472;
+  margin-top: 4px;
+  letter-spacing: 0.3px;
+}
+
+/* Fixed Bottom Navigation Bar */
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: 620px;
+  z-index: 50;
+  background: #ffffff;
+  border-radius: 24px 24px 0 0;
+  border-top: 1px solid #e4edf9;
+  box-shadow: 0 -6px 24px rgba(12, 38, 82, 0.08);
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  padding: 9px 4px calc(6px + env(safe-area-inset-bottom));
+}
+
+.bnav-btn {
+  background: transparent;
+  border: none;
+  padding: 3px 2px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  color: #495d7a;
+  font-size: 11.5px;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  position: relative;
+}
+
+.bnav-btn.active {
+  color: #0066ff;
+  font-weight: 700;
+}
+
+.bnav-btn.active::after {
+  content: "";
+  width: 48px;
+  height: 3.5px;
+  background: #0066ff;
+  border-radius: 99px 99px 0 0;
+  margin-top: 4px;
+}
+
+/* Bottom Nav Sheet Modal */
+.home-modal-backdrop {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(9, 25, 55, 0.45);
+  z-index: 100;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.home-modal-backdrop.open {
+  display: flex;
+}
+
+.home-modal-sheet {
+  width: 100%;
+  max-width: 620px;
+  background: #ffffff;
+  border-radius: 22px 22px 0 0;
+  padding: 18px 16px 26px;
+  box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.18);
+  color: #091d42;
+}
+
+.home-modal-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #e4edf9;
+}
+
+.home-modal-head h3 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 800;
+}
+
+.home-modal-close {
+  border: none;
+  background: #f1f5f9;
+  color: #334155;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+@media (max-width: 390px) {
+  .hero-logo-wrap { width: 132px; }
+  .hero-logo-svg { width: 56px; height: 52px; }
+  .hero-wordmark { font-size: 26px; }
+  .hero-sub { font-size: 10.2px; }
+  .hero-sub-line { width: 132px; }
+  .hero-badge { max-width: 182px; font-size: 8.8px; padding: 7px 10px 7px 12px; }
+  .home-cat-icon { width: 50px; height: 50px; }
+  .home-cat-title { font-size: 17.5px; }
+  .home-cat-sub { font-size: 11.8px; }
+}
+
+@media print {
+  #home, .bottom-nav, .home-modal-backdrop {
+    display: none !important;
+  }
+}
+
 </style>
 
 <!-- =========================================================
@@ -1865,143 +2263,219 @@ window.firebaseSet = set;
 
 
 <!-- =========================================================
-     HTML: HOME
+     HTML: HOME (NEW DESIGN + ALL 4 OPTIONS)
 ========================================================= -->
+<section class="home" id="home">
 
-<section
-  class="home"
-  id="home"
->
-
-  <div class="cover-wrap">
-
+ <!-- TOP COVER IMAGE (USES assets/eeegptcover.webp) -->
+  <div class="home-cover-wrap">
     <img
-      class="cover"
-      src="assets/eeegpt_cover.webp"
+      id="homeCoverImg"
+      class="home-cover-img"
+      src="assets/eeegptcover.webp"
       alt="cover"
     >
-
+    <!-- Smooth Bottom Wave Transition -->
+    <svg class="hero-wave" viewBox="0 0 400 28" preserveAspectRatio="none">
+      <path d="M0 10 C110 28, 260 26, 400 4 L400 28 L0 28 Z" fill="rgba(219, 234, 254, 0.35)"/>
+      <path d="M0 15 C105 30, 265 28, 400 8 L400 28 L0 28 Z" fill="#f2f7fe"/>
+    </svg>
   </div>
 
-
-  <div class="profile-area">
-
-    <img
-      class="avatar"
-      src="assets/profile.webp"
-      alt="profile"
-    >
-
-
-    <h1 class="name">
-      Hrridoy Hassen Inno
-    </h1>
-
-
-    <div class="role">
-
-      BSc in Electrical and Electronic Engineering.
-
-      <div class="role">
-        inno.eee@hotmail.com
-      </div>
-
+  <!-- FLOATING PROFILE CARD -->
+  <div class="home-profile-card" onclick="openHomeModal('about')">
+    <div class="home-avatar-ring">
+      <img class="home-avatar" src="assets/profile.webp" alt="profile">
     </div>
+    <div class="home-profile-info">
+      <h1 class="home-profile-name">Hrridoy Hassen Inno</h1>
+      <div class="home-profile-role">BSc in Electrical and Electronic Engineering.</div>
+      <div class="home-profile-mail">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="#162e54">
+          <path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4-8 5-8-5V6l8 5 8-5v2z"/>
+        </svg>
+        <span>inno.eee@hotmail.com</span>
+      </div>
+    </div>
+    <div class="home-profile-chevron">›</div>
+  </div>
+
+  <!-- 4 CATEGORY CARDS -->
+  <div class="home-categories">
+
+    <!-- 1. ELECTRICAL -->
+    <button class="home-cat cat-electrical" onclick="showElectrical()">
+      <svg class="home-cat-wave" viewBox="0 0 165 54" preserveAspectRatio="none">
+        <path d="M10 54 C60 46, 115 24, 165 4 L165 54 Z" fill="#bfdbfe" opacity="0.55"/>
+        <path d="M55 54 C95 46, 130 32, 165 16 L165 54 Z" fill="#60a5fa" opacity="0.35"/>
+      </svg>
+      <span class="home-cat-icon">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="#ffffff">
+          <path d="M13 2L4 14h7l-1 8 10-12h-7l0-8z"/>
+        </svg>
+      </span>
+      <span class="home-cat-sep"></span>
+      <span class="home-cat-body">
+        <span class="home-cat-title">Electrical</span>
+        <span class="home-cat-sub">Calculators &amp; Tools</span>
+      </span>
+      <span class="home-cat-arrow">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M9 18l6-6-6-6"/>
+        </svg>
+      </span>
+    </button>
+
+    <!-- 2. AUDIT & STANDARDIZATION -->
+    <button class="home-cat cat-audit" onclick="showAudit()">
+      <svg class="home-cat-wave" viewBox="0 0 165 54" preserveAspectRatio="none">
+        <path d="M10 54 C60 46, 115 24, 165 4 L165 54 Z" fill="#fde68a" opacity="0.6"/>
+        <path d="M55 54 C95 46, 130 32, 165 16 L165 54 Z" fill="#fbbf24" opacity="0.35"/>
+      </svg>
+      <span class="home-cat-icon">
+        <svg width="25" height="25" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"/>
+          <rect x="9" y="3" width="6" height="4" rx="1"/>
+          <path d="M9 14l2 2 4-4"/>
+        </svg>
+      </span>
+      <span class="home-cat-sep"></span>
+      <span class="home-cat-body">
+        <span class="home-cat-title">
+          Audit &amp; Standardization
+          <span id="homeAuditBadge" class="audit-badge" style="display:none;">0</span>
+        </span>
+        <span class="home-cat-sub">BNBC • RSC • NFPA Compliance &amp; Audit</span>
+      </span>
+      <span class="home-cat-arrow">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M9 18l6-6-6-6"/>
+        </svg>
+      </span>
+    </button>
+
+    <!-- 3. ELECTRONICS -->
+    <button class="home-cat cat-electronics" onclick="showElectronics()">
+      <svg class="home-cat-wave" viewBox="0 0 165 54" preserveAspectRatio="none">
+        <path d="M10 54 C60 46, 115 24, 165 4 L165 54 Z" fill="#ddd6fe" opacity="0.65"/>
+        <path d="M55 54 C95 46, 130 32, 165 16 L165 54 Z" fill="#a78bfa" opacity="0.35"/>
+      </svg>
+      <span class="home-cat-icon">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="7" y="7" width="10" height="10" rx="1.5"/>
+          <rect x="10" y="10" width="4" height="4"/>
+          <path d="M9 3v4M15 3v4M9 17v4M15 17v4M3 9h4M3 15h4M17 9h4M17 15h4"/>
+        </svg>
+      </span>
+      <span class="home-cat-sep"></span>
+      <span class="home-cat-body">
+        <span class="home-cat-title">Electronics</span>
+        <span class="home-cat-sub">Calculators &amp; Tools</span>
+      </span>
+      <span class="home-cat-arrow">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M9 18l6-6-6-6"/>
+        </svg>
+      </span>
+    </button>
+
+    <!-- 4. AUTOMATION -->
+    <button class="home-cat cat-automation" onclick="showAutomation()">
+      <svg class="home-cat-wave" viewBox="0 0 165 54" preserveAspectRatio="none">
+        <path d="M10 54 C60 46, 115 24, 165 4 L165 54 Z" fill="#bbf7d0" opacity="0.65"/>
+        <path d="M55 54 C95 46, 130 32, 165 16 L165 54 Z" fill="#4ade80" opacity="0.35"/>
+      </svg>
+      <span class="home-cat-icon">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M5 20h10"/>
+          <path d="M8 20v-4l5-5 4 3"/>
+          <circle cx="13" cy="11" r="2"/>
+          <path d="M17 14l2-2M19 10l2 2"/>
+        </svg>
+      </span>
+      <span class="home-cat-sep"></span>
+      <span class="home-cat-body">
+        <span class="home-cat-title">Automation</span>
+        <span class="home-cat-sub">PLC • Servo • HMI</span>
+      </span>
+      <span class="home-cat-arrow">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M9 18l6-6-6-6"/>
+        </svg>
+      </span>
+    </button>
 
   </div>
 
-
-  <!-- CATEGORY BUTTONS -->
-
-  <div class="categories">
-
-
-    <button
-      class="category electrical"
-      onclick="showElectrical()"
-    >
-
-      <span class="category-icon">
-        ⚡
-      </span>
-
-      <span class="category-title">
-        ELECTRICAL
-      </span>
-
-      <span class="category-sub">
-        Calculators & Tools
-      </span>
-
-    </button>
-
-
-    <button
-      class="category audit"
-      onclick="showAudit()"
-    >
-
-      <span class="category-icon">
-        📋
-      </span>
-
-     <span class="category-title">
-        AUDIT & STANDARDIZATION <span id="homeAuditBadge" class="audit-badge" style="display:none;">0</span>
-      </span>
-
-      <span class="category-sub">
-        BNBC • RSC • NFPA Compliance & Audit
-      </span>
-
-    </button>
-
-
-    <button
-      class="category electronics"
-
-      onclick="showElectronics()"
-    >
-
-      <span class="category-icon">
-        🔌
-      </span>
-
-      <span class="category-title">
-        ELECTRONICS
-      </span>
-
-      <span class="category-sub">
-        Calculators & Tools
-      </span>
-
-    </button>
-
-
-    <button
-      class="category automation"
-      onclick="showAutomation()"
-    >
-
-      <span class="category-icon">
-        🤖
-      </span>
-
-      <span class="category-title">
-        AUTOMATION
-      </span>
-
-      <span class="category-sub">
-        PLC • Servo • HMI
-      </span>
-
-    </button>
-
-
+  <!-- FULL-WIDTH BOTTOM SKYLINE & TAGLINE -->
+  <div class="home-footer-art">
+    <svg class="home-footer-skyline" viewBox="0 0 420 60" preserveAspectRatio="none" fill="#9ebce6" xmlns="http://www.w3.org/2000/svg">
+      <path d="M18 60L28 24L38 60M22 44H34M19 33H37" stroke="#9ebce6" stroke-width="2.2" fill="none"/>
+      <rect x="46" y="38" width="22" height="22"/>
+      <rect x="74" y="28" width="26" height="32"/>
+      <rect x="108" y="18" width="18" height="42"/>
+      <rect x="134" y="34" width="32" height="26"/>
+      <path d="M180 60L190 22L200 60M183 43H197M180 32H200" stroke="#9ebce6" stroke-width="2.2" fill="none"/>
+      <rect x="218" y="28" width="44" height="32"/>
+      <polygon points="218,28 232,16 232,28 247,16 247,28 262,16 262,28"/>
+      <rect x="272" y="20" width="24" height="40"/>
+      <rect x="304" y="34" width="34" height="26"/>
+      <path d="M356 60L370 10L384 60M361 42H379M356 28H384M364 19H376" stroke="#9ebce6" stroke-width="2.5" fill="none"/>
+      <rect x="394" y="38" width="22" height="22"/>
+    </svg>
+    <div class="home-tagline">Learn &bull; Calculate &bull; Work Smarter</div>
   </div>
+
+  <!-- BOTTOM NAVIGATION BAR -->
+  <nav class="bottom-nav" aria-label="Primary Navigation">
+    <button type="button" class="bnav-btn active" onclick="home()">
+      <svg width="21" height="21" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M12 3l9 8h-3v9h-5v-6h-2v6H6v-9H3l9-8z"/>
+      </svg>
+      <span>Home</span>
+    </button>
+
+    <button type="button" class="bnav-btn" onclick="openHomeModal('tools')">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M5 3h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2zm2 4v3h10V7H7zm0 5v2h2v-2H7zm4 0v2h2v-2h-2zm4 0v2h2v-2h-2zm-8 4v2h2v-2H7zm4 0v2h2v-2h-2zm4 0v2h2v-2h-2z"/>
+      </svg>
+      <span>Tools</span>
+    </button>
+
+    <button type="button" class="bnav-btn" onclick="openHomeModal('favorites')">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+      </svg>
+      <span>Favorites</span>
+    </button>
+
+    <button type="button" class="bnav-btn" onclick="openHomeModal('about')">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/>
+      </svg>
+      <span>About</span>
+    </button>
+
+    <button type="button" class="bnav-btn" onclick="openHomeModal('settings')">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M19.14 12.94a7.96 7.96 0 0 0 .06-.94 7.96 7.96 0 0 0-.06-.94l2.03-1.58a.5.5 0 0 0 .12-.64l-1.92-3.32a.5.5 0 0 0-.6-.22l-2.39.96a7.4 7.4 0 0 0-1.63-.94l-.36-2.54a.48.48 0 0 0-.48-.41h-3.84a.48.48 0 0 0-.48.41l-.36 2.54c-.58.23-1.13.55-1.63.94l-2.39-.96a.5.5 0 0 0-.6.22L2.71 8.84a.5.5 0 0 0 .12.64l2.03 1.58a7.96 7.96 0 0 0-.06.94 7.96 7.96 0 0 0 .06.94l-2.03 1.58a.5.5 0 0 0-.12.64l1.92 3.32a.5.5 0 0 0 .6.22l2.39-.96c.5.39 1.05.71 1.63.94l.36 2.54a.48.48 0 0 0 .48.41h3.84a.48.48 0 0 0 .48-.41l.36-2.54c.58-.23 1.13-.55 1.63-.94l2.39.96a.5.5 0 0 0 .6-.22l1.92-3.32a.5.5 0 0 0-.12-.64l-2.03-1.58zM12 15.5a3.5 3.5 0 1 1 0-7 3.5 3.5 0 0 1 0 7z"/>
+      </svg>
+      <span>Settings</span>
+    </button>
+  </nav>
 
 </section>
 
-
+<!-- BOTTOM NAV MODAL SHEET -->
+<div class="home-modal-backdrop" id="homeModal" onclick="if(event.target===this) closeHomeModal()">
+  <div class="home-modal-sheet">
+    <div class="home-modal-head">
+      <h3 id="homeModalTitle">EEEGPT</h3>
+      <button type="button" class="home-modal-close" onclick="closeHomeModal()">×</button>
+    </div>
+    <div id="homeModalBody" style="font-size:13px; line-height:1.6; color:#334155;"></div>
+  </div>
+</div>
 
 
 <!-- =========================================================
@@ -2132,7 +2606,7 @@ window.firebaseSet = set;
           MCB / MCCB / ACB Selection
         </b>
 
-        l
+        
 <small>
           IEC 60947-2 • IEC 60898 • Curve & kA Sizing
         </small>
@@ -7113,6 +7587,78 @@ history.replaceState(
   '#home'
 );
 
+/* =========================================================
+   HOME BOTTOM NAV SHEET CONTROLS
+========================================================= */
+function openHomeModal(type) {
+  const modal = document.getElementById('homeModal');
+  const title = document.getElementById('homeModalTitle');
+  const body = document.getElementById('homeModalBody');
+  if (!modal || !title || !body) return;
+
+  if (type === 'tools') {
+    title.textContent = 'All Active Tools';
+    body.innerHTML = `
+      <div style="display:grid; gap:8px;">
+        <button class="tool" onclick="closeHomeModal(); showConverter();">
+          <span class="tool-icon">⚡</span><span><b>Power Converter</b><small>kW • Amp • Watt • HP</small></span>
+        </button>
+        <button class="tool" onclick="closeHomeModal(); showLoadCalculator();">
+          <span class="tool-icon">🔌</span><span><b>Load Calculator</b><small>BNBC 2020 Demand &amp; Energy</small></span>
+        </button>
+        <button class="tool" onclick="closeHomeModal(); showCableCalculator();">
+          <span class="tool-icon">📐</span><span><b>Cable Sizing &amp; Audit</b><small>BNBC 2020 • RSC Sizing &amp; Audit</small></span>
+        </button>
+        <button class="tool" onclick="closeHomeModal(); showBreakerSelection();">
+          <span class="tool-icon">🛡️</span><span><b>MCB / MCCB / ACB Selection</b><small>IEC 60947-2 • IEC 60898</small></span>
+        </button>
+        <button class="tool" onclick="closeHomeModal(); showAuditReminder();">
+          <span class="tool-icon">📅</span><span><b>Audit Report Reminder</b><small>Expiry &amp; Red Alert Tracker</small></span>
+        </button>
+      </div>
+    `;
+  } else if (type === 'favorites') {
+    title.textContent = 'Quick Favorites';
+    body.innerHTML = `
+      <p style="margin:0 0 10px;">Most used compliance &amp; sizing tools:</p>
+      <div style="display:grid; gap:8px;">
+        <button class="tool" onclick="closeHomeModal(); showCableCalculator();">
+          <span class="tool-icon">📐</span><span><b>Cable Sizing &amp; Audit</b><small>BNBC 2020 • RSC</small></span>
+        </button>
+        <button class="tool" onclick="closeHomeModal(); showAuditReminder();">
+          <span class="tool-icon">📅</span><span><b>Audit Report Submission Reminder</b><small>RSC • BNBC Tracker</small></span>
+        </button>
+      </div>
+    `;
+  } else if (type === 'about') {
+    title.textContent = 'About EEEGPT';
+    body.innerHTML = `
+      <p style="margin:0 0 8px;"><strong>EEEGPT</strong> — Your Smart Electrical Assistant built for Bangladesh &amp; International engineering standards (<strong>BNBC 2020, RSC, IEC, NFPA 70</strong>).</p>
+      <p style="margin:0;"><strong>Engineer:</strong> Hrridoy Hassen Inno<br>
+      <strong>Qualification:</strong> BSc in Electrical and Electronic Engineering<br>
+      <strong>Contact:</strong> inno.eee@hotmail.com</p>
+    `;
+  } else if (type === 'settings') {
+    title.textContent = 'App Settings';
+    body.innerHTML = `
+      <div style="display:grid; gap:10px;">
+        <button type="button" class="audit-btn-primary" onclick="requestAuditNotificationPermission()">
+          🔔 Enable Audit Push Notifications
+        </button>
+        <button type="button" class="audit-btn-sec" onclick="location.reload()">
+          🔄 Refresh App &amp; Sync Cache
+        </button>
+      </div>
+    `;
+  }
+
+  modal.classList.add('open');
+}
+
+function closeHomeModal() {
+  const modal = document.getElementById('homeModal');
+  if (modal) modal.classList.remove('open');
+}
 
 /* =========================================================
      JAVASCRIPT: HOME PAGE: BASIC COPY PROTECTION 
