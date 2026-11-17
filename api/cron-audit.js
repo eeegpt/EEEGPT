@@ -27,7 +27,10 @@ module.exports = async function handler(req, res) {
   try {
     const publicKey = process.env.VAPID_PUBLIC_KEY;
     const privateKey = process.env.VAPID_PRIVATE_KEY;
-    const contactEmail = process.env.VAPID_EMAIL || 'mailto:inno.eee@hotmail.com';
+   let contactEmail = (process.env.VAPID_EMAIL || 'mailto:inno.eee@hotmail.com').trim();
+    if (!contactEmail.startsWith('mailto:') && !contactEmail.startsWith('http://') && !contactEmail.startsWith('https://')) {
+      contactEmail = 'mailto:' + contactEmail;
+    }
 
     if (!publicKey || !privateKey) {
       return res.status(500).json({ error: 'Missing VAPID keys in Vercel Environment Variables.' });
