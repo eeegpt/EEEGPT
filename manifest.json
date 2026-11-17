@@ -1,27 +1,26 @@
-
 {
   "id": "/index.html",
   "name": "EEEGPT – Electrical Engineering Assistant",
   "short_name": "EEEGPT",
   "description": "Smart Electrical & Electronics Engineering Calculator and Assistant",
   "start_url": "./index.html",
-  "display": "standalone",
-  "background_color": "#0b1012",
-  "theme_color": "#0b1012",
+  "display": "fullscreen",
+  "display_override": ["fullscreen", "standalone"],
+  "background_color": "#f2f7fe",
+  "theme_color": "#06449e",
   "orientation": "portrait",
-"icons": [
-  {
-    "src": "/assets/icon.webp",
-    "sizes": "512x512",
-    "type": "image/webp",
-    "purpose": "any"
-  },
-  {
-    "src": "/assets/android-icon.webp",
-    "sizes": "512x512",
-    "type": "image/webp",
-    "purpose": "maskable"
-  }
-]
-
- }
+  "icons": [
+    {
+      "src": "/assets/icon.webp",
+      "sizes": "512x512",
+      "type": "image/webp",
+      "purpose": "any"
+    },
+    {
+      "src": "/assets/android-icon.webp",
+      "sizes": "512x512",
+      "type": "image/webp",
+      "purpose": "maskable"
+    }
+  ]
+}

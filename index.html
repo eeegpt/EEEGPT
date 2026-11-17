@@ -13,16 +13,18 @@
 </script>
 
 <meta charset="utf-8">
-
 <meta
   name="viewport"
-  content="width=device-width,initial-scale=1"
+  content="width=device-width, initial-scale=1, viewport-fit=cover"
 >
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
  <title>EEEGPT</title>
 
   <link rel="manifest" href="./manifest.json">
-<meta name="theme-color" content="#ffffff">
+<meta name="theme-color" content="#06449e">
 
 <!-- =========================================================
      CSS: MAIN STYLE
@@ -215,6 +217,7 @@ body{
 
 .page{
   display:none;
+  padding-top:env(safe-area-inset-top);
 }
 
 .page.on{
@@ -1884,10 +1887,10 @@ select.unit option {
 #home .home-profile-card {
   position: relative;
   z-index: 4;
-  margin: 10px 14px 16px;
+  margin: 0px 6px 10px;
   background: #ffffff;
   border-radius: 22px;
-  padding: 13px 15px;
+  padding: 15px 15px;
   display: flex;
   align-items: center;
   gap: 13px;
