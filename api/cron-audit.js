@@ -1,4 +1,4 @@
-const webpush = require('web-push');
+
 
 const FIREBASE_DB_URL = 'https://innos-eee-world-default-rtdb.asia-southeast1.firebasedatabase.app';
 
@@ -38,6 +38,8 @@ module.exports = async function handler(req, res) {
       return res.status(401).json({ error: 'Unauthorized' });
     }
 
+   const webpushMod = await import('web-push');
+    const webpush = webpushMod.setVapidDetails ? webpushMod : webpushMod.default;
     webpush.setVapidDetails(contactEmail, publicKey, privateKey);
 
     const dbPath = testDeviceId

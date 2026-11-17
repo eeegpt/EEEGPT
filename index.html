@@ -7227,7 +7227,7 @@ function renderAuditReports() {
   }).join('');
 }
 
-const VAPID_PUBLIC_KEY = 'YOUR_VAPID_PUBLIC_KEY_HERE';
+const VAPID_PUBLIC_KEY = 'BPJ1PJUFFAYMWdcwWuXHDVP-yjag-Bhru2gW7VS46wCn8uOawg6zpNrloMs7MyoAZ_rZHiJIcG70h8RfYpcKKZ8';
 const AUDIT_DEVICE_KEY = 'eeegpt_device_id';
 
 function getAuditDeviceId() {
@@ -7250,9 +7250,11 @@ function urlBase64ToUint8Array(base64String) {
   return outputArray;
 }
 
-async function syncAuditToFirebase(customSub) {
+async function syncAuditToFirebase(customSub, throwOnError = false) {
   try {
-    if (!window.firebaseDB || !window.firebaseSet || !window.firebaseRef) return;
+    if (!window.firebaseDB || !window.firebaseSet || !window.firebaseRef) {
+      throw new Error('Firebase এখনো লোড হয়নি।');
+    }
     const deviceId = getAuditDeviceId();
     const reports = getAuditReports();
 
@@ -7277,8 +7279,11 @@ async function syncAuditToFirebase(customSub) {
       window.firebaseRef(window.firebaseDB, 'audit_devices/' + deviceId + '/updatedAt'),
       Date.now()
     );
+    return true;
   } catch (err) {
     console.warn('Firebase audit sync skipped:', err);
+    if (throwOnError) throw err;
+    return false;
   }
 }
 
@@ -7320,6 +7325,11 @@ async function requestAuditNotificationPermission() {
     alert('This browser does not support notifications.');
     return;
   }
+  if (!VAPID_PUBLIC_KEY || VAPID_PUBLIC_KEY === 'YOUR_VAPID_PUBLIC_KEY_HERE') {
+    alert('VAPID Public Key বসানো হয়নি!');
+    return;
+  }
+
   const perm = await Notification.requestPermission();
   if (perm !== 'granted') {
     alert('Notification permission was not granted.');
@@ -7327,21 +7337,25 @@ async function requestAuditNotificationPermission() {
   }
 
   try {
-    if ('serviceWorker' in navigator && 'PushManager' in window && VAPID_PUBLIC_KEY !== 'YOUR_VAPID_PUBLIC_KEY_HERE') {
-      const reg = await navigator.serviceWorker.ready;
-      let sub = await reg.pushManager.getSubscription();
-      if (!sub) {
-        sub = await reg.pushManager.subscribe({
-          userVisibleOnly: true,
-          applicationServerKey: urlBase64ToUint8Array(VAPID_PUBLIC_KEY)
-        });
-      }
-      await syncAuditToFirebase(sub.toJSON());
+    if (!('serviceWorker' in navigator) || !('PushManager' in window)) {
+      alert('এই ব্রাউজারে Background Push সাপোর্ট নেই।');
+      return;
     }
+
+    const reg = await navigator.serviceWorker.ready;
+    let sub = await reg.pushManager.getSubscription();
+    if (!sub) {
+      sub = await reg.pushManager.subscribe({
+        userVisibleOnly: true,
+        applicationServerKey: urlBase64ToUint8Array(VAPID_PUBLIC_KEY)
+      });
+    }
+
+    await syncAuditToFirebase(sub.toJSON(), true);
     updateAuditBadges(true);
-    alert('Push Alerts enabled! You will receive automatic daily reminders & app icon badges.');
+    alert('Push Alerts enabled & saved to server!');
   } catch (err) {
-    alert('Alert enabled locally, but push subscription error: ' + err.message);
+    alert('Push বা Firebase এরর: ' + err.message);
   }
 }
 
