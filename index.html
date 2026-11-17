@@ -2225,6 +2225,303 @@ select.unit option {
   }
 }
 
+/* =========================================================
+   CSS: STANDARD CODE SEARCH & 4-BOX HUB
+========================================================= */
+.std-search-box {
+  position: relative;
+  margin-bottom: 14px;
+}
+
+.std-search-box input {
+  width: 100%;
+  height: 48px;
+  padding: 0 38px 0 40px;
+  border-radius: 12px;
+  font-size: 14px;
+  border: 1.5px solid #cbd5e1;
+  background: #ffffff;
+  color: var(--t);
+  box-shadow: 0 3px 12px rgba(15, 23, 42, 0.04);
+}
+
+.std-search-box input:focus {
+  outline: none;
+  border-color: var(--g);
+  box-shadow: 0 0 0 3px rgba(5, 150, 105, 0.14);
+}
+
+.std-search-icon {
+  position: absolute;
+  left: 13px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 16px;
+  pointer-events: none;
+}
+
+.std-clear-btn {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 26px;
+  height: 26px;
+  border: none;
+  border-radius: 50%;
+  background: #e2e8f0;
+  color: #334155;
+  font-size: 16px;
+  cursor: pointer;
+  display: none;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 4 Standard Boxes (2x2 Grid) */
+.std-box-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  margin-top: 8px;
+  margin-bottom: 16px;
+}
+
+.std-box {
+  position: relative;
+  text-align: left;
+  padding: 15px 13px;
+  border-radius: 14px;
+  border: 1px solid var(--l);
+  background: #ffffff;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 112px;
+  transition: transform .15s ease, box-shadow .15s ease, border-color .15s ease;
+  box-shadow: 0 4px 14px rgba(15, 23, 42, 0.04);
+}
+
+.std-box:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(15, 23, 42, 0.08);
+}
+
+.std-box:active {
+  transform: scale(0.98);
+}
+
+.std-box.bnbc { border-top: 4px solid #059669; }
+.std-box.rsc  { border-top: 4px solid #d97706; }
+.std-box.nfpa { border-top: 4px solid #dc2626; }
+.std-box.iec  { border-top: 4px solid #2563eb; }
+
+.std-box-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.std-box-icon {
+  font-size: 22px;
+  line-height: 1;
+}
+
+.std-box-count {
+  font-size: 10px;
+  font-weight: 800;
+  padding: 3px 8px;
+  border-radius: 99px;
+}
+
+.std-box.bnbc .std-box-count { background: #ecfdf5; color: #047857; }
+.std-box.rsc  .std-box-count { background: #fffbeb; color: #b45309; }
+.std-box.nfpa .std-box-count { background: #fef2f2; color: #b91c1c; }
+.std-box.iec  .std-box-count { background: #eff6ff; color: #1d4ed8; }
+
+.std-box-title {
+  font-size: 15.5px;
+  font-weight: 800;
+  color: var(--t);
+  margin: 0;
+}
+
+.std-box-sub {
+  font-size: 11px;
+  color: var(--m);
+  margin-top: 3px;
+  line-height: 1.35;
+}
+
+/* Topic Filter Chips */
+.std-chip-row {
+  display: flex;
+  gap: 6px;
+  overflow-x: auto;
+  padding-bottom: 6px;
+  margin-bottom: 10px;
+  scrollbar-width: none;
+}
+.std-chip-row::-webkit-scrollbar { display: none; }
+
+.std-chip {
+  flex-shrink: 0;
+  padding: 6px 12px;
+  border-radius: 99px;
+  border: 1px solid var(--l);
+  background: #f8fafc;
+  color: var(--m);
+  font-size: 11.5px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.std-chip.active {
+  background: #ecfdf5;
+  color: #047857;
+  border-color: var(--g);
+}
+
+.std-meta-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 10px;
+  font-size: 11.5px;
+  color: var(--m);
+}
+
+/* Rule Cards */
+.std-rule-card {
+  background: #ffffff;
+  border: 1px solid var(--l);
+  border-radius: 13px;
+  padding: 14px;
+  margin-bottom: 10px;
+  box-shadow: 0 3px 10px rgba(15, 23, 42, 0.03);
+  page-break-inside: avoid;
+  break-inside: avoid;
+}
+
+.std-card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 8px;
+  margin-bottom: 7px;
+}
+
+.std-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.std-badge {
+  font-size: 10px;
+  font-weight: 800;
+  padding: 3px 8px;
+  border-radius: 6px;
+}
+
+.std-badge.bnbc  { background: #ecfdf5; color: #047857; border: 1px solid #a7f3d0; }
+.std-badge.rsc   { background: #fffbeb; color: #b45309; border: 1px solid #fde68a; }
+.std-badge.nfpa  { background: #fef2f2; color: #b91c1c; border: 1px solid #fecaca; }
+.std-badge.iec   { background: #eff6ff; color: #1d4ed8; border: 1px solid #bfdbfe; }
+.std-badge.topic { background: #f1f5f9; color: #334155; border: 1px solid #cbd5e1; }
+
+.std-copy-btn {
+  border: 1px solid #cbd5e1;
+  background: #f8fafc;
+  color: #334155;
+  border-radius: 7px;
+  padding: 4px 8px;
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.std-rule-title {
+  font-size: 14.5px;
+  font-weight: 800;
+  color: var(--t);
+  margin: 0 0 4px;
+  line-height: 1.35;
+}
+
+.std-clause {
+  font-size: 11px;
+  font-weight: 700;
+  color: #0369a1;
+  margin-bottom: 8px;
+}
+
+.std-limits {
+  background: #f0fdf4;
+  border-left: 3px solid var(--g);
+  border-radius: 6px;
+  padding: 7px 10px;
+  font-size: 12px;
+  font-weight: 700;
+  color: #065f46;
+  margin-bottom: 8px;
+  line-height: 1.45;
+}
+
+.std-summary {
+  font-size: 12.5px;
+  color: #334155;
+  line-height: 1.55;
+  margin-bottom: 8px;
+}
+
+.std-audit-tip {
+  background: #f8fafc;
+  border: 1px dashed #cbd5e1;
+  border-radius: 8px;
+  padding: 7px 10px;
+  font-size: 11.5px;
+  color: #475569;
+  line-height: 1.5;
+}
+
+.std-rule-card mark {
+  background: #fef08a;
+  color: #0f172a;
+  padding: 0 2px;
+  border-radius: 3px;
+}
+
+@media print {
+  #auditPage.on,
+  #standardViewPage.on {
+    display: block !important;
+  }
+  .std-search-box,
+  .std-chip-row,
+  .std-copy-btn,
+  .std-print-hide {
+    display: none !important;
+  }
+}
+
+/* Standard Box Search Match Highlight */
+.std-box.has-match {
+  border-color: var(--g);
+  box-shadow: 0 6px 18px rgba(5, 150, 105, 0.14);
+}
+.std-box.no-match {
+  opacity: 0.42;
+}
+#auditGlobalResultsWrap .audit-btn-sec {
+  display: none;
+}
+
 </style>
 
 <!-- =========================================================
@@ -2654,167 +2951,166 @@ window.firebaseSet = set;
 
 
 
+
 <!-- =========================================================
-     HTML: AUDIT & STANDARDIZATION PAGE
+     HTML: AUDIT & STANDARDIZATION HUB (GLOBAL SEARCH + 4 BOXES)
 =========================================================-->
+<section class="page" id="auditPage">
 
-
-<section
-  class="page"
-  id="auditPage"
->
-
-
-  <div
-    class="top"
-    onclick="home()"
-  >
-
-    <img
-      class="mini"
-      src="assets/icon.webp"
-      alt="EEEGPT"
-    >
-
-
+  <div class="top" onclick="home()">
+    <img class="mini" src="assets/icon.webp" alt="EEEGPT">
     <div>
-
-      <div class="title">
-        Audit & Standardization
-      </div>
-
-      <div class="sub">
-        BNBC 2020 • RSC • NFPA Compliance & Audit
-      </div>
-
+      <div class="title">Audit &amp; Standardization</div>
+      <div class="sub">BNBC 2020 • RSC • NFPA • IEC Code Engine</div>
     </div>
-
   </div>
 
+  <!-- GLOBAL SEARCH BAR (ALL STANDARDS AT ONCE) -->
+  <div class="std-search-box">
+    <span class="std-search-icon">🔍</span>
+    <input
+      id="auditGlobalSearchInput"
+      type="text"
+      placeholder="Search any code (e.g. Substation, Earthing, Panel, LPS)..."
+      oninput="runGlobalStandardSearch()"
+    >
+    <button type="button" id="auditGlobalClearBtn" class="std-clear-btn" onclick="clearGlobalStandardSearch()">×</button>
+  </div>
 
-  <div class="card">
-
-
-   <div class="label">
-      AUDIT & STANDARDIZATION TOOLS
+  <!-- LIVE CROSS-STANDARD SEARCH RESULTS (VISIBLE WHILE TYPING) -->
+  <div id="auditGlobalResultsWrap" style="display:none;">
+    <div class="std-meta-bar">
+      <span id="auditGlobalResultsCount">0 rules found</span>
+      <button type="button" class="audit-btn-sec std-print-hide" style="height:30px; font-size:11px;" onclick="window.print()">🖨️ Print Results</button>
     </div>
+    <div id="auditGlobalResultsList"></div>
+  </div>
 
+  <!-- DEFAULT HUB VIEW (4 STANDARD BOXES + AUDIT REMINDER) -->
+  <div id="auditBrowseSection">
 
-    <button
-      class="tool"
-      onclick="showAuditReminder()"
-    >
+    <div class="card" style="margin-bottom:12px;">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+        <div class="label" style="margin:0;">BROWSE BY STANDARD</div>
+        <span id="stdHubSyncBadge" style="font-size:10px; color:var(--g); font-weight:700;">● Offline Ready</span>
+      </div>
 
-      <span class="tool-icon">
-        📅
-      </span>
+      <!-- 4 SEPARATE STANDARD BOXES -->
+      <div class="std-box-grid">
+        <button type="button" class="std-box bnbc" onclick="openStandardBox('BNBC')">
+          <div class="std-box-head">
+            <span class="std-box-icon">📗</span>
+            <span class="std-box-count" id="countBNBC">0 Rules</span>
+          </div>
+          <div>
+            <div class="std-box-title">BNBC 2020</div>
+            <div class="std-box-sub">Bangladesh National Building Code (Part VIII)</div>
+          </div>
+        </button>
 
-      <span>
+        <button type="button" class="std-box rsc" onclick="openStandardBox('RSC')">
+          <div class="std-box-head">
+            <span class="std-box-icon">📙</span>
+            <span class="std-box-count" id="countRSC">0 Rules</span>
+          </div>
+          <div>
+            <div class="std-box-title">RSC</div>
+            <div class="std-box-sub">RMG Sustainability Council Technical Guidelines</div>
+          </div>
+        </button>
 
-        <b>
-          Audit Report Submission Reminder <span id="auditToolBadge" class="audit-badge" style="display:none;">0</span>
-        </b>
+        <button type="button" class="std-box nfpa" onclick="openStandardBox('NFPA')">
+          <div class="std-box-head">
+            <span class="std-box-icon">📕</span>
+            <span class="std-box-count" id="countNFPA">0 Rules</span>
+          </div>
+          <div>
+            <div class="std-box-title">NFPA</div>
+            <div class="std-box-sub">NFPA 70 (NEC) • 70E • 780 Standards</div>
+          </div>
+        </button>
 
-        <small>
-          Track Report Expiry • Auto Day Left • 1-Month Red Alert
-        </small>
+        <button type="button" class="std-box iec" onclick="openStandardBox('IEC')">
+          <div class="std-box-head">
+            <span class="std-box-icon">📘</span>
+            <span class="std-box-count" id="countIEC">0 Rules</span>
+          </div>
+          <div>
+            <div class="std-box-title">IEC</div>
+            <div class="std-box-sub">IEC 60364 • 62305 • 61439 International</div>
+          </div>
+        </button>
+      </div>
 
-      </span>
+      <div class="label" style="margin-top:6px;">COMPLIANCE TRACKER</div>
 
-    </button>
-
-
-    <button
-      class="tool"
-      disabled
-    >
-
-      <span class="tool-icon">
-        📋
-      </span>
-
-      <span>
-
-        <b>
-          Electrical Safety Audit Checklist
-        </b>
-
-        <small>
-          Coming Soon • RSC & BNBC Inspection Points
-        </small>
-
-      </span>
-
-    </button>
-
-
-    <button
-      class="tool"
-      disabled
-    >
-
-      <span class="tool-icon">
-        🏷️
-      </span>
-
-      <span>
-
-        <b>
-          Panel & Cable Standardization
-        </b>
-
-        <small>
-          Coming Soon • Color Coding, Labeling & SLD Rules
-        </small>
-
-      </span>
-
-    </button>
-
-
-    <button
-      class="tool"
-      disabled
-    >
-
-      <span class="tool-icon">
-        ⚡
-      </span>
-
-     <span>
-
-        <b>
-          Earthing & Lightning Protection Audit
-        </b>
-
-        <small>
-          Coming Soon • BNBC & IEC 62305 Compliance
-        </small>
-
-      </span>
-
-    </button>
-
+      <!-- AUDIT REPORT SUBMISSION REMINDER -->
+      <button class="tool" onclick="showAuditReminder()">
+        <span class="tool-icon">📅</span>
+        <span>
+          <b>
+            Audit Report Submission Reminder
+            <span id="auditToolBadge" class="audit-badge" style="display:none;">0</span>
+          </b>
+          <small>Track Report Expiry • Auto Day Left • 1-Month Red Alert</small>
+        </span>
+      </button>
+    </div>
 
   </div>
 
 </section>
 
 
+<!-- =========================================================
+     HTML: SINGLE STANDARD EXPLORER PAGE (WHEN A BOX IS TAPPED)
+=========================================================-->
+<section class="page" id="standardViewPage">
 
+  <div class="top" onclick="backFromStandardView()">
+    <img class="mini" src="assets/icon.webp" alt="EEEGPT">
+    <div>
+      <div class="title" id="stdViewTitle">Standard Rules</div>
+      <div class="sub" id="stdViewSub">All Codes &amp; Clauses</div>
+    </div>
+  </div>
+
+  <div class="std-search-box">
+    <span class="std-search-icon">🔍</span>
+    <input
+      id="stdViewSearchInput"
+      type="text"
+      placeholder="Filter inside this standard (e.g. Substation, Earthing)..."
+      oninput="renderStandardView()"
+    >
+    <button type="button" id="stdViewClearBtn" class="std-clear-btn" onclick="clearStandardViewSearch()">×</button>
+  </div>
+
+  <!-- TOPIC PILLS -->
+  <div class="std-chip-row" id="stdTopicChips"></div>
+
+  <div class="std-meta-bar">
+    <span id="stdViewCount">0 rules</span>
+    <div style="display:flex; gap:6px;" class="std-print-hide">
+      <button type="button" class="audit-btn-sec" style="height:30px; font-size:11px;" onclick="syncStandardsFromFirebase(true)">🔄 Sync</button>
+      <button type="button" class="audit-btn-sec" style="height:30px; font-size:11px;" onclick="window.print()">🖨️ Print</button>
+    </div>
+  </div>
+
+  <div id="stdViewList"></div>
+
+</section>
 
 <!-- =========================================================
      HTML: AUDIT REPORT SUBMISSION REMINDER PAGE
 =========================================================-->
-
-
 <section class="page" id="auditReminderPage">
 
   <div class="top" onclick="backFromAuditReminder()">
     <img class="mini" src="assets/icon.webp" alt="EEEGPT">
     <div>
       <div class="title">Audit Report Submission Reminder</div>
-      <div class="sub">RSC • BNBC • Report Validity & Expiry Tracker</div>
+      <div class="sub">RSC • BNBC • Report Validity &amp; Expiry Tracker</div>
     </div>
   </div>
 
@@ -2895,7 +3191,7 @@ window.firebaseSet = set;
       <button type="button" class="audit-btn-sec" id="auditCancelBtn" onclick="cancelAuditEdit()" style="display:none;">
         Cancel
       </button>
-     <button type="button" class="audit-btn-sec" onclick="requestAuditNotificationPermission()">
+      <button type="button" class="audit-btn-sec" onclick="requestAuditNotificationPermission()">
         🔔 Enable Alert
       </button>
       <button type="button" class="audit-btn-sec" onclick="testAuditServerPush()">
@@ -2946,7 +3242,6 @@ window.firebaseSet = set;
   </div>
 
 </section>
-
 
 
 
@@ -6115,7 +6410,7 @@ function hideAllPages(){
   if (homeEl) homeEl.style.display = 'none';
 
   // নতুন breakerPage ও auditPage সহ সব পেজ নিরাপদে হাইড করা
- ['electricalPage', 'auditPage', 'auditReminderPage', 'loadPage', 'converterPage', 'cablePage', 'breakerPage'].forEach(id => {
+ ['electricalPage', 'auditPage', 'auditReminderPage','standardViewPage', 'loadPage', 'converterPage', 'cablePage', 'breakerPage'].forEach(id => {
     const el = document.getElementById(id);
     if (el) el.classList.remove('on');
   });
@@ -7449,6 +7744,567 @@ function showAudit(){
 
 }
 
+/* =====================================================
+   JAVASCRIPT: STANDARD CODE SEARCH ENGINE (HYBRID OFFLINE + FIREBASE)
+========================================================= */
+const STD_CACHE_KEY = 'eeegpt_standards_cache_v1';
+const STD_VERSION_KEY = 'eeegpt_standards_ver_v1';
+const DEFAULT_STD_VERSION = 1;
+
+// Verified Starter Database (BNBC 2020 • RSC • NFPA • IEC)
+const DEFAULT_STANDARDS_DB = [
+  // ================= BNBC 2020 =================
+  {
+    id: 'bnbc_sub_area',
+    standard: 'BNBC',
+    topic: 'Substation',
+    title: 'Substation & Transformer Room Minimum Area',
+    clause: 'BNBC 2020 • Part VIII, Chapter 1, Table 8.1.23',
+    limits: '1×150 kVA: 45 m² | 1×250/400 kVA: 48 m² | 2×250/400 kVA: 100 m² | 3×400 kVA: 135 m²',
+    summary: 'ট্রান্সফরমার, HT প্যানেল এবং LT প্যানেলসহ সাবস্টেশন রুমের জন্য ক্যাপাসিটি অনুযায়ী ন্যূনতম ফ্লোর এরিয়া নির্ধারিত আছে (যেমন 1×400 kVA-এর জন্য ট্রান্সফরমার জোন 13 m² এবং মোট সাবস্টেশন 48 m²)।',
+    auditCheck: 'সাবস্টেশনের মাপ Table 8.1.23 অনুযায়ী আছে কি না এবং ডাবল-লিফ/সরাসরি গেট আছে কি না যাচাই করুন।',
+    keywords: 'substation transformer room area size space ht lt panel সাবস্টেশন ট্রান্সফরমার'
+  },
+  {
+    id: 'bnbc_gen_area',
+    standard: 'BNBC',
+    topic: 'Generator',
+    title: 'Standby Generator Room Minimum Area',
+    clause: 'BNBC 2020 • Part VIII, Chapter 1, Table 8.1.24',
+    limits: '25 kW: 20 m² | 48 kW: 24 m² | 100 kW: 30 m² | 150 kW: 36 m² | 300 kW: 48 m² | 500 kW: 56 m²',
+    summary: 'স্ট্যান্ডবাই ডিজেল বা গ্যাস জেনারেটর রুমের জন্য ক্যাপাসিটি অনুসারে পর্যাপ্ত বাতাস চলাচল, এক্সহস্ট এবং মেইনটেন্যান্স স্পেসসহ ন্যূনতম রুম এরিয়া নিশ্চিত করতে হবে।',
+    auditCheck: 'জেনারেটর রুমের ভেন্টিলেশন, অ্যাকোস্টিক ট্রিটমেন্ট এবং ডেইলি ফুয়েল ট্যাংকের নিরাপত্তা দেখুন।',
+    keywords: 'generator standby room area ventilation exhaust জেনারেটর'
+  },
+  {
+    id: 'bnbc_ecc_size',
+    standard: 'BNBC',
+    topic: 'Earthing',
+    title: 'Minimum Cross-Sectional Area of Copper ECC',
+    clause: 'BNBC 2020 • Part VIII, Chapter 1, Table 8.1.26',
+    limits: 'Phase ≤ 16 mm² → ECC = Phase | 16 < Phase ≤ 35 mm² → 16 mm² | Phase > 35 mm² → Phase / 2',
+    summary: 'সার্কিটের ফেজ কন্ডাক্টরের সাইজ অনুযায়ী কপার আর্থ কন্টিনিউটি কন্ডাক্টর (ECC)-এর ন্যূনতম সাইজ নির্ধারণ করতে হবে।',
+    auditCheck: 'প্রতিটি প্যানেল, মেশিন ও DB-তে ফেজ ক্যাবলের তুলনায় ECC সাইজ Table 8.1.26 অনুযায়ী সঠিক আছে কি না মাপুন।',
+    keywords: 'earthing ecc earth continuity conductor ground cable size আর্থিং'
+  },
+  {
+    id: 'bnbc_earth_electrode',
+    standard: 'BNBC',
+    topic: 'Earthing',
+    title: 'Earth Electrode Specifications & Pit Construction',
+    clause: 'BNBC 2020 • Part VIII, Chapter 1, Sec 1.3.15 & Sec 1.3.32',
+    limits: 'Cu Rod: ≥ 12.5 mm dia × 3.33 m | Cu Plate: ≥ 600×600×6 mm | GI Pipe: ≥ 38 mm dia × 6.5 m',
+    summary: 'আর্থিং সিস্টেমে আর্থ ইলেকট্রোড, আর্থ লিড, আর্থ বাসবার এবং ক্লাম্প থাকতে হবে। একাধিক ইলেকট্রোড থাকলে আর্থ লিড দিয়ে ইন্টারকানেক্ট করতে হবে।',
+    auditCheck: 'আর্থ পিট ইনস্পেকশন চেম্বার (600×600×600 mm), টেস্ট লিংক ও আর্থ রেজিস্ট্যান্স রেকর্ড দেখুন।',
+    keywords: 'earthing electrode copper rod plate gi pipe pit আর্থিং পিট'
+  },
+  {
+    id: 'bnbc_color_code',
+    standard: 'BNBC',
+    topic: 'Cable',
+    title: 'Standard Wiring & Cable Color Code',
+    clause: 'BNBC 2020 • Part VIII, Chapter 1 (Cable Color Identification)',
+    limits: '3-Phase: L1 Red, L2 Yellow, L3 Blue | Neutral: Black | ECC/Earth: Green + Yellow Bi-colour',
+    summary: 'সিঙ্গেল ফেজে লাল (Live), কালো (Neutral) এবং সবুজ-হলুদ (ECC); থ্রি-ফেজে লাল, হলুদ, নীল (L1, L2, L3), কালো (Neutral) ও সবুজ-হলুদ (ECC) ব্যবহার করতে হবে।',
+    auditCheck: 'DB ও মেইন প্যানেলের ভেতর ইনকামিং ও আউটগোয়িং ফেজ, নিউট্রাল ও ECC কালার কোড বা স্লিভিং ঠিক আছে কি না দেখুন।',
+    keywords: 'cable color code red yellow blue black green phase neutral panel ক্যাবল কালার'
+  },
+  {
+    id: 'bnbc_cable_segregation',
+    standard: 'BNBC',
+    topic: 'Cable',
+    title: 'Segregation of Power & Communication (ELV) Cables',
+    clause: 'BNBC 2020 • Part VIII, Chapter 1, Sec 1.3.14 (f)',
+    limits: 'Power & ELV/Communication cables must run in separate conduits/trays',
+    summary: 'পাওয়ার ক্যাবল এবং কমিউনিকেশন/ডেটা/ফায়ার অ্যালার্ম (ELV) ক্যাবল একসাথে একই কনডুইট বা ট্রেতে নেওয়া যাবে না—আলাদাভাবে রাউটিং করতে হবে।',
+    auditCheck: 'রাইজার, ট্রে বা ফলস সিলিংয়ে পাওয়ার ক্যাবলের সাথে ইন্টারনেট/সিসিটিভি/ফায়ার ক্যাবল মিশে আছে কি না দেখুন।',
+    keywords: 'cable segregation power communication elv tray conduit ক্যাবল'
+  },
+  {
+    id: 'bnbc_circuit_sep',
+    standard: 'BNBC',
+    topic: 'Panel',
+    title: 'Separation of Light/Fan & Power Socket Circuits',
+    clause: 'BNBC 2020 • Part VIII, Chapter 1, Sec 1.3.10 & 1.3.6',
+    limits: 'Light/Fan circuits must NOT be mixed with Socket circuits • Load Schedule mandatory',
+    summary: 'লাইট ও ফ্যানের ব্রাঞ্চ সার্কিট কখনোই পাওয়ার সকেট সার্কিটের সাথে মেশানো যাবে না। প্রতিটি প্যানেল/DB-তে লেআউট ও লোড শিডিউল থাকতে হবে।',
+    auditCheck: 'SDB/DB-এর ভেতর লাইট এবং সকেটের জন্য আলাদা MCB আছে কি না এবং ডোরের ভেতর আপডেটেড লোড শিডিউল আছে কি না দেখুন।',
+    keywords: 'panel db sdb mdb light fan socket circuit load schedule প্যানেল সার্কিট'
+  },
+  {
+    id: 'bnbc_al_ban_diversity',
+    standard: 'BNBC',
+    topic: 'Cable',
+    title: 'Aluminium Cable Restriction & Residential Diversity',
+    clause: 'BNBC 2020 • Part VIII, Sec 2.6.2 & Sec 2.7.1.1',
+    limits: 'Aluminium prohibited in internal branch wiring • Residential Max Demand Diversity: 75%',
+    summary: 'ভবনের অভ্যন্তরীণ ফাইনাল ব্রাঞ্চ সার্কিটে অ্যালুমিনিয়াম তার ব্যবহার সম্পূর্ণ নিষিদ্ধ (কপার বাধ্যতামূলক)। আবাসিক ম্যাক্সিমাম ডিমান্ডে 75% ডাইভার্সিটি ফ্যাক্টর প্রযোজ্য।',
+    auditCheck: 'অভ্যন্তরীণ সাব-সার্কিটে অ্যালুমিনিয়াম তার বা কপার-অ্যালুমিনিয়াম জয়েন্টে বাই-মেটালিক লাগ ছাড়া টার্মিনেশন আছে কি না দেখুন।',
+    keywords: 'aluminium copper branch wiring diversity demand load অ্যালুমিনিয়াম'
+  },
+
+  // ================= RSC GUIDELINES =================
+  {
+    id: 'rsc_sub_loc',
+    standard: 'RSC',
+    topic: 'Substation',
+    title: 'Substation Capacity (70% Load Factor) & Location',
+    clause: 'RSC Technical Guidelines • Part 10, Sec 10.5.1 & 10.5.2',
+    limits: 'Load Factor: 70% • Avoid Basement • Direct Street Access • Flood Protection',
+    summary: 'নতুন ও অন্তর্বর্তী ভবনে সাবস্টেশনের ক্যাপাসিটি নির্ধারণে ৭০% লোড ফ্যাক্টর প্রযোজ্য। সাবস্টেশন বেজমেন্টে না রেখে নিচতলায় (রাস্তা থেকে সরাসরি প্রবেশযোগ্য) রাখতে হবে এবং বৃষ্টির পানি ঢোকা রোধের ব্যবস্থা থাকতে হবে।',
+    auditCheck: 'সাবস্টেশন ফ্লোরের উচ্চতা (বন্যা লেভেলের উপরে), সরাসরি এক্সিট এবং অয়েল পিট/বাফেল ওয়াল পরীক্ষা করুন।',
+    keywords: 'substation transformer basement flood access load factor সাবস্টেশন'
+  },
+  {
+    id: 'rsc_sub_clearance',
+    standard: 'RSC',
+    topic: 'Substation',
+    title: 'Substation Working Clearance & No-Storage Rule',
+    clause: 'RSC Technical Guidelines • Part 10, Sec 10.5.3 & 10.5',
+    limits: 'Minimum Working Clearance: 1.07 m (3 ft 6 in) • Zero Storage Inside Substation',
+    summary: 'সাবস্টেশন ইকুইপমেন্টের চারপাশে নিরাপদ অপারেশন ও মেইনটেন্যান্সের জন্য কমপক্ষে 1.07 মিটার (3.5 ফিট) ফাঁকা জায়গা রাখতে হবে। সাবস্টেশন রুমে কোনো মালামাল বা ডাম্পিং রাখা যাবে না।',
+    auditCheck: 'HT/LT প্যানেল ও ট্রান্সফরমারের সামনে কোনো কার্টন, তেলের ড্রাম বা ময়লা রাখা আছে কি না এবং ৩.৫ ফিট ক্লিয়ারেন্স আছে কি না মাপুন।',
+    keywords: 'substation clearance storage working space lt ht panel সাবস্টেশন'
+  },
+  {
+    id: 'rsc_panel_earthing',
+    standard: 'RSC',
+    topic: 'Panel',
+    title: 'Panel Enclosure Earthing & Earth Bar Insulation',
+    clause: 'RSC Technical Guidelines • Part 10, Sec 10.10.3 & Audit Finding E-14',
+    limits: 'All metal panel bodies bonded to earth • Correct ECC per BNBC Table 8.1.26',
+    summary: 'সকল মেটাল প্যানেল বডি, ডোর ও ইকুইপমেন্ট সঠিকভাবে আর্থিং-এর সাথে যুক্ত থাকতে হবে। আর্থিং বাসবার বডির সাথে বন্ডেড থাকবে (ইন্সুলেটরের ওপর আর্থ বার বসিয়ে মেটাল বডিকে আর্থহীন রাখা যাবে না)।',
+    auditCheck: 'প্যানেলের ডোর আর্থিং স্ট্র্যাপ, বডি আর্থিং, এবং ইনকামিং/আউটগোয়িং ECC সাইজ চেক করুন।',
+    keywords: 'panel earthing body insulator busbar db mdb প্যানেল আর্থিং'
+  },
+  {
+    id: 'rsc_wiring_trench',
+    standard: 'RSC',
+    topic: 'Cable',
+    title: 'Horizontal/Vertical Wiring & 600mm Trench Depth',
+    clause: 'RSC Technical Guidelines • Part 10, Sec 10.3.2',
+    limits: 'No diagonal wiring • Underground Trench Depth: 600 mm (24 in) • GI/PVC encasing',
+    summary: 'সারফেস বা কনসিল্ড ওয়্যারিং কেবল অনুভূমিক বা উল্লম্বভাবে নিতে হবে—কোনাকুনি নয়। আন্ডারগ্রাউন্ড ক্যাবল GI বা PVC পাইপে 600 mm (24 ইঞ্চি) গভীর ট্রেঞ্চে বসাতে হবে।',
+    auditCheck: 'ফ্লোর/সিলিং ও মেশিন কানেকশনে তার খোলা ঝুলছে কি না (স্টিল পাইপ বা ট্রে ছাড়া) এবং ট্রেঞ্চ কভার ঠিক আছে কি না দেখুন।',
+    keywords: 'cable wiring trench depth 600mm conduit tray machine ক্যাবল ট্রেঞ্চ'
+  },
+  {
+    id: 'rsc_fire_sealing',
+    standard: 'RSC',
+    topic: 'Panel',
+    title: 'Fire Sealing of Electrical Shafts, Bus Ducts & Penetrations',
+    clause: 'RSC Technical Guidelines • Part 10, Sec 10.4.3',
+    limits: 'Non-combustible fire-rated sealing mandatory at all floor & wall penetrations',
+    summary: 'ক্যাবল, বাস-বার ট্রাংকিং বা কনডুইট এক ফ্লোর থেকে অন্য ফ্লোরে বা ফায়ার-রেটেড ওয়াল ভেদ করে গেলে ফাঁকা অংশ অদাহ্য ফায়ার-স্টপ ম্যাটেরিয়াল দিয়ে সিল করতে হবে, যাতে আগুন বা গলিত PVC নিচে না পড়ে।',
+    auditCheck: 'ইলেকট্রিক্যাল শ্যাফট/রাইজার ও বিবিটি (BBT) ফ্লোর ক্রসিংয়ে ফায়ার-স্টপ সিলিং আছে কি না দেখুন।',
+    keywords: 'fire stop sealing shaft bus duct bbt riser penetration প্যানেল ফায়ার'
+  },
+  {
+    id: 'rsc_circuit_50pct',
+    standard: 'RSC',
+    topic: 'Panel',
+    title: '50% Multi-Outlet Circuit Limit & No Common Neutral',
+    clause: 'RSC Technical Guidelines • Part 10, Sec 10.3.1',
+    limits: 'Max 50% capacity on multi-outlet circuits • Common neutral strictly prohibited',
+    summary: 'একাধিক আউটলেটযুক্ত সার্কিটকে তার ক্যাপাসিটির ৫০%-এর বেশি লোড দেওয়া যাবে না। একাধিক সার্কিটের জন্য কমন নিউট্রাল ব্যবহার সম্পূর্ণ নিষিদ্ধ।',
+    auditCheck: 'প্যানেলের নিউট্রাল লিংকে দুটি ভিন্ন ব্রেকারের সার্কিট একই নিউট্রাল শেয়ার করছে কি না চেক করুন।',
+    keywords: 'common neutral circuit load 50% outlet panel ব্রেকার নিউট্রাল'
+  },
+  {
+    id: 'rsc_lps_bonding',
+    standard: 'RSC',
+    topic: 'LPS',
+    title: 'Lightning Protection System (LPS) & Metalwork Bonding',
+    clause: 'RSC Technical Guidelines • Part 10, Sec 10.11',
+    limits: 'Per BNBC / NFPA 780 / IEC 62305 • Bond all rooftop/external metal • As-Built LPS Drawing',
+    summary: 'বিল্ডিংয়ের ছাদের চিলেকোঠা, চিমনি, সোলার/চিলার মেটাল স্ট্রাকচারকে LPS কন্ডাক্টরের সাথে সমান সাইজের বন্ডিং তার দিয়ে যুক্ত করতে হবে এবং অনুমোদিত As-Built LPS ড্রয়িং থাকতে হবে।',
+    auditCheck: 'ছাদের মেটাল ফ্রেম বন্ডিং, ডাউন কন্ডাক্টর টেস্ট জয়েন্ট এবং LPS রিস্ক অ্যাসেসমেন্ট রিপোর্ট দেখুন।',
+    keywords: 'lps lightning protection bonding rooftop drawing বজ্রপাত'
+  },
+  {
+    id: 'rsc_cpr_sld_doc',
+    standard: 'RSC',
+    topic: 'Panel',
+    title: 'CPR Instruction Chart, SLD & Panel Labeling',
+    clause: 'RSC Electrical Safety Audit Standard (Findings E-12 / Doc)',
+    limits: 'CPR Chart at all LT/MDB/FDB/DB • Updated As-Built SLD • Legible Breaker Ratings',
+    summary: 'সকল LT প্যানেল, MDB, FDB, DB ও SDB-এর পাশে দৃশ্যমান স্থানে CPR ও ইলেকট্রিক শক ট্রিটমেন্ট চার্ট টাঙানো থাকতে হবে। আপডেটেড SLD ও সার্কিট লেবেলিং বাধ্যতামূলক।',
+    auditCheck: 'প্যানেলের সামনে ইনসুলেটিং রাবার ম্যাট, ডেঞ্জার সাইন, CPR চার্ট এবং থার্মোগ্রাফি রিপোর্ট আছে কি না দেখুন।',
+    keywords: 'panel cpr sld rubber mat labeling thermography প্যানেল চার্ট'
+  },
+
+  // ================= NFPA =================
+  {
+    id: 'nfpa_110_26',
+    standard: 'NFPA',
+    topic: 'Panel',
+    title: 'Working Clearance & Dedicated Electrical Space Around Panels',
+    clause: 'NFPA 70 (NEC) • Article 110.26',
+    limits: 'Min Depth: 3 ft to 4 ft (by voltage) • Width: ≥ 30 in • Height: 6.5 ft • Dedicated Space: 6 ft above',
+    summary: 'প্যানেল বোর্ডের সামনে কমপক্ষে ৩–৪ ফিট ক্লিয়ার ওয়ার্কিং স্পেস রাখতে হবে (কোনো মালামাল রাখা যাবে না)। প্যানেলের ঠিক উপরে ৬ ফিট বা স্ট্রাকচারাল সিলিং পর্যন্ত পানির পাইপ বা এসি ডাক্ট নেওয়া নিষিদ্ধ। 1200 A+ রুমে ২টি এক্সিট বা ডাবল স্পেস লাগবে।',
+    auditCheck: 'প্যানেলের ঠিক ওপরে ফায়ার স্প্রিংকলার বা পানির পাইপ আছে কি না (থাকলে ড্রিপ শিল্ড আছে কি না) এবং সামনে ৩ ফিট ফাঁকা আছে কি না দেখুন।',
+    keywords: 'panel clearance working space dedicated 110.26 pipe exit প্যানেল ক্লিয়ারেন্স'
+  },
+  {
+    id: 'nfpa_125_rule',
+    standard: 'NFPA',
+    topic: 'Cable',
+    title: '125% Continuous Load & Motor Conductor Sizing Rule',
+    clause: 'NFPA 70 (NEC) • Article 210.20 & Article 430.22',
+    limits: 'Minimum Conductor & OCPD Rating ≥ 125% of Continuous Load / Motor FLC',
+    summary: 'টানা ৩ ঘণ্টা বা তার বেশি সময় চলা কন্টিনিউয়াস লোড এবং সিঙ্গেল মোটরের জন্য ক্যাবল ও প্রোটেকশন ডিভাইস লোডের ফুল-লোড কারেন্টের (FLC) কমপক্ষে ১২৫% ধরে সাইজ করতে হবে।',
+    auditCheck: 'মেশিন ও মোটর ফিডারের ক্যাবল কারেন্ট ক্যারিং ক্যাপাসিটি মোটরের 1.25×FLC-এর সমান বা বেশি কি না হিসাব করুন।',
+    keywords: 'motor 125% continuous load cable breaker nec মোটর ক্যাবল'
+  },
+  {
+    id: 'nfpa_70e_arcflash',
+    standard: 'NFPA',
+    topic: 'Substation',
+    title: 'Arc Flash Hazard Categories, Boundary & PPE Labeling',
+    clause: 'NFPA 70E • Electrical Safety in the Workplace',
+    limits: 'Arc Flash Boundary: 1.2 cal/cm² • PPE Cat 1: 4 | Cat 2: 8 | Cat 3: 25 | Cat 4: 40 cal/cm²',
+    summary: 'সাবস্টেশন, LT/HT প্যানেল ও MCC-তে আর্ক ফ্ল্যাশ অ্যানালাইসিস অনুযায়ী ইনসিডেন্ট এনার্জি, ওয়ার্কিং ডিস্ট্যান্স এবং প্রয়োজনীয় PPE ক্যাটাগরির লেবেল লাগাতে হবে।',
+    auditCheck: 'মেইন প্যানেলে আর্ক-ফ্ল্যাশ ওয়ার্নিং স্টিকার এবং অপারেটরের জন্য রেটেড গ্লাভস/স্যুট ও ইনসুলেটিং টুলস আছে কি না দেখুন।',
+    keywords: 'substation panel arc flash ppe boundary nfpa 70e সাবস্টেশন প্যানেল'
+  },
+  {
+    id: 'nfpa_780_lps',
+    standard: 'NFPA',
+    topic: 'LPS',
+    title: 'Lightning Down Conductors & Perimeter Spacing',
+    clause: 'NFPA 780 • Standard for Installation of Lightning Protection Systems',
+    limits: 'Minimum 2 Down Conductors • Average Perimeter Spacing ≤ 30 m (100 ft)',
+    summary: 'যেকোনো ভবনে কমপক্ষে ২টি ডাউন কন্ডাক্টর থাকতে হবে এবং ভবনের চারপাশের পেরিমিটার বরাবর ডাউন কন্ডাক্টরগুলোর গড় দূরত্ব ৩০ মিটারের বেশি হওয়া যাবে না।',
+    auditCheck: 'ডাউন কন্ডাক্টরের সংখ্যা, দূরত্ব এবং প্রতিটি ডাউন কন্ডাক্টরের নিচে ডেডিকেটেড আর্থ পিট আছে কি না দেখুন।',
+    keywords: 'lps lightning down conductor spacing nfpa 780 বজ্রপাত'
+  },
+
+  // ================= IEC =================
+  {
+    id: 'iec_62305_lps',
+    standard: 'IEC',
+    topic: 'LPS',
+    title: 'LPS Classes (I–IV), Rolling Sphere Radius & Mesh Size',
+    clause: 'IEC 62305-2 & IEC 62305-3',
+    limits: 'Rolling Sphere: I=20m, II=30m, III=45m, IV=60m | Mesh: I=5×5m, II=10×10m, III=15×15m, IV=20×20m',
+    summary: 'রিস্ক অ্যাসেসমেন্ট (IEC 62305-2) করে বিল্ডিংয়ের LPS ক্লাস নির্ধারণ করতে হয়। রোলিং স্ফিয়ার ও মেশ সাইজ ক্লাস অনুযায়ী নির্ধারিত হয় (ফ্যাক্টরিতে সাধারণত Class I বা II)।',
+    auditCheck: 'ছাদের এয়ার টার্মিনাল/মেশ গ্রিড নির্ধারিত রোলিং স্ফিয়ার ব্যাসার্ধ অনুযায়ী পুরো ভবন কভার করছে কি না দেখুন।',
+    keywords: 'lps lightning rolling sphere mesh class iec 62305 বজ্রপাত'
+  },
+  {
+    id: 'iec_rcd_30ma',
+    standard: 'IEC',
+    topic: 'Panel',
+    title: 'RCD / RCCB / RCBO Protection (30 mA Life Safety)',
+    clause: 'IEC 60364-4-41 & IEC 60755',
+    limits: 'Rated Residual Operating Current IΔn ≤ 30 mA for Sockets & Wet/Portable Loads',
+    summary: 'মানুষের প্রাণরক্ষার (Direct/Indirect Contact) জন্য সকেট আউটলেট, বাথরুম, পোর্টেবল মেশিন ও ভেজা পরিবেশের সার্কিটে সর্বোচ্চ ৩০ মিলি-অ্যাম্পিয়ার (30 mA) সংবেদনশীল RCD/RCCB/RCBO ব্যবহার বাধ্যতামূলক।',
+    auditCheck: 'সকেট, ড্রিঙ্কিং ওয়াটার কুলার এবং পোর্টেবল ইকুইপমেন্টের DB-তে 30 mA RCCB আছে কি না এবং টেস্ট বাটনে কাজ করে কি না দেখুন।',
+    keywords: 'rcd rccb rcbo elcb 30ma shock protection panel প্যানেল ব্রেকার'
+  },
+  {
+    id: 'iec_coordination',
+    standard: 'IEC',
+    topic: 'Cable',
+    title: 'Overcurrent & Cable Thermal Coordination Rule',
+    clause: 'IEC 60364-4-43',
+    limits: 'Coordination Formula: Ib ≤ In ≤ Iz (Load Current ≤ Breaker Rating ≤ Cable Ampacity)',
+    summary: 'সার্কিটের নিরাপত্তা নিশ্চিত করতে ব্রেকারের নমিনাল রেটিং (In) অবশ্যই ডিজাইন লোড কারেন্ট (Ib)-এর চেয়ে বেশি বা সমান এবং ডিরেটেড ক্যাবলের কারেন্ট ক্যারিং ক্যাপাসিটি (Iz)-এর চেয়ে কম বা সমান হতে হবে।',
+    auditCheck: 'প্যানেলের ভেতর বড় ব্রেকারের নিচে চিকন তার লাগানো আছে কি না (In > Iz ভায়োলেশন) তা পরীক্ষা করুন।',
+    keywords: 'breaker cable coordination ib in iz overcurrent প্যানেল ক্যাবল ব্রেকার'
+  },
+  {
+    id: 'iec_61439_panel',
+    standard: 'IEC',
+    topic: 'Panel',
+    title: 'Low-Voltage Switchgear & Controlgear Assembly',
+    clause: 'IEC 61439-1 & IEC 61439-2',
+    limits: 'IP Protection • Short-Circuit Withstand • Busbar Clearance & Creepage • Neutral/Earth Terminals',
+    summary: 'মেইন LT ও সাব-ডিস্ট্রিবিউশন প্যানেল টাইপ-টেস্টেড বা ডিজাইন ভেরিফায়েড হতে হবে। বাসবার ক্লিয়ারেন্স, IP রেটিং (ধুলো/পানি রোধ), শর্ট-সার্কিট ক্ষমতা (Icu) এবং অভ্যন্তরীণ কভারিং/শ্রাউডিং থাকতে হবে।',
+    auditCheck: 'লাইভ বাসবারের সামনে পলিকার্্বনেট (Acrylic/Perspex) প্রোটেক্টিভ শিল্ড আছে কি না এবং অব্যবহৃত হোলগুলো ব্লাঙ্কিং প্লেট দিয়ে বন্ধ কি না দেখুন।',
+    keywords: 'panel switchgear lt mdb busbar ip shroud iec 61439 প্যানেল সাবস্টেশন'
+  }
+];
+
+let ACTIVE_STANDARDS_DB = [];
+let currentStandardFilter = 'BNBC';
+let currentTopicFilter = 'ALL';
+
+function loadStandardsCache() {
+  try {
+    const cached = localStorage.getItem(STD_CACHE_KEY);
+    const localVer = Number(localStorage.getItem(STD_VERSION_KEY) || 0);
+    if (cached && localVer >= DEFAULT_STD_VERSION) {
+      const parsed = JSON.parse(cached);
+      if (Array.isArray(parsed) && parsed.length > 0) {
+        ACTIVE_STANDARDS_DB = parsed;
+        return;
+      }
+    }
+  } catch (e) {}
+  ACTIVE_STANDARDS_DB = DEFAULT_STANDARDS_DB.slice();
+}
+
+function updateStandardBoxCounts() {
+  const counts = { BNBC: 0, RSC: 0, NFPA: 0, IEC: 0 };
+  ACTIVE_STANDARDS_DB.forEach(item => {
+    if (counts[item.standard] !== undefined) counts[item.standard]++;
+  });
+
+  if (document.getElementById('countBNBC')) document.getElementById('countBNBC').textContent = `${counts.BNBC} Rules`;
+  if (document.getElementById('countRSC'))  document.getElementById('countRSC').textContent  = `${counts.RSC} Rules`;
+  if (document.getElementById('countNFPA')) document.getElementById('countNFPA').textContent = `${counts.NFPA} Rules`;
+  if (document.getElementById('countIEC'))  document.getElementById('countIEC').textContent  = `${counts.IEC} Rules`;
+}
+
+// Hybrid Versioned Firebase Sync
+async function syncStandardsFromFirebase(manual = false) {
+  const badge = document.getElementById('stdHubSyncBadge');
+  try {
+    if (!window.firebaseDB || !window.firebaseGet || !window.firebaseRef) {
+      if (manual) alert('Firebase এখনো সংযুক্ত হয়নি, অফলাইন ডেটাবেস চালু আছে।');
+      return;
+    }
+
+    const verSnap = await window.firebaseGet(window.firebaseRef(window.firebaseDB, 'standards_meta/version'));
+    const remoteVer = verSnap.exists() ? Number(verSnap.val()) : 0;
+    const localVer = Number(localStorage.getItem(STD_VERSION_KEY) || DEFAULT_STD_VERSION);
+
+    if (remoteVer > localVer) {
+      const dataSnap = await window.firebaseGet(window.firebaseRef(window.firebaseDB, 'standards_data'));
+      if (dataSnap.exists()) {
+        const val = dataSnap.val();
+        const arr = Array.isArray(val) ? val : Object.values(val || {});
+        if (arr.length > 0) {
+          ACTIVE_STANDARDS_DB = arr;
+          localStorage.setItem(STD_CACHE_KEY, JSON.stringify(arr));
+          localStorage.setItem(STD_VERSION_KEY, String(remoteVer));
+          updateStandardBoxCounts();
+          if (document.getElementById('standardViewPage').classList.contains('on')) {
+            renderStandardView();
+          }
+          if (badge) badge.textContent = `● Synced (v${remoteVer})`;
+          if (manual) alert(`নতুন আপডেট পাওয়া গেছে! ভার্সন v${remoteVer} (${arr.length}টি রুলস) সিঙ্ক হয়েছে।`);
+          return;
+        }
+      }
+    }
+
+    if (badge) badge.textContent = `● Up-to-date (v${Math.max(localVer, DEFAULT_STD_VERSION)})`;
+    if (manual) alert(`সব রুলস আপডেটেড আছে (v${Math.max(localVer, DEFAULT_STD_VERSION)})।`);
+  } catch (err) {
+    console.warn('Standards sync skipped (offline mode):', err);
+    if (manual) alert('অফলাইন মোডে চলছে — লোকাল ভেরিফাইড ডেটাবেস সক্রিয় আছে।');
+  }
+}
+
+function highlightMatch(text, query) {
+  const safe = escapeHTML(text);
+  if (!query) return safe;
+  const words = query.trim().split(/\s+/).filter(w => w.length >= 2);
+  if (words.length === 0) return safe;
+  const pattern = words.map(w => w.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|');
+  return safe.replace(new RegExp(`(${pattern})`, 'gi'), '<mark>$1</mark>');
+}
+
+function matchStandardRule(rule, query) {
+  if (!query) return true;
+  const hay = `${rule.standard} ${rule.topic} ${rule.title} ${rule.clause} ${rule.limits} ${rule.summary} ${rule.auditCheck} ${rule.keywords}`.toLowerCase();
+  const terms = query.toLowerCase().trim().split(/\s+/);
+  return terms.every(t => hay.includes(t));
+}
+
+function buildRuleCardHTML(rule, query) {
+  const stdClass = rule.standard.toLowerCase();
+  return `
+    <div class="std-rule-card">
+      <div class="std-card-top">
+        <div class="std-badges">
+          <span class="std-badge ${stdClass}">${escapeHTML(rule.standard)}</span>
+          <span class="std-badge topic">${escapeHTML(rule.topic)}</span>
+        </div>
+        <button type="button" class="std-copy-btn" onclick="copyStandardRule('${rule.id}', this)">📋 Copy</button>
+      </div>
+      <h3 class="std-rule-title">${highlightMatch(rule.title, query)}</h3>
+      <div class="std-clause">📖 Ref: ${highlightMatch(rule.clause, query)}</div>
+      <div class="std-limits">⚡ Limit / Spec: ${highlightMatch(rule.limits, query)}</div>
+      <div class="std-summary">${highlightMatch(rule.summary, query)}</div>
+      <div class="std-audit-tip"><strong>🔎 Auditor Check:</strong> ${highlightMatch(rule.auditCheck, query)}</div>
+    </div>
+  `;
+}
+
+function copyStandardRule(id, btn) {
+  const rule = ACTIVE_STANDARDS_DB.find(r => r.id === id);
+  if (!rule) return;
+  const text = `[${rule.standard}] ${rule.title}\nRef: ${rule.clause}\nLimit: ${rule.limits}\nRule: ${rule.summary}\nAudit Check: ${rule.auditCheck}`;
+  navigator.clipboard.writeText(text).then(() => {
+    const old = btn.textContent;
+    btn.textContent = '✓ Copied';
+    setTimeout(() => { btn.textContent = old; }, 1400);
+  }).catch(() => alert(text));
+}
+
+// 1. GLOBAL SEARCH ON #auditPage (UPDATES THE 4 BOXES LIVE)
+function runGlobalStandardSearch() {
+  const input = document.getElementById('auditGlobalSearchInput');
+  const clearBtn = document.getElementById('auditGlobalClearBtn');
+  const resultsWrap = document.getElementById('auditGlobalResultsWrap');
+  const browseWrap = document.getElementById('auditBrowseSection');
+  const listEl = document.getElementById('auditGlobalResultsList');
+  const countEl = document.getElementById('auditGlobalResultsCount');
+
+  const query = input ? input.value.trim() : '';
+
+  if (browseWrap) browseWrap.style.display = 'block';
+  if (listEl) listEl.innerHTML = '';
+
+  const stds = ['BNBC', 'RSC', 'NFPA', 'IEC'];
+  const counts = { BNBC: 0, RSC: 0, NFPA: 0, IEC: 0 };
+
+  ACTIVE_STANDARDS_DB.forEach(r => {
+    if (counts[r.standard] !== undefined && (!query || matchStandardRule(r, query))) {
+      counts[r.standard]++;
+    }
+  });
+
+  const totalMatches = counts.BNBC + counts.RSC + counts.NFPA + counts.IEC;
+
+  stds.forEach(std => {
+    const countBadge = document.getElementById('count' + std);
+    const boxBtn = countBadge ? countBadge.closest('.std-box') : null;
+    const c = counts[std];
+
+    if (countBadge) {
+      countBadge.textContent = query
+        ? `${c} Match${c === 1 ? '' : 'es'}`
+        : `${c} Rules`;
+    }
+
+    if (boxBtn) {
+      boxBtn.classList.toggle('has-match', Boolean(query && c > 0));
+      boxBtn.classList.toggle('no-match', Boolean(query && c === 0));
+    }
+  });
+
+  if (!query) {
+    if (clearBtn) clearBtn.style.display = 'none';
+    if (resultsWrap) resultsWrap.style.display = 'none';
+    return;
+  }
+
+  if (clearBtn) clearBtn.style.display = 'flex';
+  if (resultsWrap) resultsWrap.style.display = 'block';
+  if (countEl) {
+    countEl.innerHTML = `<strong>${totalMatches}</strong> match${totalMatches === 1 ? '' : 'es'} found — নিচের যেকোনো বক্সে ট্যাপ করে কোড দেখুন`;
+  }
+}
+
+function clearGlobalStandardSearch() {
+  const input = document.getElementById('auditGlobalSearchInput');
+  if (input) input.value = '';
+  runGlobalStandardSearch();
+}
+
+// 2. INDIVIDUAL STANDARD BOX EXPLORER (#standardViewPage)
+function openStandardBox(stdName) {
+  currentStandardFilter = stdName;
+  currentTopicFilter = 'ALL';
+
+  const meta = {
+    BNBC: { title: 'BNBC 2020 Codes & Rules', sub: 'Bangladesh National Building Code (Part VIII)' },
+    RSC:  { title: 'RSC Technical Guidelines', sub: 'RMG Sustainability Council Electrical Safety' },
+    NFPA: { title: 'NFPA Electrical & Fire Codes', sub: 'NFPA 70 (NEC) • NFPA 70E • NFPA 780' },
+    IEC:  { title: 'IEC International Standards', sub: 'IEC 60364 • IEC 62305 • IEC 61439' }
+  }[stdName] || { title: stdName, sub: 'All Codes & Rules' };
+
+  document.getElementById('stdViewTitle').textContent = meta.title;
+  document.getElementById('stdViewSub').textContent = meta.sub;
+
+  // সার্চ বারে লেখা শব্দটি অটোমেটিক বক্সের ভেতরে নিয়ে যাবে
+  const globalInput = document.getElementById('auditGlobalSearchInput');
+  const activeQuery = globalInput ? globalInput.value.trim() : '';
+
+  const viewInput = document.getElementById('stdViewSearchInput');
+  if (viewInput) viewInput.value = activeQuery;
+
+  const viewClear = document.getElementById('stdViewClearBtn');
+  if (viewClear) viewClear.style.display = activeQuery ? 'flex' : 'none';
+
+  hideAllPages();
+  document.getElementById('standardViewPage').classList.add('on');
+
+  buildTopicChipsForStandard(stdName);
+  renderStandardView();
+
+  history.pushState({ page: 'standardView', std: stdName }, '', `#standard-${stdName.toLowerCase()}`);
+}
+
+function backFromStandardView() {
+  hideAllPages();
+  document.getElementById('auditPage').classList.add('on');
+  history.pushState({ page: 'audit' }, '', '#audit');
+}
+
+function buildTopicChipsForStandard(stdName) {
+  const container = document.getElementById('stdTopicChips');
+  if (!container) return;
+
+  const stdRules = ACTIVE_STANDARDS_DB.filter(r => r.standard === stdName);
+  const topics = ['ALL', ...new Set(stdRules.map(r => r.topic))];
+
+  container.innerHTML = topics.map(tp => `
+    <button type="button" class="std-chip ${tp === currentTopicFilter ? 'active' : ''}" onclick="setStandardTopic('${tp}')">
+      ${tp === 'ALL' ? 'All Topics' : escapeHTML(tp)}
+    </button>
+  `).join('');
+}
+
+function setStandardTopic(tp) {
+  currentTopicFilter = tp;
+  buildTopicChipsForStandard(currentStandardFilter);
+  renderStandardView();
+}
+
+function clearStandardViewSearch() {
+  document.getElementById('stdViewSearchInput').value = '';
+  renderStandardView();
+}
+
+function renderStandardView() {
+  const input = document.getElementById('stdViewSearchInput');
+  const clearBtn = document.getElementById('stdViewClearBtn');
+  const listEl = document.getElementById('stdViewList');
+  const countEl = document.getElementById('stdViewCount');
+
+  const query = input ? input.value.trim() : '';
+  if (clearBtn) clearBtn.style.display = query ? 'flex' : 'none';
+
+  const matches = ACTIVE_STANDARDS_DB.filter(r => {
+    if (r.standard !== currentStandardFilter) return false;
+    if (currentTopicFilter !== 'ALL' && r.topic !== currentTopicFilter) return false;
+    return matchStandardRule(r, query);
+  });
+
+  if (countEl) {
+    countEl.textContent = `${matches.length} rule${matches.length === 1 ? '' : 's'} shown`;
+  }
+
+  if (matches.length === 0) {
+    listEl.innerHTML = `<div class="card" style="text-align:center; color:var(--m); padding:24px;">No rules matched in ${escapeHTML(currentStandardFilter)}.</div>`;
+    return;
+  }
+
+  listEl.innerHTML = matches.map(r => buildRuleCardHTML(r, query)).join('');
+}
+
+// Initialize on App Load
+loadStandardsCache();
+updateStandardBoxCounts();
+window.addEventListener('load', () => {
+  setTimeout(() => syncStandardsFromFirebase(false), 1800);
+});
+
 
 function showElectronics(){
 
@@ -7563,6 +8419,11 @@ if (
 
     }
 
+    if (state && state.page === 'standardView') {
+  document.getElementById('standardViewPage').classList.add('on');
+  renderStandardView();
+  return;
+}
 
   if(
       state &&
