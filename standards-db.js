@@ -272,6 +272,6 @@ const DEFAULT_STANDARDS_DB = [
     limits: 'IP Protection • Short-Circuit Withstand • Busbar Clearance & Creepage • Neutral/Earth Terminals',
     summary: 'মেইন LT ও সাব-ডিস্ট্রিবিউশন প্যানেল টাইপ-টেস্টেড বা ডিজাইন ভেরিফায়েড হতে হবে। বাসবার ক্লিয়ারেন্স, IP রেটিং (ধুলো/পানি রোধ), শর্ট-সার্কিট ক্ষমতা (Icu) এবং অভ্যন্তরীণ কভারিং/শ্রাউডিং থাকতে হবে।',
     auditCheck: 'লাইভ বাসবারের সামনে পলিকার্্বনেট (Acrylic/Perspex) প্রোটেক্টিভ শিল্ড আছে কি না এবং অব্যবহৃত হোলগুলো ব্লাঙ্কিং প্লেট দিয়ে বন্ধ কি না দেখুন।',
-    keywords: 'panel switchgear lt mdb busbar ip shroud iec 61439 প্যানেল সাবস্টেশন'
+   keywords: 'panel switchgear lt mdb busbar ip shroud iec 61439 substation প্যানেল সাবস্টেশন'
   }
 ];
