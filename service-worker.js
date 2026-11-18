@@ -1,8 +1,11 @@
-const CACHE_NAME = 'EEEGPT-cache-v7';
+const CACHE_NAME = 'EEEGPT-cache-v8';
 
 const FILES_TO_CACHE = [
   './',
   './index.html',
+  './style.css',
+  './standards-db.js',
+  './app.js',
   './manifest.json',
   './assets/eeegptcover.webp',
   './assets/profile.webp',
