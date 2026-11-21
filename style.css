@@ -2786,3 +2786,414 @@ select.unit option {
 .bnav-btn.installed {
   color: #059669;
 }
+/* =========================================================
+   SIMULATION LAB (SIMURELAY CAD STYLES)
+========================================================= */
+.app:has(#simulationLabPage.on) {
+  max-width: 100% !important;
+  width: 100% !important;
+  height: 100dvh !important;
+  min-height: 100dvh !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  overflow: hidden;
+}
+
+#simulationLabPage.on {
+  display: flex !important;
+  flex-direction: column;
+  width: 100%;
+  height: 100dvh;
+  padding-top: env(safe-area-inset-top);
+  padding-bottom: env(safe-area-inset-bottom);
+  background: #1e1f22;
+  overflow: hidden;
+}
+
+.sim-cad-topbar {
+  background: #202124;
+  color: #f8fafc;
+  border-radius: 0;
+  padding: 6px 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  border-bottom: 1px solid #334155;
+  flex-shrink: 0;
+}
+
+.sim-cad-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.sim-back-pill {
+  background: #334155;
+  color: #ffffff;
+  border: none;
+  border-radius: 7px;
+  padding: 6px 10px;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.sim-proj-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: #e2e8f0;
+}
+
+.sim-cad-actions {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.sim-cad-actions::-webkit-scrollbar { display: none; }
+
+.sim-tb-btn {
+  background: transparent;
+  color: #cbd5e1;
+  border: none;
+  border-radius: 6px;
+  padding: 5px 8px;
+  min-width: 48px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  font-size: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.sim-tb-btn:hover {
+  background: #2d2f34;
+  color: #ffffff;
+}
+
+.sim-tb-btn.lib.active {
+  background: #198754;
+  color: #ffffff;
+}
+
+.sim-tb-btn.playing {
+  background: #059669;
+  color: #ffffff;
+}
+
+.sim-tb-ico {
+  font-size: 15px;
+  line-height: 1.1;
+}
+
+.sim-overflow-menu {
+  position: fixed;
+  right: 16px;
+  top: 76px;
+  z-index: 99;
+  background: #202124;
+  border: 1px solid #3c4043;
+  border-radius: 10px;
+  min-width: 175px;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.45);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.sim-overflow-menu button {
+  background: transparent;
+  color: #f1f5f9;
+  border: none;
+  border-bottom: 1px solid #2d3035;
+  padding: 10px 14px;
+  text-align: left;
+  font-size: 12.5px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.sim-overflow-menu button:hover {
+  background: #2d3035;
+}
+
+.sim-workspace {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  position: relative;
+  background: #1e1f22;
+  border: none;
+  border-radius: 0;
+  overflow: hidden;
+}
+
+.sim-workspace.light-canvas {
+  background: #ffffff;
+}
+
+.sim-lib-panel {
+  width: 215px;
+  flex-shrink: 0;
+  background: #18191c;
+  border-right: 1px solid #334155;
+  padding: 6px;
+  height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-width: thin;
+  transition: width 0.2s ease, padding 0.2s ease;
+}
+
+.sim-lib-panel.collapsed {
+  width: 0;
+  padding: 0;
+  border-right: none;
+  overflow: hidden;
+}
+
+.sim-lib-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(50px, 1fr));
+  gap: 5px;
+  width: 100%;
+}
+
+.sim-lib-tile {
+  width: 100%;
+  min-width: 0;
+  overflow: hidden;
+  background: #232529;
+  border: 1px solid #383b42;
+  border-radius: 6px;
+  padding: 5px 3px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #cbd5e1;
+}
+
+.sim-lib-tile:hover {
+  border-color: #22c55e;
+  background: #193225;
+}
+
+.sim-lib-tile svg {
+  width: 100%;
+  max-width: 38px;
+  height: 32px;
+  display: block;
+  flex-shrink: 0;
+}
+
+.sim-lib-tile span {
+  display: block;
+  width: 100%;
+  font-size: 8.5px;
+  line-height: 1.15;
+  text-align: center;
+  margin-top: 3px;
+  color: #94a3b8;
+  overflow: hidden;
+  white-space: normal;
+  word-break: break-word;
+  max-height: 2.3em;
+}
+
+.sim-cad-canvas-wrap {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+  min-height: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  display: block;
+}
+
+.sim-zoom-controls {
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+  z-index: 15;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  background: rgba(24, 25, 28, 0.88);
+  border: 1px solid #3c4043;
+  border-radius: 10px;
+  padding: 3px;
+  backdrop-filter: blur(6px);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
+}
+
+.sim-zoom-controls button {
+  width: 30px;
+  height: 28px;
+  border: none;
+  border-radius: 7px;
+  background: transparent;
+  color: #f1f5f9;
+  font-size: 14px;
+  font-weight: 800;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sim-zoom-controls button:hover {
+  background: #334155;
+}
+
+.sim-zoom-controls span {
+  font-size: 10.5px;
+  font-weight: 700;
+  color: #34d399;
+  padding: 0 5px;
+  min-width: 38px;
+  text-align: center;
+  user-select: none;
+}
+
+#simCanvasSvg {
+  width: 100%;
+  height: 100%;
+  display: block;
+  touch-action: none;
+  user-select: none;
+}
+
+@media (max-width: 650px) {
+  .sim-lib-panel {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    z-index: 20;
+    width: 180px;
+    box-shadow: 6px 0 20px rgba(0, 0, 0, 0.45);
+  
+  }
+}
+
+@keyframes simSpinAnim {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes simSpinRevAnim {
+  from { transform: rotate(360deg); }
+  to { transform: rotate(0deg); }
+}
+
+.sim-motor-spin {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: simSpinAnim 0.45s linear infinite;
+}
+
+.sim-motor-spin-rev {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: simSpinRevAnim 0.45s linear infinite;
+}
+.sim-lib-filter {
+  display: grid;
+  gap: 4px;
+  margin-bottom: 6px;
+}
+
+.sim-lib-filter input,
+.sim-lib-filter select {
+  width: 100%;
+  height: 28px !important;
+  padding: 0 7px !important;
+  font-size: 11px !important;
+  border-radius: 6px !important;
+  background: #232529 !important;
+  color: #f1f5f9 !important;
+  border: 1px solid #3c4043 !important;
+}
+/* =========================================================
+   SIMULATION LAB: AUTO PORTRAIT / LANDSCAPE PDF PRINT
+========================================================= */
+.sim-print-titleblock {
+  display: none;
+}
+
+@media print {
+  #simulationLabPage.on {
+    display: block !important;
+    position: static !important;
+    inset: auto !important;
+    width: 100% !important;
+    height: auto !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    background: #ffffff !important;
+  }
+
+  #simulationLabPage.on .sim-cad-topbar,
+  #simulationLabPage.on .sim-cad-sidebar,
+  #simulationLabPage.on .sim-cad-status,
+  #simulationLabPage.on .sim-zoom-controls,
+  #simulationLabPage.on #simOverflowMenu {
+    display: none !important;
+  }
+
+  #simulationLabPage.on .sim-cad-workspace {
+    display: block !important;
+    width: 100% !important;
+    height: auto !important;
+    background: #ffffff !important;
+  }
+
+  #simulationLabPage.on .sim-cad-canvas-wrap {
+    display: block !important;
+    width: 100% !important;
+    height: auto !important;
+    overflow: visible !important;
+    background: #ffffff !important;
+  }
+
+  #simulationLabPage.on #simCanvasSvg {
+    width: 100% !important;
+    height: auto !important;
+    max-height: 85vh !important;
+    display: block !important;
+    border: 1.5px solid #0f172a !important;
+    background: #ffffff !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  #simulationLabPage.on .sim-print-titleblock {
+    display: flex !important;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 8px;
+    padding: 7px 10px;
+    border: 1.5px solid #0f172a;
+    background: #f8fafc !important;
+    color: #0f172a !important;
+    font-size: 11px;
+    line-height: 1.35;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  #simulationLabPage.on .sim-print-titleblock strong,
+  #simulationLabPage.on .sim-print-titleblock span {
+    display: block;
+  }
+}

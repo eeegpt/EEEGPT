@@ -8,7 +8,7 @@
   "display_override": ["fullscreen", "standalone"],
   "background_color": "#f2f7fe",
   "theme_color": "#06449e",
-  "orientation": "portrait",
+  "orientation": "any",
   "icons": [
     {
       "src": "/assets/icon.webp",

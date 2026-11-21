@@ -304,7 +304,7 @@ window.firebaseSet = set;
       </span>
     </button>
 
-  <button class="tool" onclick="showBreakerSelection()">
+<button class="tool" onclick="showBreakerSelection()">
       <span class="tool-icon">🛡️</span>
       <span>
         <b>MCB / MCCB / ACB Selection</b>
@@ -1888,7 +1888,7 @@ window.firebaseSet = set;
 </section>
 
 <!-- =========================================================
-     HTML: AUTOMATION PAGE (PLC • VFD • STARTER)
+     HTML: AUTOMATION HUB PAGE
 ========================================================= -->
 <section class="page" id="automationPage">
 
@@ -1896,7 +1896,42 @@ window.firebaseSet = set;
     <img class="mini" src="assets/icon.webp" alt="EEEGPT">
     <div>
       <div class="title">Automation</div>
-      <div class="sub">PLC Analog Scaling • VFD RPM • Star-Delta Starter</div>
+      <div class="sub">PLC • Servo • HMI • Control Simulation</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="label">AUTOMATION TOOLS</div>
+
+    <button type="button" class="tool" onclick="showSimulationLab()">
+      <span class="tool-icon">🎛️</span>
+      <span>
+        <b>Simulation Lab (Simurelay Style)</b>
+        <small>Draw &amp; Test DOL • Forward/Reverse • Star-Delta Relay Logic</small>
+      </span>
+    </button>
+
+    <button type="button" class="tool" onclick="showAutomationTools()">
+      <span class="tool-icon">⚙️</span>
+      <span>
+        <b>Automation Calculators</b>
+        <small>PLC Analog Scaling • VFD Speed • Star-Delta Starter</small>
+      </span>
+    </button>
+  </div>
+
+</section>
+
+<!-- =========================================================
+     HTML: AUTOMATION CALCULATORS PAGE (PLC • VFD • STARTER)
+========================================================= -->
+<section class="page" id="automationToolsPage">
+
+  <div class="top" onclick="backFromAutomationTools()">
+    <img class="mini" src="assets/icon.webp" alt="EEEGPT">
+    <div>
+      <div class="title">Automation Calculators</div>
+      <div class="sub">PLC Scaling • VFD RPM • Star-Delta Starter</div>
     </div>
   </div>
 
@@ -2143,12 +2178,102 @@ window.firebaseSet = set;
   <div id="chkItemsList"></div>
 </section>
 
+<!-- =========================================================
+     HTML: SIMULATION LAB PAGE (SIMURELAY CAD UI)
+========================================================= -->
+<section class="page" id="simulationLabPage">
+
+  <div class="sim-cad-topbar">
+    <div class="sim-cad-left">
+      <button type="button" class="sim-back-pill" onclick="backFromSimLab()">‹ Back</button>
+      <span id="simProjectTitle" class="sim-proj-title">3-Phase DOL Starter</span>
+    </div>
+
+    <div class="sim-cad-actions">
+      <button type="button" class="sim-tb-btn lib active" id="simLibBtn" onclick="toggleSimLibrary()">
+        <span class="sim-tb-ico">📚</span><span>Library</span>
+      </button>
+     <button type="button" class="sim-tb-btn" id="simPlayBtn" onclick="toggleSimPlay()">
+        <span class="sim-tb-ico">▶️</span><span>Play</span>
+      </button>
+      <button type="button" class="sim-tb-btn" onclick="undoSim()">
+        <span class="sim-tb-ico">↶</span><span>Undo</span>
+      </button>
+      <button type="button" class="sim-tb-btn" onclick="redoSim()">
+        <span class="sim-tb-ico">↷</span><span>Redo</span>
+      </button>
+      <button type="button" class="sim-tb-btn" onclick="duplicateSelectedSimComp()">
+        <span class="sim-tb-ico">📋</span><span>Copy</span>
+      </button>
+      <button type="button" class="sim-tb-btn" onclick="openSimValuesModal()">
+        <span class="sim-tb-ico">🔧</span><span>Values</span>
+      </button>
+      <button type="button" class="sim-tb-btn" onclick="deleteSelectedSimItem()">
+        <span class="sim-tb-ico">🗑️</span><span>Remove</span>
+      </button>
+      <button type="button" class="sim-tb-btn" onclick="rotateSelectedSimComp()">
+        <span class="sim-tb-ico">↻</span><span>Rotate</span>
+      </button>
+      <button type="button" class="sim-tb-btn" id="simThemeBtn" onclick="toggleSimCanvasTheme()">
+        <span class="sim-tb-ico">☀️</span><span>Light</span>
+      </button>
+      <div style="position:relative;">
+        <button type="button" class="sim-tb-btn" onclick="toggleSimMenu()">
+          <span class="sim-tb-ico">⋮</span><span>Menu</span>
+        </button>
+        <div id="simOverflowMenu" class="sim-overflow-menu hidden">
+          <button type="button" onclick="loadSimPreset('blank')">📄 New (Blank)</button>
+          <button type="button" onclick="loadSimPreset('dol')">⚡ DOL 3-Ph Starter</button>
+          <button type="button" onclick="loadSimPreset('rev')">🔄 Forward / Reverse</button>
+          <button type="button" onclick="loadSimPreset('stardelta')">⏱️ Star-Delta (5s)</button>
+         <button type="button" onclick="saveSimToLocal()">💾 Save Project</button>
+          <button type="button" onclick="loadSimFromLocal()">📂 Open Saved</button>
+         <button type="button" onclick="exportSimPNG()">🖼️ Export PNG</button>
+          <button type="button" onclick="printSimPDF()">🖨️ Auto PDF / Print</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="simStatusBar" class="sim-cad-status">Tap Library item to add • Drag on grid • Tap pin→pin to wire • Press Play to run.</div>
+
+  <div id="simWorkspace" class="sim-workspace">
+   <aside id="simLibraryPanel" class="sim-lib-panel">
+      <div class="sim-lib-filter">
+        <input id="simLibSearchInput" type="text" placeholder="Search 115 parts..." oninput="filterSimLibrary()">
+        <select id="simLibCatFilter" onchange="filterSimLibrary()">
+          <option value="ALL">All (115)</option>
+          <option value="power">Power (8)</option>
+          <option value="breaker">Breakers (18)</option>
+          <option value="switch">Switches (20)</option>
+          <option value="sensor">Sensors (18)</option>
+          <option value="contact">Contacts (21)</option>
+          <option value="coil">Coils/Timers (10)</option>
+          <option value="load">Motors/Loads (20)</option>
+        </select>
+      </div>
+      <div id="simLibraryGrid" class="sim-lib-grid"></div>
+    </aside>
+   <div class="sim-cad-canvas-wrap">
+      <svg id="simCanvasSvg" viewBox="0 0 760 560" preserveAspectRatio="xMidYMid meet"></svg>
+      <div class="sim-zoom-controls">
+        <button type="button" onclick="zoomSimAt(1.2)" title="Zoom In">＋</button>
+        <span id="simZoomBadge">100%</span>
+        <button type="button" onclick="zoomSimAt(0.83)" title="Zoom Out">－</button>
+        <button type="button" onclick="resetSimCamera()" title="Fit to Screen">⌖</button>
+      </div>
+    </div>
+  </div>
+
+</section>
+
 </div><!-- /.app -->
 
 <!-- =========================================================
      EXTERNAL SCRIPTS
 ========================================================= -->
 <script src="./standards-db.js"></script>
+<script src="./sim-lab.js"></script>
 <script src="./app.js"></script>
 
 <!-- Vercel Analytics -->

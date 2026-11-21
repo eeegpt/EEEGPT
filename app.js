@@ -1476,6 +1476,7 @@ function calculateExistingCable() {
 function hideAllPages() {
   const homeEl = document.getElementById('home');
   if (homeEl) homeEl.style.display = 'none';
+  document.querySelectorAll('.page').forEach(el => el.classList.remove('on'));
 
   [
     'electricalPage',
@@ -1491,7 +1492,9 @@ function hideAllPages() {
     'upsPage',
    'electronicsPage',
     'automationPage',
-    'auditChecklistPage'
+   'auditChecklistPage',
+    'simulationLabPage',
+    'automationToolsPage'
   ].forEach(id => {
     const el = document.getElementById(id);
     if (el) el.classList.remove('on');
@@ -1510,6 +1513,161 @@ function backFromBreaker() {
   hideAllPages();
   document.getElementById('electricalPage').classList.add('on');
   history.pushState({ page: 'electrical' }, '', '#electrical');
+}
+
+function showPfiCalculator() {
+  hideAllPages();
+  const page = document.getElementById('pfiPage');
+  if (page) page.classList.add('on');
+  calculatePfi();
+  history.pushState({ page: 'pfi' }, '', '#pfi');
+}
+
+function backFromPfi() {
+  hideAllPages();
+  document.getElementById('electricalPage').classList.add('on');
+  history.pushState({ page: 'electrical' }, '', '#electrical');
+}
+
+function pfiPhaseChange() {
+  const ph = document.getElementById('pfiPhase').value;
+  document.getElementById('pfiVoltage').value = ph === '3' ? '415' : '230';
+  calculatePfi();
+}
+
+function generatePfiSteps(kvar) {
+  const preset = {
+    5: '1 × 5 kVAR (Fixed)',
+    10: '5 + 5 kVAR (2 Steps)',
+    15: '5 + 10 kVAR (2 Steps)',
+    20: '5 + 5 + 10 kVAR (3 Steps)',
+    25: '5 + 10 + 10 kVAR (3 Steps)',
+    30: '5 + 10 + 15 kVAR (3 Steps)',
+    40: '5 + 10 + 10 + 15 kVAR (4 Steps)',
+    50: '5 + 10 + 10 + 25 kVAR (4 Steps)',
+    60: '5 + 10 + 20 + 25 kVAR (4 Steps)',
+    75: '5 + 10 + 10 + 25 + 25 kVAR (5 Steps)',
+    100: '5 + 10 + 15 + 20 + 25 + 25 kVAR (6 Steps)',
+    125: '5 + 10 + 10 + 25 + 25 + 50 kVAR (6 Steps)',
+    150: '5 + 10 + 10 + 25 + 50 + 50 kVAR (6 Steps)',
+    175: '5 + 10 + 10 + 25 + 25 + 50 + 50 kVAR (7 Steps)',
+    200: '10 + 15 + 25 + 50 + 50 + 50 kVAR (6 Steps)',
+    250: '10 + 15 + 25 + 50 + 50 + 50 + 50 kVAR (7 Steps)',
+    300: '10 + 15 + 25 + 50×5 kVAR (8 Steps)'
+  };
+  if (preset[kvar]) return preset[kvar];
+  const rem = kvar - 50;
+  const fiftyCount = Math.floor(rem / 50);
+  return `10 + 15 + 25 + ${fiftyCount}×50 kVAR (${fiftyCount + 3} Steps)`;
+}
+
+function calculatePfi() {
+  const val = Number(document.getElementById('pfiLoadVal').value);
+  const unit = document.getElementById('pfiLoadUnit').value;
+  const ph = document.getElementById('pfiPhase').value;
+  const volt = Number(document.getElementById('pfiVoltage').value);
+  const pf1 = Number(document.getElementById('pfiCurrentPf').value);
+  const pf2 = Number(document.getElementById('pfiTargetPf').value);
+
+  const valid = Number.isFinite(val) && val > 0 &&
+    Number.isFinite(volt) && volt > 0 &&
+    Number.isFinite(pf1) && pf1 > 0 && pf1 < 1 &&
+    Number.isFinite(pf2) && pf2 > 0 && pf2 <= 1;
+
+  if (!valid) {
+    document.getElementById('pfiMainResult').textContent = '—';
+    document.getElementById('pfiPanelSub').textContent = 'Enter valid Load, Voltage, and PF (0.1–1.0)';
+    return;
+  }
+
+  const phFactor = ph === '3' ? Math.sqrt(3) : 1;
+  let kw = val;
+  if (unit === 'kva') kw = val * pf1;
+  else if (unit === 'amp') kw = (phFactor * volt * val * pf1) / 1000;
+
+  const iBefore = (kw * 1000) / (phFactor * volt * pf1);
+  const iAfter = (kw * 1000) / (phFactor * volt * pf2);
+  const kvaBefore = kw / pf1;
+  const kvaAfter = kw / pf2;
+
+  if (pf1 >= pf2) {
+    document.getElementById('pfiMainResult').textContent = '0 kVAR (Not Needed)';
+    document.getElementById('pfiPanelSub').textContent = `Current PF (${pf1}) is already ≥ Target PF (${pf2})`;
+    document.getElementById('pfiStepsResult').textContent = 'None';
+    document.getElementById('pfiCurrentSave').textContent = `${iBefore.toFixed(1)} A (Unchanged)`;
+    document.getElementById('pfiKvaFree').textContent = '0 kVA freed';
+    document.getElementById('pfiBreaker').textContent = '—';
+    document.getElementById('pfiCable').textContent = '—';
+    return;
+  }
+
+  const phi1 = Math.acos(pf1);
+  const phi2 = Math.acos(pf2);
+  const tan1 = Math.tan(phi1);
+  const tan2 = Math.tan(phi2);
+  const exactKvar = kw * (tan1 - tan2);
+
+  const STD_BANKS = [5, 10, 15, 20, 25, 30, 40, 50, 60, 75, 100, 125, 150, 175, 200, 250, 300, 350, 400, 450, 500, 600, 750, 1000];
+  const stdKvar = STD_BANKS.find(k => k >= exactKvar) || Math.ceil(exactKvar / 50) * 50;
+
+  const capCurrent = (stdKvar * 1000) / (phFactor * volt);
+  const designCurrent = capCurrent * 1.35;
+
+  const STD_BREAKERS = [6, 10, 16, 20, 25, 32, 40, 50, 63, 80, 100, 125, 160, 200, 250, 315, 400, 500, 630, 800, 1000, 1250, 1600, 2000];
+  const In = STD_BREAKERS.find(r => r >= designCurrent) || Math.ceil(designCurrent);
+  const brkType = In > 630 ? 'ACB' : (In > 63 ? 'MCCB' : 'MCB');
+
+  const COPPER_CAPS = [
+    { size: 1.5, cap: 14 }, { size: 2.5, cap: 20 }, { size: 4, cap: 26 },
+    { size: 6, cap: 33 }, { size: 10, cap: 44 }, { size: 16, cap: 60 },
+    { size: 25, cap: 77 }, { size: 35, cap: 95 }, { size: 50, cap: 130 },
+    { size: 70, cap: 166 }, { size: 95, cap: 202 }, { size: 120, cap: 232 },
+    { size: 150, cap: 266 }, { size: 185, cap: 305 }, { size: 240, cap: 360 },
+    { size: 300, cap: 420 }, { size: 400, cap: 511 }
+  ];
+
+  let cableTxt = 'Verification Required';
+  let cableNote = 'Verify busbar / parallel feeder';
+  const singleCap = COPPER_CAPS.find(c => c.cap >= In);
+  if (singleCap) {
+    cableTxt = `${singleCap.size} mm² Cu`;
+    cableNote = `Ampacity: ${singleCap.cap} A ≥ ${In} A Breaker`;
+  } else {
+    for (let r = 2; r <= 6; r++) {
+      const match = COPPER_CAPS.find(c => c.cap >= (In / r));
+      if (match) {
+        cableTxt = `${r} × (${match.size} mm²) Cu`;
+        cableNote = `${r} Parallel Runs | Total: ${match.cap * r} A ≥ ${In} A`;
+        break;
+      }
+    }
+  }
+
+  const savedAmps = iBefore - iAfter;
+  const savedPct = ((kvaBefore - kvaAfter) / kvaBefore) * 100;
+
+  document.getElementById('pfiMainResult').textContent = `${exactKvar.toFixed(1)} kVAR → ${stdKvar} kVAR Panel`;
+  document.getElementById('pfiPanelSub').textContent = `Active Load: ${kw.toFixed(1)} kW | Capacitor Rated Current: ${capCurrent.toFixed(1)} A @ ${volt} V`;
+  document.getElementById('pfiStepsResult').textContent = generatePfiSteps(stdKvar);
+  document.getElementById('pfiStepsNote').textContent = 'Detuned 7% Reactor recommended if VFD/Harmonics > 15%';
+  document.getElementById('pfiCurrentSave').textContent = `${iBefore.toFixed(1)} A → ${iAfter.toFixed(1)} A (-${savedAmps.toFixed(1)} A)`;
+  document.getElementById('pfiKvaFree').textContent = `${(kvaBefore - kvaAfter).toFixed(1)} kVA freed (${savedPct.toFixed(1)}% Transformer relief)`;
+  document.getElementById('pfiBreaker').textContent = `${In} A ${brkType} (${ph === '3' ? '3P' : '2P'})`;
+  document.getElementById('pfiBreakerNote').textContent = `135% Design Current = ${designCurrent.toFixed(1)} A (IEC 60831)`;
+  document.getElementById('pfiCable').textContent = cableTxt;
+  document.getElementById('pfiCableNote').textContent = cableNote;
+
+  document.getElementById('pfiFormulaDetails').innerHTML = `
+    <strong>1. Reactive Power Formula:</strong><br>
+    Qc = P × (tan φ₁ − tan φ₂)<br>
+    • cos φ₁ = ${pf1} → tan φ₁ = <strong>${tan1.toFixed(3)}</strong><br>
+    • cos φ₂ = ${pf2} → tan φ₂ = <strong>${tan2.toFixed(3)}</strong><br>
+    • Qc = ${kw.toFixed(1)} × (${tan1.toFixed(3)} − ${tan2.toFixed(3)}) = <strong>${exactKvar.toFixed(2)} kVAR</strong><br><br>
+    <strong>2. Bangladesh Utility Standard (DESCO / DPDC / BPDB / BREB):</strong><br>
+    • Minimum required Power Factor is <strong>0.95</strong> (below 0.95 triggers monthly PF Penalty surcharge).<br>
+    • Recommended APFI relay target setting: <strong>0.97 – 0.98 Lag</strong> (avoids leading PF penalty at light load).<br>
+    • Note: Use capacitor-duty contactors with damping resistors for each stage.
+  `;
 }
 
 function brkTypeChange() {
@@ -2728,9 +2886,21 @@ function showElectronics() {
 function showAutomation() {
   hideAllPages();
   document.getElementById('automationPage').classList.add('on');
+  history.pushState({ page: 'automation' }, '', '#automation');
+}
+
+function showAutomationTools() {
+  hideAllPages();
+  document.getElementById('automationToolsPage').classList.add('on');
   calculateAnalogScaling();
   calculateVfdSpeed();
   calculateStarDelta();
+  history.pushState({ page: 'automationTools' }, '', '#automation-tools');
+}
+
+function backFromAutomationTools() {
+  hideAllPages();
+  document.getElementById('automationPage').classList.add('on');
   history.pushState({ page: 'automation' }, '', '#automation');
 }
 
@@ -2747,8 +2917,12 @@ window.addEventListener('popstate', function () {
     document.getElementById('cablePage').classList.add('on');
     return;
   }
- if (state && state.page === 'breaker') {
+if (state && state.page === 'breaker') {
     document.getElementById('breakerPage').classList.add('on');
+    return;
+  }
+  if (state && state.page === 'pfi') {
+    document.getElementById('pfiPage').classList.add('on');
     return;
   }
   if (state && state.page === 'pfi') {
@@ -2772,6 +2946,16 @@ if (state && state.page === 'ups') {
   }
   if (state && state.page === 'automation') {
     document.getElementById('automationPage').classList.add('on');
+    return;
+  }
+  if (state && state.page === 'automationTools') {
+    document.getElementById('automationToolsPage').classList.add('on');
+    return;
+  }
+  if (state && state.page === 'simulationLab') {
+    document.getElementById('simulationLabPage').classList.add('on');
+    initSimLabEvents();
+    renderSimCanvas();
     return;
   }
   if (state && state.page === 'converter') {
@@ -2842,6 +3026,9 @@ function openHomeModal(type) {
           <span class="tool-icon">🛡️</span><span><b>MCB / MCCB / ACB Selection</b><small>IEC 60947-2 • IEC 60898</small></span>
         </button>
         <button class="tool" onclick="closeHomeModal(); showPfiCalculator();">
+          <span class="tool-icon">🔋</span><span><b>PFI / Capacitor Bank Sizing</b><small>IEC 60831 • kVAR &amp; APFI Steps</small></span>
+        </button>
+        <button class="tool" onclick="closeHomeModal(); showPfiCalculator();">
           <span class="tool-icon">🔋</span><span><b>PFI / Capacitor Bank</b><small>kVAR &amp; Current Savings</small></span>
         </button>
         <button class="tool" onclick="closeHomeModal(); showSubstationTool();">
@@ -2861,6 +3048,9 @@ function openHomeModal(type) {
         </button>
         <button class="tool" onclick="closeHomeModal(); showAutomation();">
           <span class="tool-icon">🤖</span><span><b>Automation Tools</b><small>PLC Scaling • VFD • Star-Delta</small></span>
+        </button>
+        <button class="tool" onclick="closeHomeModal(); showSimulationLab();">
+          <span class="tool-icon">🎛️</span><span><b>Simulation Lab</b><small>Interactive Control Circuit Simulator</small></span>
         </button>
       </div>
     `;
@@ -2998,6 +3188,13 @@ function openHomeModal(type) {
           <button type="button" class="about-tool-open" onclick="closeHomeModal(); showAutomation();">Open Automation →</button>
         </div>
       </details>
+      <details class="about-tool-item">
+        <summary>4.2 Simulation Lab (Simurelay Style)</summary>
+        <div class="about-tool-body">
+          <strong>কাজ:</strong> L1/N, Pushbutton, Contactor Coil, Timer, Lamp ও Motor দিয়ে কন্ট্রোল সার্কিট আঁকা এবং লাইভ Run করে পরীক্ষা করা (DOL, Forward/Reverse ও Star-Delta প্রিসেটসহ)।<br>
+          <button type="button" class="about-tool-open" onclick="closeHomeModal(); showSimulationLab();">Open Simulation Lab →</button>
+        </div>
+      </details>
     `;
   } else if (type === 'settings') {
     title.textContent = 'App Settings';
@@ -3089,6 +3286,8 @@ document.addEventListener('click', function (e) {
 } else if (action.includes('showBreakerSelection')) {
     gtag('event', 'open_breaker_selection', { tool_name: 'Breaker Selection' });
   } else if (action.includes('showPfiCalculator')) {
+    gtag('event', 'open_pfi_calculator', { tool_name: 'PFI Capacitor Sizing' });
+  } else if (action.includes('showPfiCalculator')) {
     gtag('event', 'open_pfi_calculator', { tool_name: 'PFI Calculator' });
   } else if (action.includes('showSubstationTool')) {
     gtag('event', 'open_substation_tool', { tool_name: 'Substation & Fault Sizing' });
@@ -3104,6 +3303,8 @@ document.addEventListener('click', function (e) {
     gtag('event', 'open_electronics_section', { section: 'Electronics' });
   } else if (action.includes('showAutomation')) {
     gtag('event', 'open_automation_section', { section: 'Automation' });
+    } else if (action.includes('showSimulationLab')) {
+    gtag('event', 'open_simulation_lab', { tool_name: 'Simulation Lab' });
   } else if (action.includes('calculateCable')) {
     gtag('event', 'calculate_new_cable', { button: label });
   } else if (action.includes('calculateExistingCable')) {
