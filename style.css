@@ -1461,9 +1461,14 @@ select.unit option {
     display: none !important;
   }
 
-  #breakerPage.on,
-  #auditReminderPage.on {
+ #breakerPage.on,
+  #auditReminderPage.on,
+  #auditChecklistPage.on {
     display: block !important;
+  }
+
+  .chk-controls-hide {
+    display: none !important;
   }
 
   #cablePage .top {
@@ -1910,11 +1915,103 @@ select.unit option {
 .home-modal-sheet {
   width: 100%;
   max-width: 620px;
+  max-height: 85vh;
+  display: flex;
+  flex-direction: column;
   background: #ffffff;
   border-radius: 22px 22px 0 0;
-  padding: 18px 16px 26px;
+  padding: 18px 16px 22px;
   box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.18);
   color: #091d42;
+}
+
+.home-modal-head {
+  flex-shrink: 0;
+}
+
+#homeModalBody {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  padding-right: 2px;
+}
+
+/* ABOUT SERIAL TOOL GUIDE */
+.about-profile-box {
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  border-radius: 12px;
+  padding: 11px 12px;
+  margin-bottom: 12px;
+  font-size: 12.5px;
+  line-height: 1.55;
+}
+
+.about-cat-head {
+  font-size: 11.5px;
+  font-weight: 800;
+  color: #0f172a;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+  margin: 14px 0 7px;
+  padding-bottom: 4px;
+  border-bottom: 1.5px solid #e2e8f0;
+}
+
+.about-tool-item {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 11px;
+  margin-bottom: 8px;
+  overflow: hidden;
+}
+
+.about-tool-item summary {
+  padding: 10px 12px;
+  font-weight: 700;
+  font-size: 13px;
+  color: #0f172a;
+  cursor: pointer;
+  list-style: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.about-tool-item summary::-webkit-details-marker {
+  display: none;
+}
+
+.about-tool-item summary::after {
+  content: "▾";
+  font-size: 12px;
+  color: #64748b;
+}
+
+.about-tool-item[open] summary::after {
+  content: "▴";
+}
+
+.about-tool-body {
+  padding: 0 12px 11px;
+  font-size: 12px;
+  line-height: 1.6;
+  color: #334155;
+  border-top: 1px dashed #cbd5e1;
+  padding-top: 8px;
+}
+
+.about-tool-open {
+  margin-top: 8px;
+  border: 1px solid #059669;
+  background: #ecfdf5;
+  color: #047857;
+  font-size: 11.5px;
+  font-weight: 700;
+  padding: 5px 10px;
+  border-radius: 7px;
+  cursor: pointer;
 }
 
 .home-modal-head {
@@ -2244,6 +2341,448 @@ select.unit option {
 .std-box.no-match {
   opacity: 0.42;
 }
-#auditGlobalResultsWrap .audit-btn-sec {
-  display: none;
+/* =========================================================
+   DARK MODE THEME OVERRIDE (TOGGLEABLE)
+========================================================= */
+@media screen {
+  body.dark-mode {
+    --bg: #0b1012;
+    --p: #151d20;
+    --l: #2b3738;
+    --t: #edf3f1;
+    --m: #8fa19c;
+    --g: #4fd18b;
+    background: radial-gradient(circle at top, #1a282c, #0b1012 55%) !important;
+    color: var(--t) !important;
+  }
+
+  body.dark-mode .card,
+  body.dark-mode .category,
+  body.dark-mode .std-rule-card,
+  body.dark-mode .std-box {
+    background: #151d20 !important;
+    border-color: #2b3738 !important;
+    color: #edf3f1 !important;
+  }
+
+  body.dark-mode .tool {
+    background: #0c1214 !important;
+    border-color: #2b3738 !important;
+    color: #edf3f1 !important;
+  }
+
+  body.dark-mode .tool:hover:not(:disabled) {
+    background: #10231b !important;
+    border-color: #4fd18b !important;
+  }
+
+  body.dark-mode .tool-icon {
+    background: #151d20 !important;
+    border-color: #2b3738 !important;
+  }
+
+  body.dark-mode input,
+  body.dark-mode select {
+    background: #0c1214 !important;
+    color: #edf3f1 !important;
+    border-color: #2b3738 !important;
+  }
+
+  body.dark-mode select.unit {
+    color: #4fd18b !important;
+    border-color: #4fd18b66 !important;
+  }
+
+  body.dark-mode select.unit option {
+    background: #0c1214 !important;
+    color: #edf3f1 !important;
+  }
+
+  body.dark-mode .ph button,
+  body.dark-mode .load-tab,
+  body.dark-mode .std-chip {
+    background: #0c1214 !important;
+    color: #8fa19c !important;
+    border-color: #2b3738 !important;
+  }
+
+  body.dark-mode .ph button.active,
+  body.dark-mode .load-tab.active,
+  body.dark-mode .std-chip.active {
+    background: #10231b !important;
+    color: #4fd18b !important;
+    border-color: #4fd18b !important;
+  }
+
+  body.dark-mode .auto div,
+  body.dark-mode .load-group,
+  body.dark-mode #loadPage .load-details,
+  body.dark-mode .audit-kpi {
+    background: #0c1214 !important;
+    border-color: #2b3738 !important;
+  }
+
+  body.dark-mode .auto input {
+    background: transparent !important;
+    border: none !important;
+    color: #edf3f1 !important;
+  }
+
+  body.dark-mode .result {
+    background: #151d20 !important;
+    border-color: #4fd18b99 !important;
+  }
+
+  body.dark-mode .remove-load {
+    background: #241313 !important;
+    color: #ff7777 !important;
+    border-color: #713737 !important;
+  }
+
+  body.dark-mode .add-load {
+    background: #10231b !important;
+    color: #4fd18b !important;
+    border-color: #4fd18b55 !important;
+  }
+
+  body.dark-mode [style*="background:#0c1214"],
+  body.dark-mode [style*="background: #0c1214"],
+  body.dark-mode [style*="background:#131d20"],
+  body.dark-mode [style*="background: #131d20"],
+  body.dark-mode [style*="background:linear-gradient(145deg, #0f181a, #0c1214)"] {
+    background: #0c1214 !important;
+    border-color: #2b3738 !important;
+  }
+
+  body.dark-mode [style*="background:#10231b"],
+  body.dark-mode [style*="background: #10231b"],
+  body.dark-mode #loadPage .load-result-kw {
+    background: #10231b !important;
+    border-color: #4fd18b !important;
+  }
+
+  body.dark-mode #loadPage .load-result-kw > div:nth-child(2) {
+    border-left-color: #234636 !important;
+  }
+
+  body.dark-mode #loadMonthlyKWH,
+  body.dark-mode .audit-kpi .k-num,
+  body.dark-mode .std-box-title,
+  body.dark-mode .std-rule-title {
+    color: #edf3f1 !important;
+  }
+
+  body.dark-mode #loadMainCurrent,
+  body.dark-mode #brkCurrents {
+    color: #55a8ff !important;
+  }
+
+  body.dark-mode #cablePage {
+    --cable-bg: #0b1112;
+    --cable-panel: #121b1d;
+    --cable-line: #2a3a3c;
+    --cable-text: #edf3f1;
+    --cable-muted: #8fa19c;
+    --cable-green: #4fd18b;
+    --cable-green2: #10231b;
+  }
+
+  body.dark-mode #cablePage .metric {
+    background: #0b1416 !important;
+    border-color: #2a3a3c !important;
+  }
+
+  body.dark-mode #cablePage .btn.secondary,
+  body.dark-mode .audit-btn-sec,
+  body.dark-mode .std-copy-btn {
+    background: #0c1214 !important;
+    color: #edf3f1 !important;
+    border-color: #2b3738 !important;
+  }
+
+  body.dark-mode #cablePage .status {
+    background: #211d16 !important;
+    border-color: #70582c !important;
+    color: #ffca73 !important;
+  }
+
+  body.dark-mode #cablePage #installHint {
+    background: #10221c !important;
+    border-color: #285c43 !important;
+    color: #b9d9ca !important;
+  }
+
+  body.dark-mode .audit-kpi.red-kpi {
+    background: #2a1215 !important;
+    border-color: #7f1d1d !important;
+  }
+
+  body.dark-mode .audit-kpi.green-kpi {
+    background: #0f291e !important;
+    border-color: #065f46 !important;
+  }
+
+  body.dark-mode .audit-alert-banner {
+    background: #2a1215 !important;
+    color: #fecaca !important;
+  }
+
+  body.dark-mode .audit-table-wrap {
+    background: #0c1214 !important;
+    border-color: #2b3738 !important;
+  }
+
+  body.dark-mode .audit-table th {
+    background: #151d20 !important;
+    color: #edf3f1 !important;
+    border-color: #2b3738 !important;
+  }
+
+  body.dark-mode .audit-table td {
+    color: #edf3f1 !important;
+    border-color: #1f2a2d !important;
+  }
+
+  body.dark-mode .audit-table tr.row-red {
+    background: #2c1417 !important;
+  }
+
+  body.dark-mode .audit-table tr.row-red td {
+    color: #fca5a5 !important;
+  }
+
+  body.dark-mode .audit-row-act button {
+    background: #151d20 !important;
+    color: #edf3f1 !important;
+    border-color: #2b3738 !important;
+  }
+
+  body.dark-mode .std-summary { color: #cbd5e1 !important; }
+  body.dark-mode .std-clause { color: #38bdf8 !important; }
+  body.dark-mode .std-limits { background: #10231b !important; color: #6ee7b7 !important; }
+  body.dark-mode .std-audit-tip { background: #0c1214 !important; border-color: #2b3738 !important; color: #94a3b8 !important; }
+
+  body.dark-mode #home {
+    background: linear-gradient(180deg, #0b1220 0%, #0f172a 100%) !important;
+  }
+
+  body.dark-mode #home .home-profile-card,
+  body.dark-mode #home .home-cat,
+  body.dark-mode .bottom-nav,
+  body.dark-mode .home-modal-sheet {
+    background: #151f30 !important;
+    border-color: #243247 !important;
+    color: #f1f5f9 !important;
+  }
+
+  body.dark-mode .home-profile-name,
+  body.dark-mode .home-cat-title,
+  body.dark-mode .home-modal-head h3 {
+    color: #f8fafc !important;
+  }
+
+  body.dark-mode .home-profile-role,
+  body.dark-mode .home-profile-mail,
+  body.dark-mode .home-cat-sub,
+  body.dark-mode .home-tagline,
+  body.dark-mode .bnav-btn,
+  body.dark-mode #homeModalBody {
+    color: #94a3b8 !important;
+  }
+
+  body.dark-mode .home-profile-mail svg {
+    fill: #94a3b8;
+  }
+
+  body.dark-mode .home-cat-sep {
+    background: #2b3b54;
+  }
+
+  body.dark-mode .home-cat-arrow {
+    background: #1e293b;
+    border-color: #334155;
+    color: #60a5fa;
+  }
+
+  body.dark-mode .home-modal-head {
+    border-color: #243247;
+  }
+
+ body.dark-mode .home-modal-close {
+    background: #1e293b;
+    color: #e2e8f0;
+  }
+
+  body.dark-mode .about-profile-box {
+    background: #10231b;
+    border-color: #285c43;
+    color: #d1fae5;
+  }
+
+  body.dark-mode .about-cat-head {
+    color: #f8fafc;
+    border-color: #243247;
+  }
+
+  body.dark-mode .about-tool-item {
+    background: #0f172a;
+    border-color: #243247;
+  }
+
+  body.dark-mode .about-tool-item summary {
+    color: #f1f5f9;
+  }
+
+  body.dark-mode .about-tool-body {
+    color: #cbd5e1;
+    border-color: #243247;
+  }
+
+ body.dark-mode .about-tool-open {
+    background: #10231b;
+    color: #4fd18b;
+    border-color: #4fd18b;
+  }
+
+  body.dark-mode .el-res-preview {
+    background: #0c1214;
+    border-color: #2b3738;
+  }
+}
+
+.el-res-preview {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f8fafc;
+  border: 1px solid var(--l);
+  border-radius: 10px;
+  padding: 12px;
+  margin-bottom: 12px;
+}
+
+.el-res-body {
+  position: relative;
+  width: 190px;
+  height: 36px;
+  background: #e7c99b;
+  border: 2px solid #b48a54;
+  border-radius: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  padding: 0 18px;
+}
+
+.el-res-band {
+  width: 12px;
+  height: 100%;
+  border-radius: 2px;
+}
+
+/* =========================================================
+   SAFETY AUDIT CHECKLIST STYLES
+========================================================= */
+.chk-card {
+  background: #ffffff;
+  border: 1px solid var(--l);
+  border-radius: 13px;
+  padding: 13px;
+  margin-bottom: 10px;
+  page-break-inside: avoid;
+  break-inside: avoid;
+}
+
+.chk-card.is-fail {
+  border-left: 4px solid #dc2626;
+  background: #fef2f2;
+}
+
+.chk-card.is-pass {
+  border-left: 4px solid #059669;
+}
+
+.chk-btn-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px;
+  margin-top: 9px;
+}
+
+.chk-btn {
+  height: 36px;
+  border-radius: 8px;
+  border: 1px solid #cbd5e1;
+  background: #f8fafc;
+  color: #475569;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.chk-btn.pass-on {
+  background: #059669;
+  border-color: #059669;
+  color: #ffffff;
+}
+
+.chk-btn.fail-on {
+  background: #dc2626;
+  border-color: #dc2626;
+  color: #ffffff;
+}
+
+.chk-btn.na-on {
+  background: #475569;
+  border-color: #475569;
+  color: #ffffff;
+}
+
+.chk-remark {
+  margin-top: 8px;
+  height: 38px !important;
+  font-size: 12px !important;
+}
+
+@media screen {
+  body.dark-mode .chk-card {
+    background: #151d20 !important;
+    border-color: #2b3738 !important;
+    color: #edf3f1 !important;
+  }
+
+  body.dark-mode .chk-card.is-fail {
+    background: #2a1215 !important;
+    border-color: #7f1d1d !important;
+  }
+
+  body.dark-mode .chk-btn {
+    background: #0c1214;
+    border-color: #2b3738;
+    color: #94a3b8;
+  }
+}
+
+/* =========================================================
+   INSTALL BUTTON STATES IN BOTTOM NAV
+========================================================= */
+.bnav-btn.install-ready {
+  color: #059669;
+  font-weight: 700;
+}
+
+.bnav-btn.install-ready::before {
+  content: "";
+  position: absolute;
+  top: 2px;
+  right: 22%;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #059669;
+  box-shadow: 0 0 0 2px #ffffff;
+}
+
+.bnav-btn.installed {
+  color: #059669;
 }

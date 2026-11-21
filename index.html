@@ -229,11 +229,11 @@ window.firebaseSet = set;
       <span>Tools</span>
     </button>
 
-    <button type="button" class="bnav-btn" onclick="openHomeModal('favorites')">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-        <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+   <button type="button" class="bnav-btn" id="installAppBtn" onclick="handleInstallClick()">
+      <svg id="installBtnIcon" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M5 20h14v-2H5v2zM19 9h-4V3H9v6H5l7 7 7-7z"/>
       </svg>
-      <span>Favorites</span>
+      <span id="installBtnLabel">Install</span>
     </button>
 
     <button type="button" class="bnav-btn" onclick="openHomeModal('about')">
@@ -304,11 +304,35 @@ window.firebaseSet = set;
       </span>
     </button>
 
-    <button class="tool" onclick="showBreakerSelection()">
+  <button class="tool" onclick="showBreakerSelection()">
       <span class="tool-icon">🛡️</span>
       <span>
         <b>MCB / MCCB / ACB Selection</b>
         <small>IEC 60947-2 • IEC 60898 • Curve &amp; kA Sizing</small>
+      </span>
+    </button>
+
+    <button class="tool" onclick="showPfiCalculator()">
+      <span class="tool-icon">🔋</span>
+      <span>
+        <b>PFI / Capacitor Bank Sizing</b>
+        <small>kVAR Calculation • Current Saving • APFI Steps</small>
+      </span>
+    </button>
+
+    <button class="tool" onclick="showSubstationTool()">
+      <span class="tool-icon">🏭</span>
+      <span>
+        <b>Substation, Generator &amp; Fault (kA)</b>
+        <small>Transformer kVA • Isc Fault Level • BNBC Room Area</small>
+      </span>
+    </button>
+
+    <button class="tool" onclick="showUpsCalculator()">
+      <span class="tool-icon">🔌</span>
+      <span>
+        <b>IPS / UPS &amp; Battery Backup</b>
+        <small>Backup Time • Inverter VA • Charger Sizing</small>
       </span>
     </button>
   </div>
@@ -413,6 +437,14 @@ window.firebaseSet = set;
             <span id="auditToolBadge" class="audit-badge" style="display:none;">0</span>
           </b>
           <small>Track Report Expiry • Auto Day Left • 1-Month Red Alert</small>
+        </span>
+      </button>
+
+      <button class="tool" onclick="showAuditChecklist()">
+        <span class="tool-icon">✅</span>
+        <span>
+          <b>Factory Safety Audit Checklist</b>
+          <small>BNBC • RSC • NFPA • IEC Pass/Fail Score &amp; PDF Report</small>
         </span>
       </button>
     </div>
@@ -563,7 +595,8 @@ window.firebaseSet = set;
           <option value="red">Red Alert / Expired Only</option>
           <option value="valid">Valid Only</option>
         </select>
-        <button type="button" class="audit-btn-sec" style="height:32px; font-size:11px;" onclick="exportAuditCSV()">📥 CSV</button>
+       <button type="button" class="audit-btn-sec" style="height:32px; font-size:11px;" onclick="exportAuditCSV()">📥 CSV</button>
+        <button type="button" class="audit-btn-sec" style="height:32px; font-size:11px;" onclick="openAuditSyncModal()">☁️ Sync</button>
         <button type="button" class="audit-btn-sec" style="height:32px; font-size:11px;" onclick="window.print()">🖨️ Print</button>
       </div>
     </div>
@@ -610,7 +643,19 @@ window.firebaseSet = set;
   </div>
 
   <div class="card">
-    <div class="label">LOAD CALCULATION</div>
+   <div class="label">LOAD CALCULATION</div>
+
+    <div style="margin-bottom:10px; background:#0c1214; border:1px solid var(--l); border-radius:10px; padding:10px;">
+      <label for="loadDiversityFactor" style="display:block; font-size:11px; color:var(--m); margin-bottom:5px; font-weight:700;">
+        Demand / Diversity Factor (BNBC 2020 Sec 1.3.2 &amp; Appendix A)
+      </label>
+      <select id="loadDiversityFactor" onchange="calculateLoad('residential')" style="height:40px; font-size:13px;">
+        <option value="0.75" selected>0.75 — Residential Dwelling (Standard Practical)</option>
+        <option value="0.85">0.85 — Commercial / Office Building</option>
+        <option value="0.70">0.70 — Industrial / Factory (RSC Sec 10.5.1)</option>
+        <option value="1.00">1.00 — Continuous / No Diversity (100% Connected)</option>
+      </select>
+    </div>
 
     <div id="residentialData" class="load-data">
 
@@ -671,10 +716,10 @@ window.firebaseSet = set;
           <div class="result-value" id="loadTotalKW" style="color:var(--t); font-size:22px; font-weight:800;">0 kW</div>
           <small id="loadTotalWatt" style="color:var(--m); font-size:10px;">0 W</small>
         </div>
-        <div style="border-left:1px solid #234636; padding-left:10px;">
-          <div class="result-label" style="color:var(--g); font-size:11px; font-weight:700;">MAX DEMAND (75%)</div>
+       <div style="border-left:1px solid #234636; padding-left:10px;">
+          <div id="loadMaxDemandLabel" class="result-label" style="color:var(--g); font-size:11px; font-weight:700;">MAX DEMAND (75%)</div>
           <div class="result-value" id="loadMaxDemandKW" style="color:var(--g); font-size:22px; font-weight:800;">0 kW</div>
-          <small style="color:#6b827d; font-size:10px;">BNBC 2020 Sec 2.6.2</small>
+          <small style="color:#6b827d; font-size:10px;">BNBC 2020 Sec 1.3.2 &amp; App. A</small>
         </div>
       </div>
 
@@ -750,8 +795,8 @@ window.firebaseSet = set;
 
       <div class="auto" style="grid-template-columns: repeat(auto-fit, minmax(95px, 1fr));">
         <div>
-          <span>VOLTAGE</span>
-          <input id="volt" type="number" value="220" step="any" oninput="customVoltage()">
+         <span>VOLTAGE</span>
+          <input id="volt" type="number" value="230" step="any" oninput="customVoltage()">
         </div>
         <div>
           <span>POWER FACTOR</span>
@@ -770,9 +815,9 @@ window.firebaseSet = set;
       <div class="formula" id="form">—</div>
     </div>
 
-    <div class="note">
-      Single Phase = 220 V, Three Phase = 415 V.
-      PF = 0.85 and efficiency = 90% where required.
+   <div class="note">
+      BNBC 2020 Sec 1.1.4: Nominal Voltage = 230 V (1-Phase) / 400 V (3-Phase); Upper limit 240 V / 415 V.
+      Default PF = 0.85 and efficiency (η) = 90%.
     </div>
   </div>
 
@@ -826,15 +871,15 @@ window.firebaseSet = set;
     <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap:10px; margin-bottom:12px;">
       <div>
         <label style="display:block; font-size:11px; color:var(--m); margin-bottom:5px;">System Phase</label>
-        <select id="brkPhase" onchange="brkPhaseChange()">
-          <option value="3" selected>Three Phase (415V)</option>
-          <option value="1">Single Phase (220V)</option>
+       <select id="brkPhase" onchange="brkPhaseChange()">
+          <option value="3" selected>Three Phase (400V)</option>
+          <option value="1">Single Phase (230V)</option>
           <option value="dc">DC System</option>
         </select>
       </div>
       <div>
         <label style="display:block; font-size:11px; color:var(--m); margin-bottom:5px;">Voltage (V)</label>
-        <input id="brkVoltage" type="number" value="415" step="any" oninput="calculateBreaker()">
+        <input id="brkVoltage" type="number" value="400" step="any" oninput="calculateBreaker()">
       </div>
       <div>
         <label style="display:block; font-size:11px; color:var(--m); margin-bottom:5px;">Power Factor (PF)</label>
@@ -982,9 +1027,9 @@ window.firebaseSet = set;
             </select>
           </div>
 
-          <div class="field">
+         <div class="field">
             <label for="voltage">Voltage (V)</label>
-            <input id="voltage" type="number" min="1" value="415" required>
+            <input id="voltage" type="number" min="1" value="400" required>
           </div>
 
           <div class="field">
@@ -1049,9 +1094,20 @@ window.firebaseSet = set;
             <select id="install" required></select>
           </div>
 
-          <div class="field">
+     <div class="field">
             <label for="drop">Maximum Voltage Drop (%)</label>
             <input id="drop" type="number" min="0.1" max="10" step="0.1" value="2.5" required>
+          </div>
+
+          <div class="field">
+            <label for="cableGrouping">Circuit Grouping (IEC B.52.17)</label>
+            <select id="cableGrouping">
+              <option value="1.00" selected>1 Circuit (1.00 — Isolated)</option>
+              <option value="0.80">2 Circuits (0.80 — Bunched)</option>
+              <option value="0.70">3 Circuits (0.70 — Bunched)</option>
+              <option value="0.65">4 Circuits (0.65 — Bunched)</option>
+              <option value="0.60">5+ Circuits (0.60 — Bunched)</option>
+            </select>
           </div>
 
           <div class="field">
@@ -1162,7 +1218,15 @@ window.firebaseSet = set;
           <div class="s" id="rBreakerNote">Standard rating coordination (Ib ≤ In ≤ Iz)</div>
         </div>
       </div>
-      <div class="status" style="display:none"></div>
+     <div class="status" style="display:none"></div>
+      <details class="load-details" style="margin-top:12px; background:#f8fafc; border:1px solid var(--l); border-radius:10px; padding:10px 12px;">
+        <summary style="color:var(--g); font-weight:700; cursor:pointer; font-size:12px;">
+          📖 Code Justification / কেন এই হিসাবটি সঠিক (BNBC • RSC • IEC)
+        </summary>
+        <div id="rCodeProof" style="font-size:11.5px; line-height:1.65; color:var(--m); padding-top:8px;">
+          Run calculation to view clause-by-clause verification.
+        </div>
+      </details>
     </section>
   </div>
 
@@ -1254,9 +1318,9 @@ window.firebaseSet = set;
             </select>
           </div>
 
-          <div class="field">
+         <div class="field">
             <label for="exVoltage">Voltage (V)</label>
-            <input id="exVoltage" type="number" min="1" value="415" required>
+            <input id="exVoltage" type="number" min="1" value="400" required>
           </div>
 
           <div class="field">
@@ -1279,13 +1343,24 @@ window.firebaseSet = set;
             </select>
           </div>
 
-          <div class="field">
+        <div class="field">
             <label for="exAmbient">Ambient Temp (°C)</label>
             <input id="exAmbient" type="number" min="-10" max="60" value="35">
           </div>
 
           <div class="field">
-            <label>Temperature Derating Factor</label>
+            <label for="exGrouping">Circuit Grouping (IEC B.52.17)</label>
+            <select id="exGrouping">
+              <option value="1.00" selected>1 Circuit (1.00)</option>
+              <option value="0.80">2 Circuits (0.80)</option>
+              <option value="0.70">3 Circuits (0.70)</option>
+              <option value="0.65">4 Circuits (0.65)</option>
+              <option value="0.60">5+ Circuits (0.60)</option>
+            </select>
+          </div>
+
+          <div class="field wide">
+            <label>Combined Derating (Temp × Grouping)</label>
             <div class="helper" id="exAmbientCorrection">Factor: 1.00 (35°C Base)</div>
           </div>
         </div>
@@ -1342,9 +1417,730 @@ window.firebaseSet = set;
         </div>
       </div>
 
-      <div class="status" id="exStatus" style="display:none"></div>
+     <div class="status" id="exStatus" style="display:none"></div>
+      <details class="load-details" style="margin-top:12px; background:#f8fafc; border:1px solid var(--l); border-radius:10px; padding:10px 12px;">
+        <summary style="color:var(--g); font-weight:700; cursor:pointer; font-size:12px;">
+          📖 Audit Code Justification / অডিট রেফারেন্স (BNBC • RSC • IEC)
+        </summary>
+        <div id="rExCodeProof" style="font-size:11.5px; line-height:1.65; color:var(--m); padding-top:8px;">
+          Evaluate cable to view clause-by-clause verification.
+        </div>
+      </details>
     </section>
   </div>
+</section>
+
+<!-- =========================================================
+     HTML: PFI / CAPACITOR BANK CALCULATOR
+========================================================= -->
+<section class="page" id="pfiPage">
+
+  <div class="top" onclick="backFromElectricalTool()">
+    <img class="mini" src="assets/icon.webp" alt="EEEGPT">
+    <div>
+      <div class="title">PFI / Capacitor Bank</div>
+      <div class="sub">Power Factor Improvement • IEC 60831 • APFI</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="label">SYSTEM &amp; LOAD PARAMETERS</div>
+
+    <div class="row" style="margin-bottom:12px;">
+      <div>
+        <label style="display:block; font-size:11px; color:var(--m); margin-bottom:5px;">Load Value</label>
+        <input id="pfiLoadVal" type="number" value="100" min="0" step="any" oninput="calculatePFI()">
+      </div>
+      <div>
+        <label style="display:block; font-size:11px; color:var(--m); margin-bottom:5px;">Unit</label>
+        <select id="pfiLoadUnit" class="unit" onchange="calculatePFI()">
+          <option value="kw" selected>kW</option>
+          <option value="kva">kVA</option>
+          <option value="amp">Ampere (A)</option>
+        </select>
+      </div>
+    </div>
+
+    <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap:10px; margin-bottom:12px;">
+      <div>
+        <label style="display:block; font-size:11px; color:var(--m); margin-bottom:5px;">Phase</label>
+      <select id="pfiPhase" onchange="pfiPhaseChange()">
+          <option value="3" selected>3 Phase (400V)</option>
+          <option value="1">1 Phase (230V)</option>
+        </select>
+      </div>
+      <div>
+        <label style="display:block; font-size:11px; color:var(--m); margin-bottom:5px;">Voltage (V)</label>
+        <input id="pfiVoltage" type="number" value="400" min="1" step="any" oninput="calculatePFI()">
+      </div>
+      <div>
+        <label style="display:block; font-size:11px; color:var(--m); margin-bottom:5px;">Current PF (Cos φ1)</label>
+        <input id="pfiCurrentPf" type="number" value="0.78" min="0.1" max="0.99" step="0.01" oninput="calculatePFI()">
+      </div>
+      <div>
+        <label style="display:block; font-size:11px; color:var(--m); margin-bottom:5px;">Target PF (Cos φ2)</label>
+        <input id="pfiTargetPf" type="number" value="0.98" min="0.5" max="1" step="0.01" oninput="calculatePFI()">
+      </div>
+    </div>
+
+    <div class="result">
+      <div class="label">REQUIRED CAPACITOR BANK &amp; SAVINGS</div>
+
+      <div style="background:#10231b; border:1px solid var(--g); border-radius:12px; padding:14px; margin-top:6px;">
+        <div style="font-size:11px; color:var(--m); font-weight:700;">REQUIRED REACTIVE POWER (Qc)</div>
+        <div id="pfiKvarRes" style="font-size:26px; font-weight:800; color:var(--g); margin:4px 0;">— kVAR</div>
+        <div id="pfiStagePlan" style="font-size:12px; color:var(--t); font-weight:600;">—</div>
+      </div>
+
+      <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap:10px; margin-top:12px;">
+        <div style="background:#0c1214; border:1px solid var(--l); border-radius:10px; padding:12px;">
+          <div style="font-size:10.5px; color:var(--m);">LINE CURRENT REDUCTION</div>
+          <div id="pfiAfterCurrent" style="font-size:16px; font-weight:800; color:#55a8ff; margin-top:3px;">—</div>
+          <div id="pfiSavingsPct" style="font-size:11px; color:var(--g); margin-top:3px; font-weight:700;">—</div>
+        </div>
+
+        <div style="background:#0c1214; border:1px solid var(--l); border-radius:10px; padding:12px;">
+          <div style="font-size:10.5px; color:var(--m);">PFI MAIN BREAKER (1.35×)</div>
+          <div id="pfiBreakerCable" style="font-size:16px; font-weight:800; color:var(--t); margin-top:3px;">—</div>
+          <div style="font-size:10.5px; color:var(--m); margin-top:3px;">IEC 60831 Harmonic Duty</div>
+        </div>
+      </div>
+
+      <details class="load-details" style="margin-top:12px;">
+        <summary>PFI Formula &amp; Harmonic Note / হিসাবের বিস্তারিত</summary>
+        <div id="pfiDetails" class="formula" style="padding-top:8px;">—</div>
+      </details>
+    </div>
+  </div>
+
+</section>
+
+<!-- =========================================================
+     HTML: SUBSTATION, GENERATOR & FAULT LEVEL SIZING
+========================================================= -->
+<section class="page" id="substationToolPage">
+
+  <div class="top" onclick="backFromElectricalTool()">
+    <img class="mini" src="assets/icon.webp" alt="EEEGPT">
+    <div>
+      <div class="title">Substation &amp; Fault (kA)</div>
+      <div class="sub">Transformer • Generator • BNBC 2020 • RSC 70%</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="label">FACILITY LOAD &amp; SUBSTATION PARAMETERS</div>
+
+    <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(135px, 1fr)); gap:10px; margin-bottom:12px;">
+      <div>
+        <label style="display:block; font-size:11px; color:var(--m); margin-bottom:5px;">Connected Load (kW)</label>
+        <input id="subConnLoad" type="number" value="400" min="1" step="any" oninput="calculateSubstationTool()">
+      </div>
+      <div>
+        <label style="display:block; font-size:11px; color:var(--m); margin-bottom:5px;">Load / Diversity Factor</label>
+        <select id="subDivFactor" onchange="calculateSubstationTool()">
+          <option value="0.70" selected>0.70 (RSC Factory Rule)</option>
+          <option value="0.75">0.75 (BNBC Residential)</option>
+          <option value="0.80">0.80 (Commercial / Heavy)</option>
+          <option value="1.00">1.00 (No Diversity)</option>
+        </select>
+      </div>
+      <div>
+        <label style="display:block; font-size:11px; color:var(--m); margin-bottom:5px;">Future Margin (%)</label>
+        <input id="subExpansion" type="number" value="20" min="0" max="100" step="5" oninput="calculateSubstationTool()">
+      </div>
+      <div>
+        <label style="display:block; font-size:11px; color:var(--m); margin-bottom:5px;">LT Voltage (V)</label>
+      <input id="subVoltage" type="number" value="400" min="100" step="any" oninput="calculateSubstationTool()">
+      </div>
+      <div>
+        <label style="display:block; font-size:11px; color:var(--m); margin-bottom:5px;">Transformer %Z</label>
+        <input id="subImpedance" type="number" value="4.5" min="1" max="15" step="0.1" oninput="calculateSubstationTool()">
+      </div>
+      <div>
+        <label style="display:block; font-size:11px; color:var(--m); margin-bottom:5px;">Gen Loading Target (%)</label>
+        <input id="subGenTargetLoad" type="number" value="80" min="50" max="100" step="5" oninput="calculateSubstationTool()">
+      </div>
+    </div>
+
+    <div class="result">
+      <div class="label">SIZING &amp; FAULT LEVEL RESULTS</div>
+
+      <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap:10px; margin-top:8px;">
+        <div style="background:#10231b; border:1px solid var(--g); border-radius:10px; padding:12px;">
+          <div style="font-size:10.5px; color:var(--m); font-weight:700;">RECOMMENDED TRANSFORMER</div>
+          <div id="subTxRating" style="font-size:22px; font-weight:800; color:var(--g); margin:3px 0;">— kVA</div>
+          <div id="subTxLoading" style="font-size:11px; color:var(--t);">—</div>
+        </div>
+
+        <div style="background:#0c1214; border:1px solid var(--l); border-radius:10px; padding:12px;">
+          <div style="font-size:10.5px; color:var(--m); font-weight:700;">MAX FAULT LEVEL (Isc)</div>
+          <div id="subFaultLevel" style="font-size:22px; font-weight:800; color:#ffca73; margin:3px 0;">— kA</div>
+          <div id="subFaultBreaker" style="font-size:11px; color:var(--m);">—</div>
+        </div>
+
+        <div style="background:#0c1214; border:1px solid var(--l); border-radius:10px; padding:12px;">
+          <div style="font-size:10.5px; color:var(--m); font-weight:700;">STANDBY GENERATOR</div>
+          <div id="subGenRating" style="font-size:20px; font-weight:800; color:#55a8ff; margin:3px 0;">— kVA</div>
+          <div id="subGenNote" style="font-size:11px; color:var(--m);">@ 0.80 Power Factor</div>
+        </div>
+
+        <div style="background:#0c1214; border:1px solid var(--l); border-radius:10px; padding:12px;">
+          <div style="font-size:10.5px; color:var(--m); font-weight:700;">BNBC 2020 MIN ROOM AREA</div>
+          <div id="subRoomArea" style="font-size:15px; font-weight:800; color:var(--t); margin:3px 0;">—</div>
+          <div style="font-size:10.5px; color:var(--m);">Tables 8.1.23 &amp; 8.1.24</div>
+        </div>
+      </div>
+
+      <details class="load-details" style="margin-top:12px;">
+        <summary>Design Formula &amp; RSC/BNBC Notes</summary>
+        <div id="subDetails" class="formula" style="padding-top:8px;">—</div>
+      </details>
+    </div>
+  </div>
+
+</section>
+
+<!-- =========================================================
+     HTML: IPS / UPS & BATTERY BACKUP CALCULATOR
+========================================================= -->
+<section class="page" id="upsPage">
+
+  <div class="top" onclick="backFromElectricalTool()">
+    <img class="mini" src="assets/icon.webp" alt="EEEGPT">
+    <div>
+      <div class="title">IPS / UPS &amp; Battery Backup</div>
+      <div class="sub">Backup Time • Inverter VA • Charger Current</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="label">LOAD &amp; BATTERY BANK DETAILS</div>
+
+    <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(135px, 1fr)); gap:10px; margin-bottom:12px;">
+      <div>
+        <label style="display:block; font-size:11px; color:var(--m); margin-bottom:5px;">Running Load (Watt)</label>
+        <input id="upsLoadWatt" type="number" value="400" min="1" step="any" oninput="calculateUps()">
+      </div>
+      <div>
+        <label style="display:block; font-size:11px; color:var(--m); margin-bottom:5px;">System DC Voltage</label>
+        <select id="upsDcVolt" onchange="calculateUps()">
+          <option value="12" selected>12 V (1 Battery)</option>
+          <option value="24">24 V (2 Batteries)</option>
+          <option value="48">48 V (4 Batteries)</option>
+          <option value="96">96 V (8 Batteries)</option>
+          <option value="120">120 V (10 Batteries)</option>
+        </select>
+      </div>
+      <div>
+        <label style="display:block; font-size:11px; color:var(--m); margin-bottom:5px;">Battery Capacity (Ah)</label>
+        <input id="upsBattAh" type="number" value="200" min="1" step="any" oninput="calculateUps()">
+      </div>
+      <div>
+        <label style="display:block; font-size:11px; color:var(--m); margin-bottom:5px;">Parallel Strings</label>
+        <input id="upsStrings" type="number" value="1" min="1" max="10" step="1" oninput="calculateUps()">
+      </div>
+      <div>
+        <label style="display:block; font-size:11px; color:var(--m); margin-bottom:5px;">Inverter Efficiency</label>
+        <input id="upsEff" type="number" value="0.85" min="0.5" max="1" step="0.01" oninput="calculateUps()">
+      </div>
+      <div>
+        <label style="display:block; font-size:11px; color:var(--m); margin-bottom:5px;">Battery Type (DoD)</label>
+        <select id="upsDod" onchange="calculateUps()">
+          <option value="0.80" selected>Tubular / LiFePO4 (80% DoD)</option>
+          <option value="0.50">Normal Lead-Acid (50% DoD)</option>
+          <option value="0.90">High-Cycle Lithium (90% DoD)</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="result">
+      <div class="label">BACKUP &amp; SIZING SUMMARY</div>
+
+      <div style="background:#10231b; border:1px solid var(--g); border-radius:12px; padding:14px; margin-top:6px;">
+        <div style="font-size:11px; color:var(--m); font-weight:700;">ESTIMATED BACKUP TIME</div>
+        <div id="upsBackupTime" style="font-size:26px; font-weight:800; color:var(--g); margin:4px 0;">—</div>
+        <div id="upsBattCount" style="font-size:12px; color:var(--t); font-weight:600;">—</div>
+      </div>
+
+      <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap:10px; margin-top:12px;">
+        <div style="background:#0c1214; border:1px solid var(--l); border-radius:10px; padding:12px;">
+          <div style="font-size:10.5px; color:var(--m);">MIN INVERTER / IPS RATING</div>
+          <div id="upsRatingVa" style="font-size:17px; font-weight:800; color:#55a8ff; margin-top:3px;">— VA</div>
+          <div style="font-size:10.5px; color:var(--m); margin-top:2px;">Includes 25% Surge Margin</div>
+        </div>
+
+        <div style="background:#0c1214; border:1px solid var(--l); border-radius:10px; padding:12px;">
+          <div style="font-size:10.5px; color:var(--m);">MAX DC CURRENT &amp; FUSE</div>
+          <div id="upsDcCurrent" style="font-size:17px; font-weight:800; color:#ffca73; margin-top:3px;">— A</div>
+          <div style="font-size:10.5px; color:var(--m); margin-top:2px;">Use thick short DC cable</div>
+        </div>
+
+        <div style="background:#0c1214; border:1px solid var(--l); border-radius:10px; padding:12px;">
+          <div style="font-size:10.5px; color:var(--m);">CHARGING (C/10 RATE)</div>
+          <div id="upsRechargeTime" style="font-size:16px; font-weight:800; color:var(--t); margin-top:3px;">—</div>
+          <div style="font-size:10.5px; color:var(--m); margin-top:2px;">Full recharge estimate</div>
+        </div>
+      </div>
+
+      <details class="load-details" style="margin-top:12px;">
+        <summary>Calculation Formula &amp; Battery Tips</summary>
+        <div id="upsDetails" class="formula" style="padding-top:8px;">—</div>
+      </details>
+    </div>
+  </div>
+
+</section>
+
+<!-- =========================================================
+     HTML: ELECTRONICS PAGE
+========================================================= -->
+<section class="page" id="electronicsPage">
+
+  <div class="top" onclick="home()">
+    <img class="mini" src="assets/icon.webp" alt="EEEGPT">
+    <div>
+      <div class="title">Electronics</div>
+      <div class="sub">Resistor • SMD • Divider • LED • RC &amp; 555</div>
+    </div>
+  </div>
+
+  <div class="load-tabs" style="grid-template-columns: repeat(3, 1fr); margin-bottom:14px;">
+    <button type="button" class="load-tab active" id="elTabRes" onclick="setElectronicsTab('res')">Resistor &amp; SMD</button>
+    <button type="button" class="load-tab" id="elTabOhm" onclick="setElectronicsTab('ohm')">Divider &amp; LED</button>
+    <button type="button" class="load-tab" id="elTabRc" onclick="setElectronicsTab('rc')">RC &amp; 555</button>
+  </div>
+
+  <!-- TAB 1: RESISTOR & SMD -->
+  <div id="elPanelRes">
+    <div class="card" style="margin-bottom:12px;">
+      <div class="label">4-BAND RESISTOR COLOR CODE</div>
+      <div id="elResPreview" class="el-res-preview"></div>
+      <div style="display:grid; grid-template-columns: repeat(2, 1fr); gap:10px; margin-bottom:12px;">
+        <div>
+          <label style="display:block; font-size:11px; color:var(--m); margin-bottom:4px;">1st Band</label>
+          <select id="elBand1" onchange="calculateColorCode()">
+            <option value="1" selected>Brown (1)</option>
+            <option value="2">Red (2)</option>
+            <option value="3">Orange (3)</option>
+            <option value="4">Yellow (4)</option>
+            <option value="5">Green (5)</option>
+            <option value="6">Blue (6)</option>
+            <option value="7">Violet (7)</option>
+            <option value="8">Grey (8)</option>
+            <option value="9">White (9)</option>
+          </select>
+        </div>
+        <div>
+          <label style="display:block; font-size:11px; color:var(--m); margin-bottom:4px;">2nd Band</label>
+          <select id="elBand2" onchange="calculateColorCode()">
+            <option value="0">Black (0)</option>
+            <option value="1">Brown (1)</option>
+            <option value="2">Red (2)</option>
+            <option value="3">Orange (3)</option>
+            <option value="4">Yellow (4)</option>
+            <option value="5">Green (5)</option>
+            <option value="6">Blue (6)</option>
+            <option value="7" selected>Violet (7)</option>
+            <option value="8">Grey (8)</option>
+            <option value="9">White (9)</option>
+          </select>
+        </div>
+        <div>
+          <label style="display:block; font-size:11px; color:var(--m); margin-bottom:4px;">Multiplier</label>
+          <select id="elBandMult" onchange="calculateColorCode()">
+            <option value="1">Black (×1 Ω)</option>
+            <option value="10">Brown (×10 Ω)</option>
+            <option value="100" selected>Red (×100 Ω)</option>
+            <option value="1000">Orange (×1 kΩ)</option>
+            <option value="10000">Yellow (×10 kΩ)</option>
+            <option value="100000">Green (×100 kΩ)</option>
+            <option value="1000000">Blue (×1 MΩ)</option>
+            <option value="10000000">Violet (×10 MΩ)</option>
+            <option value="0.1">Gold (×0.1 Ω)</option>
+            <option value="0.01">Silver (×0.01 Ω)</option>
+          </select>
+        </div>
+        <div>
+          <label style="display:block; font-size:11px; color:var(--m); margin-bottom:4px;">Tolerance</label>
+          <select id="elBandTol" onchange="calculateColorCode()">
+            <option value="±5%" selected>Gold (±5%)</option>
+            <option value="±10%">Silver (±10%)</option>
+            <option value="±1%">Brown (±1%)</option>
+            <option value="±2%">Red (±2%)</option>
+            <option value="±0.5%">Green (±0.5%)</option>
+            <option value="±0.25%">Blue (±0.25%)</option>
+            <option value="±0.1%">Violet (±0.1%)</option>
+          </select>
+        </div>
+      </div>
+      <div class="result" style="margin-top:0;">
+        <div class="label">RESISTANCE VALUE</div>
+        <div class="big" id="elResVal">—</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="label">SMD RESISTOR CODE DECODER</div>
+      <input id="elSmdInput" type="text" value="103" placeholder="e.g. 103, 4701, 4R7, R22" oninput="decodeSmdResistor()">
+      <div class="result">
+        <div class="label">DECODED RESISTANCE</div>
+        <div class="big" id="elSmdVal">—</div>
+        <div class="formula">Supports 3-digit (103 = 10 kΩ), 4-digit (4701 = 4.7 kΩ) &amp; R-code (4R7 = 4.7 Ω)</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB 2: VOLTAGE DIVIDER & LED RESISTOR -->
+  <div id="elPanelOhm" class="hidden">
+    <div class="card" style="margin-bottom:12px;">
+      <div class="label">VOLTAGE DIVIDER CALCULATOR</div>
+      <div style="display:grid; grid-template-columns: repeat(3, 1fr); gap:8px;">
+        <div>
+          <label style="display:block; font-size:11px; color:var(--m); margin-bottom:4px;">Vin (V)</label>
+          <input id="elDivVin" type="number" value="12" step="any" oninput="calculateDivider()">
+        </div>
+        <div>
+          <label style="display:block; font-size:11px; color:var(--m); margin-bottom:4px;">R1 (Ω)</label>
+          <input id="elDivR1" type="number" value="10000" step="any" oninput="calculateDivider()">
+        </div>
+        <div>
+          <label style="display:block; font-size:11px; color:var(--m); margin-bottom:4px;">R2 (Ω)</label>
+          <input id="elDivR2" type="number" value="4700" step="any" oninput="calculateDivider()">
+        </div>
+      </div>
+      <div class="result">
+        <div class="label">OUTPUT VOLTAGE (Vout)</div>
+        <div class="big" id="elDivOut">— V</div>
+        <div class="formula" id="elDivCurr">—</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="label">LED SERIES RESISTOR</div>
+      <div style="display:grid; grid-template-columns: repeat(3, 1fr); gap:8px;">
+        <div>
+          <label style="display:block; font-size:11px; color:var(--m); margin-bottom:4px;">Supply (V)</label>
+          <input id="elLedVs" type="number" value="12" step="any" oninput="calculateLedResistor()">
+        </div>
+        <div>
+          <label style="display:block; font-size:11px; color:var(--m); margin-bottom:4px;">LED Vf (V)</label>
+          <input id="elLedVf" type="number" value="2.0" step="0.1" oninput="calculateLedResistor()">
+        </div>
+        <div>
+          <label style="display:block; font-size:11px; color:var(--m); margin-bottom:4px;">Current (mA)</label>
+          <input id="elLedIf" type="number" value="20" step="1" oninput="calculateLedResistor()">
+        </div>
+      </div>
+      <div class="result">
+        <div class="label">REQUIRED SERIES RESISTOR</div>
+        <div class="big" id="elLedRes">— Ω</div>
+        <div class="formula" id="elLedWatt">—</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB 3: RC FILTER & 555 TIMER -->
+  <div id="elPanelRc" class="hidden">
+    <div class="card" style="margin-bottom:12px;">
+      <div class="label">RC LOW / HIGH-PASS FILTER</div>
+      <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
+        <div>
+          <label style="display:block; font-size:11px; color:var(--m); margin-bottom:4px;">Resistor (kΩ)</label>
+          <input id="elRcR" type="number" value="10" step="any" oninput="calculateRcFilter()">
+        </div>
+        <div>
+          <label style="display:block; font-size:11px; color:var(--m); margin-bottom:4px;">Capacitor (µF)</label>
+          <input id="elRcC" type="number" value="0.1" step="any" oninput="calculateRcFilter()">
+        </div>
+      </div>
+      <div class="result">
+        <div class="label">CUTOFF FREQUENCY (fc)</div>
+        <div class="big" id="elRcFreq">— Hz</div>
+        <div class="formula" id="elRcTau">—</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="label">555 TIMER (ASTABLE OSCILLATOR)</div>
+      <div style="display:grid; grid-template-columns: repeat(3, 1fr); gap:8px;">
+        <div>
+          <label style="display:block; font-size:11px; color:var(--m); margin-bottom:4px;">R1 (kΩ)</label>
+          <input id="el555R1" type="number" value="1" step="any" oninput="calculate555()">
+        </div>
+        <div>
+          <label style="display:block; font-size:11px; color:var(--m); margin-bottom:4px;">R2 (kΩ)</label>
+          <input id="el555R2" type="number" value="10" step="any" oninput="calculate555()">
+        </div>
+        <div>
+          <label style="display:block; font-size:11px; color:var(--m); margin-bottom:4px;">C (µF)</label>
+          <input id="el555C" type="number" value="10" step="any" oninput="calculate555()">
+        </div>
+      </div>
+      <div class="result">
+        <div class="label">OUTPUT FREQUENCY &amp; DUTY CYCLE</div>
+        <div class="big" id="el555Freq">— Hz</div>
+        <div class="formula" id="el555Duty">—</div>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+<!-- =========================================================
+     HTML: AUTOMATION PAGE (PLC • VFD • STARTER)
+========================================================= -->
+<section class="page" id="automationPage">
+
+  <div class="top" onclick="home()">
+    <img class="mini" src="assets/icon.webp" alt="EEEGPT">
+    <div>
+      <div class="title">Automation</div>
+      <div class="sub">PLC Analog Scaling • VFD RPM • Star-Delta Starter</div>
+    </div>
+  </div>
+
+  <div class="load-tabs" style="grid-template-columns: repeat(3, 1fr); margin-bottom:14px;">
+    <button type="button" class="load-tab active" id="auTabScale" onclick="setAutomationTab('scale')">PLC Scaling</button>
+    <button type="button" class="load-tab" id="auTabVfd" onclick="setAutomationTab('vfd')">VFD Speed</button>
+    <button type="button" class="load-tab" id="auTabSd" onclick="setAutomationTab('sd')">Star-Delta</button>
+  </div>
+
+  <!-- TAB 1: PLC ANALOG SCALING -->
+  <div id="auPanelScale">
+    <div class="card">
+      <div class="label">4–20 mA / 0–10V ANALOG SCALING</div>
+      <div style="display:grid; grid-template-columns: repeat(2, 1fr); gap:10px; margin-bottom:10px;">
+        <div>
+          <label style="display:block; font-size:11px; color:var(--m); margin-bottom:4px;">Signal Type</label>
+          <select id="auSigType" onchange="calculateAnalogScaling()">
+            <option value="4_20" selected>4 – 20 mA</option>
+            <option value="0_20">0 – 20 mA</option>
+            <option value="0_10">0 – 10 V DC</option>
+          </select>
+        </div>
+        <div>
+          <label style="display:block; font-size:11px; color:var(--m); margin-bottom:4px;">Measured Input (mA / V)</label>
+          <input id="auSigVal" type="number" value="12" step="any" oninput="calculateAnalogScaling()">
+        </div>
+        <div style="grid-column: 1 / -1;">
+          <label style="display:block; font-size:11px; color:var(--m); margin-bottom:4px;">PLC Raw Count Range</label>
+          <select id="auRawMax" onchange="calculateAnalogScaling()">
+            <option value="27648" selected>0 – 27648 (Siemens S7-1200 / S7-1500)</option>
+            <option value="4000">0 – 4000 (Delta / Mitsubishi / Omron)</option>
+            <option value="4095">0 – 4095 (12-Bit Standard ADC)</option>
+            <option value="32000">0 – 32000 (S7-200 / Modbus Standard)</option>
+            <option value="65535">0 – 65535 (16-Bit Unsigned)</option>
+          </select>
+        </div>
+        <div>
+          <label style="display:block; font-size:11px; color:var(--m); margin-bottom:4px;">Scale Min (LRV)</label>
+          <input id="auEngMin" type="number" value="0" step="any" oninput="calculateAnalogScaling()">
+        </div>
+        <div>
+          <label style="display:block; font-size:11px; color:var(--m); margin-bottom:4px;">Scale Max (URV)</label>
+          <input id="auEngMax" type="number" value="100" step="any" oninput="calculateAnalogScaling()">
+        </div>
+        <div style="grid-column: 1 / -1;">
+          <label style="display:block; font-size:11px; color:var(--m); margin-bottom:4px;">Engineering Unit (e.g. °C, bar, PSI, RPM)</label>
+          <input id="auEngUnit" type="text" value="bar" oninput="calculateAnalogScaling()">
+        </div>
+      </div>
+
+      <div class="result">
+        <div class="label">SCALED PROCESS VALUE</div>
+        <div class="big" id="auScaleEngOut">—</div>
+        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:8px; margin-top:10px;">
+          <div style="background:#0c1214; border:1px solid var(--l); border-radius:9px; padding:10px;">
+            <div style="font-size:10px; color:var(--m);">PLC RAW COUNT</div>
+            <div id="auScaleRawOut" style="font-size:16px; font-weight:800; color:#55a8ff; margin-top:2px;">—</div>
+          </div>
+          <div style="background:#0c1214; border:1px solid var(--l); border-radius:9px; padding:10px;">
+            <div style="font-size:10px; color:var(--m);">SPAN PERCENTAGE</div>
+            <div id="auScalePctOut" style="font-size:16px; font-weight:800; color:var(--g); margin-top:2px;">—</div>
+          </div>
+        </div>
+        <div class="formula" id="auScaleStatus">—</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB 2: VFD FREQUENCY & MOTOR RPM -->
+  <div id="auPanelVfd" class="hidden">
+    <div class="card">
+      <div class="label">VFD FREQUENCY ↔ MOTOR SPEED &amp; TORQUE</div>
+      <div style="display:grid; grid-template-columns: repeat(2, 1fr); gap:10px;">
+        <div>
+          <label style="display:block; font-size:11px; color:var(--m); margin-bottom:4px;">Motor Power (kW)</label>
+          <input id="auVfdKw" type="number" value="7.5" min="0.1" step="any" oninput="calculateVfdSpeed()">
+        </div>
+        <div>
+          <label style="display:block; font-size:11px; color:var(--m); margin-bottom:4px;">VFD Output Freq (Hz)</label>
+          <input id="auVfdFreq" type="number" value="35" min="1" max="400" step="0.5" oninput="calculateVfdSpeed()">
+        </div>
+        <div>
+          <label style="display:block; font-size:11px; color:var(--m); margin-bottom:4px;">Motor Poles</label>
+          <select id="auVfdPoles" onchange="calculateVfdSpeed()">
+            <option value="2">2-Pole (3000 RPM @ 50Hz)</option>
+            <option value="4" selected>4-Pole (1500 RPM @ 50Hz)</option>
+            <option value="6">6-Pole (1000 RPM @ 50Hz)</option>
+            <option value="8">8-Pole (750 RPM @ 50Hz)</option>
+          </select>
+        </div>
+        <div>
+          <label style="display:block; font-size:11px; color:var(--m); margin-bottom:4px;">Base Freq / Slip (%)</label>
+          <div style="display:grid; grid-template-columns: 1fr 1fr; gap:6px;">
+            <input id="auVfdBaseFreq" type="number" value="50" min="50" max="60" oninput="calculateVfdSpeed()">
+            <input id="auVfdSlip" type="number" value="3" min="0" max="15" step="0.5" oninput="calculateVfdSpeed()">
+          </div>
+        </div>
+      </div>
+
+      <div class="result">
+        <div class="label">ESTIMATED MOTOR SPEED</div>
+        <div class="big" id="auVfdActRpm">— RPM</div>
+        <div class="formula" id="auVfdSyncRpm">—</div>
+        <div class="formula" id="auVfdTorque" style="color:var(--t); font-weight:700;">—</div>
+        <div class="formula" id="auVfdModeNote">—</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB 3: STAR-DELTA STARTER SIZING -->
+  <div id="auPanelSd" class="hidden">
+    <div class="card">
+      <div class="label">STAR-DELTA STARTER &amp; CONTACTOR SIZING</div>
+      <div class="row" style="margin-bottom:10px;">
+        <div>
+          <label style="display:block; font-size:11px; color:var(--m); margin-bottom:4px;">Motor Power</label>
+          <input id="auSdVal" type="number" value="15" min="0.5" step="any" oninput="calculateStarDelta()">
+        </div>
+        <div>
+          <label style="display:block; font-size:11px; color:var(--m); margin-bottom:4px;">Unit</label>
+          <select id="auSdUnit" class="unit" onchange="calculateStarDelta()">
+            <option value="kw" selected>kW</option>
+            <option value="hp">HP</option>
+          </select>
+        </div>
+      </div>
+
+      <div style="display:grid; grid-template-columns: repeat(3, 1fr); gap:8px;">
+        <div>
+          <label style="display:block; font-size:11px; color:var(--m); margin-bottom:4px;">Voltage (V)</label>
+          <input id="auSdVolt" type="number" value="400" oninput="calculateStarDelta()">
+        </div>
+        <div>
+          <label style="display:block; font-size:11px; color:var(--m); margin-bottom:4px;">PF</label>
+          <input id="auSdPf" type="number" value="0.85" step="0.01" oninput="calculateStarDelta()">
+        </div>
+        <div>
+          <label style="display:block; font-size:11px; color:var(--m); margin-bottom:4px;">Efficiency</label>
+          <input id="auSdEff" type="number" value="0.90" step="0.01" oninput="calculateStarDelta()">
+        </div>
+      </div>
+
+      <div class="result">
+        <div class="label">STARTER COMPONENT SELECTION (IEC 60947-4-1)</div>
+        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:8px; margin-top:8px;">
+          <div style="background:#0c1214; border:1px solid var(--l); border-radius:9px; padding:10px;">
+            <div style="font-size:10px; color:var(--m);">LINE CURRENT (IL)</div>
+            <div id="auSdLineAmp" style="font-size:17px; font-weight:800; color:#55a8ff; margin-top:2px;">— A</div>
+          </div>
+          <div style="background:#0c1214; border:1px solid var(--l); border-radius:9px; padding:10px;">
+            <div style="font-size:10px; color:var(--m);">PHASE CURRENT (0.58×IL)</div>
+            <div id="auSdPhaseAmp" style="font-size:17px; font-weight:800; color:var(--g); margin-top:2px;">— A</div>
+          </div>
+          <div style="background:#10231b; border:1px solid var(--g); border-radius:9px; padding:10px;">
+            <div style="font-size:10px; color:var(--m); font-weight:700;">MAIN &amp; DELTA CONTACTOR</div>
+            <div id="auSdMainDelta" style="font-size:16px; font-weight:800; color:var(--g); margin-top:2px;">—</div>
+          </div>
+          <div style="background:#0c1214; border:1px solid var(--l); border-radius:9px; padding:10px;">
+            <div style="font-size:10px; color:var(--m);">STAR CONTACTOR (0.33×IL)</div>
+            <div id="auSdStar" style="font-size:16px; font-weight:800; color:var(--t); margin-top:2px;">—</div>
+          </div>
+        </div>
+        <div class="formula" id="auSdOlrPhase" style="margin-top:10px; color:var(--t);">—</div>
+        <div class="formula" id="auSdBreaker">—</div>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+<!-- =========================================================
+     HTML: INTERACTIVE SAFETY AUDIT CHECKLIST
+========================================================= -->
+<section class="page" id="auditChecklistPage">
+  <div class="print-watermark" style="display:none;">
+    <img src="assets/android-icon.webp" alt="EEEGPT Watermark">
+  </div>
+
+  <div class="top" onclick="backFromAuditChecklist()">
+    <img class="mini" src="assets/icon.webp" alt="EEEGPT">
+    <div>
+      <div class="title">Safety Audit Checklist</div>
+      <div class="sub">BNBC 2020 • RSC • NFPA • IEC Inspection Report</div>
+    </div>
+  </div>
+
+  <div class="card" style="margin-bottom:12px;">
+    <div class="label">FACILITY &amp; INSPECTION DETAILS</div>
+    <div class="audit-form-grid">
+      <div>
+        <label for="chkFacility">Factory / Building Name</label>
+        <input id="chkFacility" type="text" placeholder="e.g. ABC Knitwear Ltd." oninput="saveChecklistMeta()">
+      </div>
+      <div>
+        <label for="chkRefId">RSC ID / Ref No</label>
+        <input id="chkRefId" type="text" placeholder="e.g. 25557" oninput="saveChecklistMeta()">
+      </div>
+      <div>
+        <label for="chkAuditor">Auditor / Engineer</label>
+        <input id="chkAuditor" type="text" value="Hrridoy Hassen Inno" oninput="saveChecklistMeta()">
+      </div>
+      <div>
+        <label for="chkDate">Inspection Date</label>
+        <input id="chkDate" type="date" oninput="saveChecklistMeta()">
+      </div>
+    </div>
+  </div>
+
+  <div class="audit-summary-grid">
+    <div class="audit-kpi green-kpi">
+      <div class="k-num" id="chkScorePct">0%</div>
+      <div class="k-lbl">Compliance</div>
+    </div>
+    <div class="audit-kpi green-kpi">
+      <div class="k-num" id="chkPassCount">0</div>
+      <div class="k-lbl">Pass</div>
+    </div>
+    <div class="audit-kpi red-kpi">
+      <div class="k-num" id="chkFailCount">0</div>
+      <div class="k-lbl">Fail (Finding)</div>
+    </div>
+    <div class="audit-kpi">
+      <div class="k-num" id="chkPendingCount">0</div>
+      <div class="k-lbl">Pending / N/A</div>
+    </div>
+  </div>
+
+  <div class="card chk-controls-hide" style="margin-bottom:12px; padding:12px;">
+    <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
+      <select id="chkFilterStatus" onchange="renderAuditChecklist()" style="height:36px; width:auto; font-size:12px; padding:0 10px;">
+        <option value="all">Show All Items</option>
+        <option value="fail">Failed (Findings) Only</option>
+        <option value="pass">Passed Only</option>
+        <option value="pending">Unchecked Only</option>
+      </select>
+      <div style="display:flex; gap:6px; flex-wrap:wrap;">
+        <button type="button" class="audit-btn-sec" style="height:36px; font-size:11.5px;" onclick="exportChecklistCSV()">📥 CSV</button>
+        <button type="button" class="audit-btn-sec" style="height:36px; font-size:11.5px;" onclick="window.print()">🖨️ Print PDF</button>
+        <button type="button" class="audit-btn-sec" style="height:36px; font-size:11.5px; color:#dc2626;" onclick="resetAuditChecklist()">🔄 Reset</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="chkItemsList"></div>
 </section>
 
 </div><!-- /.app -->

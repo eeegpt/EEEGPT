@@ -41,11 +41,11 @@ function populateInstall() {
 function phaseChange(shouldCalculate = true) {
   const phaseVal = $('phase').value;
 
-  if (phaseVal === '1') {
-    $('voltage').value = 220;
+ if (phaseVal === '1') {
+    $('voltage').value = 230;
     $('cablePf').value = 0.85;
   } else if (phaseVal === '3') {
-    $('voltage').value = 415;
+    $('voltage').value = 400;
     $('cablePf').value = 0.85;
   } else {
     $('cablePf').value = 1;
@@ -221,7 +221,7 @@ const C = [
 ];
 
 let P = 1;
-let V = 220;
+let V = 230;
 let PF = 0.85;
 let EFF = 0.90;
 
@@ -250,7 +250,7 @@ if (s) {
 
 function phase(n) {
   P = n;
-  V = n === 3 ? 415 : 220;
+  V = n === 3 ? 415 : 230;
   PF = 0.85;
 
   document.getElementById('three').classList.toggle('active', n === 3);
@@ -312,7 +312,7 @@ function showConverter() {
   document.getElementById('converterPage').classList.add('on');
 
   P = 1;
-  V = 220;
+  V = 230;
   PF = 0.85;
   EFF = 0.90;
 
@@ -721,12 +721,12 @@ function calculateCable() {
   const nyyInstallationAllowed = ['tray', 'clipped', 'conduitConcealed', 'conduitSurface', 'trunking', 'trench'].includes(installation);
   const installationCompatible = cableType === 'BYA_SINGLE' ? byaInstallationAllowed : nyyInstallationAllowed;
 
-  let alRuleCompatible = true;
+ let alRuleCompatible = true;
   let alRuleReason = '';
   if (material === 'al') {
     if (job === 'final') {
       alRuleCompatible = false;
-      alRuleReason = 'BNBC 2020 (Part 8, Sec 2.7.1.1) অনুযায়ী অভ্যন্তরীণ ফাইনাল ব্রাঞ্চ সার্কিটে (Light/Fan) অ্যালুমিনিয়াম তার সম্পূর্ণ নিষিদ্ধ। কপার নির্বাচন করুন।';
+      alRuleReason = 'BNBC 2020 (Part VIII, Ch. 1, Gazette p.4568) অনুযায়ী অভ্যন্তরীণ ফাইনাল ব্রাঞ্চ সার্কিটে (Light/Fan) অ্যালুমিনিয়াম তার সম্পূর্ণ নিষিদ্ধ। কপার নির্বাচন করুন।';
     } else if (cableType === 'BYA_SINGLE') {
       alRuleCompatible = false;
       alRuleReason = 'অ্যালুমিনিয়ামে সাধারণ নন-শেথেড BYA তার স্ট্যান্ডার্ড নয়। NYY বা XLPE শেথেড কেবল ব্যবহার করুন।';
@@ -753,7 +753,7 @@ function calculateCable() {
   } else if (matchingCables.length === 0) {
     cableDatabaseStatus = 'Verification Required: No matching cable size found in database (e.g. BYA is PVC only).';
   } else if (material === 'al') {
-    cableDatabaseStatus = 'BNBC 2020 (Sec 2.7.1.1) & RSC 10.3 Note: Bi-Metallic Lugs mandatory when terminating Aluminium to Copper busbar.';
+    cableDatabaseStatus = 'BNBC 2020 (Part VIII, Ch. 1, p.4568): Aluminium allowed ONLY for thick feeders > 35 mm²; Bi-Metallic Lugs mandatory at Copper busbars.';
   }
 
   const validLoad = Number.isFinite(load) && load > 0;
@@ -792,8 +792,11 @@ function calculateCable() {
     1000, 1250, 1600, 2000, 2500, 3200, 4000
   ];
 
+ const groupFactor = $('cableGrouping') ? (Number($('cableGrouping').value) || 1.0) : 1.0;
+  const totalDerating = ambientResult.supported ? (ambientResult.factor * groupFactor) : NaN;
+
   if (databaseCompatible && ambientResult.supported && Number.isFinite(current) && current > 0) {
-    selectedBreakerIn = STANDARD_BREAKERS.find(r => r >= current) || Math.ceil(current);
+    selectedBreakerIn = STANDARD_BREAKERS.find(r => r >= designCurrent) || Math.ceil(designCurrent);
 
     for (let r = 1; r <= 10; r++) {
       const currentPerRun = current / r;
@@ -802,7 +805,8 @@ function calculateCable() {
 
       const candidate = matchingCables
         .filter(c => {
-          const adjustedAmp = c.derated * ambientResult.factor;
+          if (material === 'al' && c.size <= 35) return false; // BNBC 2020 p.4568: Al > 35 mm² only
+          const adjustedAmp = c.derated * totalDerating;
           if (adjustedAmp < designPerRun) return false;
           if (adjustedAmp < breakerPerRun) return false;
 
@@ -828,10 +832,10 @@ function calculateCable() {
   if (currentElement) {
     currentElement.textContent = Number.isFinite(current) && current > 0 ? cableFormat(current) + ' A' : '— A';
   }
-  if (currentNoteElement && Number.isFinite(current) && current > 0) {
+ if (currentNoteElement && Number.isFinite(current) && current > 0) {
     currentNoteElement.innerHTML = isMotorMachine
-      ? `FLC: ${cableFormat(current)} A | Sizing (125%): <strong>${cableFormat(designCurrent)} A</strong><br><span style="font-size:9.5px; color:#4fd18b">Ref: BNBC Sec 2.7.4.3 & NEC 430.22</span>`
-      : 'Based on entered load';
+      ? `FLC: ${cableFormat(current)} A | Sizing (125%): <strong>${cableFormat(designCurrent)} A</strong><br><span style="font-size:9.5px; color:#4fd18b">Ref: NFPA 70 Art. 430.22 &amp; BNBC 2020 Sec 1.3.30</span>`
+      : 'Full Load Current (Ib) per BNBC 2020 Sec 1.3.2';
   }
 
   const runsElement = document.getElementById('rRuns');
@@ -944,7 +948,7 @@ function calculateCable() {
         cableSizeResult.textContent = 'Verification Required';
         cableNoteResult.textContent = cableDatabaseStatus;
       } else if (selectedCableSize) {
-        const autoAdjustedAmpacity = selectedCableSize.derated * ambientResult.factor;
+        const autoAdjustedAmpacity = selectedCableSize.derated * totalDerating;
         const matLabel = material === 'al' ? 'Aluminium' : 'Copper';
         const insLabel = insulation.toUpperCase();
 
@@ -968,20 +972,21 @@ function calculateCable() {
         eccElement.textContent = 'Verification Required';
         eccNoteElement.textContent = 'BNBC Table 8.1.26 / Applicable protection rules';
       } else {
-        const S = selectedCableSize.size;
+      const S = selectedCableSize.size;
         let eccSize;
-        if (S <= 16) eccSize = S;
-        else if (S <= 35) eccSize = 16;
+        if (S < 16) eccSize = S;
+        else if (S < 35) eccSize = 16;
         else {
           const half = S / 2;
           const standardSizes = [25, 35, 50, 70, 95, 120, 150, 185, 240, 300, 400];
           eccSize = standardSizes.find(sz => sz >= half) || Math.ceil(half);
         }
 
+        const eccExtraNote = S === 35 ? ' (IEC 60364-5-54 allows 16 mm²)' : '';
         eccElement.textContent = selectedRuns > 1 ? `${selectedRuns} × ${eccSize} mm²` : `${eccSize} mm²`;
         eccNoteElement.textContent = selectedRuns > 1
-          ? `1 × ${eccSize} mm² per run | BNBC Table 8.1.26`
-          : `Copper ECC | BNBC Table 8.1.26 (Phase ${S} mm²)`;
+          ? `1 × ${eccSize} mm² per run | BNBC 2020 Table 8.1.26${eccExtraNote}`
+          : `Copper ECC | BNBC 2020 Table 8.1.26 (Phase ${S} mm²)${eccExtraNote}`;
       }
     }
 
@@ -1031,7 +1036,7 @@ function calculateCable() {
           <span style="color:#4fd18b; font-weight:700">✓ Fully Coordinated:</span> ${pole} | Ib (${cableFormat(current)} A) ≤ In (${In} A) ≤ Iz (${cableFormat(totalIz)} A)<br>
           ⚡ ${inrushNote}<br>
           🛡️ Short-Circuit Withstand: ${cableFormat(Isc1s, 2)} kA (1s) / ${cableFormat(Isc01s, 2)} kA (0.1s)<br>
-          <span style="font-size:10px; color:#6b827d">Ref: BNBC 2020 Sec 2.7.4 & IEC 60364-4-43</span>
+          <span style="font-size:10px; color:#6b827d">Ref: BNBC 2020 Cl. 1.3.30(c),(d) &amp; IEC 60364-4-43</span>
         `;
       }
     }
@@ -1094,8 +1099,8 @@ function calculateCable() {
             : `${suitableConduit.metric} (${suitableConduit.imperial})`;
 
           conduitNoteElement.innerHTML = selectedRuns > 1
-            ? `Per run: ${suitableConduit.metric} ${pipeType} (${totalWiresPerRun} cables, ${fillPercent}% fill ≤ ${maxFillPercent}%)<br><span style="font-size:10px; color:#6b827d">Ref: BNBC 2020 Sec 2.7.3 & NEC Ch. 9</span>`
-            : `${pipeType} | ${totalWiresPerRun} cables | Fill: ${fillPercent}% (Max ${maxFillPercent}%)<br><span style="font-size:10px; color:#6b827d">Ref: BNBC 2020 Sec 2.7.3 & NEC Ch. 9</span>`;
+            ? `Per run: ${suitableConduit.metric} ${pipeType} (${totalWiresPerRun} cables, ${fillPercent}% fill ≤ ${maxFillPercent}%)<br><span style="font-size:10px; color:#6b827d">Ref: BNBC 2020 Sec 1.3.14 &amp; NEC Ch. 9 Table 1</span>`
+            : `${pipeType} | ${totalWiresPerRun} cables | Fill: ${fillPercent}% (Max ${maxFillPercent}%)<br><span style="font-size:10px; color:#6b827d">Ref: BNBC 2020 Sec 1.3.14 &amp; NEC Ch. 9 Table 1</span>`;
         } else {
           conduitElement.textContent = 'Trunking / Tray Required';
           conduitNoteElement.textContent = 'Total cable volume exceeds standard 63 mm (2½") conduit capacity. Use Cable Trunking.';
@@ -1127,6 +1132,22 @@ function calculateCable() {
     } else {
       statusElement.style.display = 'none';
       statusElement.innerHTML = '';
+    }
+  }
+  const proofEl = document.getElementById('rCodeProof');
+  if (proofEl) {
+    if (databaseCompatible && selectedCableSize && Number.isFinite(current) && current > 0) {
+      const totalIz = (selectedCableSize.derated * totalDerating) * selectedRuns;
+      const vdPct = recVd ? cableFormat(recVd.percent) : '—';
+      proofEl.innerHTML = `
+        <strong>1. Thermal &amp; Derating Check (IEC 60364-5-52):</strong> Base ${selectedCableSize.derated} A × Ambient (${cableFormat(ambientResult.factor, 3)}) × Grouping (${cableFormat(groupFactor, 2)}) × ${selectedRuns} run(s) = <strong>${cableFormat(totalIz)} A (Iz)</strong>.<br>
+        <strong>2. Breaker-Cable Coordination (BNBC 2020 Cl. 1.3.30(c),(d) &amp; IEC 60364-4-43):</strong> Load Ib (${cableFormat(current)} A) ≤ Design (${cableFormat(designCurrent)} A) ≤ Breaker In (${selectedBreakerIn} A) ≤ Cable Iz (${cableFormat(totalIz)} A). Breaker trips before cable overheats.<br>
+        <strong>3. Voltage Drop (BNBC 2020 Sec 1.3.7):</strong> Calculated drop is <strong>${vdPct}%</strong> ≤ Permitted <strong>${maxDrop}%</strong> (BNBC max 2.5% from distribution point).<br>
+        <strong>4. Earth Continuity Conductor (BNBC 2020 Table 8.1.26):</strong> For ${selectedCableSize.size} mm² phase, Cu ECC sized per rule (&lt;16 → same; 16–&lt;35 → 16 mm²; ≥35 → ≥ S/2).<br>
+        <strong>5. Short-Circuit Withstand (IEC 60364-4-43):</strong> Adiabatic Isc = (k × S) / √t verified for ${material.toUpperCase()} / ${insulation.toUpperCase()}.
+      `;
+    } else {
+      proofEl.textContent = 'Enter valid inputs & compliant installation method to generate code justification.';
     }
   }
 }
@@ -1184,7 +1205,8 @@ function calculateExistingCable() {
   const pf = cableNumber('exPf') || 0.85;
   const length = cableNumber('exLength') || 30;
   const distanceUnit = $('exDistanceUnit') ? $('exDistanceUnit').value : 'm';
-  const ambient = cableNumber('exAmbient');
+ const ambient = cableNumber('exAmbient');
+  const groupFactor = $('exGrouping') ? (Number($('exGrouping').value) || 1.0) : 1.0;
 
   const ampacityEl = $('rExAmpacity');
   const ampacityNoteEl = $('rExAmpacityNote');
@@ -1205,15 +1227,20 @@ function calculateExistingCable() {
   if (cableType === 'BYA_SINGLE' && !byaAllowed) {
     messages.push('BNBC/RSC Violation: BYA cable is prohibited in open tray, ladder, or direct clipped wiring. Conduit/Trunking required.');
   }
-  if (material === 'al') {
-    messages.push('BNBC Part 8, Sec 2.7.1.1: Aluminium is prohibited in internal branch wiring. Bi-metallic lugs and catalog verification required.');
+ if (material === 'al') {
+    if (size <= 35) {
+      messages.push('⚠️ BNBC 2020 Violation (Part VIII, Ch. 1, p.4568): Aluminium conductor ≤ 35 mm² is prohibited inside buildings (permitted only for thick cables > 35 mm²).');
+    } else {
+      messages.push('BNBC 2020 (p.4568) & RSC Sec 10.3: Aluminium > 35 mm² permitted for feeders; Bi-metallic lugs mandatory at Copper busbars.');
+    }
   }
 
   const amb = getAmbientCorrection(ambient, insulation);
-  const ambFactor = amb.supported ? amb.factor : 1.0;
+ const ambFactor = amb.supported ? amb.factor : 1.0;
+  const combinedFactor = ambFactor * groupFactor;
   if ($('exAmbientCorrection')) {
     $('exAmbientCorrection').textContent = amb.supported
-      ? `Factor: ${cableFormat(ambFactor, 2)} (${amb.message})`
+      ? `Factor: ${cableFormat(combinedFactor, 2)} (Temp ${cableFormat(ambFactor, 2)} × Group ${cableFormat(groupFactor, 2)})`
       : 'Verification Required';
   }
 
@@ -1304,12 +1331,12 @@ function calculateExistingCable() {
   const vd = calculateVoltageDrop(currentPerRun, voltage, length, size, phaseVal, material, pf);
   if (dropEl && vd) dropEl.textContent = `${cableFormat(vd.volts)} V (${cableFormat(vd.percent)}%)`;
   if (dropNoteEl && vd) {
-    dropNoteEl.textContent = vd.percent <= 3.0
-      ? `✓ Voltage drop is safe (≤ 3.0% at ${length} ${distanceUnit})`
-      : `⚠️ High drop (${cableFormat(vd.percent)}% > 3.0%). Derate load or reduce length.`;
+    dropNoteEl.textContent = vd.percent <= 2.5
+      ? `✓ Compliant: ≤ 2.5% BNBC 2020 Sec 1.3.7 limit (at ${length} ${distanceUnit})`
+      : `⚠️ Exceeds 2.5% BNBC 2020 Sec 1.3.7 limit (${cableFormat(vd.percent)}%). Reduce load/length.`;
   }
 
-  let eccSize = size <= 16 ? size : (size <= 35 ? 16 : (size / 2));
+  let eccSize = size < 16 ? size : (size < 35 ? 16 : (size / 2));
   const standardECC = [1.5, 2.5, 4, 6, 10, 16, 25, 35, 50, 70, 95, 120, 150, 185, 240];
   eccSize = standardECC.find(sz => sz >= eccSize) || Math.ceil(eccSize);
 
@@ -1379,6 +1406,15 @@ function calculateExistingCable() {
     statusEl.style.display = messages.length > 0 ? 'block' : 'none';
     statusEl.innerHTML = messages.join('<br>');
   }
+  const exProofEl = document.getElementById('rExCodeProof');
+  if (exProofEl) {
+    exProofEl.innerHTML = `
+      <strong>1. Safe Ampacity (IEC 60364-5-52):</strong> ${runs} × ${basePerRun} A × Combined Factor (${cableFormat(combinedFactor, 2)}) = <strong>${cableFormat(totalIz)} A (Iz)</strong>.<br>
+      <strong>2. Protection Rule (BNBC 2020 Cl. 1.3.30(c),(d) &amp; IEC 60364-4-43):</strong> Max Breaker In (${In} A) ≤ Cable Iz (${cableFormat(totalIz)} A) ensures cable insulation never overheats.<br>
+      <strong>3. Voltage Drop (BNBC 2020 Sec 1.3.7):</strong> Checked against strict 2.5% BNBC building distribution limit.<br>
+      <strong>4. ECC &amp; Conduit:</strong> Cu ECC sized per <strong>BNBC 2020 Table 8.1.26</strong>; Conduit fill checked per <strong>BNBC Sec 1.3.14 &amp; NEC Ch. 9 (40% Rule)</strong>.
+    `;
+  }
 }
 
 (function initCableCalculator() {
@@ -1408,6 +1444,23 @@ function calculateExistingCable() {
     });
   }
 
+ if (form) {
+    form.addEventListener('reset', function () {
+      setTimeout(() => {
+        jobChange();
+      }, 0);
+    });
+  }
+
+  if (exForm) {
+    exForm.addEventListener('reset', function () {
+      setTimeout(() => {
+        populateExInstall();
+        calculateExistingCable();
+      }, 0);
+    });
+  }
+
   populateInstall();
   calculateCable();
 })();
@@ -1432,7 +1485,13 @@ function hideAllPages() {
     'loadPage',
     'converterPage',
     'cablePage',
-    'breakerPage'
+    'breakerPage',
+   'pfiPage',
+    'substationToolPage',
+    'upsPage',
+   'electronicsPage',
+    'automationPage',
+    'auditChecklistPage'
   ].forEach(id => {
     const el = document.getElementById(id);
     if (el) el.classList.remove('on');
@@ -1459,14 +1518,14 @@ function brkTypeChange() {
   if (type.startsWith('motor_')) {
     document.getElementById('brkLoadUnit').value = 'kw';
     document.getElementById('brkPhase').value = '3';
-    document.getElementById('brkVoltage').value = '415';
+    document.getElementById('brkVoltage').value = '400';
     document.getElementById('brkPf').value = '0.85';
     document.getElementById('brkEff').value = '0.90';
   } else if (type === 'transformer') {
     document.getElementById('brkLoadUnit').value = 'kva';
     document.getElementById('brkLoadVal').value = '250';
     document.getElementById('brkPhase').value = '3';
-    document.getElementById('brkVoltage').value = '415';
+    document.getElementById('brkVoltage').value = '400';
     document.getElementById('brkPf').value = '0.80';
     document.getElementById('brkEff').value = '1.0';
     document.getElementById('brkFaultLocation').value = 'main_lt';
@@ -1474,7 +1533,7 @@ function brkTypeChange() {
     document.getElementById('brkLoadUnit').value = 'kva';
     document.getElementById('brkLoadVal').value = '50';
     document.getElementById('brkPhase').value = '3';
-    document.getElementById('brkVoltage').value = '415';
+    document.getElementById('brkVoltage').value = '400';
     document.getElementById('brkPf').value = '1.0';
     document.getElementById('brkEff').value = '1.0';
   } else if (type === 'dc_load') {
@@ -1486,7 +1545,7 @@ function brkTypeChange() {
   } else {
     document.getElementById('brkLoadUnit').value = 'kw';
     document.getElementById('brkPhase').value = '1';
-    document.getElementById('brkVoltage').value = '220';
+    document.getElementById('brkVoltage').value = '230';
     document.getElementById('brkPf').value = '0.90';
     document.getElementById('brkEff').value = '1.0';
   }
@@ -1496,8 +1555,8 @@ function brkTypeChange() {
 
 function brkPhaseChange() {
   const phaseVal = document.getElementById('brkPhase').value;
-  if (phaseVal === '1') document.getElementById('brkVoltage').value = '220';
-  else if (phaseVal === '3') document.getElementById('brkVoltage').value = '415';
+  if (phaseVal === '1') document.getElementById('brkVoltage').value = '230';
+  else if (phaseVal === '3') document.getElementById('brkVoltage').value = '400';
   else document.getElementById('brkVoltage').value = '110';
   calculateBreaker();
 }
@@ -1668,8 +1727,9 @@ function calculateBreaker() {
   if (notesEl) {
     notesEl.innerHTML = `
       <strong>1. Standards & Code References:</strong><br>
-      • <strong>RSC (Sec 10 & 11) & BNBC 2020 (Sec 2.7.4):</strong> Golden Rule <em>Ib (${ib.toFixed(1)} A) ≤ In (${In} A) ≤ Iz</em> strictly satisfied. Selected cable ensures the breaker trips before the cable overheats.<br>
-      • <strong>NFPA 70 (NEC) Art. 210.20 & 430.22:</strong> 125% continuous sizing factor applied.<br>
+  • <strong>BNBC 2020 Cl. 1.3.30 (a)–(d) &amp; IEC 60364-4-43:</strong> Coordination rule <em>Ib (${ib.toFixed(1)} A) ≤ In (${In} A) ≤ Iz</em> satisfied—selected cable ampacity exceeds breaker rating so cable never burns before tripping.<br>
+      • <strong>Device Standard (${frameType === 'MCB' ? 'IEC 60898-1' : 'IEC 60947-2'}):</strong> Frame &amp; ${icu} breaking capacity matched to installation fault zone.<br>
+      • <strong>NFPA 70 (NEC) Art. 210.20 &amp; 430.22 / IEC 60831:</strong> Application duty multiplier (${(safetyMultiplier * 100).toFixed(0)}%) applied.<br>
       • <strong>Motor Overload Protection:</strong> Thermal Overload Relay (OLR) must be set to 100% of motor nameplate FLC (<strong>${ib.toFixed(1)} A</strong>), while this ${In} A breaker provides short-circuit/backup protection.<br><br>
       <strong>2. Device Specification:</strong><br>
       • <strong>Device Frame:</strong> ${frameType} (${frameDetail})<br>
@@ -1822,9 +1882,12 @@ function calculateLoad(type) {
     `);
   });
 
-  const totalKW = totalWatt / 1000;
-  const DIVERSITY_FACTOR = 0.75;
+ const totalKW = totalWatt / 1000;
+  const divEl = document.getElementById('loadDiversityFactor');
+  const DIVERSITY_FACTOR = divEl ? (Number(divEl.value) || 0.75) : 0.75;
   const maxDemandKW = totalKW * DIVERSITY_FACTOR;
+  const divLabel = document.getElementById('loadMaxDemandLabel');
+  if (divLabel) divLabel.textContent = `MAX DEMAND (${Math.round(DIVERSITY_FACTOR * 100)}%)`;
 
   const PF_RES = 0.90;
   let meterType = 'Single Phase (1-Phase)';
@@ -1864,12 +1927,14 @@ function calculateLoad(type) {
   if (formulaDetails) {
     formulaDetails.innerHTML = `
       <div class="formula-line">
-        <strong>1. Connected Load vs Maximum Demand (BNBC 2020 Sec 2.6.2)</strong><br>
+ <strong>1. Connected Load vs Maximum Demand (BNBC 2020 Sec 1.3.2 &amp; Appendix A)</strong><br>
         Total Connected Load = <strong>${totalKW.toFixed(3)} kW (${Math.round(totalWatt)} W)</strong><br>
-        Maximum Demand = Connected Load × 0.75 Diversity Factor = <strong>${maxDemandKW.toFixed(3)} kW</strong>
+        Maximum Demand = Connected Load × ${DIVERSITY_FACTOR} Diversity = <strong>${maxDemandKW.toFixed(3)} kW</strong><br>
+        <em>Why right:</em> BNBC Sec 1.3.2 requires practical diversity factor since all appliances rarely run simultaneously at 100%.
       </div>
       <div class="formula-line">
-        <strong>2. Meter & Service Sizing (BPDB / DESCO / DPDC / BREB Rules)</strong><br>
+        <strong>2. Nominal Voltage &amp; Service Sizing (BNBC 2020 Sec 1.1.4 &amp; BPDB/DESCO/DPDC/BREB Rules)</strong><br>
+        Nominal 230 V (1-Ph ≤ 7.5 kW) / 400 V (3-Ph &gt; 7.5 kW) | Dedicated HT Substation &gt; 50 kW.<br>
         Connection Type: <strong>${meterType}</strong> (${meterRule})<br>
         Service Current at 0.90 PF = <strong>${mainCurrent.toFixed(1)} A</strong>
       </div>
@@ -2499,25 +2564,21 @@ function runGlobalStandardSearch() {
 
   const query = input ? input.value.trim() : '';
 
-  if (browseWrap) browseWrap.style.display = 'block';
-  if (listEl) listEl.innerHTML = '';
-
   const stds = ['BNBC', 'RSC', 'NFPA', 'IEC'];
   const counts = { BNBC: 0, RSC: 0, NFPA: 0, IEC: 0 };
+  const matches = [];
 
   ACTIVE_STANDARDS_DB.forEach(r => {
-    if (counts[r.standard] !== undefined && (!query || matchStandardRule(r, query))) {
-      counts[r.standard]++;
+    if (!query || matchStandardRule(r, query)) {
+      if (counts[r.standard] !== undefined) counts[r.standard]++;
+      if (query) matches.push(r);
     }
   });
-
-  const totalMatches = counts.BNBC + counts.RSC + counts.NFPA + counts.IEC;
 
   stds.forEach(std => {
     const countBadge = document.getElementById('count' + std);
     const boxBtn = countBadge ? countBadge.closest('.std-box') : null;
     const c = counts[std];
-
     if (countBadge) {
       countBadge.textContent = query ? `${c} Match${c === 1 ? '' : 'es'}` : `${c} Rules`;
     }
@@ -2530,13 +2591,23 @@ function runGlobalStandardSearch() {
   if (!query) {
     if (clearBtn) clearBtn.style.display = 'none';
     if (resultsWrap) resultsWrap.style.display = 'none';
+    if (browseWrap) browseWrap.style.display = 'block';
+    if (listEl) listEl.innerHTML = '';
     return;
   }
 
   if (clearBtn) clearBtn.style.display = 'flex';
   if (resultsWrap) resultsWrap.style.display = 'block';
+  if (browseWrap) browseWrap.style.display = 'none';
+
   if (countEl) {
-    countEl.innerHTML = `<strong>${totalMatches}</strong> match${totalMatches === 1 ? '' : 'es'} found — নিচের যেকোনো বক্সে ট্যাপ করে কোড দেখুন`;
+    countEl.innerHTML = `<strong>${matches.length}</strong> rule${matches.length === 1 ? '' : 's'} found`;
+  }
+
+  if (listEl) {
+    listEl.innerHTML = matches.length > 0
+      ? matches.map(r => buildRuleCardHTML(r, query)).join('')
+      : `<div class="card" style="text-align:center; color:var(--m); padding:24px;">No matching rules found for "${escapeHTML(query)}".</div>`;
   }
 }
 
@@ -2640,14 +2711,27 @@ window.addEventListener('load', () => {
 });
 
 /* =========================================================
-   COMING SOON SECTIONS
+   ELECTRONICS & AUTOMATION NAVIGATION
 ========================================================= */
 function showElectronics() {
-  alert('Electronics section is coming soon.');
+  hideAllPages();
+  document.getElementById('electronicsPage').classList.add('on');
+  calculateColorCode();
+  decodeSmdResistor();
+  calculateDivider();
+  calculateLedResistor();
+  calculateRcFilter();
+  calculate555();
+  history.pushState({ page: 'electronics' }, '', '#electronics');
 }
 
 function showAutomation() {
-  alert('Automation section is coming soon.');
+  hideAllPages();
+  document.getElementById('automationPage').classList.add('on');
+  calculateAnalogScaling();
+  calculateVfdSpeed();
+  calculateStarDelta();
+  history.pushState({ page: 'automation' }, '', '#automation');
 }
 
 /* =========================================================
@@ -2663,8 +2747,31 @@ window.addEventListener('popstate', function () {
     document.getElementById('cablePage').classList.add('on');
     return;
   }
-  if (state && state.page === 'breaker') {
+ if (state && state.page === 'breaker') {
     document.getElementById('breakerPage').classList.add('on');
+    return;
+  }
+  if (state && state.page === 'pfi') {
+    document.getElementById('pfiPage').classList.add('on');
+    calculatePFI();
+    return;
+  }
+  if (state && state.page === 'substationTool') {
+    document.getElementById('substationToolPage').classList.add('on');
+    calculateSubstationTool();
+    return;
+  }
+if (state && state.page === 'ups') {
+    document.getElementById('upsPage').classList.add('on');
+    calculateUps();
+    return;
+  }
+  if (state && state.page === 'electronics') {
+    document.getElementById('electronicsPage').classList.add('on');
+    return;
+  }
+  if (state && state.page === 'automation') {
+    document.getElementById('automationPage').classList.add('on');
     return;
   }
   if (state && state.page === 'converter') {
@@ -2683,6 +2790,11 @@ window.addEventListener('popstate', function () {
   if (state && state.page === 'auditReminder') {
     document.getElementById('auditReminderPage').classList.add('on');
     renderAuditReports();
+    return;
+  }
+  if (state && state.page === 'auditChecklist') {
+    document.getElementById('auditChecklistPage').classList.add('on');
+    renderAuditChecklist();
     return;
   }
   if (state && state.page === 'audit') {
@@ -2726,39 +2838,178 @@ function openHomeModal(type) {
         <button class="tool" onclick="closeHomeModal(); showCableCalculator();">
           <span class="tool-icon">📐</span><span><b>Cable Sizing &amp; Audit</b><small>BNBC 2020 • RSC Sizing &amp; Audit</small></span>
         </button>
-        <button class="tool" onclick="closeHomeModal(); showBreakerSelection();">
+       <button class="tool" onclick="closeHomeModal(); showBreakerSelection();">
           <span class="tool-icon">🛡️</span><span><b>MCB / MCCB / ACB Selection</b><small>IEC 60947-2 • IEC 60898</small></span>
         </button>
-        <button class="tool" onclick="closeHomeModal(); showAuditReminder();">
+        <button class="tool" onclick="closeHomeModal(); showPfiCalculator();">
+          <span class="tool-icon">🔋</span><span><b>PFI / Capacitor Bank</b><small>kVAR &amp; Current Savings</small></span>
+        </button>
+        <button class="tool" onclick="closeHomeModal(); showSubstationTool();">
+          <span class="tool-icon">🏭</span><span><b>Substation &amp; Fault (kA)</b><small>Transformer • Gen • Isc</small></span>
+        </button>
+        <button class="tool" onclick="closeHomeModal(); showUpsCalculator();">
+          <span class="tool-icon">🔌</span><span><b>IPS / UPS Backup</b><small>Battery Time &amp; VA Sizing</small></span>
+        </button>
+      <button class="tool" onclick="closeHomeModal(); showAuditReminder();">
           <span class="tool-icon">📅</span><span><b>Audit Report Reminder</b><small>Expiry &amp; Red Alert Tracker</small></span>
         </button>
-      </div>
-    `;
-  } else if (type === 'favorites') {
-    title.textContent = 'Quick Favorites';
-    body.innerHTML = `
-      <p style="margin:0 0 10px;">Most used compliance &amp; sizing tools:</p>
-      <div style="display:grid; gap:8px;">
-        <button class="tool" onclick="closeHomeModal(); showCableCalculator();">
-          <span class="tool-icon">📐</span><span><b>Cable Sizing &amp; Audit</b><small>BNBC 2020 • RSC</small></span>
+        <button class="tool" onclick="closeHomeModal(); showAuditChecklist();">
+          <span class="tool-icon">✅</span><span><b>Safety Audit Checklist</b><small>Pass/Fail Score &amp; PDF Report</small></span>
         </button>
-        <button class="tool" onclick="closeHomeModal(); showAuditReminder();">
-          <span class="tool-icon">📅</span><span><b>Audit Report Submission Reminder</b><small>RSC • BNBC Tracker</small></span>
+        <button class="tool" onclick="closeHomeModal(); showElectronics();">
+          <span class="tool-icon">🎛️</span><span><b>Electronics Tools</b><small>Resistor • SMD • LED • RC &amp; 555</small></span>
+        </button>
+        <button class="tool" onclick="closeHomeModal(); showAutomation();">
+          <span class="tool-icon">🤖</span><span><b>Automation Tools</b><small>PLC Scaling • VFD • Star-Delta</small></span>
         </button>
       </div>
     `;
   } else if (type === 'about') {
-    title.textContent = 'About EEEGPT';
+    title.textContent = 'About EEEGPT & Tool Guide';
     body.innerHTML = `
-      <p style="margin:0 0 8px;"><strong>EEEGPT</strong> — Your Smart Electrical Assistant built for Bangladesh &amp; International engineering standards (<strong>BNBC 2020, RSC, IEC, NFPA 70</strong>).</p>
-      <p style="margin:0;"><strong>Engineer:</strong> Hrridoy Hassen Inno<br>
-      <strong>Qualification:</strong> BSc in Electrical and Electronic Engineering<br>
-      <strong>Contact:</strong> inno.eee@hotmail.com</p>
+      <div class="about-profile-box">
+        <strong>EEEGPT</strong> — Smart Electrical Engineering Assistant built on <strong>BNBC 2020, RSC, IEC &amp; NFPA 70</strong>.<br>
+        <strong>Developer:</strong> Hrridoy Hassen Inno (BSc in EEE)<br>
+        <strong>Email:</strong> inno.eee@hotmail.com
+      </div>
+
+      <div style="font-size:11.5px; color:#64748b; margin-bottom:6px;">
+        যেকোনো টুলের ওপর ট্যাপ করে তার ব্যবহারের নিয়ম ও কোড রেফারেন্স দেখুন:
+      </div>
+
+      <!-- CATEGORY 1: ELECTRICAL -->
+      <div class="about-cat-head">1. ⚡ Electrical Tools (7)</div>
+
+      <details class="about-tool-item">
+        <summary>1.1 Power Converter</summary>
+        <div class="about-tool-body">
+          <strong>কাজ:</strong> kW, Ampere, Watt ও HP-এর মধ্যে দ্রুত রূপান্তর।<br>
+          <strong>ব্যবহার:</strong> উপরের ঘরে মান ও কনভার্শন (যেমন <em>kW → Amp</em>) সিলেক্ট করুন। এরপর Single Phase (230V) বা Three Phase (400V) বেছে নিন—প্রয়োজনে Voltage, Power Factor (PF) ও Efficiency (η) পরিবর্তন করতে পারবেন।<br>
+          <strong>রেফারেন্স:</strong> BNBC 2020 Sec 1.1.4 (230V / 400V Nominal)।<br>
+          <button type="button" class="about-tool-open" onclick="closeHomeModal(); showConverter();">Open Power Converter →</button>
+        </div>
+      </details>
+
+      <details class="about-tool-item">
+        <summary>1.2 Load Calculator</summary>
+        <div class="about-tool-body">
+          <strong>কাজ:</strong> বাসা, অফিস বা ফ্যাক্টরির মোট কানেক্টেড লোড, ম্যাক্সিমাম ডিমান্ড, মিটার সাইজ এবং দৈনিক/মাসিক বিদ্যুৎ বিল ইউনিট (kWh) নির্ণয়।<br>
+          <strong>ব্যবহার:</strong> প্রথমে <em>Diversity Factor</em> (Residential 0.75, Commercial 0.85, RSC Factory 0.70) সিলেক্ট করুন। এরপর Light, Fan ও Other Load-এ সংখ্যা (Qty), Watt অথবা kW এবং দৈনিক ব্যবহারের ঘণ্টা (Hours) লিখুন।<br>
+          <strong>রেফারেন্স:</strong> BNBC 2020 Sec 1.3.2 &amp; App. A, DESCO/DPDC/BPDB (≤7.5 kW 1-Phase, &gt;7.5 kW 3-Phase, &gt;50 kW Substation)।<br>
+          <button type="button" class="about-tool-open" onclick="closeHomeModal(); showLoadCalculator();">Open Load Calculator →</button>
+        </div>
+      </details>
+
+      <details class="about-tool-item">
+        <summary>1.3 Cable Sizing &amp; Audit</summary>
+        <div class="about-tool-body">
+          <strong>কাজ:</strong> (১) <em>New Cable Sizing</em>: নতুন প্রজেক্টের জন্য সঠিক ক্যাবল, Parallel Runs, ECC, Conduit ও ব্রেকার বের করা। (২) <em>Existing Cable Audit</em>: পুরোনো ক্যাবলের নিরাপদ লোড, ভোল্টেজ ড্রপ ও ব্রেকার যাচাই।<br>
+          <strong>ব্যবহার:</strong> Load, Phase, Route Length, Ambient Temp ও Grouping দিন; এরপর Conductor (Cu/Al), Insulation (PVC/XLPE), Cable Type (BYA/NYY) ও Installation Method সিলেক্ট করে <em>Calculate</em> চাপুন। চাইলে A4 PDF প্রিন্ট করতে পারবেন।<br>
+          <strong>রেফারেন্স:</strong> BNBC 2020 Sec 1.3.7 (≤2.5% Drop), Table 8.1.26 (ECC), Cl. 1.3.30 (Ib ≤ In ≤ Iz), NEC 40% Conduit Rule, IEC 60364-5-52।<br>
+          <button type="button" class="about-tool-open" onclick="closeHomeModal(); showCableCalculator();">Open Cable Sizing &amp; Audit →</button>
+        </div>
+      </details>
+
+      <details class="about-tool-item">
+        <summary>1.4 MCB / MCCB / ACB Selection</summary>
+        <div class="about-tool-body">
+          <strong>কাজ:</strong> মোটর (DOL, Star-Delta, VFD), ট্রান্সফরমার, ক্যাপাসিটর বা ডিসি সার্কিটের জন্য সঠিক ব্রেকার টাইপ, অ্যাম্পিয়ার (In), কার্ভ (B/C/D/LSI), ব্রেকিং ক্যাপাসিটি (kA) ও ন্যূনতম ক্যাবল সাইজ নির্ণয়।<br>
+          <strong>ব্যবহার:</strong> Load Type, লোডের মান (kW/HP/A/kVA), Phase এবং প্যানেলের অবস্থান (Branch / Floor DB / Main LT) সিলেক্ট করুন।<br>
+          <strong>রেফারেন্স:</strong> IEC 60898-1, IEC 60947-2, BNBC 2020 Cl. 1.3.30, NFPA 70 Art. 430.22।<br>
+          <button type="button" class="about-tool-open" onclick="closeHomeModal(); showBreakerSelection();">Open Breaker Selection →</button>
+        </div>
+      </details>
+
+      <details class="about-tool-item">
+        <summary>1.5 PFI / Capacitor Bank Sizing</summary>
+        <div class="about-tool-body">
+          <strong>কাজ:</strong> লো-পাওয়ার ফ্যাক্টর জরিমানা এড়াতে বর্তমান PF থেকে টার্গেট PF-এ নিতে কত kVAR ক্যাপাসিটর ব্যাংক লাগবে ও কত % কারেন্ট সাশ্রয় হবে তা হিসাব।<br>
+          <strong>ব্যবহার:</strong> লোড (kW/kVA/A), ভোল্টেজ, Current PF (যেমন 0.78) ও Target PF (যেমন 0.98) লিখলে অটোমেটিক APFI স্টেপ প্ল্যান ও ব্রেকার সাইজ দেখাবে।<br>
+          <strong>রেফারেন্স:</strong> IEC 60831-1 (135% Harmonic Breaker Rule) ও Utility PF Tariff।<br>
+          <button type="button" class="about-tool-open" onclick="closeHomeModal(); showPfiCalculator();">Open PFI Calculator →</button>
+        </div>
+      </details>
+
+      <details class="about-tool-item">
+        <summary>1.6 Substation, Generator &amp; Fault (kA)</summary>
+        <div class="about-tool-body">
+          <strong>কাজ:</strong> কানেক্টেড লোড থেকে ট্রান্সফরমার kVA, স্ট্যান্ডবাই জেনারেটর kVA/kW, ট্রান্সফরমার সেকেন্ডারি Short-Circuit Fault Level (Isc kA) ও ন্যূনতম রুম এরিয়া হিসাব।<br>
+          <strong>ব্যবহার:</strong> Connected Load (kW), Diversity Factor (RSC 0.70 / BNBC 0.75), Future Margin (%) ও Transformer %Z দিন। এতে Main LT ইনকামার ব্রেকারের ন্যূনতম kA জানা যাবে।<br>
+          <strong>রেফারেন্স:</strong> RSC Sec 10.5.1 &amp; 10.5.3, IEC 60909, BNBC 2020 Tables 8.1.23 &amp; 8.1.24।<br>
+          <button type="button" class="about-tool-open" onclick="closeHomeModal(); showSubstationTool();">Open Substation Tool →</button>
+        </div>
+      </details>
+
+      <details class="about-tool-item">
+        <summary>1.7 IPS / UPS &amp; Battery Backup</summary>
+        <div class="about-tool-body">
+          <strong>কাজ:</strong> চলমান লোড ও ব্যাটারি ব্যাংক (V, Ah) অনুযায়ী ব্যাকআপ সময়, ন্যূনতম ইনভার্টার VA রেটিং, ডিসি কারেন্ট, ফিউজ ও চার্জিং সময় নির্ণয়।<br>
+          <strong>ব্যবহার:</strong> Running Watt, System DC Voltage (12V–120V), Battery Ah, Parallel Strings ও Battery Type (Tubular/Lithium/Lead-Acid) নির্বাচন করুন।<br>
+          <strong>রেফারেন্স:</strong> IEEE 485, IEC 62040-3।<br>
+          <button type="button" class="about-tool-open" onclick="closeHomeModal(); showUpsCalculator();">Open IPS/UPS Calculator →</button>
+        </div>
+      </details>
+
+      <!-- CATEGORY 2: AUDIT & STANDARDIZATION -->
+      <div class="about-cat-head">2. 📋 Audit &amp; Standardization (2)</div>
+
+      <details class="about-tool-item">
+        <summary>2.1 Standard Code Engine (BNBC • RSC • NFPA • IEC)</summary>
+        <div class="about-tool-body">
+          <strong>কাজ:</strong> ফ্যাক্টরি ও বিল্ডিং ইলেকট্রিক্যাল সেফটি অডিটের প্রয়োজনীয় কোড, লিমিট ও অডিটর চেকপয়েন্ট অফলাইনে দ্রুত খুঁজে পাওয়া।<br>
+          <strong>ব্যবহার:</strong> সার্চ বক্সে কীওয়ার্ড (যেমন <em>Substation, Earthing, Panel, LPS, 30mA</em>) লিখে সাথে সাথে রুলস দেখুন, অথবা যেকোনো স্ট্যান্ডার্ডের বক্সে ঢুকে টপিক ফিল্টার, কপি বা প্রিন্ট করুন।<br>
+          <button type="button" class="about-tool-open" onclick="closeHomeModal(); showAudit();">Open Code Engine →</button>
+        </div>
+      </details>
+
+      <details class="about-tool-item">
+        <summary>2.2 Audit Report Submission Reminder</summary>
+        <div class="about-tool-body">
+          <strong>কাজ:</strong> বিভিন্ন টেস্ট রিপোর্টের (যেমন IR, Earth Resistance, Thermography, LPS) মেয়াদ ট্র্যাক রাখা এবং মেয়াদ শেষ হওয়ার ১ মাস আগেই রেড অ্যালার্ট ও Push Notification পাওয়া।<br>
+          <strong>ব্যবহার:</strong> রিপোর্টের নাম, RSC ID, Submission Date ও Re-Test Frequency দিয়ে সেভ করুন। <strong>Enable Alert</strong> দিলে ব্যাকগ্রাউন্ড নোটিফিকেশন পাবেন এবং <strong>☁️ Sync</strong> দিয়ে অন্য ডিভাইস থেকেও ডাটা লোড/ব্যাকআপ করতে পারবেন।<br>
+         <button type="button" class="about-tool-open" onclick="closeHomeModal(); showAuditReminder();">Open Audit Reminder →</button>
+        </div>
+      </details>
+
+      <details class="about-tool-item">
+        <summary>2.3 Factory Safety Audit Checklist</summary>
+        <div class="about-tool-body">
+          <strong>কাজ:</strong> BNBC, RSC, NFPA ও IEC রুলস অনুযায়ী ফ্যাক্টরি পরিদর্শনের সময় Pass / Fail / N/A টিক দিয়ে অটো Compliance Score (%) বের করা এবং CAP রিমার্কসসহ A4 PDF অডিট রিপোর্ট প্রিন্ট করা।<br>
+          <button type="button" class="about-tool-open" onclick="closeHomeModal(); showAuditChecklist();">Open Audit Checklist →</button>
+        </div>
+      </details>
+
+      <!-- CATEGORY 3: ELECTRONICS -->
+      <div class="about-cat-head">3. 🎛️ Electronics Tools (3 Tabs)</div>
+      <details class="about-tool-item">
+        <summary>3.1 Resistor, SMD, Divider, LED, RC &amp; 555</summary>
+        <div class="about-tool-body">
+         <strong>কাজ:</strong> ৪-ব্যান্ড রেজিস্টর কালার কোড, SMD কোড ডিকোডার (<code>103</code>, <code>4R7</code>), ভোল্টেজ ডিভাইডার, LED সিরিজ রেজিস্টর, RC ফিল্টার ও 555 টাইমার ক্যালকুলেশন।<br>
+          <button type="button" class="about-tool-open" onclick="closeHomeModal(); showElectronics();">Open Electronics →</button>
+        </div>
+      </details>
+
+      <!-- CATEGORY 4: AUTOMATION -->
+      <div class="about-cat-head">4. 🤖 Automation Tools (3 Tabs)</div>
+      <details class="about-tool-item">
+        <summary>4.1 PLC Analog Scaling, VFD RPM &amp; Star-Delta Starter</summary>
+        <div class="about-tool-body">
+          <strong>কাজ:</strong> ৪–২০ mA / ০–১০V এনালগ স্কেলিং (Siemens/Delta Raw Count), VFD ফ্রিকোয়েন্সি থেকে মোটর RPM/টর্ক এবং Star-Delta কন্টাক্টর ও OLR সাইজিং।<br>
+          <button type="button" class="about-tool-open" onclick="closeHomeModal(); showAutomation();">Open Automation →</button>
+        </div>
+      </details>
     `;
   } else if (type === 'settings') {
     title.textContent = 'App Settings';
+    const isDark = document.body.classList.contains('dark-mode');
     body.innerHTML = `
       <div style="display:grid; gap:10px;">
+        <button type="button" class="audit-btn-sec" id="themeToggleBtn" onclick="toggleAppTheme()">
+          ${isDark ? '☀️ Switch to Light Mode' : '🌙 Switch to Dark Mode'}
+        </button>
+        <button type="button" class="audit-btn-sec" onclick="closeHomeModal(); openAuditSyncModal();">
+          ☁️ Audit Data Sync &amp; Backup
+        </button>
         <button type="button" class="audit-btn-primary" onclick="requestAuditNotificationPermission()">
           🔔 Enable Audit Push Notifications
         </button>
@@ -2834,14 +3085,25 @@ document.addEventListener('click', function (e) {
     gtag('event', 'open_load_calculator', { tool_name: 'Load Calculator' });
   } else if (action.includes('showCableCalculator')) {
     gtag('event', 'open_cable_calculator', { tool_name: 'Cable Sizing & Audit' });
-  } else if (action.includes('showBreakerSelection')) {
+  
+} else if (action.includes('showBreakerSelection')) {
     gtag('event', 'open_breaker_selection', { tool_name: 'Breaker Selection' });
+  } else if (action.includes('showPfiCalculator')) {
+    gtag('event', 'open_pfi_calculator', { tool_name: 'PFI Calculator' });
+  } else if (action.includes('showSubstationTool')) {
+    gtag('event', 'open_substation_tool', { tool_name: 'Substation & Fault Sizing' });
+  } else if (action.includes('showUpsCalculator')) {
+    gtag('event', 'open_ups_calculator', { tool_name: 'IPS/UPS Backup' });
+  } else if (action.includes('showAuditChecklist')) {
+    gtag('event', 'open_audit_checklist', { tool_name: 'Safety Audit Checklist' });
+  } else if (action.includes('showAuditReminder')) {
+    gtag('event', 'open_audit_reminder', { tool_name: 'Audit Report Reminder' });
   } else if (action.includes('showAudit')) {
     gtag('event', 'open_audit_section', { section: 'Audit & Standardization' });
-  } else if (action.includes('showElectronics')) {
-    gtag('event', 'click_coming_soon', { section: 'Electronics' });
+ } else if (action.includes('showElectronics')) {
+    gtag('event', 'open_electronics_section', { section: 'Electronics' });
   } else if (action.includes('showAutomation')) {
-    gtag('event', 'click_coming_soon', { section: 'Automation' });
+    gtag('event', 'open_automation_section', { section: 'Automation' });
   } else if (action.includes('calculateCable')) {
     gtag('event', 'calculate_new_cable', { button: label });
   } else if (action.includes('calculateExistingCable')) {
@@ -2852,3 +3114,952 @@ document.addEventListener('click', function (e) {
     gtag('event', 'add_load_row', { button: label });
   }
 });
+
+/* =========================================================
+   PWA INSTALL BUTTON LOGIC
+========================================================= */
+let deferredInstallPrompt = null;
+
+function isAppInstalled() {
+  return window.matchMedia('(display-mode: standalone)').matches ||
+    window.matchMedia('(display-mode: fullscreen)').matches ||
+    window.navigator.standalone === true;
+}
+
+function updateInstallButtonUI() {
+  const btn = document.getElementById('installAppBtn');
+  const label = document.getElementById('installBtnLabel');
+  const icon = document.getElementById('installBtnIcon');
+  if (!btn || !label || !icon) return;
+
+  btn.classList.remove('install-ready', 'installed');
+
+  if (isAppInstalled()) {
+    btn.classList.add('installed');
+    label.textContent = 'Installed';
+    icon.innerHTML = '<path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm-1.2 14.2L6.6 12l1.4-1.4 2.8 2.8 5.8-5.8L18 9l-7.2 7.2z"/>';
+  } else {
+    label.textContent = 'Install';
+    icon.innerHTML = '<path d="M5 20h14v-2H5v2zM19 9h-4V3H9v6H5l7 7 7-7z"/>';
+    if (deferredInstallPrompt) {
+      btn.classList.add('install-ready');
+    }
+  }
+}
+
+window.addEventListener('beforeinstallprompt', (e) => {
+  e.preventDefault();
+  deferredInstallPrompt = e;
+  updateInstallButtonUI();
+});
+
+window.addEventListener('appinstalled', () => {
+  deferredInstallPrompt = null;
+  updateInstallButtonUI();
+  if (typeof gtag === 'function') {
+    gtag('event', 'app_installed', { method: 'pwa_prompt' });
+  }
+});
+
+async function handleInstallClick() {
+  const modal = document.getElementById('homeModal');
+  const title = document.getElementById('homeModalTitle');
+  const body = document.getElementById('homeModalBody');
+
+  if (isAppInstalled()) {
+    if (modal && title && body) {
+      title.textContent = 'EEEGPT Installed';
+      body.innerHTML = `
+        <p style="margin:0; color:#065f46; font-weight:600;">
+          ✅ EEEGPT অ্যাপটি ইতিমধ্যেই আপনার ডিভাইসে ইনস্টল করা আছে।
+        </p>
+      `;
+      modal.classList.add('open');
+    }
+    return;
+  }
+
+  if (deferredInstallPrompt) {
+    deferredInstallPrompt.prompt();
+    const choiceResult = await deferredInstallPrompt.userChoice;
+    if (typeof gtag === 'function') {
+      gtag('event', 'install_prompt_choice', { outcome: choiceResult.outcome });
+    }
+    if (choiceResult.outcome === 'accepted') {
+      deferredInstallPrompt = null;
+    }
+    updateInstallButtonUI();
+    return;
+  }
+
+  // Fallback guide for iOS Safari / In-app browsers / when prompt is not ready
+  const ua = navigator.userAgent || '';
+  const isIOS = /iPhone|iPad|iPod/i.test(ua);
+  const isInApp = /FBAN|FBAV|Instagram|WhatsApp|Messenger/i.test(ua);
+
+  if (modal && title && body) {
+    title.textContent = 'Install EEEGPT App';
+    if (isInApp) {
+      body.innerHTML = `
+        <p style="margin:0 0 8px;">আপনি ইন-অ্যাপ ব্রাউজার (যেমন Facebook/Messenger) থেকে দেখছেন। অ্যাপটি ইনস্টল করতে:</p>
+        <ol style="margin:0; padding-left:18px;">
+          <li>উপরের ডান কোণার <strong>⋮</strong> বা <strong>⋯</strong> মেনুতে ট্যাপ করুন।</li>
+          <li><strong>Open in Chrome / Safari</strong> সিলেক্ট করুন।</li>
+          <li>তারপর নিচের <strong>Install</strong> বাটনে চাপ দিন।</li>
+        </ol>
+      `;
+    } else if (isIOS) {
+      body.innerHTML = `
+        <p style="margin:0 0 8px;">iPhone / iPad-এ EEEGPT ইনস্টল করতে নিচের ধাপগুলো অনুসরণ করুন:</p>
+        <ol style="margin:0; padding-left:18px;">
+          <li>Safari ব্রাউজারের নিচে <strong>Share (□↑)</strong> বাটনে ট্যাপ করুন।</li>
+          <li>নিচে স্ক্রল করে <strong>Add to Home Screen</strong> সিলেক্ট করুন।</li>
+          <li>উপরের ডানে <strong>Add</strong> চাপুন।</li>
+        </ol>
+      `;
+    } else {
+      body.innerHTML = `
+        <p style="margin:0 0 8px;">আপনার ডিভাইসে EEEGPT অ্যাপ হিসেবে ইনস্টল করতে:</p>
+        <ol style="margin:0; padding-left:18px;">
+          <li>ব্রাউজারের উপরের ডান কোণায় <strong>⋮ (Menu)</strong> বাটনে ট্যাপ করুন।</li>
+          <li><strong>Install app</strong> অথবা <strong>Add to Home screen</strong> অপশনে ক্লিক করুন।</li>
+        </ol>
+        <p style="margin:10px 0 0; font-size:12px; color:#64748b;">
+          (নোট: অ্যাপ আগে থেকেই ইনস্টল করা থাকলে বা ব্রাউজার প্রম্পট আটকে রাখলে এখান থেকেই সরাসরি ইনস্টল করা যাবে।)
+        </p>
+      `;
+    }
+    modal.classList.add('open');
+  }
+}
+
+updateInstallButtonUI();
+
+/* =========================================================
+   THEME TOGGLE (LIGHT / DARK)
+========================================================= */
+const THEME_STORAGE_KEY = 'eeegpt_theme';
+
+function applySavedTheme() {
+  const saved = localStorage.getItem(THEME_STORAGE_KEY);
+  document.body.classList.toggle('dark-mode', saved === 'dark');
+}
+
+function toggleAppTheme() {
+  const isDark = document.body.classList.toggle('dark-mode');
+  localStorage.setItem(THEME_STORAGE_KEY, isDark ? 'dark' : 'light');
+  const btn = document.getElementById('themeToggleBtn');
+  if (btn) {
+    btn.textContent = isDark ? '☀️ Switch to Light Mode' : '🌙 Switch to Dark Mode';
+  }
+}
+
+applySavedTheme();
+
+/* =========================================================
+   AUDIT CROSS-DEVICE CLOUD SYNC & JSON BACKUP
+========================================================= */
+function openAuditSyncModal() {
+  const modal = document.getElementById('homeModal');
+  const title = document.getElementById('homeModalTitle');
+  const body = document.getElementById('homeModalBody');
+  if (!modal || !title || !body) return;
+
+  const currentId = getAuditDeviceId();
+  title.textContent = 'Audit Data Sync & Backup';
+  body.innerHTML = `
+    <div style="display:grid; gap:10px;">
+      <div style="background:#f8fafc; border:1px solid #cbd5e1; border-radius:10px; padding:10px;">
+        <div style="font-size:11px; color:#64748b; font-weight:700;">YOUR CURRENT SYNC ID</div>
+        <div style="display:flex; gap:6px; align-items:center; margin-top:5px;">
+          <input type="text" id="mySyncIdDisplay" value="${escapeHTML(currentId)}" readonly style="height:36px; font-size:12px;">
+          <button type="button" class="audit-btn-sec" style="height:36px; white-space:nowrap;" onclick="copyAuditSyncId()">📋 Copy</button>
+        </div>
+        <div style="font-size:11px; color:#64748b; margin-top:5px;">এই ID অন্য ফোন/পিসিতে বসিয়ে একই রিপোর্টগুলো লোড করতে পারবেন।</div>
+      </div>
+
+      <div style="background:#f8fafc; border:1px solid #cbd5e1; border-radius:10px; padding:10px;">
+        <div style="font-size:11px; color:#64748b; font-weight:700;">RESTORE FROM ANOTHER DEVICE ID</div>
+        <div style="display:flex; gap:6px; align-items:center; margin-top:5px;">
+          <input type="text" id="restoreSyncIdInput" placeholder="Paste Sync ID (e.g. dev_...)" style="height:36px; font-size:12px;">
+          <button type="button" class="audit-btn-primary" style="height:36px; flex:0 0 auto; padding:0 12px;" onclick="restoreAuditFromCloud()">☁️ Load</button>
+        </div>
+      </div>
+
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px;">
+        <button type="button" class="audit-btn-sec" onclick="exportAuditJSON()">📤 Export JSON</button>
+        <button type="button" class="audit-btn-sec" onclick="importAuditJSON()">📥 Import JSON</button>
+      </div>
+    </div>
+  `;
+  modal.classList.add('open');
+}
+
+function copyAuditSyncId() {
+  const id = getAuditDeviceId();
+  navigator.clipboard.writeText(id)
+    .then(() => alert('Sync ID copied: ' + id))
+    .catch(() => alert('Your Sync ID: ' + id));
+}
+
+async function restoreAuditFromCloud() {
+  const input = document.getElementById('restoreSyncIdInput');
+  const targetId = input ? input.value.trim() : '';
+  if (!targetId) {
+    alert('Please paste a valid Sync ID first.');
+    return;
+  }
+  if (!window.firebaseDB || !window.firebaseGet || !window.firebaseRef) {
+    alert('Firebase এখনো সংযুক্ত হয়নি। ইন্টারনেট চেক করুন।');
+    return;
+  }
+
+  try {
+    const snap = await window.firebaseGet(
+      window.firebaseRef(window.firebaseDB, 'audit_devices/' + targetId + '/reports')
+    );
+    if (!snap.exists()) {
+      alert('এই Sync ID-তে কোনো সেভ করা রিপোর্ট পাওয়া যায়নি।');
+      return;
+    }
+
+    const val = snap.val();
+    const list = Array.isArray(val) ? val : Object.values(val || {});
+    localStorage.setItem(AUDIT_DEVICE_KEY, targetId);
+    saveAuditReportsToStorage(list);
+    renderAuditReports();
+    updateAuditBadges(false);
+    closeHomeModal();
+    alert(`সফলভাবে ${list.length}টি অডিট রিপোর্ট লোড হয়েছে!`);
+  } catch (err) {
+    alert('Cloud load failed: ' + err.message);
+  }
+}
+
+function exportAuditJSON() {
+  const list = getAuditReports();
+  const payload = {
+    app: 'EEEGPT',
+    exportedAt: new Date().toISOString(),
+    reports: list
+  };
+  const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `EEEGPT_Audit_Backup_${toInputDateStr(new Date())}.json`;
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+function importAuditJSON() {
+  const picker = document.createElement('input');
+  picker.type = 'file';
+  picker.accept = '.json,application/json';
+  picker.onchange = async (e) => {
+    const file = e.target.files && e.target.files[0];
+    if (!file) return;
+    try {
+      const text = await file.text();
+      const parsed = JSON.parse(text);
+      const list = Array.isArray(parsed) ? parsed : (Array.isArray(parsed.reports) ? parsed.reports : null);
+      if (!list) {
+        alert('Invalid backup JSON file.');
+        return;
+      }
+      saveAuditReportsToStorage(list);
+      syncAuditToFirebase();
+      renderAuditReports();
+      updateAuditBadges(false);
+      closeHomeModal();
+      alert(`সফলভাবে ${list.length}টি রিপোর্ট ইমপোর্ট হয়েছে!`);
+    } catch (err) {
+      alert('ফাইলটি পড়া যায়নি: ' + err.message);
+    }
+  };
+  picker.click();
+}
+/* =========================================================
+   STEP 2 TOOLS: PFI • SUBSTATION/FAULT • IPS/UPS
+========================================================= */
+function backFromElectricalTool() {
+  hideAllPages();
+  document.getElementById('electricalPage').classList.add('on');
+  history.pushState({ page: 'electrical' }, '', '#electrical');
+}
+
+/* ---------- 1. PFI / CAPACITOR BANK CALCULATOR ---------- */
+function showPfiCalculator() {
+  hideAllPages();
+  document.getElementById('pfiPage').classList.add('on');
+  calculatePFI();
+  history.pushState({ page: 'pfi' }, '', '#pfi');
+}
+
+function pfiPhaseChange() {
+  const ph = document.getElementById('pfiPhase').value;
+  document.getElementById('pfiVoltage').value = ph === '3' ? 400 : 230;
+  calculatePFI();
+}
+
+function suggestPfiStages(kvar) {
+  if (kvar <= 0) return 'No capacitor bank required';
+  if (kvar <= 10) return `Suggested Unit: ${Math.ceil(kvar / 2.5) * 2.5} kVAR Fixed / 2-Step`;
+
+  const rounded = Math.ceil(kvar / 5) * 5;
+  let rem = rounded;
+  const steps = [];
+  [50, 25, 10, 5].forEach(sz => {
+    const cnt = Math.floor(rem / sz);
+    if (cnt > 0) {
+      steps.push(`${cnt}×${sz}`);
+      rem -= cnt * sz;
+    }
+  });
+  return `Standard APFI Bank: ${rounded} kVAR (Steps: ${steps.join(' + ')} kVAR)`;
+}
+
+function calculatePFI() {
+  const val = Number(document.getElementById('pfiLoadVal').value);
+  const unit = document.getElementById('pfiLoadUnit').value;
+  const ph = document.getElementById('pfiPhase').value;
+  const V = Number(document.getElementById('pfiVoltage').value);
+  const pf1 = Number(document.getElementById('pfiCurrentPf').value);
+  const pf2 = Number(document.getElementById('pfiTargetPf').value);
+
+  const kvarEl = document.getElementById('pfiKvarRes');
+  const stageEl = document.getElementById('pfiStagePlan');
+  const curEl = document.getElementById('pfiAfterCurrent');
+  const savEl = document.getElementById('pfiSavingsPct');
+  const brkEl = document.getElementById('pfiBreakerCable');
+  const detEl = document.getElementById('pfiDetails');
+
+  if (!Number.isFinite(val) || val <= 0 || !Number.isFinite(V) || V <= 0 ||
+      !Number.isFinite(pf1) || pf1 <= 0 || pf1 > 1 ||
+      !Number.isFinite(pf2) || pf2 <= 0 || pf2 > 1) {
+    kvarEl.textContent = '— kVAR';
+    stageEl.textContent = 'Enter valid inputs (0 < PF ≤ 1)';
+    return;
+  }
+
+  const factor = ph === '3' ? Math.sqrt(3) : 1;
+  let P = 0;
+  let I1 = 0;
+
+  if (unit === 'kw') {
+    P = val;
+    I1 = (P * 1000) / (factor * V * pf1);
+  } else if (unit === 'kva') {
+    P = val * pf1;
+    I1 = (val * 1000) / (factor * V);
+  } else {
+    I1 = val;
+    P = (factor * V * I1 * pf1) / 1000;
+  }
+
+  if (pf2 <= pf1) {
+    kvarEl.textContent = '0 kVAR';
+    stageEl.textContent = 'Target PF is already met or lower than Current PF.';
+    curEl.textContent = `${I1.toFixed(1)} A`;
+    savEl.textContent = '0% change';
+    brkEl.textContent = '—';
+    return;
+  }
+
+  const tan1 = Math.sqrt(Math.max(0, 1 - pf1 * pf1)) / pf1;
+  const tan2 = Math.sqrt(Math.max(0, 1 - pf2 * pf2)) / pf2;
+  const qc = P * (tan1 - tan2);
+  const I2 = (P * 1000) / (factor * V * pf2);
+  const savedA = I1 - I2;
+  const savedPct = (savedA / I1) * 100;
+
+  const capCurrent = (qc * 1000) / (factor * V);
+  const stdBreakers = [6, 10, 16, 20, 25, 32, 40, 50, 63, 80, 100, 125, 160, 200, 250, 315, 400, 500, 630, 800, 1000];
+  const pfiIn = stdBreakers.find(b => b >= capCurrent * 1.35) || Math.ceil(capCurrent * 1.35);
+
+  kvarEl.textContent = `${qc.toFixed(2)} kVAR`;
+  stageEl.textContent = suggestPfiStages(qc);
+  curEl.textContent = `${I1.toFixed(1)} A → ${I2.toFixed(1)} A`;
+  savEl.textContent = `Saves ${savedA.toFixed(1)} A (${savedPct.toFixed(1)}% reduction)`;
+  brkEl.textContent = `${pfiIn} A ${pfiIn > 63 ? 'MCCB' : 'MCB'}`;
+
+  detEl.innerHTML = `
+    • <strong>Formula:</strong> Qc = P × (tan φ1 − tan φ2)<br>
+    • <strong>Active Power (P):</strong> ${P.toFixed(2)} kW<br>
+    • <strong>tan φ1 (PF ${pf1}):</strong> ${tan1.toFixed(3)} | <strong>tan φ2 (PF ${pf2}):</strong> ${tan2.toFixed(3)}<br>
+    • <strong>Capacitor Rated Current:</strong> ${capCurrent.toFixed(1)} A (Breaker sized at 135% = ${(capCurrent * 1.35).toFixed(1)} A)<br>
+    • <strong>Note:</strong> If facility has heavy VFD/rectifier loads, use 7% Detuned Reactor PFI Panel (440V/480V rated capacitors).
+    • <strong>Code Justification (IEC 60831-1 &amp; BERC/Utility Tariff):</strong> 135% breaker margin handles capacitor switching harmonics &amp; +10% overvoltage; maintaining PF ≥ 0.95 avoids utility low-PF penalty.<br>
+  `;
+}
+
+/* ---------- 2. SUBSTATION, GENERATOR & FAULT LEVEL ---------- */
+function showSubstationTool() {
+  hideAllPages();
+  document.getElementById('substationToolPage').classList.add('on');
+  calculateSubstationTool();
+  history.pushState({ page: 'substationTool' }, '', '#substation-tool');
+}
+
+function calculateSubstationTool() {
+  const connKW = Number(document.getElementById('subConnLoad').value);
+  const div = Number(document.getElementById('subDivFactor').value) || 0.70;
+  const expPct = Number(document.getElementById('subExpansion').value) || 0;
+  const V = Number(document.getElementById('subVoltage').value) || 415;
+  const zPct = Number(document.getElementById('subImpedance').value) || 4.5;
+  const genTargetPct = Number(document.getElementById('subGenTargetLoad').value) || 80;
+
+  if (!Number.isFinite(connKW) || connKW <= 0) {
+    document.getElementById('subTxRating').textContent = '— kVA';
+    return;
+  }
+
+  const designKW = connKW * div * (1 + expPct / 100);
+  const designKVA = designKW / 0.80;
+
+  const STD_TX = [50, 100, 160, 200, 250, 315, 400, 500, 630, 800, 1000, 1250, 1600, 2000, 2500, 3150];
+  const txKva = STD_TX.find(s => s >= designKVA) || Math.ceil(designKVA);
+  const txLoading = (designKVA / txKva) * 100;
+
+  const txFlc = (txKva * 1000) / (Math.sqrt(3) * V);
+  const iscKA = (txFlc / (zPct / 100)) / 1000;
+  const STD_ICU = [16, 25, 36, 50, 65, 85, 100];
+  const recIcu = STD_ICU.find(k => k >= iscKA) || Math.ceil(iscKA);
+
+  const reqGenKva = designKVA / (genTargetPct / 100);
+  const STD_GEN = [15, 20, 30, 45, 60, 80, 100, 125, 150, 200, 250, 300, 350, 400, 500, 625, 750, 1000, 1250, 1500, 2000];
+  const genKva = STD_GEN.find(g => g >= reqGenKva) || Math.ceil(reqGenKva);
+  const genKW = genKva * 0.80;
+
+  let txRoomArea = '45 m²';
+  if (txKva <= 150) txRoomArea = '45 m²';
+  else if (txKva <= 400) txRoomArea = '48 m²';
+  else if (txKva <= 800) txRoomArea = '100 m² (2×400 equiv.)';
+  else txRoomArea = '135 m²+';
+
+  let genRoomArea = '20 m²';
+  if (genKW <= 25) genRoomArea = '20 m²';
+  else if (genKW <= 48) genRoomArea = '24 m²';
+  else if (genKW <= 100) genRoomArea = '30 m²';
+  else if (genKW <= 150) genRoomArea = '36 m²';
+  else if (genKW <= 300) genRoomArea = '48 m²';
+  else if (genKW <= 500) genRoomArea = '56 m²';
+  else genRoomArea = '65 m²+';
+
+  document.getElementById('subTxRating').textContent = `${txKva} kVA`;
+  document.getElementById('subTxLoading').textContent = `Design Demand: ${designKVA.toFixed(1)} kVA (${txLoading.toFixed(1)}% loaded)`;
+  document.getElementById('subFaultLevel').textContent = `${iscKA.toFixed(2)} kA`;
+  document.getElementById('subFaultBreaker').textContent = `Min LT Incomer Icu ≥ ${recIcu} kA (FLC: ${txFlc.toFixed(0)} A)`;
+  document.getElementById('subGenRating').textContent = `${genKva} kVA (${genKW.toFixed(0)} kW)`;
+  document.getElementById('subGenNote').textContent = `Sized for ${genTargetPct}% prime loading`;
+  document.getElementById('subRoomArea').textContent = `Sub: ${txRoomArea} | Gen: ${genRoomArea}`;
+
+ document.getElementById('subDetails').innerHTML = `
+    • <strong>Demand Basis (RSC Sec 10.5.1 / BNBC Sec 1.3.2):</strong> ${connKW} kW × ${div} × (1 + ${expPct}%) = <strong>${designKW.toFixed(1)} kW</strong> (${designKVA.toFixed(1)} kVA @ 0.80 PF).<br>
+    • <strong>Fault Level Basis (IEC 60909 / BNBC Cl. 1.3.30(a)):</strong> Secondary bolted Isc = I_FL / (%Z/100) = <strong>${iscKA.toFixed(2)} kA</strong> (conservative infinite-bus value; LT breaker Icu must be ≥ Isc).<br>
+    • <strong>Room Area (BNBC 2020 Tables 8.1.23 &amp; 8.1.24):</strong> Substation ${txRoomArea}, Generator ${genRoomArea} (1×150:45m², 1×400:48m², 2×400:100m², 3×400:135m²).<br>
+    • <strong>Clearance (RSC Sec 10.5.3):</strong> Minimum 1.07 m (3.5 ft) working clearance &amp; no storage inside substation.
+  `;
+}
+
+/* ---------- 3. IPS / UPS & BATTERY BACKUP CALCULATOR ---------- */
+function showUpsCalculator() {
+  hideAllPages();
+  document.getElementById('upsPage').classList.add('on');
+  calculateUps();
+  history.pushState({ page: 'ups' }, '', '#ups');
+}
+
+function calculateUps() {
+  const loadW = Number(document.getElementById('upsLoadWatt').value);
+  const dcV = Number(document.getElementById('upsDcVolt').value) || 12;
+  const ah = Number(document.getElementById('upsBattAh').value);
+  const strings = Math.max(1, Math.floor(Number(document.getElementById('upsStrings').value) || 1));
+  const eff = Number(document.getElementById('upsEff').value) || 0.85;
+  const dod = Number(document.getElementById('upsDod').value) || 0.80;
+
+  if (!Number.isFinite(loadW) || loadW <= 0 || !Number.isFinite(ah) || ah <= 0) {
+    document.getElementById('upsBackupTime').textContent = '—';
+    return;
+  }
+
+  const totalBattUnits = (dcV / 12) * strings;
+  const totalAh = ah * strings;
+  const usableWh = dcV * totalAh * dod * eff;
+  const hoursFloat = usableWh / loadW;
+
+  const hrs = Math.floor(hoursFloat);
+  const mins = Math.round((hoursFloat - hrs) * 60);
+  const timeStr = hrs > 0 ? `${hrs} hr ${mins} min` : `${mins} min`;
+
+  const reqVA = (loadW / 0.8) * 1.25;
+  const STD_UPS = [600, 800, 1000, 1200, 1500, 2000, 3000, 5000, 7500, 10000, 15000, 20000, 30000];
+  const recVA = STD_UPS.find(v => v >= reqVA) || Math.ceil(reqVA);
+
+  const dcCurrent = loadW / (dcV * eff);
+  const dcFuse = Math.ceil((dcCurrent * 1.25) / 10) * 10;
+  const chargeCurrent = totalAh * 0.10;
+  const rechargeHours = (totalAh * dod * 1.15) / chargeCurrent;
+
+  document.getElementById('upsBackupTime').textContent = timeStr;
+  document.getElementById('upsBattCount').textContent = `Total Batteries: ${totalBattUnits} × (12V ${ah}Ah) = ${dcV}V ${totalAh}Ah Bank`;
+  document.getElementById('upsRatingVa').textContent = `${recVA} VA (${(recVA / 1000).toFixed(2)} kVA)`;
+  document.getElementById('upsDcCurrent').textContent = `${dcCurrent.toFixed(1)} A (Fuse ~${dcFuse} A)`;
+  document.getElementById('upsRechargeTime').textContent = `${chargeCurrent.toFixed(0)} A (~${rechargeHours.toFixed(1)} hrs)`;
+
+ document.getElementById('upsDetails').innerHTML = `
+    • <strong>IEEE 485 Sizing Formula:</strong> Hours = (DcV × Total Ah × DoD × η) / Load(W) = ${usableWh.toFixed(0)} Wh / ${loadW} W = <strong>${hoursFloat.toFixed(2)} hrs</strong>.<br>
+    • <strong>IEC 62040-3 UPS Rating:</strong> Load(W) / 0.80 PF × 1.25 surge margin ensures safe starting of inductive loads.<br>
+    • <strong>Peukert's Law Note:</strong> For Lead-Acid batteries discharging fast (&lt; 2 hrs), real backup may be 15–20% shorter than nominal Ah calculation.
+  `;
+}
+/* =========================================================
+   STEP 3: ELECTRONICS CALCULATORS
+========================================================= */
+function setElectronicsTab(tab) {
+  const map = { res: 'elPanelRes', ohm: 'elPanelOhm', rc: 'elPanelRc' };
+  const btnMap = { res: 'elTabRes', ohm: 'elTabOhm', rc: 'elTabRc' };
+  Object.keys(map).forEach(k => {
+    const p = document.getElementById(map[k]);
+    const b = document.getElementById(btnMap[k]);
+    if (p) p.classList.toggle('hidden', k !== tab);
+    if (b) b.classList.toggle('active', k === tab);
+  });
+}
+
+function formatOhms(ohms) {
+  if (!Number.isFinite(ohms)) return '—';
+  if (ohms >= 1e6) return (ohms / 1e6).toFixed(2).replace(/\.00$/, '') + ' MΩ';
+  if (ohms >= 1e3) return (ohms / 1e3).toFixed(2).replace(/\.00$/, '') + ' kΩ';
+  return ohms.toFixed(2).replace(/\.00$/, '') + ' Ω';
+}
+
+function calculateColorCode() {
+  const b1 = Number(document.getElementById('elBand1').value);
+  const b2 = Number(document.getElementById('elBand2').value);
+  const mult = Number(document.getElementById('elBandMult').value);
+  const tol = document.getElementById('elBandTol').value;
+
+  const digitColors = {
+    0: '#111827', 1: '#78350f', 2: '#dc2626', 3: '#f97316', 4: '#eab308',
+    5: '#16a34a', 6: '#2563eb', 7: '#9333ea', 8: '#6b7280', 9: '#f8fafc'
+  };
+  const multColors = {
+    '1': '#111827', '10': '#78350f', '100': '#dc2626', '1000': '#f97316',
+    '10000': '#eab308', '100000': '#16a34a', '1000000': '#2563eb',
+    '10000000': '#9333ea', '0.1': '#d97706', '0.01': '#94a3b8'
+  };
+  const tolColors = {
+    '±5%': '#d97706', '±10%': '#94a3b8', '±1%': '#78350f', '±2%': '#dc2626',
+    '±0.5%': '#16a34a', '±0.25%': '#2563eb', '±0.1%': '#9333ea'
+  };
+
+  const prev = document.getElementById('elResPreview');
+  if (prev) {
+    prev.innerHTML = `
+      <div class="el-res-body">
+        <span class="el-res-band" style="background:${digitColors[b1] || '#111'}"></span>
+        <span class="el-res-band" style="background:${digitColors[b2] || '#111'}"></span>
+        <span class="el-res-band" style="background:${multColors[String(mult)] || '#111'}"></span>
+        <span class="el-res-band" style="background:${tolColors[tol] || '#d97706'}"></span>
+      </div>
+    `;
+  }
+
+  const val = ((b1 * 10) + b2) * mult;
+  document.getElementById('elResVal').textContent = `${formatOhms(val)} ${tol}`;
+}
+
+function decodeSmdResistor() {
+  const raw = (document.getElementById('elSmdInput').value || '').trim().toUpperCase();
+  const out = document.getElementById('elSmdVal');
+  if (!raw) { out.textContent = '—'; return; }
+
+  if (/^0+$/.test(raw)) {
+    out.textContent = '0 Ω (Jumper)';
+    return;
+  }
+  if (raw.includes('R')) {
+    const num = Number(raw.replace('R', '.'));
+    out.textContent = Number.isFinite(num) ? formatOhms(num) : 'Invalid Code';
+    return;
+  }
+  if (/^\d{3}$/.test(raw)) {
+    const val = Number(raw.slice(0, 2)) * Math.pow(10, Number(raw[2]));
+    out.textContent = formatOhms(val);
+    return;
+  }
+  if (/^\d{4}$/.test(raw)) {
+    const val = Number(raw.slice(0, 3)) * Math.pow(10, Number(raw[3]));
+    out.textContent = formatOhms(val);
+    return;
+  }
+  out.textContent = 'Enter 103 / 4701 / 4R7';
+}
+
+function calculateDivider() {
+  const vin = Number(document.getElementById('elDivVin').value);
+  const r1 = Number(document.getElementById('elDivR1').value);
+  const r2 = Number(document.getElementById('elDivR2').value);
+  const outEl = document.getElementById('elDivOut');
+  const curEl = document.getElementById('elDivCurr');
+
+  if (!Number.isFinite(vin) || !Number.isFinite(r1) || !Number.isFinite(r2) || r1 < 0 || r2 < 0 || (r1 + r2) <= 0) {
+    outEl.textContent = '— V';
+    curEl.textContent = 'Enter valid positive resistors';
+    return;
+  }
+
+  const vout = vin * (r2 / (r1 + r2));
+  const currentMa = (vin / (r1 + r2)) * 1000;
+  outEl.textContent = `${vout.toFixed(2)} V`;
+  curEl.textContent = `Divider Current: ${currentMa.toFixed(2)} mA | Formula: Vout = Vin × R2 / (R1 + R2)`;
+}
+
+function calculateLedResistor() {
+  const vs = Number(document.getElementById('elLedVs').value);
+  const vf = Number(document.getElementById('elLedVf').value);
+  const ifMa = Number(document.getElementById('elLedIf').value);
+  const resEl = document.getElementById('elLedRes');
+  const wattEl = document.getElementById('elLedWatt');
+
+  if (!Number.isFinite(vs) || !Number.isFinite(vf) || !Number.isFinite(ifMa) || ifMa <= 0 || vs <= vf) {
+    resEl.textContent = '— Ω';
+    wattEl.textContent = vs <= vf ? 'Supply voltage must exceed LED Vf' : 'Enter valid inputs';
+    return;
+  }
+
+  const iAmp = ifMa / 1000;
+  const rExact = (vs - vf) / iAmp;
+  const pWatt = (vs - vf) * iAmp;
+  const recWatt = pWatt <= 0.125 ? '0.25 W (¼ W)' : (pWatt <= 0.25 ? '0.5 W (½ W)' : `${(pWatt * 2).toFixed(2)} W+`);
+
+  resEl.textContent = `${Math.ceil(rExact)} Ω`;
+  wattEl.textContent = `Exact: ${rExact.toFixed(1)} Ω | Power: ${(pWatt * 1000).toFixed(0)} mW → Use ${recWatt} resistor`;
+}
+
+function calculateRcFilter() {
+  const rK = Number(document.getElementById('elRcR').value);
+  const cU = Number(document.getElementById('elRcC').value);
+  const fEl = document.getElementById('elRcFreq');
+  const tEl = document.getElementById('elRcTau');
+
+  if (!Number.isFinite(rK) || rK <= 0 || !Number.isFinite(cU) || cU <= 0) {
+    fEl.textContent = '— Hz';
+    return;
+  }
+
+  const R = rK * 1000;
+  const C = cU * 1e-6;
+  const fc = 1 / (2 * Math.PI * R * C);
+  const tauMs = R * C * 1000;
+
+  fEl.textContent = fc >= 1000 ? `${(fc / 1000).toFixed(2)} kHz` : `${fc.toFixed(2)} Hz`;
+  tEl.textContent = `Time Constant (τ = RC): ${tauMs.toFixed(2)} ms | fc = 1 / (2πRC)`;
+}
+
+function calculate555() {
+  const r1K = Number(document.getElementById('el555R1').value);
+  const r2K = Number(document.getElementById('el555R2').value);
+  const cU = Number(document.getElementById('el555C').value);
+  const fEl = document.getElementById('el555Freq');
+  const dEl = document.getElementById('el555Duty');
+
+  if (!Number.isFinite(r1K) || r1K <= 0 || !Number.isFinite(r2K) || r2K <= 0 || !Number.isFinite(cU) || cU <= 0) {
+    fEl.textContent = '— Hz';
+    return;
+  }
+
+  const r1 = r1K * 1000;
+  const r2 = r2K * 1000;
+  const c = cU * 1e-6;
+  const freq = 1.44 / ((r1 + 2 * r2) * c);
+  const duty = ((r1 + r2) / (r1 + 2 * r2)) * 100;
+  const tHigh = 0.693 * (r1 + r2) * c * 1000;
+  const tLow = 0.693 * r2 * c * 1000;
+
+  fEl.textContent = freq >= 1000 ? `${(freq / 1000).toFixed(2)} kHz` : `${freq.toFixed(2)} Hz`;
+  dEl.textContent = `Duty Cycle: ${duty.toFixed(1)}% | High: ${tHigh.toFixed(1)} ms | Low: ${tLow.toFixed(1)} ms`;
+}
+
+/* =========================================================
+   STEP 3: AUTOMATION CALCULATORS (PLC • VFD • STARTER)
+========================================================= */
+function setAutomationTab(tab) {
+  const map = { scale: 'auPanelScale', vfd: 'auPanelVfd', sd: 'auPanelSd' };
+  const btnMap = { scale: 'auTabScale', vfd: 'auTabVfd', sd: 'auTabSd' };
+  Object.keys(map).forEach(k => {
+    const p = document.getElementById(map[k]);
+    const b = document.getElementById(btnMap[k]);
+    if (p) p.classList.toggle('hidden', k !== tab);
+    if (b) b.classList.toggle('active', k === tab);
+  });
+}
+
+function calculateAnalogScaling() {
+  const sigType = document.getElementById('auSigType').value;
+  const sigVal = Number(document.getElementById('auSigVal').value);
+  const rawMax = Number(document.getElementById('auRawMax').value) || 27648;
+  const engMin = Number(document.getElementById('auEngMin').value);
+  const engMax = Number(document.getElementById('auEngMax').value);
+  const unit = (document.getElementById('auEngUnit').value || '').trim();
+
+  if (!Number.isFinite(sigVal) || !Number.isFinite(engMin) || !Number.isFinite(engMax)) {
+    document.getElementById('auScaleEngOut').textContent = '—';
+    return;
+  }
+
+  let sMin = 4, sMax = 20;
+  if (sigType === '0_20') { sMin = 0; sMax = 20; }
+  else if (sigType === '0_10') { sMin = 0; sMax = 10; }
+
+  const ratio = (sigVal - sMin) / (sMax - sMin);
+  const engOut = engMin + ratio * (engMax - engMin);
+  const rawOut = Math.round(ratio * rawMax);
+  const pctOut = ratio * 100;
+
+  document.getElementById('auScaleEngOut').textContent = `${engOut.toFixed(2)} ${unit}`.trim();
+  document.getElementById('auScaleRawOut').textContent = `${rawOut} / ${rawMax}`;
+  document.getElementById('auScalePctOut').textContent = `${pctOut.toFixed(1)}%`;
+
+  let statusMsg = '✓ Signal within normal linear range.';
+  if (sigType === '4_20' && sigVal < 3.8) statusMsg = '⚠️ Loop Fault / Wire Break (< 3.8 mA live-zero threshold)!';
+  else if (sigVal > sMax * 1.02) statusMsg = '⚠️ Over-Range Warning (Exceeds upper signal limit).';
+  else if (sigVal < sMin) statusMsg = '⚠️ Under-Range Warning (Below lower signal limit).';
+
+  document.getElementById('auScaleStatus').textContent = statusMsg;
+}
+
+function calculateVfdSpeed() {
+  const kw = Number(document.getElementById('auVfdKw').value);
+  const freq = Number(document.getElementById('auVfdFreq').value);
+  const poles = Number(document.getElementById('auVfdPoles').value) || 4;
+  const baseFreq = Number(document.getElementById('auVfdBaseFreq').value) || 50;
+  const slip = Number(document.getElementById('auVfdSlip').value) || 0;
+
+  if (!Number.isFinite(freq) || freq <= 0 || !Number.isFinite(kw) || kw <= 0) {
+    document.getElementById('auVfdActRpm').textContent = '— RPM';
+    return;
+  }
+
+  const syncRpm = (120 * freq) / poles;
+  const actRpm = syncRpm * (1 - slip / 100);
+  const torqueNm = actRpm > 0 ? (9550 * kw) / actRpm : 0;
+
+  document.getElementById('auVfdActRpm').textContent = `${Math.round(actRpm)} RPM`;
+  document.getElementById('auVfdSyncRpm').textContent = `Synchronous Speed (Ns): ${Math.round(syncRpm)} RPM (Ns = 120f / P)`;
+  document.getElementById('auVfdTorque').textContent = `Rated Torque @ ${kw} kW: ${torqueNm.toFixed(1)} Nm`;
+  document.getElementById('auVfdModeNote').textContent = freq > baseFreq
+    ? `⚠️ Above Base Freq (${baseFreq} Hz): Field-Weakening Region — Available motor torque drops!`
+    : `✓ Constant Torque Region (≤ ${baseFreq} Hz V/f ratio maintained).`;
+}
+
+function calculateStarDelta() {
+  const val = Number(document.getElementById('auSdVal').value);
+  const unit = document.getElementById('auSdUnit').value;
+  const volt = Number(document.getElementById('auSdVolt').value) || 400;
+  const pf = Number(document.getElementById('auSdPf').value) || 0.85;
+  const eff = Number(document.getElementById('auSdEff').value) || 0.90;
+
+  if (!Number.isFinite(val) || val <= 0) {
+    document.getElementById('auSdLineAmp').textContent = '— A';
+    return;
+  }
+
+  const watt = unit === 'hp' ? val * 745.7 : val * 1000;
+  const lineAmp = watt / (Math.sqrt(3) * volt * pf * eff);
+  const phaseAmp = lineAmp / Math.sqrt(3);
+  const starAmp = lineAmp / 3;
+
+  const STD_CONTACTORS = [9, 12, 18, 25, 32, 40, 50, 65, 80, 95, 115, 150, 185, 225, 265, 330, 400, 500, 630];
+  const mainDeltaCont = STD_CONTACTORS.find(c => c >= phaseAmp) || Math.ceil(phaseAmp);
+  const starCont = STD_CONTACTORS.find(c => c >= starAmp) || Math.ceil(starAmp);
+
+  const STD_BREAKERS = [10, 16, 20, 25, 32, 40, 50, 63, 80, 100, 125, 160, 200, 250, 315, 400, 500, 630];
+  const mccb = STD_BREAKERS.find(b => b >= lineAmp * 1.25) || Math.ceil(lineAmp * 1.25);
+
+  document.getElementById('auSdLineAmp').textContent = `${lineAmp.toFixed(1)} A`;
+  document.getElementById('auSdPhaseAmp').textContent = `${phaseAmp.toFixed(1)} A`;
+  document.getElementById('auSdMainDelta').textContent = `${mainDeltaCont} A (AC-3)`;
+  document.getElementById('auSdStar').textContent = `${starCont} A (AC-3)`;
+  document.getElementById('auSdOlrPhase').innerHTML = `<strong>OLR Setting (Under Main Contactor):</strong> ${phaseAmp.toFixed(1)} A (If placed on Main Line: ${lineAmp.toFixed(1)} A)`;
+  document.getElementById('auSdBreaker').textContent = `Main Backup Breaker (125%): ${mccb} A ${mccb > 63 ? 'MCCB' : 'MCB'} | Star-Delta Timer: 5–10 sec`;
+}
+/* =========================================================
+   STEP 4: INTERACTIVE ELECTRICAL SAFETY AUDIT CHECKLIST
+========================================================= */
+const CHK_STORAGE_KEY = 'eeegpt_audit_checklist_v1';
+
+function getChecklistState() {
+  try {
+    const raw = localStorage.getItem(CHK_STORAGE_KEY);
+    return raw ? JSON.parse(raw) : { meta: {}, statuses: {}, remarks: {} };
+  } catch (e) {
+    return { meta: {}, statuses: {}, remarks: {} };
+  }
+}
+
+function saveChecklistState(state) {
+  localStorage.setItem(CHK_STORAGE_KEY, JSON.stringify(state));
+}
+
+function showAuditChecklist() {
+  hideAllPages();
+  document.getElementById('auditChecklistPage').classList.add('on');
+
+  const state = getChecklistState();
+  const m = state.meta || {};
+  if (document.getElementById('chkFacility')) document.getElementById('chkFacility').value = m.facility || '';
+  if (document.getElementById('chkRefId')) document.getElementById('chkRefId').value = m.refId || '';
+  if (document.getElementById('chkAuditor') && m.auditor) document.getElementById('chkAuditor').value = m.auditor;
+  if (document.getElementById('chkDate')) {
+    document.getElementById('chkDate').value = m.date || toInputDateStr(new Date());
+  }
+
+  renderAuditChecklist();
+  history.pushState({ page: 'auditChecklist' }, '', '#audit-checklist');
+}
+
+function backFromAuditChecklist() {
+  hideAllPages();
+  document.getElementById('auditPage').classList.add('on');
+  history.pushState({ page: 'audit' }, '', '#audit');
+}
+
+function saveChecklistMeta() {
+  const state = getChecklistState();
+  state.meta = {
+    facility: document.getElementById('chkFacility') ? document.getElementById('chkFacility').value : '',
+    refId: document.getElementById('chkRefId') ? document.getElementById('chkRefId').value : '',
+    auditor: document.getElementById('chkAuditor') ? document.getElementById('chkAuditor').value : '',
+    date: document.getElementById('chkDate') ? document.getElementById('chkDate').value : ''
+  };
+  saveChecklistState(state);
+}
+
+function setChecklistStatus(ruleId, status) {
+  const state = getChecklistState();
+  if (!state.statuses) state.statuses = {};
+  state.statuses[ruleId] = state.statuses[ruleId] === status ? '' : status;
+  saveChecklistState(state);
+  renderAuditChecklist();
+}
+
+function setChecklistRemark(ruleId, text) {
+  const state = getChecklistState();
+  if (!state.remarks) state.remarks = {};
+  state.remarks[ruleId] = text;
+  saveChecklistState(state);
+}
+
+function resetAuditChecklist() {
+  if (!confirm('Clear all Pass/Fail marks & remarks for a new audit?')) return;
+  localStorage.removeItem(CHK_STORAGE_KEY);
+  showAuditChecklist();
+}
+
+function renderAuditChecklist() {
+  const listEl = document.getElementById('chkItemsList');
+  if (!listEl) return;
+
+  const state = getChecklistState();
+  const statuses = state.statuses || {};
+  const remarks = state.remarks || {};
+  const filter = document.getElementById('chkFilterStatus') ? document.getElementById('chkFilterStatus').value : 'all';
+
+  let passCount = 0;
+  let failCount = 0;
+  let pendingOrNaCount = 0;
+
+  ACTIVE_STANDARDS_DB.forEach(rule => {
+    const st = statuses[rule.id] || '';
+    if (st === 'pass') passCount++;
+    else if (st === 'fail') failCount++;
+    else pendingOrNaCount++;
+  });
+
+  const applicable = passCount + failCount;
+  const scorePct = applicable > 0 ? Math.round((passCount / applicable) * 100) : 0;
+
+  document.getElementById('chkScorePct').textContent = `${scorePct}%`;
+  document.getElementById('chkPassCount').textContent = passCount;
+  document.getElementById('chkFailCount').textContent = failCount;
+  document.getElementById('chkPendingCount').textContent = pendingOrNaCount;
+
+  const filtered = ACTIVE_STANDARDS_DB.filter(rule => {
+    const st = statuses[rule.id] || '';
+    if (filter === 'fail') return st === 'fail';
+    if (filter === 'pass') return st === 'pass';
+    if (filter === 'pending') return st === '';
+    return true;
+  });
+
+  if (filtered.length === 0) {
+    listEl.innerHTML = '<div class="card" style="text-align:center; color:var(--m); padding:20px;">No checklist items match this filter.</div>';
+    return;
+  }
+
+  listEl.innerHTML = filtered.map((rule, idx) => {
+    const st = statuses[rule.id] || '';
+    const rem = remarks[rule.id] || '';
+    const cardCls = st === 'fail' ? 'chk-card is-fail' : (st === 'pass' ? 'chk-card is-pass' : 'chk-card');
+    const stdCls = rule.standard.toLowerCase();
+
+    return `
+      <div class="${cardCls}">
+        <div class="std-badges" style="margin-bottom:6px;">
+          <span class="std-badge ${stdCls}">${escapeHTML(rule.standard)}</span>
+          <span class="std-badge topic">${escapeHTML(rule.topic)}</span>
+        </div>
+        <div style="font-size:13.5px; font-weight:800; margin-bottom:3px;">${idx + 1}. ${escapeHTML(rule.title)}</div>
+        <div class="std-clause" style="margin-bottom:5px;">📖 ${escapeHTML(rule.clause)}</div>
+        <div style="font-size:12px; color:var(--m); line-height:1.5;"><strong>Check:</strong> ${escapeHTML(rule.auditCheck)}</div>
+
+        <div class="chk-btn-row chk-controls-hide">
+          <button type="button" class="chk-btn ${st === 'pass' ? 'pass-on' : ''}" onclick="setChecklistStatus('${rule.id}', 'pass')">✅ Pass</button>
+          <button type="button" class="chk-btn ${st === 'fail' ? 'fail-on' : ''}" onclick="setChecklistStatus('${rule.id}', 'fail')">❌ Fail</button>
+          <button type="button" class="chk-btn ${st === 'na' ? 'na-on' : ''}" onclick="setChecklistStatus('${rule.id}', 'na')">➖ N/A</button>
+        </div>
+
+        <input
+          type="text"
+          class="chk-remark"
+          value="${escapeHTML(rem)}"
+          placeholder="Observation / Corrective Action (CAP)..."
+          oninput="setChecklistRemark('${rule.id}', this.value)"
+        >
+      </div>
+    `;
+  }).join('');
+}
+
+function exportChecklistCSV() {
+  const state = getChecklistState();
+  const m = state.meta || {};
+  const statuses = state.statuses || {};
+  const remarks = state.remarks || {};
+
+  const headers = ['Standard', 'Topic', 'Checklist Item', 'Clause', 'Status', 'Observation / CAP'];
+  const rows = ACTIVE_STANDARDS_DB.map(rule => {
+    const st = (statuses[rule.id] || 'PENDING').toUpperCase();
+    const rem = remarks[rule.id] || '';
+    return [
+      `"${rule.standard}"`,
+      `"${rule.topic}"`,
+      `"${rule.title.replace(/"/g, '""')}"`,
+      `"${rule.clause.replace(/"/g, '""')}"`,
+      `"${st}"`,
+      `"${rem.replace(/"/g, '""')}"`
+    ].join(',');
+  });
+
+  const metaLine = `"Facility: ${(m.facility || '').replace(/"/g, '""')}","Ref: ${(m.refId || '').replace(/"/g, '""')}","Date: ${m.date || ''}"`;
+  const csv = [metaLine, headers.join(','), ...rows].join('\n');
+  const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `EEEGPT_Safety_Audit_${toInputDateStr(new Date())}.csv`;
+  a.click();
+  URL.revokeObjectURL(url);
+}

@@ -45,9 +45,12 @@ module.exports = async function handler(req, res) {
     const webpush = webpushMod.setVapidDetails ? webpushMod : webpushMod.default;
     webpush.setVapidDetails(contactEmail, publicKey, privateKey);
 
+   const dbSecret = process.env.FIREBASE_DB_SECRET || '';
+    const authQuery = dbSecret ? `?auth=${encodeURIComponent(dbSecret)}` : '';
+
     const dbPath = testDeviceId
-      ? `${FIREBASE_DB_URL}/audit_devices/${encodeURIComponent(testDeviceId)}.json`
-      : `${FIREBASE_DB_URL}/audit_devices.json`;
+      ? `${FIREBASE_DB_URL}/audit_devices/${encodeURIComponent(testDeviceId)}.json${authQuery}`
+      : `${FIREBASE_DB_URL}/audit_devices.json${authQuery}`;
 
     const fbRes = await fetch(dbPath);
     if (!fbRes.ok) {
@@ -103,7 +106,7 @@ module.exports = async function handler(req, res) {
         notificationsSent++;
       } catch (pushErr) {
         if (pushErr && (pushErr.statusCode === 404 || pushErr.statusCode === 410)) {
-          await fetch(`${FIREBASE_DB_URL}/audit_devices/${encodeURIComponent(deviceId)}/subscription.json`, {
+        await fetch(`${FIREBASE_DB_URL}/audit_devices/${encodeURIComponent(deviceId)}/subscription.json${authQuery}`, {
             method: 'DELETE'
           });
           expiredCleaned++;
