@@ -31,12 +31,8 @@ STRICT LANGUAGE RULES:
 
 STRICT FORMATTING & MATH RULES:
 1. NEVER use LaTeX syntax (NO $, $$, \\frac, \\sqrt, \\times, \\text).
-2. Write formulas and calculations in super clear, step-by-step plain text using normal symbols (×, ÷, √, =, ², %) on separate lines so they are easy to read on a mobile screen.
-   Example format:
-   সূত্র: I = P ÷ (√3 × V × PF)
-   ধাপ ১: I = 15000 ÷ (1.732 × 400 × 0.85)
-   উত্তর: I = 25.47 A
-3. Keep explanations concise, practical, and well-spaced.`;
+2. Write formulas and calculations in clear, step-by-step plain text using normal symbols (×, ÷, √, =, ², %) on separate lines so they are easy to read on mobile.
+3. Keep answers concise, practical, and well-spaced.`;
 
     const contents = [];
     for (const item of history.slice(-6)) {
@@ -46,40 +42,56 @@ STRICT FORMATTING & MATH RULES:
     }
     contents.push({ role: 'user', parts: [{ text: message.slice(0, 2000) }] });
 
-    const models = ['gemini-3.8-flash', 'gemini-2.5-flash', 'gemini-3.6-flash', 'gemini-3.5-flash-lite'];
+    const models = ['gemini-3.8-flash', 'gemini-3.6-flash', 'gemini-4-hydrogen', 'gemini-3.5-flash-lite'];
+    const startTime = Date.now();
     let lastError = 'AI service is temporarily busy. Please try again.';
 
     for (const model of models) {
-      const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${encodeURIComponent(apiKey)}`;
-      const response = await fetch(url, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          systemInstruction: { parts: [{ text: systemPrompt }] },
-          contents,
-          generationConfig: {
-            maxOutputTokens: 1500
+      if (Date.now() - startTime > 7500) break;
+
+      const controller = new AbortController();
+      const timer = setTimeout(() => controller.abort(), 5000);
+
+      try {
+        const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${encodeURIComponent(apiKey)}`;
+        const thinkingLevel = model === 'gemini-3.5-flash-lite' ? 'minimal' : 'low';
+
+        const response = await fetch(url, {
+          method: 'POST',
+          signal: controller.signal,
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            systemInstruction: { parts: [{ text: systemPrompt }] },
+            contents,
+            generationConfig: {
+              maxOutputTokens: 4096,
+              thinkingConfig: { thinkingLevel }
+            }
+          })
+        });
+
+        const data = await response.json().catch(() => ({}));
+
+        if (response.ok && data.candidates && data.candidates[0]?.content?.parts) {
+          const reply = data.candidates[0].content.parts
+            .filter(p => p.text && !p.thought)
+            .map(p => p.text)
+            .join('')
+            .trim();
+
+          if (reply) {
+            return res.status(200).json({ reply, model });
           }
-        })
-      });
-
-      const data = await response.json().catch(() => ({}));
-
-      if (response.ok && data.candidates && data.candidates[0]?.content?.parts) {
-        const reply = data.candidates[0].content.parts
-          .filter(p => p.text && !p.thought)
-          .map(p => p.text)
-          .join('')
-          .trim();
-
-        if (reply) {
-          return res.status(200).json({ reply, model });
         }
-      }
 
-      lastError = data.error?.message || lastError;
-      if (response.status !== 404 && response.status !== 429 && response.status !== 503) {
-        break;
+        lastError = data.error?.message || `HTTP ${response.status} from ${model}`;
+        if (response.status !== 404 && response.status !== 429 && response.status !== 503 && response.status !== 400) {
+          break;
+        }
+      } catch (fetchErr) {
+        lastError = fetchErr.name === 'AbortError' ? `${model} timed out, switching...` : fetchErr.message;
+      } finally {
+        clearTimeout(timer);
       }
     }
 

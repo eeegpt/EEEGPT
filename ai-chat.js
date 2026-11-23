@@ -287,7 +287,7 @@
         throw new Error('Server returned invalid response (' + res.status + '). অ্যাপটি রিফ্রেশ করুন।');
       }
 
-      if (!res.ok) throw new Error(data.error || 'Could not get response');
+     if (!res.ok) throw new Error(data.error || ('HTTP ' + res.status + ' — অনুগ্রহ করে কয়েক সেকেন্ড পর আবার চেষ্টা করুন।'));
 
       loadingEl.innerHTML = formatText(data.reply);
       history.push({ role: 'user', text: q });
