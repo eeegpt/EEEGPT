@@ -1,4 +1,4 @@
-const CACHE_NAME = 'EEEGPT-cache-v9';
+const CACHE_NAME = 'EEEGPT-cache-v12';
 
 const FILES_TO_CACHE = [
   './',
@@ -7,6 +7,7 @@ const FILES_TO_CACHE = [
  './standards-db.js',
   './sim-lab.js',
   './app.js',
+  './ai-chat.js',
   './manifest.json',
   './assets/eeegptcover.webp',
   './assets/profile.webp',
