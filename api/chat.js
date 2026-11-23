@@ -1,4 +1,12 @@
 module.exports = async function handler(req, res) {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+
+  if (req.method === 'OPTIONS') {
+    return res.status(200).end();
+  }
+
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
   }
@@ -22,17 +30,17 @@ module.exports = async function handler(req, res) {
 Expertise:
 - BNBC 2020 (Part VIII), RSC (RMG Sustainability Council) factory electrical safety, NFPA 70/70E/780, IEC 60364 / 60947 / 62305.
 - Bangladesh utility standards (BPDB, DESCO, DPDC, BREB): 230V 1-Phase, 400V 3-Phase, 50Hz.
-- Cable sizing, voltage drop, breaker coordination (Ib <= In <= Iz), PFI, substation, earthing, lightning protection (LPS / air terminal), IPS/UPS, electronics, PLC & VFD.
+- Cable sizing, voltage drop, breaker coordination, PFI, substation, earthing, lightning protection (LPS / air terminal), IPS/UPS, electronics, PLC & VFD.
 
 STRICT LANGUAGE RULES:
-1. If the user writes in Bangla OR Banglish (e.g. "koto fit", "ips/lps er...", "cable size koto"), reply ONLY in clean, natural Standard Bengali script (শুদ্ধ বাংলা) with standard English engineering terms where needed (like kW, A, V, MCB, BNBC, RSC, mm², LPS).
+1. If the user writes in Bangla OR Banglish (e.g. "koto bar", "ips/lps er...", "cable size koto"), reply ONLY in clean, natural Standard Bengali script (শুদ্ধ বাংলা) with standard English engineering units/terms (like kW, A, V, PSI, bar, MCB, BNBC, RSC, mm², LPS).
 2. NEVER output Hindi (Devanagari), Urdu, or Arabic script/words.
 3. If the user writes purely in English, reply in clean English.
 
 STRICT FORMATTING & MATH RULES:
 1. NEVER use LaTeX syntax (NO $, $$, \\frac, \\sqrt, \\times, \\text).
-2. Write formulas and calculations in clear, step-by-step plain text using normal symbols (×, ÷, √, =, ², %) on separate lines so they are easy to read on mobile.
-3. Keep answers concise, practical, and well-spaced.`;
+2. Write formulas and calculations in clear, step-by-step plain text using normal symbols (×, ÷, √, =, ², %) on separate lines.
+3. Keep answers concise, accurate, and easy to read on mobile.`;
 
     const contents = [];
     for (const item of history.slice(-6)) {
@@ -42,19 +50,25 @@ STRICT FORMATTING & MATH RULES:
     }
     contents.push({ role: 'user', parts: [{ text: message.slice(0, 2000) }] });
 
-    const models = ['gemini-3.8-flash', 'gemini-3.6-flash', 'gemini-4-hydrogen', 'gemini-3.5-flash-lite'];
+    const models = ['gemini-3.6-flash', 'gemini-3.5-flash-lite', 'gemini-3.8-flash'];
     const startTime = Date.now();
-    let lastError = 'AI service is temporarily busy. Please try again.';
+    const errors = [];
 
     for (const model of models) {
-      if (Date.now() - startTime > 7500) break;
+      const elapsed = Date.now() - startTime;
+      const remaining = 8800 - elapsed;
+      if (remaining < 1500) break;
 
       const controller = new AbortController();
-      const timer = setTimeout(() => controller.abort(), 5000);
+      const timeoutMs = model === 'gemini-3.6-flash' ? Math.min(5000, remaining) : remaining;
+      const timer = setTimeout(() => controller.abort(), timeoutMs);
 
       try {
         const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${encodeURIComponent(apiKey)}`;
-        const thinkingLevel = model === 'gemini-3.5-flash-lite' ? 'minimal' : 'low';
+        const generationConfig = { maxOutputTokens: 2048 };
+        if (model !== 'gemini-3.5-flash-lite') {
+          generationConfig.thinkingConfig = { thinkingLevel: 'low' };
+        }
 
         const response = await fetch(url, {
           method: 'POST',
@@ -63,10 +77,7 @@ STRICT FORMATTING & MATH RULES:
           body: JSON.stringify({
             systemInstruction: { parts: [{ text: systemPrompt }] },
             contents,
-            generationConfig: {
-              maxOutputTokens: 4096,
-              thinkingConfig: { thinkingLevel }
-            }
+            generationConfig
           })
         });
 
@@ -84,18 +95,17 @@ STRICT FORMATTING & MATH RULES:
           }
         }
 
-        lastError = data.error?.message || `HTTP ${response.status} from ${model}`;
-        if (response.status !== 404 && response.status !== 429 && response.status !== 503 && response.status !== 400) {
-          break;
-        }
+        const msg = data.error?.message || `HTTP ${response.status}`;
+        errors.push(`${model}: ${msg}`);
       } catch (fetchErr) {
-        lastError = fetchErr.name === 'AbortError' ? `${model} timed out, switching...` : fetchErr.message;
+        const msg = fetchErr.name === 'AbortError' ? 'timed out' : fetchErr.message;
+        errors.push(`${model}: ${msg}`);
       } finally {
         clearTimeout(timer);
       }
     }
 
-    return res.status(502).json({ error: lastError });
+    return res.status(502).json({ error: errors.join(' | ') || 'AI busy, please try again.' });
   } catch (err) {
     return res.status(500).json({ error: err.message || 'Internal server error' });
   }

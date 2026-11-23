@@ -272,7 +272,10 @@
     const loadingEl = addMessage('bot', 'উত্তর তৈরি হচ্ছে...');
 
     try {
-      const res = await fetch('/api/chat', {
+        const apiUrl = (location.hostname === 'eeegpt.vercel.app' || location.hostname.endsWith('.vercel.app'))
+        ? '/api/chat'
+        : 'https://eeegpt.vercel.app/api/chat';
+      const res = await fetch(apiUrl, {
         method: 'POST',
         cache: 'no-store',
         headers: { 'Content-Type': 'application/json' },
