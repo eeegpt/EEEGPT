@@ -1,4 +1,4 @@
-const CACHE_NAME = 'EEEGPT-cache-v12';
+const CACHE_NAME = 'EEEGPT-cache-v13';
 
 const FILES_TO_CACHE = [
   './',

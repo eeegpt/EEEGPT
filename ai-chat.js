@@ -64,22 +64,9 @@
       justify-content: space-between;
       gap: 10px;
     }
-    .ai-chat-head h3 {
-      margin: 0;
-      font-size: 15px;
-      font-weight: 800;
-    }
-    .ai-chat-head small {
-      display: block;
-      font-size: 11px;
-      opacity: 0.88;
-      margin-top: 2px;
-    }
-    .ai-head-actions {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
+    .ai-chat-head h3 { margin: 0; font-size: 15px; font-weight: 800; }
+    .ai-chat-head small { display: block; font-size: 11px; opacity: 0.88; margin-top: 2px; }
+    .ai-head-actions { display: flex; align-items: center; gap: 8px; }
     .ai-icon-btn {
       background: rgba(255, 255, 255, 0.16);
       border: none;
@@ -99,11 +86,11 @@
       gap: 10px;
     }
     .ai-msg {
-      max-width: 86%;
-      padding: 10px 13px;
+      max-width: 88%;
+      padding: 11px 14px;
       border-radius: 14px;
-      font-size: 13px;
-      line-height: 1.55;
+      font-size: 13.5px;
+      line-height: 1.65;
       word-wrap: break-word;
     }
     .ai-msg.user {
@@ -120,10 +107,20 @@
       border-bottom-left-radius: 4px;
     }
     .ai-msg.bot code {
-      background: #f1f5f9;
-      padding: 1px 5px;
-      border-radius: 4px;
-      font-size: 12px;
+      background: #eef2ff;
+      color: #06449e;
+      padding: 2px 6px;
+      border-radius: 5px;
+      font-size: 12.5px;
+      font-weight: 600;
+    }
+    .ai-msg-heading {
+      display: block;
+      font-weight: 800;
+      color: #06449e;
+      margin-top: 6px;
+      margin-bottom: 2px;
+      font-size: 14px;
     }
     .ai-chips {
       display: flex;
@@ -225,14 +222,25 @@
   let isSending = false;
 
   function formatText(text) {
-    const escaped = String(text)
+    let clean = String(text || '')
       .replace(/&/g, '&amp;')
       .replace(/</g, '&lt;')
       .replace(/>/g, '&gt;');
-    return escaped
+
+    clean = clean
+      .replace(/\$\$/g, '')
+      .replace(/\$/g, '')
+      .replace(/\\times/g, '×')
+      .replace(/\\div/g, '÷')
+      .replace(/\\sqrt\{([^}]+)\}/g, '√($1)')
+      .replace(/\\frac\{([^}]+)\}\{([^}]+)\}/g, '($1 ÷ $2)')
+      .replace(/^#{1,4}\s*(.+)$/gm, '<span class="ai-msg-heading">$1</span>')
+      .replace(/^\s*[-*]\s+/gm, '• ')
       .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
       .replace(/`([^`]+)`/g, '<code>$1</code>')
       .replace(/\n/g, '<br>');
+
+    return clean;
   }
 
   function addMessage(role, text) {
@@ -266,10 +274,19 @@
     try {
       const res = await fetch('/api/chat', {
         method: 'POST',
+        cache: 'no-store',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ message: q, history })
       });
-      const data = await res.json();
+
+      const rawText = await res.text();
+      let data = {};
+      try {
+        data = rawText ? JSON.parse(rawText) : {};
+      } catch (e) {
+        throw new Error('Server returned invalid response (' + res.status + '). অ্যাপটি রিফ্রেশ করুন।');
+      }
+
       if (!res.ok) throw new Error(data.error || 'Could not get response');
 
       loadingEl.innerHTML = formatText(data.reply);
@@ -301,7 +318,6 @@
     btn.addEventListener('click', () => sendQuestion(btn.textContent));
   });
 
-  // Hide AI button inside full-screen Simulation Lab
   const simPage = document.getElementById('simulationLabPage');
   if (simPage && window.MutationObserver) {
     const syncFabVisibility = () => {
